@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Testeroids.Rx</id>
+    <version>$version$</version>
+    <title>Testeroids Reactive Extensions</title>
+    <authors>Testeroids</authors>
+    <owners>Testeroids</owners>
+    <summary>Contains the specialization of the Context Specification base classes used to build .NET unit testing projects based on the AAA pattern for Reactive Extension queries.</summary>
+    <projectUrl>http://testeroids.github.com/Testeroids/</projectUrl>
+    <!--<iconUrl></iconUrl>-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Testeroids Reactive Extensions</description>
+    <!--<releaseNotes></releaseNotes>-->
+    <copyright>Copyright 2012</copyright>
+    <tags>Testeroids Rx AAA unit testing</tags>
+    <dependencies>
+      <dependency id="Testeroids" />
+      <dependency id="JetBrains.Annotations" version="7.0" />
+      <dependency id="Moq" version="4.0.10827" />
+      <dependency id="NUnit" version="2.6.2" />
+      <dependency id="PostSharp" version="2.1.7.22" />
+      <dependency id="RxSchedulers.Switch" version="1.0.0.0" />
+      <dependency id="Rx-Testing" version="2.0.21114" />
+    </dependencies>
+  </metadata>
+</package>

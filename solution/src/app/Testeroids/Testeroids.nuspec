@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Testeroids</id>
+    <version>$version$</version>
+    <title>Testeroids AAA Unit Testing Framework</title>
+    <authors>Testeroids</authors>
+    <owners>Testeroids</owners>
+    <summary>Contains the Context Specification base classes, aspects and unit test helpers used to build .NET unit testing projects based on the AAA (Act/Arrange/Assert) pattern.</summary>
+    <projectUrl>http://testeroids.github.com/Testeroids/</projectUrl>
+    <!--<iconUrl></iconUrl>-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Testeroids AAA Unit Testing Framework</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>Aspects Unit Tests</tags>
+    <dependencies>
+      <dependency id="JetBrains.Annotations" version="7.0" />
+      <dependency id="Moq" version="4.0.10827" />
+      <dependency id="NUnit" version="2.6.2" />
+      <dependency id="PostSharp" version="2.1.7.22" />
+    </dependencies>
+  </metadata>
+</package>
