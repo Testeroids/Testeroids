@@ -4,12 +4,12 @@
     <id>Testeroids.Rx</id>
     <version>$version$</version>
     <title>Testeroids Reactive Extensions</title>
-    <authors>pombeirp salfab</authors>
-    <owners>Testeroids</owners>
+    <authors>Testeroids</authors>
+    <owners>pombeirp,salfab</owners>
     <summary>Contains the specialization of the Context Specification base classes used to build .NET unit testing projects based on the AAA pattern for Reactive Extension queries.</summary>
     <licenseUrl>https://github.com/Testeroids/Testeroids/blob/master/LICENSE.md</licenseUrl>
     <projectUrl>http://testeroids.github.com/Testeroids/</projectUrl>
-    <iconUrl>https://secure.gravatar.com/avatar/c05b49afb83da5e7bd365e574e60679d?s=64</iconUrl>
+    <iconUrl>https://secure.gravatar.com/avatar/c05b49afb83da5e7bd365e574e60679d?s=128</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Testeroids Reactive Extensions</description>
     <!--<releaseNotes></releaseNotes>-->
@@ -21,7 +21,7 @@
       <dependency id="Moq" version="4.0.10827" />
       <dependency id="NUnit" version="2.6.2" />
       <dependency id="PostSharp" version="2.1.7.22" />
-      <dependency id="RxSchedulers.Switch" version="1.0.0.0" />
+      <dependency id="RxSchedulers.Switch" version="1.0.1" />
       <dependency id="Rx-Testing" version="2.0.21114" />
     </dependencies>
   </metadata>

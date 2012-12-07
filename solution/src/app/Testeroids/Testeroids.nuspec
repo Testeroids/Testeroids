@@ -4,11 +4,11 @@
         <id>Testeroids</id>
         <version>$version$</version>
         <title>Testeroids Unit Testing Framework</title>
-        <authors>pombeirp salfab</authors>
-        <owners>Testeroids</owners>
+        <authors>Testeroids</authors>
+        <owners>pombeirp,salfab</owners>
         <licenseUrl>https://github.com/Testeroids/Testeroids/blob/master/LICENSE.md</licenseUrl>
         <projectUrl>http://testeroids.github.com/Testeroids/</projectUrl>
-        <iconUrl>https://secure.gravatar.com/avatar/c05b49afb83da5e7bd365e574e60679d?s=64</iconUrl>
+        <iconUrl>https://secure.gravatar.com/avatar/c05b49afb83da5e7bd365e574e60679d?s=128</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Testeroids is a framework and a set of guidelines working in concert for great productivity in unit testing of .NET projects.</description>
         <summary>Contains the Context Specification base classes, aspects and unit test helpers used to build .NET unit testing projects based on the AAA (Act/Arrange/Assert) pattern.</summary>
