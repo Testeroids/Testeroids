@@ -12,6 +12,8 @@ namespace Testeroids
 
     using NUnit.Framework;
 
+    using Testeroids.Aspects;
+
     /// <summary>
     ///   Base class for implementing the AAA pattern.
     /// </summary>
@@ -29,7 +31,7 @@ namespace Testeroids
         #region Public Methods and Operators
 
         /// <summary>
-        ///   The base set up.
+        ///   Sets up the test fixture (calls <see cref="EstablishContext"/> followed by <see cref="InitializeSubjectUnderTest"/>).
         /// </summary>
         [SetUp]
         public virtual void BaseSetUp()
@@ -40,7 +42,7 @@ namespace Testeroids
         }
 
         /// <summary>
-        ///   The base tear down.
+        ///   Called when the test fixture is teared down (invokes <see cref="DisposeContext"/>).
         /// </summary>
         [TearDown]
         public virtual void BaseTearDown()
@@ -53,7 +55,7 @@ namespace Testeroids
         #region Methods
 
         /// <summary>
-        ///   This will be called by the ArrangeActAssertAspectAttribute aspect.
+        ///   This will be called by the <see cref="ArrangeActAssertAspectAttribute"/> aspect. Performs the "Act" part, or the logic which is to be tested.
         /// </summary>
         protected internal abstract void Because();
 
@@ -74,7 +76,7 @@ namespace Testeroids
         }
 
         /// <summary>
-        ///   The initialize subject under test.
+        ///   Performs additional initialization after the subject under test has been created.
         /// </summary>
         protected abstract void InitializeSubjectUnderTest();
 

@@ -3,6 +3,7 @@
 //   © 2012 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Testeroids
 {
     using System;
@@ -16,8 +17,9 @@ namespace Testeroids
     /// Enhances the <see cref="ContextSpecification{TSubjectUnderTest}"/> to add support for TPL testing,
     /// namely by providing a serial task scheduler which records the order of executed tasks.
     /// </summary>
-    /// <typeparam name="T">The type of the subject under test.</typeparam>
-    public abstract class TplContextSpecification<T> : ContextSpecification<T>
+    /// <typeparam name="TSubjectUnderTest">The type of the subject under test.</typeparam>
+    public abstract class TplContextSpecification<TSubjectUnderTest> : ContextSpecification<TSubjectUnderTest>
+        where TSubjectUnderTest : class
     {
         #region Fields
 
@@ -106,7 +108,7 @@ namespace Testeroids
         /// <param name="taskAfter">The task which should have been executed after <paramref name="taskBefore" /> .</param>
         /// <returns><c>true</c> if <paramref name="taskBefore"/> was queued and executed before <paramref name="taskAfter"/>.</returns>
         protected bool WasTaskExecutedFirstComparedTo(
-            Task taskBefore, 
+            Task taskBefore,
             Task taskAfter)
         {
             if (!this.WasTaskExecuted(taskBefore))
@@ -217,7 +219,7 @@ namespace Testeroids
             /// <param name="taskWasPreviouslyQueued">Whether the Task was previously queued to the scheduler.</param>
             /// <returns>True if the Task was successfully executed; otherwise, false.</returns>
             protected override bool TryExecuteTaskInline(
-                Task task, 
+                Task task,
                 bool taskWasPreviouslyQueued)
             {
                 throw new NotImplementedException("We didn't know we could get there ;)");
