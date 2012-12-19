@@ -6,6 +6,8 @@
 
 namespace Testeroids
 {
+    using System.Collections.Generic;
+
     using JetBrains.Annotations;
 
     using Moq;
@@ -17,6 +19,12 @@ namespace Testeroids
     public abstract class ContextSpecification<TSubjectUnderTest> : ContextSpecificationBase
         where TSubjectUnderTest : class
     {
+        #region Fields
+
+        private readonly List<Mock> deliveredMocksList = new List<Mock>();
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -38,7 +46,9 @@ namespace Testeroids
         protected Moq.Mock<TMock> CreateMock<TMock>()
             where TMock : class
         {
-            return new Mock<TMock>(MockBehavior.Strict);
+            var mock = new Mock<TMock>(MockBehavior.Strict);
+            this.deliveredMocksList.Add(mock);
+            return mock;
         }
 
         /// <summary>
@@ -46,6 +56,21 @@ namespace Testeroids
         /// </summary>
         /// <returns> Returns the subject under test </returns>
         protected abstract TSubjectUnderTest CreateSubjectUnderTest();
+
+        /// <summary>
+        /// Ensures that all the set up mocks were actually used after the test fixture is complete. Will throw <see cref="MockException"/> if not.
+        /// </summary>
+        protected override void DisposeContext()
+        {
+            base.DisposeContext();
+
+            foreach (var mock in this.deliveredMocksList)
+            {
+                mock.VerifyAll();
+            }
+
+            this.deliveredMocksList.Clear();
+        }
 
         /// <summary>
         ///   Takes care of creating (through <see cref="CreateSubjectUnderTest"/>) and initializing the subject under test.
