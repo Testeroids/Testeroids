@@ -117,10 +117,13 @@ namespace Testeroids.Aspects
             if (args.Method.IsDefined(typeof(PrerequisiteAttribute), false))
             {
                 message = string.Format("Prerequisite failed: {0}", message);
+                args.Exception = new PrerequisiteFailureException(message, args.Exception);
+                args.FlowBehavior = FlowBehavior.ThrowException;
             }
-
-            args.Exception = new PrerequisiteFailureException(message, args.Exception);
-            args.FlowBehavior = FlowBehavior.ThrowException;
+            else
+            {
+                args.FlowBehavior = FlowBehavior.RethrowException;
+            }
         }
 
         /// <summary>
