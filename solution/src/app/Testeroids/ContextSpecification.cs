@@ -46,7 +46,7 @@ namespace Testeroids
         protected Moq.Mock<TMock> CreateMock<TMock>()
             where TMock : class
         {
-            var mock = new Mock<TMock>(MockBehavior.Strict);
+            var mock = new Mock<TMock>(MockBehavior.Strict).As<TMock>();
             this.deliveredMocksList.Add(mock);
             return mock;
         }
