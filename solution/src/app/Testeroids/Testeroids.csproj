@@ -88,6 +88,7 @@
     <Compile Include="SubjectInstantiationTestContext.cs" />
     <Compile Include="TestCategories.cs" />
     <Compile Include="TestException.cs" />
+    <Compile Include="TestFixtureBase.cs" />
     <Compile Include="TplContextSpecification.cs" />
   </ItemGroup>
   <ItemGroup>

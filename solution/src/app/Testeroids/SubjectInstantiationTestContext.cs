@@ -8,17 +8,13 @@ namespace Testeroids
 {
     using System.Diagnostics;
 
-    using JetBrains.Annotations;
-
-    using Moq;
-
     using NUnit.Framework;
 
     /// <summary>
     ///   Implements the base class to define a Context/Specification style test fixture to test a class constructor.
     /// </summary>
     /// <typeparam name="TSubjectUnderTest"> Type of the class which constructor is to be tested. </typeparam>
-    public abstract class SubjectInstantiationTestContext<TSubjectUnderTest> : IContextSpecification
+    public abstract class SubjectInstantiationTestContext<TSubjectUnderTest> : TestFixtureBase, IContextSpecification
         where TSubjectUnderTest : class
     {
         #region Public Properties
@@ -28,10 +24,7 @@ namespace Testeroids
         /// </summary>
         public bool ArePrerequisiteTestsRunning
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
 
         #endregion
@@ -60,10 +53,11 @@ namespace Testeroids
         /// <summary>
         ///   Disposes the <see cref="Sut"/> and the context.
         /// </summary>
-        [TearDown]
-        public virtual void BaseTearDown()
+        public override void BaseTearDown()
         {
             this.DisposeContext();
+
+            base.BaseTearDown();
         }
 
         #endregion
@@ -83,19 +77,6 @@ namespace Testeroids
         /// </summary>
         /// <returns> The instance of TSubjectUnderTest. </returns>
         protected abstract TSubjectUnderTest BecauseSutIsCreated();
-
-        /// <summary>
-        /// Creates a mock of an interface or a class.
-        /// </summary>
-        /// <typeparam name="TMock">The type to be mocked.</typeparam>
-        /// <returns>An instance of <typeparamref name="TMock"/> which can be passed to the <see cref="Sut"/> and verified afterwards.</returns>
-        /// <remarks>The created mock is always "strict", meaning that every behavior has to be set up explicitly.</remarks>
-        [NotNull]
-        protected Moq.Mock<TMock> CreateMock<TMock>()
-            where TMock : class
-        {
-            return new Mock<TMock>(MockBehavior.Strict);
-        }
 
         /// <summary>
         ///   Called to dispose all unmanaged resources used by the test.

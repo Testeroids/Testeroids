@@ -3,6 +3,7 @@
 //   © 2012 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Testeroids
 {
     using System.Diagnostics;
@@ -17,7 +18,7 @@ namespace Testeroids
     /// <summary>
     ///   Base class for implementing the AAA pattern.
     /// </summary>
-    public abstract class ContextSpecificationBase : IContextSpecification
+    public abstract class ContextSpecificationBase : TestFixtureBase, IContextSpecification
     {
         #region Public Properties
 
@@ -44,10 +45,11 @@ namespace Testeroids
         /// <summary>
         ///   Called when the test fixture is teared down (invokes <see cref="DisposeContext"/>).
         /// </summary>
-        [TearDown]
-        public virtual void BaseTearDown()
+        public override void BaseTearDown()
         {
             this.DisposeContext();
+
+            base.BaseTearDown();
         }
 
         #endregion
@@ -104,10 +106,10 @@ namespace Testeroids
                 foreach (var prerequisiteTest in prerequisiteTestsToRun)
                 {
                     prerequisiteTest.Invoke(
-                        this, 
-                        BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic, 
-                        null, 
-                        null, 
+                        this,
+                        BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic,
+                        null,
+                        null,
                         CultureInfo.InvariantCulture);
                 }
             }
