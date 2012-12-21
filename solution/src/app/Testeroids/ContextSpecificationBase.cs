@@ -28,7 +28,10 @@ namespace Testeroids
     {
         #region Fields
 
-        private readonly List<Mock> deliveredMocksList = new List<Mock>();
+        /// <summary>
+        /// List of mocks which were delivered through <see cref="CreateMock{TMock}"/>. These mocks will be verified on <see cref="VerifyAllMocks"/>.
+        /// </summary>
+        private readonly List<Mock> trackedMocksList = new List<Mock>();
 
         #endregion
 
@@ -57,7 +60,7 @@ namespace Testeroids
         }
 
         /// <summary>
-        ///   Called when the test fixture is teared down (invokes <see cref="DisposeContext"/>).
+        ///   Called when the test fixture is tore down (invokes <see cref="DisposeContext"/>).
         /// </summary>
         [TearDown]
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -78,18 +81,31 @@ namespace Testeroids
         protected internal abstract void Because();
 
         /// <summary>
-        /// Creates a mock of an interface or a class.
+        /// Creates a mock of an interface or a class, which will be automatically verified at the teardown phase of the test run.
         /// </summary>
         /// <typeparam name="TMock">The type to be mocked.</typeparam>
-        /// <returns>An instance of <typeparamref name="TMock"/> which can be passed to the <see cref="ContextSpecification{TSubjectUnderTest}.Sut"/> and verified afterwards.</returns>
+        /// <returns>An instance of <typeparamref name="TMock"/> which can be passed to the Subject Under Test and verified afterwards.</returns>
         /// <remarks>The created mock is always "strict", meaning that every behavior has to be set up explicitly.</remarks>
         [NotNull]
         protected Moq.Mock<TMock> CreateMock<TMock>()
             where TMock : class
         {
-            var mock = new Mock<TMock>(MockBehavior.Strict).As<TMock>();
-            this.deliveredMocksList.Add(mock);
+            var mock = this.CreateUnverifiedMock<TMock>();
+            this.trackedMocksList.Add(mock);
             return mock;
+        }
+
+        /// <summary>
+        /// Creates a mock of an interface or a class.
+        /// </summary>
+        /// <typeparam name="TMock">The type to be mocked.</typeparam>
+        /// <returns>An instance of <typeparamref name="TMock"/> which can be passed to the Subject Under Test.</returns>
+        /// <remarks>The created mock is always "strict", meaning that every behavior has to be set up explicitly.</remarks>
+        [NotNull]
+        protected Moq.Mock<TMock> CreateUnverifiedMock<TMock>()
+            where TMock : class
+        {
+            return new Mock<TMock>(MockBehavior.Strict).As<TMock>();
         }
 
         /// <summary>
@@ -162,14 +178,14 @@ namespace Testeroids
         {
             try
             {
-                foreach (var mock in this.deliveredMocksList)
+                foreach (var mock in this.trackedMocksList)
                 {
                     mock.VerifyAll();
                 }
             }
             finally
             {
-                this.deliveredMocksList.Clear();
+                this.trackedMocksList.Clear();
             }
         }
 
