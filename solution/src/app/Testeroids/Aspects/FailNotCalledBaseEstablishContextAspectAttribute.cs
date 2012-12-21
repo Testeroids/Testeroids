@@ -104,7 +104,7 @@ namespace Testeroids.Aspects
                             }
 
                             if (establishContextDeclaringType != typeof(ContextSpecificationBase) &&
-                                (establishContextDeclaringType.IsGenericType && establishContextDeclaringType.GetGenericTypeDefinition() != typeof(SubjectInstantiationTestContext<>)))
+                                (establishContextDeclaringType.IsGenericType && establishContextDeclaringType.GetGenericTypeDefinition() != typeof(SubjectInstantiationContextSpecification<>)))
                             {
                                 return ErrorService.RaiseError(this.GetType(), type, string.Format("The EstablishContext of the '{0}' class does not call the base.EstablishContext.\r\n\r\nPlease add base.EstablishContext in the EstablishContext method of the '{{0}}' class.\r\n", establishContextDeclaringType.Name));
                             }

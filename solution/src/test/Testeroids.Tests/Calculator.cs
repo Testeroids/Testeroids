@@ -7,7 +7,7 @@
         public int Sum(int a,
                        int b)
         {
-            throw new System.NotImplementedException();
+            return a + b;
         }
 
         #endregion

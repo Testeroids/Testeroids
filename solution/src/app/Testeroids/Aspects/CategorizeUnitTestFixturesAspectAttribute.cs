@@ -122,7 +122,7 @@ namespace Testeroids.Aspects
         private static string GetTestedClassTypeName(Type targetType)
         {
             var contextSpecificationType = typeof(ContextSpecification<>);
-            var subjectInstantiationTestContextType = typeof(SubjectInstantiationTestContext<>);
+            var subjectInstantiationContextSpecificationType = typeof(SubjectInstantiationContextSpecification<>);
 
             while (targetType != null)
             {
@@ -131,7 +131,7 @@ namespace Testeroids.Aspects
                     var targetGenericTypeDefinition = targetType.GetGenericTypeDefinition();
 
                     if (targetGenericTypeDefinition == contextSpecificationType ||
-                        targetGenericTypeDefinition == subjectInstantiationTestContextType)
+                        targetGenericTypeDefinition == subjectInstantiationContextSpecificationType)
                     {
                         var typeTested = targetType.GetGenericArguments().Single();
 

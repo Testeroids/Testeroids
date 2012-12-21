@@ -8,9 +8,37 @@
 
     public abstract class TestSpecs
     {
+        [TestFixture]
+        public sealed class after_instantiating_Sut : SubjectInstantiationContextSpecification<Test>
+        {
+            #region Context
+
+            private Mock<ICalculator> InjectedCalculatorMock { get; set; }
+
+            protected override void EstablishContext()
+            {
+                base.EstablishContext();
+
+                this.InjectedCalculatorMock = this.CreateMock<ICalculator>();
+            }
+
+            protected override Test BecauseSutIsCreated()
+            {
+                return new Test(this.InjectedCalculatorMock.Object);
+            }
+
+            #endregion
+
+            [Test]
+            public void then_Calculator_is_InjectedCalculatorMock()
+            {
+                Assert.AreSame(this.InjectedCalculatorMock.Object, this.Sut.Calculator);
+            }
+        }
+
         public abstract class given_instantiated_Sut : ContextSpecification<Test>
         {
-            #region Base Context
+            #region Context
 
             protected Mock<ICalculator> InjectedCalculatorMock { get; private set; }
 

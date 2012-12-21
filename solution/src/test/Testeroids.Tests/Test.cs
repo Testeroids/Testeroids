@@ -17,12 +17,21 @@
 
         #endregion
 
+        #region Public Properties
+
+        public ICalculator Calculator
+        {
+            get { return this.calculator; }
+        }
+
+        #endregion
+
         #region Public Methods and Operators
 
         public int Sum(int a,
                        int b)
         {
-            return this.calculator.Sum(a, b);
+            return this.Calculator.Sum(a, b);
         }
 
         #endregion
