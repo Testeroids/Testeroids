@@ -19,7 +19,7 @@
             {
                 base.EstablishContext();
 
-                this.InjectedCalculatorMock = this.CreateMock<ICalculator>();
+                this.InjectedCalculatorMock = this.MockRepository.CreateMock<ICalculator>();
             }
 
             protected override Test BecauseSutIsCreated()
@@ -46,7 +46,7 @@
             {
                 base.EstablishContext();
 
-                this.InjectedCalculatorMock = this.CreateMock<ICalculator>();
+                this.InjectedCalculatorMock = this.MockRepository.CreateMock<ICalculator>();
             }
 
             protected override Test CreateSubjectUnderTest()

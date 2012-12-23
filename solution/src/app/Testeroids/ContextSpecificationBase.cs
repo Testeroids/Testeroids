@@ -6,21 +6,15 @@
 
 namespace Testeroids
 {
-    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
 
-    using JetBrains.Annotations;
-
-    using Moq;
-
     using NUnit.Framework;
 
     using Testeroids.Aspects;
-    using Testeroids.Mocking;
 
     /// <summary>
     ///   Base class for implementing the AAA pattern.
@@ -29,15 +23,7 @@ namespace Testeroids
     {
         #region Fields
 
-        /// <summary>
-        /// List of mocks which were delivered through <see cref="CreateMock{TMock}"/>. These mocks will be verified on text-fixture teardown, to make sure all setups were verified.
-        /// </summary>
-        private readonly List<IMock> textFixtureLevelTrackedMocksList = new List<IMock>();
-
-        /// <summary>
-        /// List of mocks which were delivered through <see cref="CreateMock{TMock}"/>. These mocks will be verified on <see cref="VerifyAllMocks"/>.
-        /// </summary>
-        private readonly List<IMock> trackedMocksList = new List<IMock>();
+        private readonly IMockRepository mockRepository = new MockRepository();
 
         #endregion
 
@@ -48,6 +34,11 @@ namespace Testeroids
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public bool ArePrerequisiteTestsRunning { get; private set; }
+
+        public IMockRepository MockRepository
+        {
+            get { return this.mockRepository; }
+        }
 
         #endregion
 
@@ -74,14 +65,14 @@ namespace Testeroids
         {
             this.DisposeContext();
 
-            this.VerifyAllMocks();
+            this.MockRepository.VerifyAll();
         }
 
         [TestFixtureTearDown]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual void BaseTestFixtureTearDown()
         {
-            this.CheckAllSetupsVerified();
+            this.MockRepository.CheckAllSetupsVerified();
         }
 
         #endregion
@@ -92,36 +83,6 @@ namespace Testeroids
         ///   This will be called by the <see cref="ArrangeActAssertAspectAttribute"/> aspect. Performs the "Act" part, or the logic which is to be tested.
         /// </summary>
         protected internal abstract void Because();
-
-        /// <summary>
-        /// Creates a mock of an interface or a class, which will be automatically verified at the teardown phase of the test run.
-        /// </summary>
-        /// <typeparam name="TMock">The type to be mocked.</typeparam>
-        /// <returns>An instance of <typeparamref name="TMock"/> which can be passed to the Subject Under Test and verified afterwards.</returns>
-        /// <remarks>The created mock is always "strict", meaning that every behavior has to be set up explicitly.</remarks>
-        [NotNull]
-        protected IMock<TMock> CreateMock<TMock>()
-            where TMock : class
-        {
-            var mock = this.CreateUnverifiedMock<TMock>();
-            this.textFixtureLevelTrackedMocksList.Add(mock);
-            return mock;
-        }
-
-        /// <summary>
-        /// Creates a mock of an interface or a class.
-        /// </summary>
-        /// <typeparam name="TMock">The type to be mocked.</typeparam>
-        /// <returns>An instance of <typeparamref name="TMock"/> which can be passed to the Subject Under Test.</returns>
-        /// <remarks>The created mock is always "strict", meaning that every behavior has to be set up explicitly.</remarks>
-        [NotNull]
-        protected IMock<TMock> CreateUnverifiedMock<TMock>()
-            where TMock : class
-        {
-            var mock = new TesteroidsMock<TMock>().As<TMock>();
-            this.textFixtureLevelTrackedMocksList.Add(mock);
-            return mock;
-        }
 
         /// <summary>
         ///   Called to dispose all unmanaged resources used by the test.
@@ -183,51 +144,6 @@ namespace Testeroids
             finally
             {
                 this.ArePrerequisiteTestsRunning = false;
-            }
-        }
-
-        /// <summary>
-        /// Ensures that all the set up mocks were actually used after the test fixture is complete. Will throw <see cref="MockException"/> if not.
-        /// </summary>
-        protected void VerifyAllMocks()
-        {
-            try
-            {
-                foreach (var mock in this.trackedMocksList)
-                {
-                    mock.VerifyAll();
-                }
-            }
-            finally
-            {
-                this.trackedMocksList.Clear();
-            }
-        }
-
-        /// <summary>
-        /// Checks that all methods mocked were verified at least once using <see cref="IMock.Verify"/>.
-        /// </summary>
-        /// <exception cref="MockNotVerifiedException">Thrown when a mock which was set up was not subsequently verified.</exception>
-        private void CheckAllSetupsVerified()
-        {
-            try
-            {
-                var unverifiedMembers =
-                    this.textFixtureLevelTrackedMocksList
-                        .Cast<IMockInternals>()
-                        .SelectMany(x => x.VerifiedSetups)
-                        .GroupBy(x => x.Item1) // MemberInfo
-                        .Where(x => x.All(setup => !setup.Item2)); // WasVerified
-                var unverifiedMember = unverifiedMembers.Select(x => x.Key).FirstOrDefault();
-
-                if (unverifiedMember != null)
-                {
-                    throw new MockNotVerifiedException(unverifiedMember);
-                }
-            }
-            finally
-            {
-                this.textFixtureLevelTrackedMocksList.Clear();
             }
         }
 
