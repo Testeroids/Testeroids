@@ -3,13 +3,12 @@
 //   © 2012 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Testeroids
 {
     using System;
-    using System.Diagnostics;
     using System.Globalization;
     using System.Reflection;
-    using System.Threading.Tasks;
 
     /// <summary>
     ///   A class designed to help with accessing private constructors/properties.
@@ -169,33 +168,6 @@ namespace Testeroids
 
                 throw;
             }
-        }
-
-        /// <summary>
-        ///   Waits for an async test task, taking care to not time out if we're in the debugger.
-        /// </summary>
-        /// <param name="task"> The task to be waited on. </param>
-        /// <param name="timeout"> Timeout in milliseconds. </param>
-        /// <returns> Returns true if task wait completed successfully. </returns>
-        public static bool WaitForTestTask(
-            Task task,
-            int timeout = 3000)
-        {
-            if (task.Status == TaskStatus.Created)
-            {
-                // Wait will fail, because Start() has not been called
-                throw new InvalidOperationException(
-                    "The task was not started. please call the Start method on the task before waiting for it.");
-            }
-
-            // wait for the task to complete
-            if (Debugger.IsAttached)
-            {
-                task.Wait();
-                return true;
-            }
-
-            return task.Wait(timeout);
         }
 
         #endregion
