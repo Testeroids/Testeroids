@@ -20,6 +20,7 @@ namespace Testeroids
     using NUnit.Framework;
 
     using Testeroids.Aspects;
+    using Testeroids.Mocking;
 
     /// <summary>
     ///   Base class for implementing the AAA pattern.
@@ -29,9 +30,14 @@ namespace Testeroids
         #region Fields
 
         /// <summary>
+        /// List of mocks which were delivered through <see cref="CreateMock{TMock}"/>. These mocks will be verified on text-fixture teardown, to make sure all setups were verified.
+        /// </summary>
+        private readonly List<IMock> textFixtureLevelTrackedMocksList = new List<IMock>();
+
+        /// <summary>
         /// List of mocks which were delivered through <see cref="CreateMock{TMock}"/>. These mocks will be verified on <see cref="VerifyAllMocks"/>.
         /// </summary>
-        private readonly List<Mock> trackedMocksList = new List<Mock>();
+        private readonly List<IMock> trackedMocksList = new List<IMock>();
 
         #endregion
 
@@ -71,6 +77,13 @@ namespace Testeroids
             this.VerifyAllMocks();
         }
 
+        [TestFixtureTearDown]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public virtual void BaseTestFixtureTearDown()
+        {
+            this.CheckAllSetupsVerified();
+        }
+
         #endregion
 
         #region Methods
@@ -87,11 +100,11 @@ namespace Testeroids
         /// <returns>An instance of <typeparamref name="TMock"/> which can be passed to the Subject Under Test and verified afterwards.</returns>
         /// <remarks>The created mock is always "strict", meaning that every behavior has to be set up explicitly.</remarks>
         [NotNull]
-        protected Moq.Mock<TMock> CreateMock<TMock>()
+        protected IMock<TMock> CreateMock<TMock>()
             where TMock : class
         {
             var mock = this.CreateUnverifiedMock<TMock>();
-            this.trackedMocksList.Add(mock);
+            this.textFixtureLevelTrackedMocksList.Add(mock);
             return mock;
         }
 
@@ -102,10 +115,12 @@ namespace Testeroids
         /// <returns>An instance of <typeparamref name="TMock"/> which can be passed to the Subject Under Test.</returns>
         /// <remarks>The created mock is always "strict", meaning that every behavior has to be set up explicitly.</remarks>
         [NotNull]
-        protected Moq.Mock<TMock> CreateUnverifiedMock<TMock>()
+        protected IMock<TMock> CreateUnverifiedMock<TMock>()
             where TMock : class
         {
-            return new Mock<TMock>(MockBehavior.Strict).As<TMock>();
+            var mock = new TesteroidsMock<TMock>().As<TMock>();
+            this.textFixtureLevelTrackedMocksList.Add(mock);
+            return mock;
         }
 
         /// <summary>
@@ -186,6 +201,33 @@ namespace Testeroids
             finally
             {
                 this.trackedMocksList.Clear();
+            }
+        }
+
+        /// <summary>
+        /// Checks that all methods mocked were verified at least once using <see cref="IMock.Verify"/>.
+        /// </summary>
+        /// <exception cref="MockNotVerifiedException">Thrown when a mock which was set up was not subsequently verified.</exception>
+        private void CheckAllSetupsVerified()
+        {
+            try
+            {
+                var unverifiedMembers =
+                    this.textFixtureLevelTrackedMocksList
+                        .Cast<IMockInternals>()
+                        .SelectMany(x => x.VerifiedSetups)
+                        .GroupBy(x => x.Item1) // MemberInfo
+                        .Where(x => x.All(setup => !setup.Item2)); // WasVerified
+                var unverifiedMember = unverifiedMembers.Select(x => x.Key).FirstOrDefault();
+
+                if (unverifiedMember != null)
+                {
+                    throw new MockNotVerifiedException(unverifiedMember);
+                }
+            }
+            finally
+            {
+                this.textFixtureLevelTrackedMocksList.Clear();
             }
         }
 

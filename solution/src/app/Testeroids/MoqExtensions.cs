@@ -11,7 +11,7 @@ namespace Testeroids
     using Moq;
 
     /// <summary>
-    /// Extensions to the <see cref="Mock{T}"/> type related to Testeroids.
+    /// Extensions to the <see cref="IMock{T}"/> type related to Testeroids.
     /// </summary>
     public static class MoqExtensions
     {
@@ -27,8 +27,8 @@ namespace Testeroids
         /// <param name="verifyMethod"> The method whose call number must be check. </param>
         /// <typeparam name="T"> Type of the mock. </typeparam>
         public static void VerifyCalledOnceDuringBecause<T>(
-            this Mock<T> mock, 
-            ContextSpecificationBase contextSpecification, 
+            this IMock<T> mock,
+            ContextSpecificationBase contextSpecification,
             Expression<Action<T>> verifyMethod) where T : class
         {
             mock.VerifyNumberOfCallsDuringBecause(contextSpecification, verifyMethod, Times.Never(), Times.Once());
@@ -56,10 +56,10 @@ namespace Testeroids
         /// Type of the mock. 
         /// </typeparam>
         public static void VerifyNumberOfCallsDuringBecause<T>(
-            this Mock<T> mock, 
-            ContextSpecificationBase contextSpecification, 
-            Expression<Action<T>> expression, 
-            Times numberBefore, 
+            this IMock<T> mock,
+            ContextSpecificationBase contextSpecification,
+            Expression<Action<T>> expression,
+            Times numberBefore,
             Times numberAfter) where T : class
         {
             mock.Verify(expression, numberBefore);

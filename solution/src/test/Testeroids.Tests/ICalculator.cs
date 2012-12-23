@@ -2,6 +2,12 @@
 {
     public interface ICalculator
     {
+        #region Public Properties
+
+        int Radix { get; set; }
+
+        #endregion
+
         #region Public Methods and Operators
 
         int Sum(int a,

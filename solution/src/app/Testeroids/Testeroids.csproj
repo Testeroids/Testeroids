@@ -80,7 +80,11 @@
     <Compile Include="ContextSpecificationBase.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="IContextSpecification.cs" />
+    <Compile Include="IMock.cs" />
     <Compile Include="IssueAttribute.cs" />
+    <Compile Include="Mocking\IMockInternals.cs" />
+    <Compile Include="Mocking\TesteroidsMock.cs" />
+    <Compile Include="MockNotVerifiedException.cs" />
     <Compile Include="MoqExtensions.cs" />
     <Compile Include="PrerequisiteAttribute.cs" />
     <Compile Include="PrerequisiteFailureException.cs" />

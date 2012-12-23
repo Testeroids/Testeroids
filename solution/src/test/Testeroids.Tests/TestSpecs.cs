@@ -13,7 +13,7 @@
         {
             #region Context
 
-            private Mock<ICalculator> InjectedCalculatorMock { get; set; }
+            private IMock<ICalculator> InjectedCalculatorMock { get; set; }
 
             protected override void EstablishContext()
             {
@@ -40,7 +40,7 @@
         {
             #region Context
 
-            protected Mock<ICalculator> InjectedCalculatorMock { get; private set; }
+            protected IMock<ICalculator> InjectedCalculatorMock { get; private set; }
 
             protected override void EstablishContext()
             {
