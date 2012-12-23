@@ -15,6 +15,7 @@ namespace Testeroids
     using NUnit.Framework;
 
     using Testeroids.Aspects;
+    using Testeroids.Mocking;
 
     /// <summary>
     ///   Base class for implementing the AAA pattern.

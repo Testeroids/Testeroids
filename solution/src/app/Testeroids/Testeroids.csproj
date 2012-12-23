@@ -84,10 +84,10 @@
     <Compile Include="IMockRepository.cs" />
     <Compile Include="IssueAttribute.cs" />
     <Compile Include="Mocking\IMockInternals.cs" />
+    <Compile Include="Mocking\MockRepository.cs" />
     <Compile Include="Mocking\TesteroidsMock.cs" />
     <Compile Include="MockNotVerifiedException.cs" />
-    <Compile Include="MockRepository.cs" />
-    <Compile Include="MoqExtensions.cs" />
+    <Compile Include="MockExtensions.cs" />
     <Compile Include="PrerequisiteAttribute.cs" />
     <Compile Include="PrerequisiteFailureException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

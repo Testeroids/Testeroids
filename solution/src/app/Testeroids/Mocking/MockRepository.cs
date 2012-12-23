@@ -1,10 +1,10 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="MockRepository.cs" company="Testeroids">
-//   © 2012 Testeroids. All rights reserved.
+//   � 2012 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Testeroids
+namespace Testeroids.Mocking
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -12,8 +12,6 @@ namespace Testeroids
     using JetBrains.Annotations;
 
     using Moq;
-
-    using Testeroids.Mocking;
 
     internal class MockRepository : IMockRepository
     {

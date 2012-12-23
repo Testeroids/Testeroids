@@ -1,8 +1,9 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MoqExtensions.cs" company="Testeroids">
+// <copyright file="MockExtensions.cs" company="Testeroids">
 //   © 2012 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Testeroids
 {
     using System;
@@ -13,7 +14,7 @@ namespace Testeroids
     /// <summary>
     /// Extensions to the <see cref="IMock{T}"/> type related to Testeroids.
     /// </summary>
-    public static class MoqExtensions
+    public static class MockExtensions
     {
         #region Public Methods and Operators
 
