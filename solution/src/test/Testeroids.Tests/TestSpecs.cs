@@ -61,13 +61,13 @@
             {
                 #region Context
 
-                protected int Result { get; private set; }
+                private int Result { get; set; }
 
-                protected int ReturnedSum { get; private set; }
+                private int ReturnedSum { get; set; }
 
-                protected int SpecifiedOperand1 { get; private set; }
+                private int SpecifiedOperand1 { get; set; }
 
-                protected int SpecifiedOperand2 { get; private set; }
+                private int SpecifiedOperand2 { get; set; }
 
                 protected abstract int EstablishSpecifiedOperand1();
 
