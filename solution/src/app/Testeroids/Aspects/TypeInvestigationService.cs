@@ -3,12 +3,15 @@
 //   © 2012 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Testeroids.Aspects
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+
+    using JetBrains.Annotations;
 
     using NUnit.Framework;
 
@@ -26,6 +29,7 @@ namespace Testeroids.Aspects
         /// </summary>
         /// <param name="classTypeToInvestigate"> The type to investigate. </param>
         /// <returns> the list of nested types marked either with <see cref="Testeroids.Aspects.Attributes.AbstractTestFixtureAttribute"/>. </returns>
+        [PublicAPI]
         public static IEnumerable<Type> GetAbstractTestFixtureTypes(Type classTypeToInvestigate)
         {
             return classTypeToInvestigate.GetNestedTypes().Where(IsAbstractTestFixture);
@@ -36,6 +40,7 @@ namespace Testeroids.Aspects
         /// </summary>
         /// <param name="classTypeToInvestigate"> The type to investigate. </param>
         /// <returns> the list of nested types. </returns>
+        [PublicAPI]
         public static IEnumerable<Type> GetAllNestedTypes(Type classTypeToInvestigate)
         {
             return classTypeToInvestigate.GetNestedTypes();
@@ -46,6 +51,7 @@ namespace Testeroids.Aspects
         /// </summary>
         /// <param name="typeToInvestigate"> The type to investigate. </param>
         /// <returns> the list of nested types marked either with <see cref="TestFixtureAttribute"/> or <see cref="Testeroids.Aspects.Attributes.AbstractTestFixtureAttribute"/>. </returns>
+        [PublicAPI]
         public static IEnumerable<Type> GetAllTestFixtureTypes(Type typeToInvestigate)
         {
             return typeToInvestigate.GetNestedTypes().Where(y => IsTestFixture(y) || IsAbstractTestFixture(y));
@@ -56,6 +62,7 @@ namespace Testeroids.Aspects
         /// </summary>
         /// <param name="classTypeToInvestigate"> The type to investigate. </param>
         /// <returns> The list of methods having Test Attribute. </returns>
+        [PublicAPI]
         public static IEnumerable<MethodInfo> GetAllTestMethods(Type classTypeToInvestigate)
         {
             return classTypeToInvestigate.GetMethods().Where(IsTestMethod);
@@ -66,6 +73,7 @@ namespace Testeroids.Aspects
         /// </summary>
         /// <param name="classTypeToInvestigate"> The type to investigate. </param>
         /// <returns> the list of nested types marked either with <see cref="TestFixtureAttribute"/>. </returns>
+        [PublicAPI]
         public static IEnumerable<Type> GetConcreteTestFixtureTypes(Type classTypeToInvestigate)
         {
             return classTypeToInvestigate.GetNestedTypes().Where(IsTestFixture);
@@ -76,6 +84,7 @@ namespace Testeroids.Aspects
         /// </summary>
         /// <param name="classTypeToInvestigate"> The type to investigate. </param>
         /// <returns> The list of methods having Test and ExceptionResilient Attribute. </returns>
+        [PublicAPI]
         public static IEnumerable<MethodInfo> GetExceptionResilientTestMethods(Type classTypeToInvestigate)
         {
             return classTypeToInvestigate.GetMethods().Where(y => IsTestMethod(y) && IsExceptionResilientTestMethod(y));
@@ -86,6 +95,7 @@ namespace Testeroids.Aspects
         /// </summary>
         /// <param name="classTypeToInvestigate"> The type to investigate. </param>
         /// <returns> The list of methods having <see cref="TestAttribute"/> and <see cref="ExpectedExceptionAttribute"/>. </returns>
+        [PublicAPI]
         public static IEnumerable<MethodInfo> GetExpectedExceptionTestMethods(Type classTypeToInvestigate)
         {
             return classTypeToInvestigate.GetMethods().Where(y => IsTestMethod(y) && IsExpectedExceptionTestMethod(y));
@@ -96,7 +106,8 @@ namespace Testeroids.Aspects
         /// </summary>
         /// <param name="classTypeToInvestigate"> The type to check </param>
         /// <returns> the list of test non marked with Prerequisite Attribute. </returns>
-        public static IEnumerable<MethodInfo> GetNonPrerequisiteTestMethod(Type classTypeToInvestigate)
+        [PublicAPI]
+        public static IEnumerable<MethodInfo> GetNonPrerequisiteTestMethods(Type classTypeToInvestigate)
         {
             return classTypeToInvestigate.GetMethods().Where(y => IsTestMethod(y) && !IsPrerequisiteTestMethod(y));
         }
@@ -116,6 +127,7 @@ namespace Testeroids.Aspects
         /// </summary>
         /// <param name="classTypeToInvestigate"> The type To Investigate. </param>
         /// <returns> <c>true</c> if injected type is a TextFixture, <c>false</c> otherwise. </returns>
+        [PublicAPI]
         public static bool IsConcreteTestFixture(Type classTypeToInvestigate)
         {
             return classTypeToInvestigate.IsDefined(typeof(TestFixtureAttribute), false);
@@ -126,6 +138,7 @@ namespace Testeroids.Aspects
         /// </summary>
         /// <param name="method"> The method to check. </param>
         /// <returns> <c>true</c> if the test method has the ExceptionResilient attribute, <c>false</c> otherwise. </returns>
+        [PublicAPI]
         public static bool IsExceptionResilientTestMethod(MethodBase method)
         {
             return method.IsDefined(typeof(ExceptionResilientAttribute), false);
@@ -136,6 +149,7 @@ namespace Testeroids.Aspects
         /// </summary>
         /// <param name="method"> The method to check. </param>
         /// <returns> <c>true</c> if the test method has the <see cref="ExpectedExceptionAttribute"/>, <c>false</c> otherwise. </returns>
+        [PublicAPI]
         public static bool IsExpectedExceptionTestMethod(MethodBase method)
         {
             return method.IsDefined(typeof(ExpectedExceptionAttribute), false);
@@ -146,6 +160,7 @@ namespace Testeroids.Aspects
         /// </summary>
         /// <param name="method"> The method to check. </param>
         /// <returns> <c>true</c> if the test method has the <see cref="PrerequisiteAttribute"/>, <c>false</c> otherwise. </returns>
+        [PublicAPI]
         public static bool IsPrerequisiteTestMethod(MethodBase method)
         {
             return method.IsDefined(typeof(PrerequisiteAttribute), false);
@@ -156,6 +171,7 @@ namespace Testeroids.Aspects
         /// </summary>
         /// <param name="classTypeToInvestigate"> The type To Investigate. </param>
         /// <returns> <c>true</c> if injected type is a <see cref="TestFixtureAttribute"/> or an <see cref="Testeroids.Aspects.Attributes.AbstractTestFixtureAttribute"/>, <c>false</c> otherwise. </returns>
+        [PublicAPI]
         public static bool IsTestFixture(Type classTypeToInvestigate)
         {
             return IsAbstractTestFixture(classTypeToInvestigate) || IsConcreteTestFixture(classTypeToInvestigate);
@@ -166,6 +182,7 @@ namespace Testeroids.Aspects
         /// </summary>
         /// <param name="method"> The method to check. </param>
         /// <returns> <c>true</c> if the test method has the Test attribute, <c>false</c> otherwise. </returns>
+        [PublicAPI]
         public static bool IsTestMethod(MethodBase method)
         {
             return method.IsDefined(typeof(TestAttribute), false);

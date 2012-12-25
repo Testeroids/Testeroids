@@ -13,6 +13,8 @@ namespace Testeroids
     using System.Reflection;
     using System.Threading.Tasks;
 
+    using JetBrains.Annotations;
+
     /// <summary>
     /// Enhances the <see cref="ContextSpecification{TSubjectUnderTest}"/> to add support for TPL testing,
     /// namely by providing a serial task scheduler which records the order of executed tasks.
@@ -76,6 +78,7 @@ namespace Testeroids
         /// <remarks>
         /// TODO : Improvement possible is to have a fluent interface with something like TaskAssert.WasTaskExecuted().Before(Task) ... (?)
         /// </remarks>
+        [PublicAPI]
         protected bool WasTaskExecuted(Task task)
         {
             if (task == null)
@@ -91,6 +94,7 @@ namespace Testeroids
         /// </summary>
         /// <param name="task">The task to test.</param>
         /// <returns><c>true</c> if the task was queued in the first position and executed.</returns>
+        [PublicAPI]
         protected bool WasTaskExecutedFirst(Task task)
         {
             if (task == null)
@@ -107,6 +111,7 @@ namespace Testeroids
         /// <param name="taskBefore">The task which should have been executed first.</param>
         /// <param name="taskAfter">The task which should have been executed after <paramref name="taskBefore" /> .</param>
         /// <returns><c>true</c> if <paramref name="taskBefore"/> was queued and executed before <paramref name="taskAfter"/>.</returns>
+        [PublicAPI]
         protected bool WasTaskExecutedFirstComparedTo(
             Task taskBefore,
             Task taskAfter)

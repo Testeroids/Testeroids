@@ -12,6 +12,8 @@ namespace Testeroids
     using System.Linq;
     using System.Reflection;
 
+    using JetBrains.Annotations;
+
     using NUnit.Framework;
 
     using Testeroids.Aspects;
@@ -36,9 +38,13 @@ namespace Testeroids
         [EditorBrowsable(EditorBrowsableState.Never)]
         public bool ArePrerequisiteTestsRunning { get; private set; }
 
+        [PublicAPI]
         public IMockRepository MockRepository
         {
-            get { return this.mockRepository; }
+            get
+            {
+                return this.mockRepository;
+            }
         }
 
         #endregion

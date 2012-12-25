@@ -15,16 +15,16 @@
 
             private IMock<ICalculator> InjectedCalculatorMock { get; set; }
 
+            protected override Test BecauseSutIsCreated()
+            {
+                return new Test(this.InjectedCalculatorMock.Object);
+            }
+
             protected override void EstablishContext()
             {
                 base.EstablishContext();
 
                 this.InjectedCalculatorMock = this.MockRepository.CreateMock<ICalculator>();
-            }
-
-            protected override Test BecauseSutIsCreated()
-            {
-                return new Test(this.InjectedCalculatorMock.Object);
             }
 
             #endregion

@@ -3,6 +3,7 @@
 //   © 2012 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Testeroids.Aspects
 {
     using System;
@@ -14,7 +15,7 @@ namespace Testeroids.Aspects
     /// <summary>
     ///   Manage the error returned by Aspects CompileTimeValidate method.
     /// </summary>
-    public class ErrorService
+    public static class ErrorService
     {
         #region Public Methods and Operators
 
@@ -26,8 +27,8 @@ namespace Testeroids.Aspects
         /// <param name="message"> The message to give explaining the error. </param>
         /// <returns> always false as an error has occurred. </returns>
         public static bool RaiseError(
-            Type aspectType, 
-            Type verifiedClassType, 
+            Type aspectType,
+            Type verifiedClassType,
             string message)
         {
             message = string.Concat(aspectType.Name, " : \r\n\r\n ", message);
@@ -44,8 +45,8 @@ namespace Testeroids.Aspects
         /// <param name="message"> The message to give explaining the error. </param>
         /// <returns> always false as an error has occurred. </returns>
         public static bool RaiseError(
-            Type aspectType, 
-            MethodBase verifiedMethod, 
+            Type aspectType,
+            MethodBase verifiedMethod,
             string message)
         {
             message = string.Concat(aspectType.Name, " : \r\n\r\n ", message);

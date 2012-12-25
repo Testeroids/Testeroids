@@ -9,6 +9,8 @@ namespace Testeroids
     using System;
     using System.Linq.Expressions;
 
+    using JetBrains.Annotations;
+
     using Moq;
 
     /// <summary>
@@ -27,6 +29,7 @@ namespace Testeroids
         /// </param>
         /// <param name="verifyMethod"> The method whose call number must be check. </param>
         /// <typeparam name="T"> Type of the mock. </typeparam>
+        [PublicAPI]
         public static void VerifyCalledOnceDuringBecause<T>(
             this IMock<T> mock,
             ContextSpecificationBase contextSpecification,
@@ -56,6 +59,7 @@ namespace Testeroids
         /// <typeparam name="T">
         /// Type of the mock. 
         /// </typeparam>
+        [PublicAPI]
         public static void VerifyNumberOfCallsDuringBecause<T>(
             this IMock<T> mock,
             ContextSpecificationBase contextSpecification,

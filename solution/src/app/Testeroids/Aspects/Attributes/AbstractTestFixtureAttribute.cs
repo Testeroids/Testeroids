@@ -3,9 +3,12 @@
 //   © 2012 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Testeroids.Aspects.Attributes
 {
     using System;
+
+    using JetBrains.Annotations;
 
     using PostSharp.Aspects;
 
@@ -20,6 +23,7 @@ namespace Testeroids.Aspects.Attributes
         /// <summary>
         /// Gets or sets a value indicating whether <see cref="FailAbstractTestFixtureWithoutTestFixtureAspectAttribute"/> should ignore missing nested text fixtures.
         /// </summary>
+        [PublicAPI]
         public bool IgnoreMissingNestedTextFixtures { get; set; }
 
         #endregion

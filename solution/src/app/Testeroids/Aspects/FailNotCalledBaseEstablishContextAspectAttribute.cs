@@ -3,6 +3,7 @@
 //   © 2012 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Testeroids.Aspects
 {
     using System;
@@ -18,8 +19,8 @@ namespace Testeroids.Aspects
     /// </summary>
     [Serializable]
     [AspectTypeDependency(AspectDependencyAction.Order, AspectDependencyPosition.Before, typeof(ArrangeActAssertAspectAttribute))]
-    [MulticastAttributeUsage(MulticastTargets.Class, 
-        TargetTypeAttributes = MulticastAttributes.AnyScope | MulticastAttributes.AnyVisibility | MulticastAttributes.NonAbstract | MulticastAttributes.Managed, 
+    [MulticastAttributeUsage(MulticastTargets.Class,
+        TargetTypeAttributes = MulticastAttributes.AnyScope | MulticastAttributes.AnyVisibility | MulticastAttributes.NonAbstract | MulticastAttributes.Managed,
         AllowMultiple = false, Inheritance = MulticastInheritance.None)]
     public class FailNotCalledBaseEstablishContextAspectAttribute : InstanceLevelAspect
     {
@@ -135,7 +136,7 @@ namespace Testeroids.Aspects
         /// <param name="methodInfo"> The method info. </param>
         /// <returns> The intermediate language as a byte array. </returns>
         /// <exception cref="ArgumentException">Thrown if methodBody is null.</exception>
-        private static byte[] GetIntermediateLanguageFromMethodInfo(MethodInfo methodInfo)
+        private static byte[] GetIntermediateLanguageFromMethodInfo(MethodBase methodInfo)
         {
             var methodBody = methodInfo.GetMethodBody();
             if (methodBody == null)
@@ -155,22 +156,22 @@ namespace Testeroids.Aspects
         /// <param name="establishContextDeclaringType">
         /// The establish context declaring type. Used for generic types.
         /// </param>
-        /// <param name="methodInfo">
+        /// <param name="memberInfo">
         /// The method info.
         /// </param>
         /// <returns>
         /// The method gotten from intermediate language out of the metadata token.
         /// </returns>
         private static MethodBase GetMethodBaseFromIntermediateLanguage(
-            int metadataToken, 
-            Type establishContextDeclaringType, 
-            MethodInfo methodInfo)
+            int metadataToken,
+            Type establishContextDeclaringType,
+            MemberInfo memberInfo)
         {
             try
             {
                 var operand = establishContextDeclaringType.IsGenericType
-                                  ? methodInfo.Module.ResolveMethod(metadataToken, establishContextDeclaringType.GetGenericArguments(), null)
-                                  : methodInfo.Module.ResolveMethod(metadataToken);
+                                  ? memberInfo.Module.ResolveMethod(metadataToken, establishContextDeclaringType.GetGenericArguments(), null)
+                                  : memberInfo.Module.ResolveMethod(metadataToken);
 
                 return operand;
             }

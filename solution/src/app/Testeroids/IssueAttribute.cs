@@ -7,6 +7,8 @@ namespace Testeroids
 {
     using System;
 
+    using JetBrains.Annotations;
+
     /// <summary>
     ///   IssueAttribute is used to annotate a test method with the bug-tracking issue number that gave origin to the test.
     /// </summary>
@@ -32,6 +34,7 @@ namespace Testeroids
         /// <summary>
         ///   Gets the bug-tracking issue number.
         /// </summary>
+        [PublicAPI]
         public string IssueNumber { get; private set; }
 
         #endregion
