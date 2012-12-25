@@ -24,6 +24,7 @@ Global
 		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Debug|x86.Build.0 = Debug|Any CPU
 		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Release|x86.ActiveCfg = Release|Any CPU
+		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
