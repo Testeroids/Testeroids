@@ -45,7 +45,10 @@ namespace Testeroids.Mocking
                         .SelectMany(x => x.VerifiedSetups)
                         .GroupBy(x => x.Item1) // MemberInfo
                         .Where(x => x.All(setup => !setup.Item2)); // WasVerified
-                var unverifiedMember = unverifiedMembers.Select(x => x.Key).FirstOrDefault();
+                var unverifiedMember =
+                    unverifiedMembers
+                        .Select(x => x.Key)
+                        .FirstOrDefault();
 
                 if (unverifiedMember != null)
                 {
@@ -68,7 +71,9 @@ namespace Testeroids.Mocking
         public IMock<TMock> CreateMock<TMock>() where TMock : class
         {
             var mock = this.CreateUnverifiedMock<TMock>();
+
             this.mocksTrackedForVerifyAll.Add(mock);
+
             return mock;
         }
 
@@ -82,7 +87,9 @@ namespace Testeroids.Mocking
         public IMock<TMock> CreateUnverifiedMock<TMock>() where TMock : class
         {
             var mock = new TesteroidsMock<TMock>().As<TMock>();
+
             this.mocksTrackedForSetupsNotVerifiedCheck.Add(mock);
+
             return mock;
         }
 
