@@ -24,7 +24,7 @@ namespace Testeroids
         void CheckAllSetupsVerified();
 
         /// <summary>
-        /// Creates a mock of an interface or a class, which can be later verified by callling <see cref="VerifyAll"/>.
+        /// Creates a mock of an interface or a class, which can be later verified by calling <see cref="VerifyAll"/>.
         /// </summary>
         /// <typeparam name="TMock">The type to be mocked.</typeparam>
         /// <returns>An instance of <typeparamref name="TMock"/> which can be passed to the Subject Under Test and verified afterwards.</returns>

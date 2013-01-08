@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GlobalUnitTestAspectsAssemblyInfo.cs" company="Liebherr International AG">
-//   © 2012 Liebherr. All rights reserved.
+// <copyright file="GlobalUnitTestAspectsAssemblyInfo.cs" company="Testeroids">
+//   © 2012 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 

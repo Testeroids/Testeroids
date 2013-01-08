@@ -10,8 +10,7 @@
 
         #region Public Methods and Operators
 
-        int Sum(int a,
-                int b);
+        int Sum(int a, int b);
 
         #endregion
     }

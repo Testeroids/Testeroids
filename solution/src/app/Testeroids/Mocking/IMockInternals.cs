@@ -10,6 +10,9 @@ namespace Testeroids.Mocking
     using System.Collections.Generic;
     using System.Reflection;
 
+    /// <summary>
+    /// Implements an internal contract which allows for additional features on <see cref="IMock"/> objects.
+    /// </summary>
     internal interface IMockInternals
     {
         #region Public Properties

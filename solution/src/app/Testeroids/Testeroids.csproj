@@ -85,6 +85,7 @@
     <Compile Include="IssueAttribute.cs" />
     <Compile Include="Mocking\IMockInternals.cs" />
     <Compile Include="Mocking\MockRepository.cs" />
+    <Compile Include="Mocking\SequenceExtensions.cs" />
     <Compile Include="Mocking\TesteroidsMock.cs" />
     <Compile Include="MockNotVerifiedException.cs" />
     <Compile Include="MockExtensions.cs" />
