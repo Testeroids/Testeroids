@@ -26,10 +26,11 @@ namespace Testeroids.Aspects
         #region Public Methods and Operators
 
         /// <summary>
-        ///   The compile time validate.
+        /// The compile time validate.
+        /// Checks that there is no private field in given class if this is abstract.
         /// </summary>
-        /// <param name="type"> The class to be checked. </param>
-        /// <returns> The System.Boolean. </returns>
+        /// <param name="type"> The class to be checked.</param>
+        /// <returns>Raises an error if there is any private field in given class if this is abstract.</returns>
         public override bool CompileTimeValidate(Type type)
         {
             try
