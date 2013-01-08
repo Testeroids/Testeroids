@@ -2,12 +2,23 @@
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=489C27D56CF5D948BB7843CE7682103D/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=489C27D56CF5D948BB7843CE7682103D/AbsolutePath/@EntryValue">C:\Users\Pedro\Documents\GitHub\Testeroids\solution\GeneralCode.DotSettings</s:String>
 	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=489C27D56CF5D948BB7843CE7682103D/RelativePath/@EntryValue">..\GeneralCode.DotSettings</s:String>
+	<s:Boolean x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=860975DE94199E4B9A9F643074615E34/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=860975DE94199E4B9A9F643074615E34/AbsolutePath/@EntryValue">C:\Git\GitHub\Testeroids\solution\UnitTesting.DotSettings</s:String>
+	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=860975DE94199E4B9A9F643074615E34/RelativePath/@EntryValue">..\UnitTesting.DotSettings</s:String>
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=90AA74F7E5667D4799FD77A28D83F708/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=90AA74F7E5667D4799FD77A28D83F708/AbsolutePath/@EntryValue">C:\Users\Pedro\Documents\GitHub\Testeroids\solution\CodeStyle.DotSettings</s:String>
 	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=90AA74F7E5667D4799FD77A28D83F708/RelativePath/@EntryValue">..\CodeStyle.DotSettings</s:String>
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File489C27D56CF5D948BB7843CE7682103D/@KeyIndexDefined">True</s:Boolean>
 	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File489C27D56CF5D948BB7843CE7682103D/RelativePriority/@EntryValue">3</s:Double>
+	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File860975DE94199E4B9A9F643074615E34/@KeyIndexDefined">True</s:Boolean>
+	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File860975DE94199E4B9A9F643074615E34/RelativePriority/@EntryValue">7</s:Double>
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File90AA74F7E5667D4799FD77A28D83F708/@KeyIndexDefined">True</s:Boolean>
 	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File90AA74F7E5667D4799FD77A28D83F708/RelativePriority/@EntryValue">4</s:Double>
+	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File_003A_003AC_003A_005CGit_005CGitHub_005CTesteroids_005Csolution_005CCodeStyle_002EDotSettings/@KeyIndexDefined">True</s:Boolean>
+	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File_003A_003AC_003A_005CGit_005CGitHub_005CTesteroids_005Csolution_005CCodeStyle_002EDotSettings/RelativePriority/@EntryValue">4.5</s:Double>
+	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File_003A_003AC_003A_005CGit_005CGitHub_005CTesteroids_005Csolution_005CGeneralCode_002EDotSettings/@KeyIndexDefined">True</s:Boolean>
+	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File_003A_003AC_003A_005CGit_005CGitHub_005CTesteroids_005Csolution_005CGeneralCode_002EDotSettings/RelativePriority/@EntryValue">5</s:Double>
+	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File_003A_003AC_003A_005CGit_005CGitHub_005CTesteroids_005Csolution_005CUnitTesting_002EDotSettings/@KeyIndexDefined">True</s:Boolean>
+	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File_003A_003AC_003A_005CGit_005CGitHub_005CTesteroids_005Csolution_005CUnitTesting_002EDotSettings/RelativePriority/@EntryValue">6</s:Double>
 	<s:String x:Key="/Default/FilterSettingsManager/CoverageFilterXml/@EntryValue">&lt;data&gt;&lt;IncludeFilters&gt;&lt;Filter ModuleMask="*" ClassMask="*" FunctionMask="*" IsEnabled="True" /&gt;&lt;/IncludeFilters&gt;&lt;ExcludeFilters&gt;&lt;Filter ModuleMask="*.Tests*" ClassMask="*" FunctionMask="*" IsEnabled="True" /&gt;&lt;Filter ModuleMask="*" ClassMask="*.Resources" FunctionMask="*" IsEnabled="True" /&gt;&lt;Filter ModuleMask="*" ClassMask="*.Settings" FunctionMask="*" IsEnabled="True" /&gt;&lt;Filter ModuleMask="*" ClassMask="*.Views.*" FunctionMask="*" IsEnabled="True" /&gt;&lt;/ExcludeFilters&gt;&lt;/data&gt;</s:String>
 </wpf:ResourceDictionary>
