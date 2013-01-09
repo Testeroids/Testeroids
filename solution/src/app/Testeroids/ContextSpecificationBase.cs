@@ -3,7 +3,6 @@
 //   © 2012 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Testeroids
 {
     using System.ComponentModel;
@@ -26,7 +25,22 @@ namespace Testeroids
     {
         #region Fields
 
+        /// <summary>
+        /// The mock repository which will allow the derived classes centralized mock creation and tracking.
+        /// </summary>
         private readonly IMockRepository mockRepository = new MockRepository();
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContextSpecificationBase"/> class.
+        /// </summary>
+        protected ContextSpecificationBase()
+        {
+            this.CheckAllSetupsVerified = true;
+        }
 
         #endregion
 
@@ -38,21 +52,30 @@ namespace Testeroids
         [EditorBrowsable(EditorBrowsableState.Never)]
         public bool ArePrerequisiteTestsRunning { get; private set; }
 
+        /// <summary>
+        /// Gets the mock repository which allows the derived classes centralized mock creation and tracking.
+        /// </summary>
         [PublicAPI]
         public IMockRepository MockRepository
         {
-            get
-            {
-                return this.mockRepository;
-            }
+            get { return this.mockRepository; }
         }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets a value indicating whether mocks will be checked to ensure that all setups were verified in a test.
+        /// </summary>
+        protected bool CheckAllSetupsVerified { get; set; }
 
         #endregion
 
         #region Public Methods and Operators
 
         /// <summary>
-        ///   Sets up the test fixture (calls <see cref="EstablishContext"/> followed by <see cref="InitializeSubjectUnderTest"/>).
+        ///   Sets up the test (calls <see cref="EstablishContext"/> followed by <see cref="InitializeSubjectUnderTest"/>).
         /// </summary>
         [SetUp]
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -64,7 +87,7 @@ namespace Testeroids
         }
 
         /// <summary>
-        ///   Called when the test fixture is tore down (invokes <see cref="DisposeContext"/>).
+        ///   Called when the test is tore down (invokes <see cref="DisposeContext"/>).
         /// </summary>
         [TearDown]
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -75,11 +98,17 @@ namespace Testeroids
             this.MockRepository.VerifyAll();
         }
 
+        /// <summary>
+        ///   Called when the test fixture is tore down (invokes <see cref="IMockRepository.CheckAllSetupsVerified"/>).
+        /// </summary>
         [TestFixtureTearDown]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual void BaseTestFixtureTearDown()
         {
-            this.MockRepository.CheckAllSetupsVerified();
+            if (this.CheckAllSetupsVerified)
+            {
+                this.MockRepository.CheckAllSetupsVerified();
+            }
         }
 
         #endregion
@@ -137,10 +166,10 @@ namespace Testeroids
                 foreach (var prerequisiteTest in prerequisiteTestsToRun)
                 {
                     prerequisiteTest.Invoke(
-                        this,
-                        BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic,
-                        null,
-                        null,
+                        this, 
+                        BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic, 
+                        null, 
+                        null, 
                         CultureInfo.InvariantCulture);
                 }
             }
