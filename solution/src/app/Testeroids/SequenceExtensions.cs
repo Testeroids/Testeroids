@@ -1,7 +1,6 @@
-namespace Testeroids.Mocking
+namespace Testeroids
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq.Expressions;
 
     using Moq;

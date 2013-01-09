@@ -35,7 +35,7 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\..\Testeroids.pfx</AssemblyOriginatorKeyFile>
@@ -85,7 +85,6 @@
     <Compile Include="IssueAttribute.cs" />
     <Compile Include="Mocking\IMockInternals.cs" />
     <Compile Include="Mocking\MockRepository.cs" />
-    <Compile Include="Mocking\SequenceExtensions.cs" />
     <Compile Include="Mocking\TesteroidsMock.cs" />
     <Compile Include="MockNotVerifiedException.cs" />
     <Compile Include="MockExtensions.cs" />
@@ -97,6 +96,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SequenceExtensions.cs" />
     <Compile Include="SubjectInstantiationContextSpecification.cs" />
     <Compile Include="TestCategories.cs" />
     <Compile Include="TestException.cs" />
