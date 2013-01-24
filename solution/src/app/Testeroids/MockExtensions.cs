@@ -1,9 +1,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="MockExtensions.cs" company="Testeroids">
-//   © 2012 Testeroids. All rights reserved.
+//   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Testeroids
 {
     using System;
@@ -31,8 +30,8 @@ namespace Testeroids
         /// <typeparam name="T"> Type of the mock. </typeparam>
         [PublicAPI]
         public static void VerifyCalledOnceDuringBecause<T>(
-            this IMock<T> mock,
-            ContextSpecificationBase contextSpecification,
+            this IMock<T> mock, 
+            ContextSpecificationBase contextSpecification, 
             Expression<Action<T>> verifyMethod) where T : class
         {
             mock.VerifyNumberOfCallsDuringBecause(contextSpecification, verifyMethod, Times.Never(), Times.Once());
@@ -61,10 +60,10 @@ namespace Testeroids
         /// </typeparam>
         [PublicAPI]
         public static void VerifyNumberOfCallsDuringBecause<T>(
-            this IMock<T> mock,
-            ContextSpecificationBase contextSpecification,
-            Expression<Action<T>> expression,
-            Times numberBefore,
+            this IMock<T> mock, 
+            ContextSpecificationBase contextSpecification, 
+            Expression<Action<T>> expression, 
+            Times numberBefore, 
             Times numberAfter) where T : class
         {
             mock.Verify(expression, numberBefore);

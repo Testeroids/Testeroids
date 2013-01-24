@@ -1,9 +1,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="TplContextSpecification.cs" company="Testeroids">
-//   © 2012 Testeroids. All rights reserved.
+//   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Testeroids
 {
     using System;
@@ -113,7 +112,7 @@ namespace Testeroids
         /// <returns><c>true</c> if <paramref name="taskBefore"/> was queued and executed before <paramref name="taskAfter"/>.</returns>
         [PublicAPI]
         protected bool WasTaskExecutedFirstComparedTo(
-            Task taskBefore,
+            Task taskBefore, 
             Task taskAfter)
         {
             if (!this.WasTaskExecuted(taskBefore))
@@ -181,10 +180,7 @@ namespace Testeroids
             /// <returns>Always 1, in order to prevent concurrency.</returns>
             public override int MaximumConcurrencyLevel
             {
-                get
-                {
-                    return 1;
-                }
+                get { return 1; }
             }
 
             #endregion
@@ -224,7 +220,7 @@ namespace Testeroids
             /// <param name="taskWasPreviouslyQueued">Whether the Task was previously queued to the scheduler.</param>
             /// <returns>True if the Task was successfully executed; otherwise, false.</returns>
             protected override bool TryExecuteTaskInline(
-                Task task,
+                Task task, 
                 bool taskWasPreviouslyQueued)
             {
                 throw new NotImplementedException("We didn't know we could get there ;)");
