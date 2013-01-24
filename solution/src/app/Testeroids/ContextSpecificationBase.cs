@@ -39,7 +39,7 @@ namespace Testeroids
         /// </summary>
         protected ContextSpecificationBase()
         {
-            this.CheckAllSetupsVerified = true;
+            this.CheckAllSetupsVerified = false;
         }
 
         #endregion
