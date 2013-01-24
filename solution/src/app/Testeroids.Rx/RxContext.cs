@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="RxContext.cs" company="Testeroids">
-//   © 2012 Testeroids. All rights reserved.
+//   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids.Rx
@@ -94,10 +94,7 @@ namespace Testeroids.Rx
         /// </summary>
         public TestScheduler CurrentThreadScheduler
         {
-            get
-            {
-                return this.RetrieveTestScheduler(RxContext.SchedulerType.CurrentThread);
-            }
+            get { return this.RetrieveTestScheduler(RxContext.SchedulerType.CurrentThread); }
         }
 
         /// <summary>
@@ -105,10 +102,7 @@ namespace Testeroids.Rx
         /// </summary>
         public TestScheduler DispatcherScheduler
         {
-            get
-            {
-                return this.RetrieveTestScheduler(RxContext.SchedulerType.Dispatcher);
-            }
+            get { return this.RetrieveTestScheduler(RxContext.SchedulerType.Dispatcher); }
         }
 
         /// <summary>
@@ -116,10 +110,7 @@ namespace Testeroids.Rx
         /// </summary>
         public TestScheduler ImmediateScheduler
         {
-            get
-            {
-                return this.RetrieveTestScheduler(RxContext.SchedulerType.Immediate);
-            }
+            get { return this.RetrieveTestScheduler(RxContext.SchedulerType.Immediate); }
         }
 
         /// <summary>
@@ -127,10 +118,7 @@ namespace Testeroids.Rx
         /// </summary>
         public TestScheduler NewThreadScheduler
         {
-            get
-            {
-                return this.RetrieveTestScheduler(RxContext.SchedulerType.NewThread);
-            }
+            get { return this.RetrieveTestScheduler(RxContext.SchedulerType.NewThread); }
         }
 
         /// <summary>
@@ -138,10 +126,7 @@ namespace Testeroids.Rx
         /// </summary>
         public TestScheduler TaskPoolScheduler
         {
-            get
-            {
-                return this.RetrieveTestScheduler(RxContext.SchedulerType.TaskPool);
-            }
+            get { return this.RetrieveTestScheduler(RxContext.SchedulerType.TaskPool); }
         }
 
         /// <summary>
@@ -149,10 +134,7 @@ namespace Testeroids.Rx
         /// </summary>
         public TestScheduler ThreadPoolScheduler
         {
-            get
-            {
-                return this.RetrieveTestScheduler(RxContext.SchedulerType.ThreadPool);
-            }
+            get { return this.RetrieveTestScheduler(RxContext.SchedulerType.ThreadPool); }
         }
 
         #endregion

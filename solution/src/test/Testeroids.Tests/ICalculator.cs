@@ -1,4 +1,9 @@
-﻿namespace Testeroids.Tests
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ICalculator.cs" company="Testeroids">
+//   © 2012-2013 Testeroids. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+namespace Testeroids.Tests
 {
     public interface ICalculator
     {
