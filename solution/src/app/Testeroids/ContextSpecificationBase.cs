@@ -95,7 +95,7 @@ namespace Testeroids
         {
             this.DisposeContext();
 
-            this.MockRepository.VerifyAll();
+            this.MockRepository.VerifyMocks();
         }
 
         /// <summary>
