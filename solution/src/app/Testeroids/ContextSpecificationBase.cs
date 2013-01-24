@@ -45,7 +45,7 @@ namespace Testeroids
         /// </summary>
         protected ContextSpecificationBase()
         {
-            this.CheckAllSetupsVerified = false;
+            this.CheckSetupsAreMatchedWithVerifyCalls = false;
             this.AutoVerifyMocks = false;
         }
 
@@ -80,7 +80,7 @@ namespace Testeroids
         /// <summary>
         /// Gets or sets a value indicating whether mocks will be checked to ensure that all setups were verified in a test.
         /// </summary>
-        protected bool CheckAllSetupsVerified { get; set; }
+        protected bool CheckSetupsAreMatchedWithVerifyCalls { get; set; }
 
         #endregion
 
@@ -117,7 +117,7 @@ namespace Testeroids
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual void BaseTestFixtureTearDown()
         {
-            if (!this.AutoVerifyMocks && !this.CheckAllSetupsVerified)
+            if (!this.AutoVerifyMocks && !this.CheckSetupsAreMatchedWithVerifyCalls)
             {
                 return;
             }
@@ -131,7 +131,7 @@ namespace Testeroids
                     this.MockRepository.VerifyMocks();
                 }
 
-                if (this.CheckAllSetupsVerified)
+                if (this.CheckSetupsAreMatchedWithVerifyCalls)
                 {
                     this.MockRepository.CheckAllSetupsVerified();
                 }
