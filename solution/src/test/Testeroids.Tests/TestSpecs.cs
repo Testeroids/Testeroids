@@ -171,8 +171,14 @@ namespace Testeroids.Tests
                         .Verifiable();
                 }
 
+                private static void NoOp()
+                {
+                }
+
                 protected override void Because()
                 {
+                    // Nothing to test in the Act part, since we are testing the framework behavior.
+                    NoOp();
                 }
 
                 #endregion
