@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright company="Testeroids" file="IMock.cs">
-//   © 2012 Testeroids. All rights reserved.
+//   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids
@@ -125,7 +125,7 @@ namespace Testeroids
         ///                 ...
         ///                 // Will throw if the test code has didn't call HasInventory, even
         ///                 // that expectation was not marked as verifiable.
-        ///                 this.VerifyAll();
+        ///                 this.VerifyMocks();
         /// 
         /// </code>
         /// </example>
@@ -209,7 +209,7 @@ namespace Testeroids
         void Raise(Action<T> eventExpression, params object[] args);
 
         /// <summary>
-        /// Specifies a setup on the mocked type for a call to
+        /// Specifies a setup on the mocked type for a call
         ///             to a void method.
         /// </summary>
         /// <remarks>
@@ -227,7 +227,7 @@ namespace Testeroids
         ISetup<T> Setup(Expression<Action<T>> expression);
 
         /// <summary>
-        /// Specifies a setup on the mocked type for a call to
+        /// Specifies a setup on the mocked type for a call
         ///             to a value returning method.
         /// </summary>
         /// <typeparam name="TResult">Type of the return value. Typically omitted as it can be inferred from the expression.</typeparam>
@@ -245,7 +245,7 @@ namespace Testeroids
         ISetup<T, TResult> Setup<TResult>(Expression<Func<T, TResult>> expression);
 
         /// <summary>
-        /// Specifies a setup on the mocked type for a call to
+        /// Specifies a setup on the mocked type for a call
         ///             to a property getter.
         /// </summary>
         /// <remarks>

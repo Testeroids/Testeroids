@@ -1,5 +1,12 @@
-﻿namespace Testeroids.Tests
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TestSpecs.cs" company="Testeroids">
+//   © 2012-2013 Testeroids. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+namespace Testeroids.Tests
 {
+    using System;
+
     using Moq;
 
     using NUnit.Framework;
@@ -56,6 +63,193 @@
 
             #endregion
 
+            public abstract class with_CheckAllSetupsVerified_setting_Base : given_instantiated_Sut
+            {
+                #region Context
+
+                protected abstract bool EstablishCheckAllSetupsVerified();
+
+                protected override void EstablishContext()
+                {
+                    base.EstablishContext();
+
+                    this.CheckSetupsAreMatchedWithVerifyCalls = this.EstablishCheckAllSetupsVerified();
+
+                    this.InjectedCalculatorMock
+                        .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
+                        .Returns(0);
+                }
+
+                protected override void Because()
+                {
+                    this.Sut.Sum(1, 1);
+                }
+
+                #endregion
+
+                [TestFixture]
+                public class with_CheckAllSetupsVerified_turned_on : with_CheckAllSetupsVerified_setting_Base
+                {
+                    #region Context
+
+                    protected override bool EstablishCheckAllSetupsVerified()
+                    {
+                        return true;
+                    }
+
+                    public override void BaseTestFixtureTearDown()
+                    {
+                        try
+                        {
+                            base.BaseTestFixtureTearDown();
+
+                            throw new Exception("Mock setup/verify match checking is not working. Expected MockNotVerifiedException was not thrown.");
+                        }
+                        catch (MockNotVerifiedException)
+                        {
+                            // This exception is expected, since we did not call this.InjectedCalculatorMock.Verify(o => o.Sum(...));
+                        }
+                    }
+
+                    #endregion
+
+                    [Test]
+                    public void then_MockNotVerifiedException_is_thrown_on_test_fixture_teardown()
+                    {
+                        Assert.Pass();
+                    }
+                }
+
+                [TestFixture]
+                public class with_CheckAllSetupsVerified_turned_off : with_CheckAllSetupsVerified_setting_Base
+                {
+                    #region Context
+
+                    protected override bool EstablishCheckAllSetupsVerified()
+                    {
+                        return false;
+                    }
+
+                    public override void BaseTestFixtureTearDown()
+                    {
+                        try
+                        {
+                            base.BaseTestFixtureTearDown();
+                        }
+                        catch (MockNotVerifiedException)
+                        {
+                            // This exception is not expected, since this.CheckSetupsAreMatchedWithVerifyCalls = false;
+                            throw new Exception("CheckSetupsAreMatchedWithVerifyCalls is not working properly. Unexpected MockNotVerifiedException was thrown.");
+                        }
+                    }
+
+                    #endregion
+
+                    [Test]
+                    public void then_MockNotVerifiedException_is_not_thrown_on_test_fixture_teardown()
+                    {
+                        Assert.Pass();
+                    }
+                }
+            }
+
+            public abstract class with_AutoVerifyMocks_setting_Base : given_instantiated_Sut
+            {
+                #region Context
+
+                protected abstract bool EstablishAutoVerifyMocks();
+
+                protected override void EstablishContext()
+                {
+                    base.EstablishContext();
+
+                    this.AutoVerifyMocks = this.EstablishAutoVerifyMocks();
+
+                    this.InjectedCalculatorMock
+                        .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
+                        .Returns(0)
+                        .Verifiable();
+                }
+
+                protected override void Because()
+                {
+                }
+
+                #endregion
+
+                [TestFixture]
+                public class with_AutoVerifyMocks_turned_on : with_AutoVerifyMocks_setting_Base
+                {
+                    #region Context
+
+                    protected override bool EstablishAutoVerifyMocks()
+                    {
+                        return true;
+                    }
+
+                    protected override void EstablishContext()
+                    {
+                        base.EstablishContext();
+
+                        this.AutoVerifyMocks = true;
+                    }
+
+                    public override void BaseTestFixtureTearDown()
+                    {
+                        try
+                        {
+                            base.BaseTestFixtureTearDown();
+
+                            throw new Exception("Mock setup automatic verification is not working. Expected MockException was not thrown.");
+                        }
+                        catch (MockException)
+                        {
+                            // This exception is expected, since we did not call exercise the this.InjectedCalculatorMock.Setup(o => o.Sum(...));
+                        }
+                    }
+
+                    #endregion
+
+                    [Test]
+                    public void then_MockException_is_thrown_on_test_fixture_teardown()
+                    {
+                        Assert.Pass();
+                    }
+                }
+
+                [TestFixture]
+                public class with_AutoVerifyMocks_turned_off : with_AutoVerifyMocks_setting_Base
+                {
+                    #region Context
+
+                    protected override bool EstablishAutoVerifyMocks()
+                    {
+                        return false;
+                    }
+
+                    public override void BaseTestFixtureTearDown()
+                    {
+                        try
+                        {
+                            base.BaseTestFixtureTearDown();
+                        }
+                        catch (MockException)
+                        {
+                            // This exception is not expected, since this.AutoVerifyMocks = false;
+                            throw new Exception("AutoVerifyMocks is not working properly. Unexpected MockException was thrown.");
+                        }
+                    }
+
+                    #endregion
+
+                    [Test]
+                    public void then_MockException_is_not_thrown_on_test_fixture_teardown()
+                    {
+                        Assert.Pass();
+                    }
+                }
+            }
+
             [AbstractTestFixture]
             public abstract class when_Sum_is_called : given_instantiated_Sut
             {
@@ -86,7 +280,8 @@
 
                     this.InjectedCalculatorMock
                         .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
-                        .Returns(this.ReturnedSum);
+                        .Returns(this.ReturnedSum)
+                        .Verifiable();
                 }
 
                 protected override sealed void Because()
@@ -97,7 +292,7 @@
                 #endregion
 
                 [TestFixture]
-                public class with_SpecifiedOperand1_of_10_and_SpecifiedOperand2_of_7 : when_Sum_is_called
+                public class with_SpecifiedOperand1_equal_to_10_and_SpecifiedOperand2_equal_to_7 : when_Sum_is_called
                 {
                     #region Context
 
@@ -121,7 +316,7 @@
                 }
 
                 [TestFixture]
-                public class with_SpecifiedOperand1_of_10_and_SpecifiedOperand2_of_minus_7 : when_Sum_is_called
+                public class with_SpecifiedOperand1_equal_to_10_and_SpecifiedOperand2_equal_to_minus_7 : when_Sum_is_called
                 {
                     #region Context
 

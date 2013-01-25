@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright company="Testeroids" file="TesteroidsMock.cs">
-//   © 2012 Testeroids. All rights reserved.
+//   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids.Mocking
@@ -102,7 +102,7 @@ namespace Testeroids.Mocking
             this.nakedMock.Verify();
         }
 
-        public virtual void VerifyAll()
+        public void VerifyAll()
         {
             this.nakedMock.VerifyAll();
         }
@@ -128,6 +128,9 @@ namespace Testeroids.Mocking
 
         private readonly Mock<T> nakedTypedMock;
 
+        /// <summary>
+        /// The dictionary of all registered Setup methods. The <see cref="bool"/> value indicates whether the Setup call has been matched with a <see cref="IMock{T}.Verify(System.Linq.Expressions.Expression{System.Action{T}})"/> call.
+        /// </summary>
         private readonly Dictionary<MemberInfo, bool> registeredSetups = new Dictionary<MemberInfo, bool>();
 
         #endregion
@@ -171,29 +174,33 @@ namespace Testeroids.Mocking
 
         public ISetup<T> Setup(Expression<Action<T>> expression)
         {
+            var setup = this.nakedTypedMock.Setup(expression);
+
             this.RegisterSetupForVerification(expression);
 
-            return this.nakedTypedMock.Setup(expression);
+            return setup;
         }
 
         public ISetup<T, TResult> Setup<TResult>(Expression<Func<T, TResult>> expression)
         {
+            var setup = this.nakedTypedMock.Setup(expression);
+
             this.RegisterSetupForVerification(expression);
 
-            return this.nakedTypedMock.Setup(expression);
+            return setup;
         }
 
         public ISetupGetter<T, TProperty> SetupGet<TProperty>(Expression<Func<T, TProperty>> expression)
         {
+            var setupGetter = this.nakedTypedMock.SetupGet(expression);
+
             this.RegisterSetupForVerification(expression);
 
-            return this.nakedTypedMock.SetupGet(expression);
+            return setupGetter;
         }
 
         public IMock<T> SetupProperty<TProperty>(Expression<Func<T, TProperty>> property)
         {
-            this.RegisterSetupForVerification(property);
-
             this.nakedTypedMock.SetupProperty(property);
 
             return this;
@@ -201,8 +208,6 @@ namespace Testeroids.Mocking
 
         public IMock<T> SetupProperty<TProperty>(Expression<Func<T, TProperty>> property, TProperty initialValue)
         {
-            this.RegisterSetupForVerification(property);
-
             this.nakedTypedMock.SetupProperty(property, initialValue);
 
             return this;
@@ -210,94 +215,98 @@ namespace Testeroids.Mocking
 
         public ISetupSetter<T, TProperty> SetupSet<TProperty>(Action<T> setterExpression)
         {
-            return this.nakedTypedMock.SetupSet<TProperty>(setterExpression);
+            var setupSetter = this.nakedTypedMock.SetupSet<TProperty>(setterExpression);
+
+            return setupSetter;
         }
 
         public ISetup<T> SetupSet(Action<T> setterExpression)
         {
-            return this.nakedTypedMock.SetupSet(setterExpression);
+            var setupSet = this.nakedTypedMock.SetupSet(setterExpression);
+
+            return setupSet;
         }
 
         public void Verify(Expression<Action<T>> expression)
         {
-            this.MarkSetUpMethodAsVerified(expression);
+            this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.Verify(expression);
         }
 
         public void Verify(Expression<Action<T>> expression, Times times)
         {
-            this.MarkSetUpMethodAsVerified(expression);
+            this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.Verify(expression, times);
         }
 
         public void Verify(Expression<Action<T>> expression, string failMessage)
         {
-            this.MarkSetUpMethodAsVerified(expression);
+            this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.Verify(expression, failMessage);
         }
 
         public void Verify(Expression<Action<T>> expression, Times times, string failMessage)
         {
-            this.MarkSetUpMethodAsVerified(expression);
+            this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.Verify(expression, times, failMessage);
         }
 
         public void Verify<TResult>(Expression<Func<T, TResult>> expression)
         {
-            this.MarkSetUpMethodAsVerified(expression);
+            this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.Verify(expression);
         }
 
         public void Verify<TResult>(Expression<Func<T, TResult>> expression, Times times)
         {
-            this.MarkSetUpMethodAsVerified(expression);
+            this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.Verify(expression, times);
         }
 
         public void Verify<TResult>(Expression<Func<T, TResult>> expression, string failMessage)
         {
-            this.MarkSetUpMethodAsVerified(expression);
+            this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.Verify(expression, failMessage);
         }
 
         public void Verify<TResult>(Expression<Func<T, TResult>> expression, Times times, string failMessage)
         {
-            this.MarkSetUpMethodAsVerified(expression);
+            this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.Verify(expression, times, failMessage);
         }
 
         public void VerifyGet<TProperty>(Expression<Func<T, TProperty>> expression)
         {
-            this.MarkSetUpMethodAsVerified(expression);
+            this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.VerifyGet(expression);
         }
 
         public void VerifyGet<TProperty>(Expression<Func<T, TProperty>> expression, Times times)
         {
-            this.MarkSetUpMethodAsVerified(expression);
+            this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.VerifyGet(expression, times);
         }
 
         public void VerifyGet<TProperty>(Expression<Func<T, TProperty>> expression, string failMessage)
         {
-            this.MarkSetUpMethodAsVerified(expression);
+            this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.VerifyGet(expression, failMessage);
         }
 
         public void VerifyGet<TProperty>(Expression<Func<T, TProperty>> expression, Times times, string failMessage)
         {
-            this.MarkSetUpMethodAsVerified(expression);
+            this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.VerifyGet(expression, times, failMessage);
         }
@@ -343,7 +352,7 @@ namespace Testeroids.Mocking
                        : ((MemberExpression)expression.Body).Member;
         }
 
-        private void MarkSetUpMethodAsVerified(LambdaExpression expression)
+        private void MarkSetUpExpressionAsMatchedByVerifyCall(LambdaExpression expression)
         {
             var memberInfo = GetMemberInfoFromExpression(expression);
             this.registeredSetups[memberInfo] = true;

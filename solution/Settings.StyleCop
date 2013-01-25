@@ -10,7 +10,7 @@
       </Rules>
       <AnalyzerSettings>
         <StringProperty Name="CompanyName">Testeroids</StringProperty>
-        <StringProperty Name="Copyright">© 2012 Testeroids. All rights reserved.</StringProperty>
+        <StringProperty Name="Copyright">© 2012-2013 Testeroids. All rights reserved.</StringProperty>
       </AnalyzerSettings>
     </Analyzer>
   </Analyzers>

@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright company="Testeroids" file="ContextSpecificationBase.cs">
-//   © 2012 Testeroids. All rights reserved.
+//   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids
@@ -10,6 +10,7 @@ namespace Testeroids
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
+    using System.Threading;
 
     using JetBrains.Annotations;
 
@@ -30,6 +31,11 @@ namespace Testeroids
         /// </summary>
         private readonly IMockRepository mockRepository = new MockRepository();
 
+        /// <summary>
+        /// Keeps a count of the number of tests executed in the current run of this test fixture.
+        /// </summary>
+        private int numberOfTestsExecuted;
+
         #endregion
 
         #region Constructors and Destructors
@@ -39,7 +45,8 @@ namespace Testeroids
         /// </summary>
         protected ContextSpecificationBase()
         {
-            this.CheckAllSetupsVerified = true;
+            this.CheckSetupsAreMatchedWithVerifyCalls = false;
+            this.AutoVerifyMocks = false;
         }
 
         #endregion
@@ -66,9 +73,14 @@ namespace Testeroids
         #region Properties
 
         /// <summary>
+        /// Gets or sets a value indicating whether mock setups will automatically be verified through <see cref="IMock.Verify"/> at test fixture teardown.
+        /// </summary>
+        protected bool AutoVerifyMocks { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether mocks will be checked to ensure that all setups were verified in a test.
         /// </summary>
-        protected bool CheckAllSetupsVerified { get; set; }
+        protected bool CheckSetupsAreMatchedWithVerifyCalls { get; set; }
 
         #endregion
 
@@ -81,6 +93,8 @@ namespace Testeroids
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual void BaseSetUp()
         {
+            Interlocked.Increment(ref this.numberOfTestsExecuted);
+
             this.PreTestSetUp();
             this.EstablishContext();
             this.InitializeSubjectUnderTest();
@@ -94,8 +108,6 @@ namespace Testeroids
         public virtual void BaseTearDown()
         {
             this.DisposeContext();
-
-            this.MockRepository.VerifyAll();
         }
 
         /// <summary>
@@ -105,9 +117,24 @@ namespace Testeroids
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual void BaseTestFixtureTearDown()
         {
-            if (this.CheckAllSetupsVerified)
+            if (!this.AutoVerifyMocks && !this.CheckSetupsAreMatchedWithVerifyCalls)
             {
-                this.MockRepository.CheckAllSetupsVerified();
+                return;
+            }
+
+            var allTestsInFixtureWereExecuted = this.numberOfTestsExecuted == this.GetNumberOfTestsInTestFixture();
+
+            if (allTestsInFixtureWereExecuted)
+            {
+                if (this.AutoVerifyMocks)
+                {
+                    this.MockRepository.VerifyMocks();
+                }
+
+                if (this.CheckSetupsAreMatchedWithVerifyCalls)
+                {
+                    this.MockRepository.CheckAllSetupsVerified();
+                }
             }
         }
 
@@ -181,6 +208,19 @@ namespace Testeroids
             {
                 this.ArePrerequisiteTestsRunning = false;
             }
+        }
+
+        /// <summary>
+        /// Calculates the number of tests (marked with <see cref="TestAttribute"/>) in this test fixture.
+        /// </summary>
+        /// <returns>
+        /// The number of public non-static methods marked with the <see cref="TestAttribute"/>.
+        /// </returns>
+        private int GetNumberOfTestsInTestFixture()
+        {
+            return this.GetType()
+                       .GetMethods(BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public)
+                       .Count(x => x.IsDefined(typeof(TestAttribute), true));
         }
 
         #endregion

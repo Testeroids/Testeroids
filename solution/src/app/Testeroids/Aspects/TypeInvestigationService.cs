@@ -1,9 +1,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="TypeInvestigationService.cs" company="Testeroids">
-//   © 2012 Testeroids. All rights reserved.
+//   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Testeroids.Aspects
 {
     using System;

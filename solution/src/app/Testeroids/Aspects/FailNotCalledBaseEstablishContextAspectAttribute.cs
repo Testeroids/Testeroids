@@ -1,9 +1,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="FailNotCalledBaseEstablishContextAspectAttribute.cs" company="Testeroids">
-//   © 2012 Testeroids. All rights reserved.
+//   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Testeroids.Aspects
 {
     using System;
@@ -19,8 +18,8 @@ namespace Testeroids.Aspects
     /// </summary>
     [Serializable]
     [AspectTypeDependency(AspectDependencyAction.Order, AspectDependencyPosition.Before, typeof(ArrangeActAssertAspectAttribute))]
-    [MulticastAttributeUsage(MulticastTargets.Class,
-        TargetTypeAttributes = MulticastAttributes.AnyScope | MulticastAttributes.AnyVisibility | MulticastAttributes.NonAbstract | MulticastAttributes.Managed,
+    [MulticastAttributeUsage(MulticastTargets.Class, 
+        TargetTypeAttributes = MulticastAttributes.AnyScope | MulticastAttributes.AnyVisibility | MulticastAttributes.NonAbstract | MulticastAttributes.Managed, 
         AllowMultiple = false, Inheritance = MulticastInheritance.None)]
     public class FailNotCalledBaseEstablishContextAspectAttribute : InstanceLevelAspect
     {
@@ -163,8 +162,8 @@ namespace Testeroids.Aspects
         /// The method gotten from intermediate language out of the metadata token.
         /// </returns>
         private static MethodBase GetMethodBaseFromIntermediateLanguage(
-            int metadataToken,
-            Type establishContextDeclaringType,
+            int metadataToken, 
+            Type establishContextDeclaringType, 
             MemberInfo memberInfo)
         {
             try
