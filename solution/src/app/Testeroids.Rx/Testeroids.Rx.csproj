@@ -51,7 +51,7 @@
     <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="PostSharp">
+    <Reference Include="PostSharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7">
       <HintPath>..\..\..\packages\PostSharp.2.1.7.22\lib\net20\PostSharp.dll</HintPath>
     </Reference>
     <Reference Include="RxSchedulers.Switch">

@@ -51,7 +51,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="PostSharp">
+    <Reference Include="PostSharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7">
       <HintPath>..\..\..\packages\PostSharp.2.1.7.22\lib\net20\PostSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
