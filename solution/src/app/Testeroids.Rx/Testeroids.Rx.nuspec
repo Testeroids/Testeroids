@@ -16,7 +16,7 @@
     <copyright>Copyright Testeroids 2012</copyright>
     <tags>Testeroids Rx AAA unit testing</tags>
     <dependencies>
-      <dependency id="Testeroids" />
+      <dependency id="Testeroids" version="$version$" />
       <dependency id="JetBrains.Annotations" version="7.0" />
       <dependency id="Moq" version="4.0.10827" />
       <dependency id="NUnit" version="2.6.2" />
