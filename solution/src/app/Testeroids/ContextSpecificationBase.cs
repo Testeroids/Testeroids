@@ -75,11 +75,13 @@ namespace Testeroids
         /// <summary>
         /// Gets or sets a value indicating whether mock setups will automatically be verified through <see cref="IMock.Verify"/> at test fixture teardown.
         /// </summary>
+        [PublicAPI]
         protected bool AutoVerifyMocks { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether mocks will be checked to ensure that all setups were verified in a test.
         /// </summary>
+        [PublicAPI]
         protected bool CheckSetupsAreMatchedWithVerifyCalls { get; set; }
 
         #endregion
