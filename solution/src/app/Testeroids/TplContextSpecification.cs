@@ -220,14 +220,17 @@ namespace Testeroids
             /// <param name="taskWasPreviouslyQueued">Whether the Task was previously queued to the scheduler.</param>
             /// <returns>True if the Task was successfully executed; otherwise, false.</returns>
             protected override bool TryExecuteTaskInline(
-                Task task, 
+                Task task,
                 bool taskWasPreviouslyQueued)
             {
-                throw new NotImplementedException("We didn't know we could get there ;)");
+                if (taskWasPreviouslyQueued)
+                {
+                    throw new NotImplementedException("We didn't know we could get there ;)");
+                }
 
-//// var success = !this.executeTplTasks || this.TryExecuteTask(task);
-                //// this.HistoricQueue.Add(task);
-                //// return success;
+                this.QueueTask(task);
+
+                return true;
             }
 
             #endregion
