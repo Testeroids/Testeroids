@@ -13,7 +13,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Testeroids Reactive Extensions</description>
     <!--<releaseNotes></releaseNotes>-->
-    <copyright>Copyright Testeroids 2012</copyright>
+    <copyright>Copyright Testeroids 2012-2013</copyright>
     <tags>Testeroids Rx AAA unit testing</tags>
     <dependencies>
       <dependency id="Testeroids" version="$version$" />
