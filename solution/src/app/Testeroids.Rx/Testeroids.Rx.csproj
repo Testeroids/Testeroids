@@ -58,7 +58,8 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="RxSchedulers.Switch">
-      <HintPath>..\..\..\packages\RxSchedulers.Switch.1.0.1\lib\net40\RxSchedulers.Switch.dll</HintPath>
+      <HintPath>..\..\..\packages\RxSchedulers.Switch.1.0.2\lib\net40\RxSchedulers.Switch.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
