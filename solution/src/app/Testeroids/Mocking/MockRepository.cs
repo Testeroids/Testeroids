@@ -96,6 +96,15 @@ namespace Testeroids.Mocking
             }
         }
 
+        public void ResetAllCallCounts()
+        {
+            var resetableMocks = this.mocksTrackedForUsageVerification.OfType<IMockInternals>();
+            foreach (var mock in resetableMocks)
+            {
+                mock.ResetAllCallCounts();
+            }
+        }
+
         #endregion
     }
 }

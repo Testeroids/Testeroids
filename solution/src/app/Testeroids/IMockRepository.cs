@@ -37,5 +37,7 @@ namespace Testeroids
         void VerifyMocks();
 
         #endregion
+
+        void ResetAllCallCounts();
     }
 }

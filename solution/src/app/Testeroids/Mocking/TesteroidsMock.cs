@@ -74,6 +74,11 @@ namespace Testeroids.Mocking
             get { return this.GetVerifiedSetups(); }
         }
 
+        public void ResetAllCallCounts()
+        {           
+            this.NakedMock.ResetAllCallCounts();
+        }
+
         #endregion
 
         #region Properties

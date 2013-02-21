@@ -144,10 +144,18 @@ namespace Testeroids
 
         #region Methods
 
+
+        protected internal abstract void Because();
+
         /// <summary>
         ///   This will be called by the <see cref="ArrangeActAssertAspectAttribute"/> aspect. Performs the "Act" part, or the logic which is to be tested.
-        /// </summary>
-        protected internal abstract void Because();
+        /// </summary>       
+        [UsedImplicitly]
+        protected void OnBecauseRequested()
+        {
+            this.MockRepository.ResetAllCallCounts();
+            this.Because();                        
+        }
 
         /// <summary>
         ///   Called to dispose all unmanaged resources used by the test.

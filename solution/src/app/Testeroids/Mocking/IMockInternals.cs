@@ -21,6 +21,8 @@ namespace Testeroids.Mocking
         /// </summary>
         IEnumerable<Tuple<MemberInfo, bool>> VerifiedSetups { get; }
 
+        void ResetAllCallCounts();
+
         #endregion
     }
 }

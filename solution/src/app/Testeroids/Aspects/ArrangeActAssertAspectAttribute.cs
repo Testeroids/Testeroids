@@ -39,7 +39,7 @@ namespace Testeroids.Aspects
         [NotNull]
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", 
             Justification = "Reviewed. PostSharp requires this to be public.")]
-        [ImportMember("Because", IsRequired = true)]
+        [ImportMember("OnBecauseRequested", IsRequired = true)]
         [UsedImplicitly]
         public Action BecauseMethod;
 
