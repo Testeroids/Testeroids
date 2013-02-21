@@ -3,10 +3,9 @@
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Testeroids
 {
-    using Moq;
-
     /// <summary>
     /// Provides consistent mock creation and tracking for later verification. Aspects subject to verification
     /// include whether mock setups were exercised by the production code, and whether all mocked methods were later verified
@@ -31,13 +30,17 @@ namespace Testeroids
         IMock<TMock> CreateMock<TMock>() where TMock : class;
 
         /// <summary>
+        /// Reset the counts of all the method calls done previously.
+        /// </summary>
+        /// <remarks>Only verified mocks will be affected.</remarks>
+        void ResetAllCallCounts();
+
+        /// <summary>
         /// Ensures that all the verifiable mock setups were actually used, by invoking <see cref="IMock.Verify"/> on all mocks.
         /// </summary>
         /// <exception cref="MockException">Thrown if not all mocks were actually used by the SUT.</exception>
         void VerifyMocks();
 
         #endregion
-
-        void ResetAllCallCounts();
     }
 }

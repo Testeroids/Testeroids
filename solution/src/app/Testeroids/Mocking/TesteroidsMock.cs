@@ -3,6 +3,7 @@
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Testeroids.Mocking
 {
     using System;
@@ -14,12 +15,8 @@ namespace Testeroids.Mocking
 
     using JetBrains.Annotations;
 
-    using Moq;
-    using Moq.Language;
-    using Moq.Language.Flow;
-
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Will add documentation from base interface once that is finished.")]
-    internal class TesteroidsMock : IMock, 
+    internal class TesteroidsMock : IMock,
                                     IMockInternals
     {
         #region Fields
@@ -42,24 +39,42 @@ namespace Testeroids.Mocking
 
         public MockBehavior Behavior
         {
-            get { return this.nakedMock.Behavior; }
+            get
+            {
+                return this.nakedMock.Behavior;
+            }
         }
 
         public bool CallBase
         {
-            get { return this.nakedMock.CallBase; }
-            set { this.nakedMock.CallBase = value; }
+            get
+            {
+                return this.nakedMock.CallBase;
+            }
+            set
+            {
+                this.nakedMock.CallBase = value;
+            }
         }
 
         public DefaultValue DefaultValue
         {
-            get { return this.nakedMock.DefaultValue; }
-            set { this.nakedMock.DefaultValue = value; }
+            get
+            {
+                return this.nakedMock.DefaultValue;
+            }
+            set
+            {
+                this.nakedMock.DefaultValue = value;
+            }
         }
 
         public object Object
         {
-            get { return this.nakedMock.Object; }
+            get
+            {
+                return this.nakedMock.Object;
+            }
         }
 
         #endregion
@@ -71,12 +86,10 @@ namespace Testeroids.Mocking
         /// </summary>
         IEnumerable<Tuple<MemberInfo, bool>> IMockInternals.VerifiedSetups
         {
-            get { return this.GetVerifiedSetups(); }
-        }
-
-        public void ResetAllCallCounts()
-        {           
-            this.NakedMock.ResetAllCallCounts();
+            get
+            {
+                return this.GetVerifiedSetups();
+            }
         }
 
         #endregion
@@ -85,7 +98,10 @@ namespace Testeroids.Mocking
 
         protected Mock NakedMock
         {
-            get { return this.nakedMock; }
+            get
+            {
+                return this.nakedMock;
+            }
         }
 
         #endregion
@@ -95,6 +111,14 @@ namespace Testeroids.Mocking
         public IMock<TInterface> As<TInterface>() where TInterface : class
         {
             return new TesteroidsMock<TInterface>(this.nakedMock.As<TInterface>());
+        }
+
+        /// <summary>
+        /// Reset the counts of all the method calls done previously.
+        /// </summary>
+        public void ResetAllCallCounts()
+        {
+            this.NakedMock.ResetAllCallCounts();
         }
 
         public void SetReturnsDefault<TReturn>(TReturn value)
@@ -125,7 +149,7 @@ namespace Testeroids.Mocking
     }
 
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Will add documentation from base interface once that is finished.")]
-    internal class TesteroidsMock<T> : TesteroidsMock, 
+    internal class TesteroidsMock<T> : TesteroidsMock,
                                        IMock<T>
         where T : class
     {
@@ -160,19 +184,24 @@ namespace Testeroids.Mocking
 
         public new T Object
         {
-            get { return this.nakedTypedMock.Object; }
+            get
+            {
+                return this.nakedTypedMock.Object;
+            }
         }
 
         #endregion
 
         #region Public Methods and Operators
 
-        public void Raise(Action<T> eventExpression, EventArgs args)
+        public void Raise(Action<T> eventExpression,
+                          EventArgs args)
         {
             this.nakedTypedMock.Raise(eventExpression, args);
         }
 
-        public void Raise(Action<T> eventExpression, params object[] args)
+        public void Raise(Action<T> eventExpression,
+                          params object[] args)
         {
             this.nakedTypedMock.Raise(eventExpression, args);
         }
@@ -211,7 +240,8 @@ namespace Testeroids.Mocking
             return this;
         }
 
-        public IMock<T> SetupProperty<TProperty>(Expression<Func<T, TProperty>> property, TProperty initialValue)
+        public IMock<T> SetupProperty<TProperty>(Expression<Func<T, TProperty>> property,
+                                                 TProperty initialValue)
         {
             this.nakedTypedMock.SetupProperty(property, initialValue);
 
@@ -239,21 +269,25 @@ namespace Testeroids.Mocking
             this.nakedTypedMock.Verify(expression);
         }
 
-        public void Verify(Expression<Action<T>> expression, Times times)
+        public void Verify(Expression<Action<T>> expression,
+                           Times times)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.Verify(expression, times);
         }
 
-        public void Verify(Expression<Action<T>> expression, string failMessage)
+        public void Verify(Expression<Action<T>> expression,
+                           string failMessage)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.Verify(expression, failMessage);
         }
 
-        public void Verify(Expression<Action<T>> expression, Times times, string failMessage)
+        public void Verify(Expression<Action<T>> expression,
+                           Times times,
+                           string failMessage)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
@@ -267,21 +301,25 @@ namespace Testeroids.Mocking
             this.nakedTypedMock.Verify(expression);
         }
 
-        public void Verify<TResult>(Expression<Func<T, TResult>> expression, Times times)
+        public void Verify<TResult>(Expression<Func<T, TResult>> expression,
+                                    Times times)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.Verify(expression, times);
         }
 
-        public void Verify<TResult>(Expression<Func<T, TResult>> expression, string failMessage)
+        public void Verify<TResult>(Expression<Func<T, TResult>> expression,
+                                    string failMessage)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.Verify(expression, failMessage);
         }
 
-        public void Verify<TResult>(Expression<Func<T, TResult>> expression, Times times, string failMessage)
+        public void Verify<TResult>(Expression<Func<T, TResult>> expression,
+                                    Times times,
+                                    string failMessage)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
@@ -295,21 +333,25 @@ namespace Testeroids.Mocking
             this.nakedTypedMock.VerifyGet(expression);
         }
 
-        public void VerifyGet<TProperty>(Expression<Func<T, TProperty>> expression, Times times)
+        public void VerifyGet<TProperty>(Expression<Func<T, TProperty>> expression,
+                                         Times times)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.VerifyGet(expression, times);
         }
 
-        public void VerifyGet<TProperty>(Expression<Func<T, TProperty>> expression, string failMessage)
+        public void VerifyGet<TProperty>(Expression<Func<T, TProperty>> expression,
+                                         string failMessage)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.VerifyGet(expression, failMessage);
         }
 
-        public void VerifyGet<TProperty>(Expression<Func<T, TProperty>> expression, Times times, string failMessage)
+        public void VerifyGet<TProperty>(Expression<Func<T, TProperty>> expression,
+                                         Times times,
+                                         string failMessage)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
@@ -321,17 +363,21 @@ namespace Testeroids.Mocking
             this.nakedTypedMock.VerifySet(setterExpression);
         }
 
-        public void VerifySet(Action<T> setterExpression, Times times)
+        public void VerifySet(Action<T> setterExpression,
+                              Times times)
         {
             this.nakedTypedMock.VerifySet(setterExpression, times);
         }
 
-        public void VerifySet(Action<T> setterExpression, string failMessage)
+        public void VerifySet(Action<T> setterExpression,
+                              string failMessage)
         {
             this.nakedTypedMock.VerifySet(setterExpression, failMessage);
         }
 
-        public void VerifySet(Action<T> setterExpression, Times times, string failMessage)
+        public void VerifySet(Action<T> setterExpression,
+                              Times times,
+                              string failMessage)
         {
             this.nakedTypedMock.VerifySet(setterExpression, times, failMessage);
         }
