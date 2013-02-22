@@ -15,6 +15,10 @@ namespace Testeroids.Mocking
 
     using JetBrains.Annotations;
 
+    using Moq;
+    using Moq.Language;
+    using Moq.Language.Flow;
+
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Will add documentation from base interface once that is finished.")]
     internal class TesteroidsMock : IMock,
                                     IMockInternals
