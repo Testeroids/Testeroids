@@ -3,6 +3,7 @@
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Testeroids.Mocking
 {
     using System;
@@ -21,6 +22,13 @@ namespace Testeroids.Mocking
         /// </summary>
         IEnumerable<Tuple<MemberInfo, bool>> VerifiedSetups { get; }
 
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// Reset the counts of all the method calls done previously.
+        /// </summary>
         void ResetAllCallCounts();
 
         #endregion

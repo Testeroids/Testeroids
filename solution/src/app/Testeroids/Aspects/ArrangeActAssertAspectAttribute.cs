@@ -3,6 +3,7 @@
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Testeroids.Aspects
 {
     using System;
@@ -37,17 +38,17 @@ namespace Testeroids.Aspects
         ///   Field bound at runtime to a delegate of the method <c>Because</c> .
         /// </summary>
         [NotNull]
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", 
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate",
             Justification = "Reviewed. PostSharp requires this to be public.")]
         [ImportMember("OnBecauseRequested", IsRequired = true)]
         [UsedImplicitly]
-        public Action BecauseMethod;
+        public Action OnBecauseRequestedMethod;
 
         /// <summary>
         ///   Field bound at runtime to a delegate of the method <c>RunPrerequisiteTests</c> .
         /// </summary>
         [NotNull]
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", 
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate",
             Justification = "Reviewed. PostSharp requires this to be public.")]
         [ImportMember("RunPrerequisiteTests", IsRequired = true)]
         [UsedImplicitly]
@@ -137,9 +138,9 @@ namespace Testeroids.Aspects
             try
             {
                 this.OnTestMethodEntry(
-                    (IContextSpecification)args.Instance, 
-                    args.Method, 
-                    this.BecauseMethod);
+                    (IContextSpecification)args.Instance,
+                    args.Method,
+                    this.OnBecauseRequestedMethod);
             }
             catch (Exception e)
             {
@@ -174,7 +175,7 @@ namespace Testeroids.Aspects
         [DebuggerNonUserCode]
         public void OnStandardTestMethodEntry(MethodExecutionArgs args)
         {
-            this.OnTestMethodEntry((IContextSpecification)args.Instance, args.Method, this.BecauseMethod);
+            this.OnTestMethodEntry((IContextSpecification)args.Instance, args.Method, this.OnBecauseRequestedMethod);
         }
 
         #endregion
@@ -224,8 +225,8 @@ namespace Testeroids.Aspects
         /// <param name="methodInfo"> The test method. </param>
         /// <param name="becauseAction"> The because method. </param>
         private void OnTestMethodEntry(
-            IContextSpecification instance, 
-            MethodBase methodInfo, 
+            IContextSpecification instance,
+            MethodBase methodInfo,
             Action becauseAction)
         {
             var isRunningInTheContextOfAnotherTest = instance.ArePrerequisiteTestsRunning;

@@ -3,6 +3,7 @@
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Testeroids
 {
     using System.ComponentModel;
@@ -65,7 +66,10 @@ namespace Testeroids
         [PublicAPI]
         public IMockRepository MockRepository
         {
-            get { return this.mockRepository; }
+            get
+            {
+                return this.mockRepository;
+            }
         }
 
         #endregion
@@ -144,18 +148,13 @@ namespace Testeroids
 
         #region Methods
 
-
-        protected internal abstract void Because();
-
         /// <summary>
-        ///   This will be called by the <see cref="ArrangeActAssertAspectAttribute"/> aspect. Performs the "Act" part, or the logic which is to be tested.
-        /// </summary>       
-        [UsedImplicitly]
-        protected void OnBecauseRequested()
-        {
-            this.MockRepository.ResetAllCallCounts();
-            this.Because();                        
-        }
+        /// The because method as overridable by the user of Testeroids. Will be called by <see cref="OnBecauseRequested"/>.
+        /// </summary>
+        /// <remarks>Internaly, <see cref="OnBecauseRequested"/> does make sure any verified mock created by the <see cref="MockRepository"/> has its recorded calls reset.
+        /// This means that any call to a mocked method will "forget" about the method calls done prior to calling <see cref="Because"/>.
+        /// </remarks>
+        protected internal abstract void Because();
 
         /// <summary>
         ///   Called to dispose all unmanaged resources used by the test.
@@ -177,6 +176,16 @@ namespace Testeroids
         ///   Performs additional initialization after the subject under test has been created.
         /// </summary>
         protected abstract void InitializeSubjectUnderTest();
+
+        /// <summary>
+        ///   This will be called by the <see cref="ArrangeActAssertAspectAttribute"/> aspect. Performs the "Act" part, or the logic which is to be tested.
+        /// </summary>      
+        [UsedImplicitly]
+        protected void OnBecauseRequested()
+        {
+            this.MockRepository.ResetAllCallCounts();
+            this.Because();
+        }
 
         /// <summary>
         /// This test is meant for internal library use only.
@@ -203,10 +212,10 @@ namespace Testeroids
                 foreach (var prerequisiteTest in prerequisiteTestsToRun)
                 {
                     prerequisiteTest.Invoke(
-                        this, 
-                        BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic, 
-                        null, 
-                        null, 
+                        this,
+                        BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic,
+                        null,
+                        null,
                         CultureInfo.InvariantCulture);
                 }
             }
