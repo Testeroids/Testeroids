@@ -17,7 +17,7 @@
         <tags>Aspects Unit Tests</tags>
         <dependencies>
             <dependency id="JetBrains.Annotations" version="7.0" />
-            <dependency id="Moq" version="4.0.10827" />
+            <dependency id="Moq.Testeroids" version="4.0.10818" />
             <dependency id="NUnit" version="2.6.2" />
             <dependency id="PostSharp" version="2.1.7.22" />
         </dependencies>
