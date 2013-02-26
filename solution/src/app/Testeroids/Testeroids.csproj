@@ -84,7 +84,12 @@
     <Compile Include="IMockRepository.cs" />
     <Compile Include="IssueAttribute.cs" />
     <Compile Include="Mocking\IMockInternals.cs" />
+    <Compile Include="Mocking\IVerifiedMock.cs" />
     <Compile Include="Mocking\MockRepository.cs" />
+    <Compile Include="Mocking\MoqReturnsResultWrapper.cs" />
+    <Compile Include="Mocking\MoqReturnsThrowsWrapper.cs" />
+    <Compile Include="Mocking\MoqVerifiesExtensions.cs" />
+    <Compile Include="Mocking\MoqSetupWrapper.cs" />
     <Compile Include="Mocking\TesteroidsMock.cs" />
     <Compile Include="MockNotVerifiedException.cs" />
     <Compile Include="MockExtensions.cs" />

@@ -154,7 +154,8 @@ namespace Testeroids.Mocking
 
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Will add documentation from base interface once that is finished.")]
     internal class TesteroidsMock<T> : TesteroidsMock,
-                                       IMock<T>
+                                       IMock<T>,
+                                       IVerifiedMock
         where T : class
     {
         #region Fields
@@ -210,22 +211,28 @@ namespace Testeroids.Mocking
             this.nakedTypedMock.Raise(eventExpression, args);
         }
 
-        public ISetup<T> Setup(Expression<Action<T>> expression)
+        public Moq.Language.Flow.ISetup<T> Setup(Expression<Action<T>> expression)
         {
             var setup = this.nakedTypedMock.Setup(expression);
 
             this.RegisterSetupForVerification(expression);
 
-            return setup;
+            // todo : Use a factory to make it testable (?).
+            var moqWrappedSetup = new MoqSetupWrapper<T>(setup, expression, this);
+
+            return moqWrappedSetup;
         }
 
-        public ISetup<T, TResult> Setup<TResult>(Expression<Func<T, TResult>> expression)
+        public Moq.Language.Flow.ISetup<T, TResult> Setup<TResult>(Expression<Func<T, TResult>> expression)
         {
             var setup = this.nakedTypedMock.Setup(expression);
 
             this.RegisterSetupForVerification(expression);
 
-            return setup;
+            // todo : Use a factory to make it testable (?).
+            var moqWrappedSetup = new MoqSetupWrapper<T, TResult>(setup, expression, this);
+
+            return moqWrappedSetup;
         }
 
         public ISetupGetter<T, TProperty> SetupGet<TProperty>(Expression<Func<T, TProperty>> expression)
@@ -259,7 +266,7 @@ namespace Testeroids.Mocking
             return setupSetter;
         }
 
-        public ISetup<T> SetupSet(Action<T> setterExpression)
+        public Moq.Language.Flow.ISetup<T> SetupSet(Action<T> setterExpression)
         {
             var setupSet = this.nakedTypedMock.SetupSet(setterExpression);
 
@@ -411,6 +418,19 @@ namespace Testeroids.Mocking
         {
             var memberInfo = GetMemberInfoFromExpression(expression);
             this.registeredSetups[memberInfo] = true;
+        }
+
+        /// <summary>
+        /// Unregisters the specified expression in order to ignore it in the sanity check which makes sure there is a call verification unit test for each setup.
+        /// </summary>
+        /// <param name="expression"></param>
+        public void UnregisterSetupForVerification(LambdaExpression expression)
+        {
+            var memberInfo = GetMemberInfoFromExpression(expression);
+            if (this.registeredSetups.ContainsKey(memberInfo))
+            {
+                this.registeredSetups.Remove(memberInfo);
+            }
         }
 
         private void RegisterSetupForVerification(LambdaExpression expression)

@@ -12,6 +12,7 @@ namespace Testeroids.Tests
     using NUnit.Framework;
 
     using Testeroids.Aspects.Attributes;
+    using Testeroids.Mocking;
 
     public abstract class TestSpecs
     {
@@ -78,6 +79,13 @@ namespace Testeroids.Tests
                     this.InjectedCalculatorMock
                         .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
                         .Returns(0);
+                        //.DontEnforceSetupVerification()
+                        //.EnforceUsage();
+
+                    this.InjectedCalculatorMock
+                        .Setup(o => o.Clear());
+                    //.DontEnforceSetupVerification()
+                    //.EnforceUsage();
                 }
 
                 protected override void Because()
@@ -92,7 +100,7 @@ namespace Testeroids.Tests
                 {
                     #region Context
 
-                    protected override bool EstablishCheckAllSetupsVerified()
+                    protected override sealed bool EstablishCheckAllSetupsVerified()
                     {
                         return true;
                     }
@@ -286,15 +294,17 @@ namespace Testeroids.Tests
 
                     this.InjectedCalculatorMock
                         .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
-                        .Returns(this.ReturnedSum)
+                        .Returns(this.ReturnedSum)    
                         .Verifiable();
+
+                    this.CheckSetupsAreMatchedWithVerifyCalls = true;
                 }
 
                 protected override sealed void Because()
                 {
                     this.Result = this.Sut.Sum(this.SpecifiedOperand1, this.SpecifiedOperand2);
                 }
-
+                
                 #endregion
 
                 [TestFixture]
@@ -344,23 +354,23 @@ namespace Testeroids.Tests
                     #endregion
                 }
 
-                [Test]
-                public void then_Sum_is_called_once_on_InjectedTestMock()
-                {
-                    this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
-                }
+                //[Test]
+                //public void then_Sum_is_called_once_on_InjectedTestMock()
+                //{
+                //    this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
+                //}
 
-                [Test]
-                public void then_Sum_is_called_once_on_InjectedTestMock_passing_SpecifiedOperand1()
-                {
-                    this.InjectedCalculatorMock.Verify(o => o.Sum(this.SpecifiedOperand1, It.IsAny<int>()), Times.Once());
-                }
+                //[Test]
+                //public void then_Sum_is_called_once_on_InjectedTestMock_passing_SpecifiedOperand1()
+                //{
+                //    this.InjectedCalculatorMock.Verify(o => o.Sum(this.SpecifiedOperand1, It.IsAny<int>()), Times.Once());
+                //}
 
-                [Test]
-                public void then_Sum_is_called_once_on_InjectedTestMock_passing_SpecifiedOperand2()
-                {
-                    this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), this.SpecifiedOperand2), Times.Once());
-                }
+                //[Test]
+                //public void then_Sum_is_called_once_on_InjectedTestMock_passing_SpecifiedOperand2()
+                //{
+                //    this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), this.SpecifiedOperand2), Times.Once());
+                //}
 
                 [Test]
                 public void then_Result_matches_ReturnedSum()

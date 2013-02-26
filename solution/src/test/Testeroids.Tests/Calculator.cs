@@ -29,6 +29,11 @@ namespace Testeroids.Tests
             return a + b;
         }
 
+        public void Clear()
+        {
+            throw new System.NotImplementedException();
+        }
+
         #endregion
     }
 }

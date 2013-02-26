@@ -11,6 +11,8 @@ namespace Testeroids.Mocking
 
     using JetBrains.Annotations;
 
+    using Moq;
+
     internal class MockRepository : IMockRepository
     {
         #region Fields

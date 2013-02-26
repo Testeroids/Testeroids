@@ -17,6 +17,8 @@ namespace Testeroids.Tests
 
         int Sum(int a, int b);
 
+        void Clear();
+
         #endregion
     }
 }
