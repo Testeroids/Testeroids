@@ -20,6 +20,7 @@
             <dependency id="Moq" version="4.0.10827" />
             <dependency id="NUnit" version="2.6.2" />
             <dependency id="PostSharp" version="2.1.7.22" />
+            <dependency id="Rx-Testing" version="2.1.30214.0" />
         </dependencies>
     </metadata>
 </package>
