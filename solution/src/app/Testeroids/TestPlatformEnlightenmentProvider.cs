@@ -5,6 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids
 {
+    using System;
     using System.Reactive.Concurrency;
     using System.Reactive.PlatformServices;
 
@@ -41,21 +42,21 @@ namespace Testeroids
 
         #endregion
 
-        #region Public Properties
+        #region Properties
 
         /// <summary>
-        /// Gets or sets the <see cref="Microsoft.Reactive.Testing.TestScheduler"/> instance used in the tests.
+        /// Gets or sets the function which can return the <see cref="Microsoft.Reactive.Testing.TestScheduler"/> instance used in the tests.
         /// </summary>
-        public TestScheduler TestScheduler
+        public Func<TestScheduler> GetTestScheduler
         {
             get
             {
-                return this.testConcurrencyAbstractionLayer.TestScheduler;
+                return this.testConcurrencyAbstractionLayer.GetTestScheduler;
             }
 
             set
             {
-                this.testConcurrencyAbstractionLayer.TestScheduler = value;
+                this.testConcurrencyAbstractionLayer.GetTestScheduler = value;
             }
         }
 
@@ -85,11 +86,17 @@ namespace Testeroids
                 switch ((string)args[0])
                 {
                     case "ThreadPool":
-                        return (T)(this.TestScheduler ?? (IScheduler)ThreadPoolScheduler.Instance);
+                        return (T)(this.testConcurrencyAbstractionLayer.UseDefaultScheduler
+                                       ? (IScheduler)ThreadPoolScheduler.Instance
+                                       : this.GetTestScheduler());
                     case "TaskPool":
-                        return (T)(this.TestScheduler ?? (IScheduler)TaskPoolScheduler.Default);
+                        return (T)(this.testConcurrencyAbstractionLayer.UseDefaultScheduler
+                                       ? (IScheduler)TaskPoolScheduler.Default
+                                       : this.GetTestScheduler());
                     case "NewThread":
-                        return (T)(this.TestScheduler ?? (IScheduler)NewThreadScheduler.Default);
+                        return (T)(this.testConcurrencyAbstractionLayer.UseDefaultScheduler
+                                       ? (IScheduler)NewThreadScheduler.Default
+                                       : this.GetTestScheduler());
                 }
             }
 

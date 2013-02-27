@@ -53,23 +53,23 @@ namespace Testeroids
             }
         }
 
-        /// <summary>
-        /// Gets or sets the <see cref="Microsoft.Reactive.Testing.TestScheduler"/> instance used in the tests.
-        /// </summary>
-        public TestScheduler TestScheduler { get; set; }
-
         #endregion
 
         #region Properties
 
         /// <summary>
+        /// Gets or sets the function which can return the <see cref="Microsoft.Reactive.Testing.TestScheduler"/> instance used in the tests.
+        /// </summary>
+        internal Func<TestScheduler> GetTestScheduler { get; set; }
+
+        /// <summary>
         /// Gets a value indicating whether the default scheduler will be used.
         /// </summary>
-        private bool UseDefaultScheduler
+        internal bool UseDefaultScheduler
         {
             get
             {
-                return this.TestScheduler == null;
+                return this.GetTestScheduler == null;
             }
         }
 
@@ -95,7 +95,7 @@ namespace Testeroids
                 return this.defaultConcurrencyAbstractionLayer.QueueUserWorkItem(action, state);
             }
 
-            return this.TestScheduler.Schedule(() => action(state));
+            return this.GetTestScheduler().Schedule(() => action(state));
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Testeroids
                 this.defaultConcurrencyAbstractionLayer.Sleep(timeout);
             }
 
-            this.TestScheduler.Sleep(timeout.Ticks);
+            this.GetTestScheduler().Sleep(timeout.Ticks);
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Testeroids
                 return this.defaultConcurrencyAbstractionLayer.StartStopwatch();
             }
 
-            return this.TestScheduler.AsStopwatchProvider().StartStopwatch();
+            return this.GetTestScheduler().AsStopwatchProvider().StartStopwatch();
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace Testeroids
                 return this.defaultConcurrencyAbstractionLayer.StartTimer(action, state, dueTime);
             }
 
-            return this.TestScheduler.ScheduleRelative(TestConcurrencyAbstractionLayer.Normalize(dueTime).Ticks, () => action(state));
+            return this.GetTestScheduler().ScheduleRelative(TestConcurrencyAbstractionLayer.Normalize(dueTime).Ticks, () => action(state));
         }
 
         #endregion
