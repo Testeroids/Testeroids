@@ -10,6 +10,7 @@ namespace Testeroids
     using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
+    using System.Reactive.PlatformServices;
     using System.Reflection;
     using System.Threading;
 
@@ -40,6 +41,19 @@ namespace Testeroids
         #endregion
 
         #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes static members of the <see cref="ContextSpecificationBase"/> class.
+        /// </summary>
+        static ContextSpecificationBase()
+        {
+            var testPlatformEnlightenmentProvider = PlatformEnlightenmentProvider.Current as TestPlatformEnlightenmentProvider;
+            if (testPlatformEnlightenmentProvider == null)
+            {
+                testPlatformEnlightenmentProvider = new TestPlatformEnlightenmentProvider();
+                PlatformEnlightenmentProvider.Current = testPlatformEnlightenmentProvider;
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContextSpecificationBase"/> class.
