@@ -294,8 +294,9 @@ namespace Testeroids.Tests
 
                     this.InjectedCalculatorMock
                         .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
-                        .Returns(this.ReturnedSum)    
-                        .Verifiable();
+                        .Returns(this.ReturnedSum)
+                        .DontEnforceSetupVerification()
+                        .EnforceUsage();
 
                     this.CheckSetupsAreMatchedWithVerifyCalls = true;
                 }
