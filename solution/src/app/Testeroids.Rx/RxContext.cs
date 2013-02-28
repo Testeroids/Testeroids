@@ -8,8 +8,6 @@ namespace Testeroids.Rx
     using System;
     using System.Reactive.Concurrency;
 
-    using Microsoft.Reactive.Testing;
-
     using RxSchedulers.Switch;
 
     /// <summary>

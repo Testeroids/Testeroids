@@ -90,6 +90,8 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Aspects\RxContextAspectAttribute.cs" />
+    <Compile Include="Aspects\RxTestSchedulerAspect.cs" />
+    <Compile Include="MockObserver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -97,6 +99,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RxContext.cs" />
+    <Compile Include="RxHelper.cs" />
+    <Compile Include="TestableObserverExtensions.cs" />
+    <Compile Include="TestScheduler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Testeroids\Testeroids.csproj">
