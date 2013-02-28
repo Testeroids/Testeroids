@@ -21,7 +21,8 @@ namespace Testeroids
         /// <summary>
         /// Return a sequence of values, once per call.
         /// </summary>
-        public static ISetupSequentialResult<TResult> SetupSequence<TMock, TResult>(this IMock<TMock> mock, Expression<Func<TMock, TResult>> expression) where TMock : class
+        public static ISetupSequentialResult<TResult> SetupSequence<TMock, TResult>(this IMock<TMock> mock, 
+                                                                                    Expression<Func<TMock, TResult>> expression) where TMock : class
         {
             return Mock.Get(mock.Object).SetupSequence(expression);
         }

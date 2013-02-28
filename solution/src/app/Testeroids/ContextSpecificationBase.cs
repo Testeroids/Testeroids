@@ -5,8 +5,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Globalization;
@@ -14,7 +12,6 @@ namespace Testeroids
     using System.Reactive.PlatformServices;
     using System.Reflection;
     using System.Threading;
-    using System.Threading.Tasks;
 
     using JetBrains.Annotations;
 

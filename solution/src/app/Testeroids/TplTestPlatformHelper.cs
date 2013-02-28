@@ -17,7 +17,7 @@ namespace Testeroids
     /// </summary>
     internal static class TplTestPlatformHelper
     {
-        #region Methods
+        #region Public Methods and Operators
 
         /// <summary>
         /// Uses reflection to set the default scheduler to use for any newly started task.
@@ -67,7 +67,7 @@ namespace Testeroids
             /// <param name="task">The task to be executed.</param>
             protected override void QueueTask(Task task)
             {
-                throw new InvalidOperationException(String.Format("A TPL task was queued even though the test fixture does not derive from {0}. Please change the base class of {1} to use {0}.", typeof(TplContextSpecification<>).Name, this.GetType()));
+                throw new InvalidOperationException(string.Format("A TPL task was queued even though the test fixture does not derive from {0}. Please change the base class of {1} to use {0}.", typeof(TplContextSpecification<>).Name, this.GetType()));
             }
 
             /// <summary>Runs the provided Task synchronously on the current thread.</summary>
@@ -124,7 +124,10 @@ namespace Testeroids
             /// <returns>Always 1, in order to prevent concurrency.</returns>
             public override int MaximumConcurrencyLevel
             {
-                get { return 1; }
+                get
+                {
+                    return 1;
+                }
             }
 
             #endregion
@@ -164,7 +167,7 @@ namespace Testeroids
             /// <param name="taskWasPreviouslyQueued">Whether the Task was previously queued to the scheduler.</param>
             /// <returns>True if the Task was successfully executed; otherwise, false.</returns>
             protected override bool TryExecuteTaskInline(
-                Task task,
+                Task task, 
                 bool taskWasPreviouslyQueued)
             {
                 if (taskWasPreviouslyQueued)

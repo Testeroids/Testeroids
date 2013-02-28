@@ -24,7 +24,8 @@ namespace Testeroids.Tests
 
         #region Public Methods and Operators
 
-        public int Sum(int a, int b)
+        public int Sum(int a, 
+                       int b)
         {
             return a + b;
         }

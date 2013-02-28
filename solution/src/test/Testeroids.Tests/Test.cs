@@ -26,14 +26,18 @@ namespace Testeroids.Tests
 
         public ICalculator Calculator
         {
-            get { return this.calculator; }
+            get
+            {
+                return this.calculator;
+            }
         }
 
         #endregion
 
         #region Public Methods and Operators
 
-        public int Sum(int a, int b)
+        public int Sum(int a, 
+                       int b)
         {
             return this.Calculator.Sum(a, b);
         }

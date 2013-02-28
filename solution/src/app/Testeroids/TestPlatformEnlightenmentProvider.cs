@@ -42,7 +42,7 @@ namespace Testeroids
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         /// <summary>
         /// Gets or sets the function which can return the <see cref="Microsoft.Reactive.Testing.TestScheduler"/> instance used in the tests.
