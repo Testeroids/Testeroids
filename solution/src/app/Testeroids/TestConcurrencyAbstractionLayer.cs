@@ -130,7 +130,7 @@ namespace Testeroids
                 return this.defaultConcurrencyAbstractionLayer.StartPeriodicTimer(action, period);
             }
 
-            throw new NotImplementedException();
+            return this.GetTestScheduler().SchedulePeriodic(period, action);
         }
 
         /// <summary>
