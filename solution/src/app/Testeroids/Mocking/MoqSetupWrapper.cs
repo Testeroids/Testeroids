@@ -511,7 +511,7 @@ namespace Testeroids.Mocking
 
         public IThrowsResult Throws<TException>() where TException : Exception, new()
         {
-            return this.wrappedSetup.Throws<Exception>();
+            return this.wrappedSetup.Throws<TException>();
         }
 
         public void Verifiable()
