@@ -38,6 +38,11 @@ namespace Testeroids.Tests
             return this.Calculator.Sum(a, b);
         }
 
+        public void Clear()
+        {
+            this.Calculator.Clear();
+        }
+
         #endregion
     }
 }

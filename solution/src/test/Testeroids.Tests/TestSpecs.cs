@@ -264,24 +264,59 @@ namespace Testeroids.Tests
                 }
             }
 
+            public class when_Clear_is_called : given_instantiated_Sut
+            {
+                #region Context
+
+                protected override void Because()
+                {
+                    this.Sut.Clear();
+                }
+
+                #endregion
+
+                [TestFixture]
+                public class with_Clear_on_InjectedCalculatorMock_throwing_TestException : when_Clear_is_called
+                {
+                    #region Context
+
+                    protected override void EstablishContext()
+                    {
+                        base.EstablishContext();
+
+                        this.InjectedCalculatorMock
+                            .Setup(o => o.Clear())
+                            .Throws<TestException>();
+                    }
+
+                    #endregion
+
+                    /// <summary>
+                    /// Test that the <see cref="given_instantiated_Sut.when_Clear_is_called.with_Clear_on_InjectedCalculatorMock_throwing_TestException.Because"/> method throws a <see cref="TestException"/>.
+                    /// </summary>
+                    [Test]
+                    [ExpectedException(typeof(TestException))]
+                    public void then_TestException_is_thrown()
+                    {
+                    }
+                }
+            }
+            
+
             [AbstractTestFixture]
             public abstract class when_Sum_is_called : given_instantiated_Sut
             {
                 #region Context
 
-                private int Result { get; set; }
-
-                private int ReturnedSum { get; set; }
-
                 private int SpecifiedOperand1 { get; set; }
 
                 private int SpecifiedOperand2 { get; set; }
 
+                private int Result { get; set; }
+
                 protected abstract int EstablishSpecifiedOperand1();
 
                 protected abstract int EstablishSpecifiedOperand2();
-
-                protected abstract int EstablishReturnedSum();
 
                 protected override void EstablishContext()
                 {
@@ -289,14 +324,6 @@ namespace Testeroids.Tests
 
                     this.SpecifiedOperand1 = this.EstablishSpecifiedOperand1();
                     this.SpecifiedOperand2 = this.EstablishSpecifiedOperand2();
-
-                    this.ReturnedSum = this.EstablishReturnedSum();
-
-                    this.InjectedCalculatorMock
-                        .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
-                        .Returns(this.ReturnedSum)
-                        .DontEnforceSetupVerification()
-                        .EnforceUsage();
 
                     this.CheckSetupsAreMatchedWithVerifyCalls = true;
                 }
@@ -308,75 +335,141 @@ namespace Testeroids.Tests
                 
                 #endregion
 
-                [TestFixture]
-                public class with_SpecifiedOperand1_equal_to_10_and_SpecifiedOperand2_equal_to_7 : when_Sum_is_called
+                [AbstractTestFixture]
+                public abstract class with_returned_result : when_Sum_is_called
                 {
                     #region Context
 
-                    protected override int EstablishSpecifiedOperand1()
-                    {
-                        return 10;
-                    }
+                    protected abstract int EstablishReturnedSum();
 
-                    protected override int EstablishSpecifiedOperand2()
+                    private int ReturnedSum { get; set; }
+                    protected override void EstablishContext()
                     {
-                        return 7;
+ 	                    base.EstablishContext();
+                        this.ReturnedSum = this.EstablishReturnedSum();
+                        this.InjectedCalculatorMock
+                            .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
+                            .Returns(this.ReturnedSum)
+                            .DontEnforceSetupVerification()
+                            .EnforceUsage();
                     }
-
-                    protected override int EstablishReturnedSum()
-                    {
-                        // Return an erroneous value, just to certify that we are returning the value which is handed out by the mock
-                        return int.MaxValue;
-                    }
-
                     #endregion
+
+                    [TestFixture]
+                    public class with_SpecifiedOperand1_equal_to_10_and_SpecifiedOperand2_equal_to_7 : with_returned_result
+                    {
+                        #region Context
+
+                        protected override sealed int EstablishSpecifiedOperand1()
+                        {
+                            return 10;
+                        }
+
+                        protected override sealed int EstablishSpecifiedOperand2()
+                        {
+                            return 7;
+                        }
+
+                        override protected sealed int EstablishReturnedSum()
+                        {
+                            // Return an erroneous value, just to certify that we are returning the value which is handed out by the mock
+                            return int.MaxValue;
+                        }
+
+                        #endregion
+                    }
+
+                    [TestFixture]
+                    public class with_SpecifiedOperand1_equal_to_10_and_SpecifiedOperand2_equal_to_minus_7 : with_returned_result
+                    {
+                        #region Context
+
+                        protected override sealed int EstablishSpecifiedOperand1()
+                        {
+                            return 10;
+                        }
+
+                        protected override sealed int EstablishSpecifiedOperand2()
+                        {
+                            return -7;
+                        }
+
+                        protected override sealed int EstablishReturnedSum()
+                        {
+                            return 3;
+                        }
+
+                        #endregion
+                    }
+
+                    [Test]
+                    public void then_Sum_is_called_once_on_InjectedTestMock()
+                    {
+                        this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
+                    }
+
+                    [Test]
+                    public void then_Sum_is_called_once_on_InjectedTestMock_passing_SpecifiedOperand1()
+                    {
+                        this.InjectedCalculatorMock.Verify(o => o.Sum(this.SpecifiedOperand1, It.IsAny<int>()), Times.Once());
+                    }
+
+                    [Test]
+                    public void then_Sum_is_called_once_on_InjectedTestMock_passing_SpecifiedOperand2()
+                    {
+                        this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), this.SpecifiedOperand2), Times.Once());
+                    }
+
+                    [Test]
+                    public void then_Result_matches_ReturnedSum()
+                    {
+                        Assert.AreEqual(this.ReturnedSum, this.Result);
+                    }
                 }
 
                 [TestFixture]
-                public class with_SpecifiedOperand1_equal_to_10_and_SpecifiedOperand2_equal_to_minus_7 : when_Sum_is_called
+                public class with_thrown_TestException : when_Sum_is_called
                 {
                     #region Context
 
-                    protected override int EstablishSpecifiedOperand1()
+                    protected override sealed int EstablishSpecifiedOperand1()
                     {
-                        return 10;
+                        // irrelevant
+                        return 0;
                     }
 
-                    protected override int EstablishSpecifiedOperand2()
+                    protected override sealed int EstablishSpecifiedOperand2()
                     {
-                        return -7;
+                        // irrelevant
+                        return 0;
                     }
 
-                    protected override int EstablishReturnedSum()
+                    protected override void EstablishContext()
                     {
-                        return 3;
+                        base.EstablishContext();
+
+                        this.InjectedCalculatorMock
+                            .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
+                            .Throws<TestException>();
                     }
 
                     #endregion
-                }
 
-                //[Test]
-                //public void then_Sum_is_called_once_on_InjectedTestMock()
-                //{
-                //    this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
-                //}
+                    /// <summary>
+                    /// Test that the <see cref="given_instantiated_Sut.when_Sum_is_called.with_thrown_TestException.Because"/> method throws a <see cref="TestException"/>.
+                    /// </summary>
+                    [Test]
+                    [ExpectedException(typeof(TestException))]
+                    public void then_TestException_is_thrown()
+                    {
+                    }
 
-                //[Test]
-                //public void then_Sum_is_called_once_on_InjectedTestMock_passing_SpecifiedOperand1()
-                //{
-                //    this.InjectedCalculatorMock.Verify(o => o.Sum(this.SpecifiedOperand1, It.IsAny<int>()), Times.Once());
-                //}
-
-                //[Test]
-                //public void then_Sum_is_called_once_on_InjectedTestMock_passing_SpecifiedOperand2()
-                //{
-                //    this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), this.SpecifiedOperand2), Times.Once());
-                //}
-
-                [Test]
-                public void then_Result_matches_ReturnedSum()
-                {
-                    Assert.AreEqual(this.ReturnedSum, this.Result);
+                    [Test]
+                    [ExceptionResilient(typeof(TestException))]
+                    public void then_Sum_is_called_once_on_InjectedCalculatorMock()
+                    {
+                        this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
+                    }
                 }
             }
         }

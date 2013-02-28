@@ -59,7 +59,6 @@
     </Compile>
     <Compile Include="Calculator.cs" />
     <Compile Include="ICalculator.cs" />
-    <Compile Include="RequiresPostSharp.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="TestSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
