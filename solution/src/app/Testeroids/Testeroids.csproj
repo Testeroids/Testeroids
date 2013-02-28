@@ -124,6 +124,7 @@
     <Compile Include="TestException.cs" />
     <Compile Include="TestPlatformEnlightenmentProvider.cs" />
     <Compile Include="TplContextSpecification.cs" />
+    <Compile Include="TplTestPlatformHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Testeroids.pfx">

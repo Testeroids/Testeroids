@@ -5,6 +5,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids
 {
+    using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Globalization;
@@ -12,6 +14,7 @@ namespace Testeroids
     using System.Reactive.PlatformServices;
     using System.Reflection;
     using System.Threading;
+    using System.Threading.Tasks;
 
     using JetBrains.Annotations;
 
@@ -79,7 +82,10 @@ namespace Testeroids
         [PublicAPI]
         public IMockRepository MockRepository
         {
-            get { return this.mockRepository; }
+            get
+            {
+                return this.mockRepository;
+            }
         }
 
         #endregion
@@ -124,6 +130,15 @@ namespace Testeroids
         public virtual void BaseTearDown()
         {
             this.DisposeContext();
+        }
+
+        /// <summary>
+        ///   Called when the test fixture is set up.
+        /// </summary>
+        [TestFixtureSetUp]
+        public virtual void BaseTestFixtureSetUp()
+        {
+            TplTestPlatformHelper.SetDefaultScheduler(new TplTestPlatformHelper.InvalidTaskScheduler());
         }
 
         /// <summary>
