@@ -99,7 +99,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RxContext.cs" />
-    <Compile Include="RxHelper.cs" />
+    <Compile Include="Recorded.cs" />
     <Compile Include="TestableObserverExtensions.cs" />
     <Compile Include="TestScheduler.cs" />
   </ItemGroup>
