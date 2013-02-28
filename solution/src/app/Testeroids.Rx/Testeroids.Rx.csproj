@@ -102,6 +102,7 @@
     <Compile Include="Recorded.cs" />
     <Compile Include="TestableObserverExtensions.cs" />
     <Compile Include="TestScheduler.cs" />
+    <Compile Include="TimeSpanExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Testeroids\Testeroids.csproj">
