@@ -37,7 +37,7 @@ namespace Testeroids
         /// </summary>
         public TestPlatformEnlightenmentProvider()
         {
-            this.testConcurrencyAbstractionLayer = new TestConcurrencyAbstractionLayer(this.currentPlatformEnlightenmentProvider.GetService<IConcurrencyAbstractionLayer>(new object[0]));
+            this.testConcurrencyAbstractionLayer = new TestConcurrencyAbstractionLayer();
         }
 
         #endregion

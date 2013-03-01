@@ -6,6 +6,7 @@
 namespace Testeroids
 {
     using System;
+    using System.Diagnostics;
     using System.Reactive.Concurrency;
 
     using Microsoft.Reactive.Testing;
@@ -16,30 +17,6 @@ namespace Testeroids
     /// </summary>
     public class TestConcurrencyAbstractionLayer : IConcurrencyAbstractionLayer
     {
-        #region Fields
-
-        /// <summary>
-        /// The concurrency abstraction layer instance to use when a <see cref="TestScheduler"/> is not being used.
-        /// </summary>
-        private readonly IConcurrencyAbstractionLayer defaultConcurrencyAbstractionLayer;
-
-        #endregion
-
-        #region Constructors and Destructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TestConcurrencyAbstractionLayer"/> class.
-        /// </summary>
-        /// <param name="defaultConcurrencyAbstractionLayer">
-        /// The concurrency abstraction layer instance to use when a <see cref="TestScheduler"/> is not being used.
-        /// </param>
-        public TestConcurrencyAbstractionLayer(IConcurrencyAbstractionLayer defaultConcurrencyAbstractionLayer)
-        {
-            this.defaultConcurrencyAbstractionLayer = defaultConcurrencyAbstractionLayer;
-        }
-
-        #endregion
-
         #region Public Properties
 
         /// <summary>
@@ -90,10 +67,7 @@ namespace Testeroids
             Action<object> action, 
             object state)
         {
-            if (this.UseDefaultScheduler)
-            {
-                return this.defaultConcurrencyAbstractionLayer.QueueUserWorkItem(action, state);
-            }
+            this.PerformSanityCheck();
 
             return this.GetTestScheduler().Schedule(() => action(state));
         }
@@ -105,10 +79,7 @@ namespace Testeroids
         /// <param name="timeout">Time to sleep.</param>
         public void Sleep(TimeSpan timeout)
         {
-            if (this.UseDefaultScheduler)
-            {
-                this.defaultConcurrencyAbstractionLayer.Sleep(timeout);
-            }
+            this.PerformSanityCheck();
 
             this.GetTestScheduler().Sleep(timeout.Ticks);
         }
@@ -125,10 +96,7 @@ namespace Testeroids
             Action action, 
             TimeSpan period)
         {
-            if (this.UseDefaultScheduler)
-            {
-                return this.defaultConcurrencyAbstractionLayer.StartPeriodicTimer(action, period);
-            }
+            this.PerformSanityCheck();
 
             return this.GetTestScheduler().SchedulePeriodic(period, action);
         }
@@ -142,10 +110,7 @@ namespace Testeroids
         /// </returns>
         public IStopwatch StartStopwatch()
         {
-            if (this.UseDefaultScheduler)
-            {
-                return this.defaultConcurrencyAbstractionLayer.StartStopwatch();
-            }
+            this.PerformSanityCheck();
 
             return this.GetTestScheduler().AsStopwatchProvider().StartStopwatch();
         }
@@ -159,10 +124,7 @@ namespace Testeroids
             Action<object> action, 
             object state)
         {
-            if (this.UseDefaultScheduler)
-            {
-                this.defaultConcurrencyAbstractionLayer.StartThread(action, state);
-            }
+            this.PerformSanityCheck();
 
             throw new NotSupportedException();
         }
@@ -180,10 +142,7 @@ namespace Testeroids
             object state, 
             TimeSpan dueTime)
         {
-            if (this.UseDefaultScheduler)
-            {
-                return this.defaultConcurrencyAbstractionLayer.StartTimer(action, state, dueTime);
-            }
+            this.PerformSanityCheck();
 
             return this.GetTestScheduler().ScheduleRelative(TestConcurrencyAbstractionLayer.Normalize(dueTime).Ticks, () => action(state));
         }
@@ -209,6 +168,25 @@ namespace Testeroids
             }
 
             return dueTime;
+        }
+
+        /// <summary>
+        /// Perform a sanity check to warn the developer if there is a missing aspect.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when an Rx scheduler is used outside the scope of an Rx test (<see cref="GetTestScheduler"/> is not defined).
+        /// </exception>
+        private void PerformSanityCheck()
+        {
+            if (this.UseDefaultScheduler)
+            {
+                const string Message = "An Rx query was executed even though the test fixture is not marked with [RxContextAspect] or [RxTestSchedulerAspect]. Please apply the correct aspect to the test fixture so that schedulers do not work in a multi-threaded fashion.";
+
+                Debugger.Log(0, "Testeroids", Message);
+                Debugger.Break();
+
+                throw new InvalidOperationException(Message);
+            }
         }
 
         #endregion
