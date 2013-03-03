@@ -1,7 +1,7 @@
 ---
 layout: article
 title: Articles summary
-permalink: "/articles/summary.html"
+permalink: "/articlessummary.html"
 ---
 {% for article in site.articles %}
 	{% if forloop.index < 10 %}
