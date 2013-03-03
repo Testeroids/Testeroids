@@ -2,7 +2,8 @@
 layout: article
 title: Summary
 permalink: "/articlessummary.html"
-date: site.time
+date: 03.03.2013
+author: Fabio Salvalai
 ---
 
 Summary : ({{ paginator.total_pages }})
