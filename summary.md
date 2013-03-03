@@ -4,11 +4,9 @@ title: Summary
 permalink: "/articlessummary.html"
 ---
 
-very nice
-
 # Summary : ({{ paginator.total_pages }})
-{% for article in site.pages %}
+{% for page in site.pages %}
 	{% if forloop.index < 10 %}
-		<a href="http://www.google.com">article.title</a>
+		<a href="{{page.url}}">{{page.title}}</a>
 	{% endif %}
 {% endfor %}
