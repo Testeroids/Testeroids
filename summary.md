@@ -8,7 +8,7 @@ permalink: "/articlessummary.html"
 {% for page in site.pages %}
 <!-- link -->
 
-<a href="{{page.url}}">{{page.title}}</a>
+<a href="{{page.url}}">{{page.title}}</a><br/>
 {% endfor %}
 
 {% for post in site.posts %}
