@@ -9,7 +9,7 @@ author: Fabio Salvalai
 
 {% if p.title != page.title %}
 <p>
-<a href="{{p.url}}">{{p.title}}</a>
+<a href="{{site.baseurl}}/{{p.url}}">{{p.title}}</a>
 </p> 
 {% endif %}
 
