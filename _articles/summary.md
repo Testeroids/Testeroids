@@ -1,6 +1,6 @@
 ---
 layout: article
-title: Articles summary
+title: Summary
 permalink: "/articlessummary.html"
 ---
 
