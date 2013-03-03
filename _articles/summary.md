@@ -3,6 +3,9 @@ layout: article
 title: Articles summary
 permalink: "/articlessummary.html"
 ---
+
+very nice
+
 # Summary : ({% site.articles.Count%})
 {% for article in site.articles %}
 	{% if forloop.index < 10 %}
