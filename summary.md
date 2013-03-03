@@ -8,3 +8,7 @@ permalink: "/articlessummary.html"
 {% for page in site.pages %}
 		{{page.title}}: {{page.url}}	
 {% endfor %}
+
+{% for post in site.posts %}
+		{{post.title}}: {{post.url}}	
+{% endfor %}
