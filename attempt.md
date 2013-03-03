@@ -1,5 +1,5 @@
 ---
-layout: slate
+layout: post
 title: Giving it a shot
 ---
 
