@@ -1,82 +1,26 @@
-<!DOCTYPE html>
-<html>
+---
+layout: default
+---
 
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Testeroids : Testeroids is a framework and a set of guidelines working in concert for great productivity in unit testing of .NET projects." />
+<div class="article-navigation">
+  {% for item in site.categories.articles limit:40 offset:0 %}
+    <a class="article-link" href="{{site.baseurl}}{{item.url}}" title="{{item.title}}">
+      
+    </a>
+  {% endfor %}
+</div>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+{% for item in site.categories.articles limit:1 offset:0 %}
+  <div class="intro">
+    <div class="title">{{item.title}}</div>
+    <div class="abstract">{{item.abstract}}</div>
+    <div class="meta"> Posted by <a href="http://twitter.com/{{item.author_twitter}}">{{item.author}}</a> on {{ item.date | date: "%B %d, %Y" }} </div>
+  </div>
 
-    <title>Testeroids</title>
-  </head>
-
-  <body>
-
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/Testeroids/Testeroids">View on GitHub</a>
-
-          <h1 id="project_title">Testeroids</h1>
-          <h2 id="project_tagline">Testeroids is a framework and a set of guidelines working in concert for great productivity in unit testing of .NET projects.</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/Testeroids/Testeroids/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/Testeroids/Testeroids/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
+  <div class="article-wrapper">
+    <div class="help post-content">
+      {{ item.content }}
     </div>
+  </div>
+{% endfor %}
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h1>Testeroids</h1>
-
-<h2>Unit tests on Steroids.</h2>
-
-<p>Testeroids is a framework and a set of guidelines working in concert for great productivity in unit testing of .NET projects.</p>
-
-<p>It takes advantage of the <a href="http://www.arrangeactassert.com/why-and-what-is-arrange-act-assert/">AAA pattern (Arrange/Act/Assert)</a> and modern C# language features and tooling, such as <a href="http://www.sharpcrafters.com/">Aspect Oriented Programming</a> and <a href="http://www.jetbrains.com/resharper/">ReSharper</a>, to create an enjoyable unit testing experience.</p>
-
-<h2>Dependencies</h2>
-
-<p>Testeroids is built on the following stack:</p>
-
-<h3>Required</h3>
-
-<ul>
-<li>
-<a href="http://www.nunit.org/">NUnit</a>;</li>
-<li>
-<a href="http://www.sharpcrafters.com/">PostSharp</a>;</li>
-<li>
-<a href="http://code.google.com/p/moq/">Moq</a>;</li>
-</ul><h3>Recommended</h3>
-
-<ul>
-<li>
-<a href="http://www.jetbrains.com/resharper/">ReSharper</a> (for productivity features);</li>
-</ul><h2>Areas covered by guidelines</h2>
-
-<ul>
-<li>Unit test fixture organization;</li>
-<li>Nomenclature standardization;</li>
-<li>Unit testing of asynchronous <a href="http://msdn.microsoft.com/en-us/data/gg577609.aspx">Rx</a> and <a href="http://msdn.microsoft.com/en-us/library/dd460717.aspx">TPL</a> queries;</li>
-<li>...DOC IN PROGRESS...</li>
-</ul>
-      </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Testeroids maintained by <a href="https://github.com/Testeroids">Testeroids</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
-    
-
-  </body>
-</html>
