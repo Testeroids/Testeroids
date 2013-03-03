@@ -6,6 +6,8 @@ permalink: "/articlessummary.html"
 
 # Summary : ({{ paginator.total_pages }})
 {% for page in site.pages %}
+		<!-- link -->
+
 		{{page.title}}: {{page.url}}	
 {% endfor %}
 
