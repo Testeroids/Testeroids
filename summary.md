@@ -8,7 +8,7 @@ permalink: "/articlessummary.html"
 {% for page in site.pages %}
 	{% if forloop.index < 10 %}
 		{% raw %}
-		<a href="{{page.url}}">{{page.title}}</a>
+		{{'<a href="'}}{{page.url}}{{'">'}}{{page.title}}{{'</a>'}}
 		{% endraw %}
 
 	{% endif %}
