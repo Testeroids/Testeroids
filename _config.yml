@@ -1,6 +1,7 @@
 auto: true
 server: true
 permalink: none
+paginate: true
 baseurl: "http://testeroids.github.com/Testeroids"
 exclude:
 - .gitignore
