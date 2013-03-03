@@ -1,7 +1,7 @@
 auto: true
 server: true
 permalink: none
-baseurl: ""
+baseurl: "http://testeroids.github.com/Testeroids/"
 exclude:
 - .gitignore
 - README.md
