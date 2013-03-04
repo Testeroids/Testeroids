@@ -6,7 +6,6 @@
 namespace Testeroids
 {
     using System;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
@@ -16,6 +15,7 @@ namespace Testeroids
     /// namely by providing a serial task scheduler which records the order of executed tasks.
     /// </summary>
     /// <typeparam name="TSubjectUnderTest">The type of the subject under test.</typeparam>
+    [Obsolete("This class is no longer supported. Please use ContextSpecification<> instead, and apply the TplContextAspectAttribute to the test fixture.")]
     public abstract class TplContextSpecification<TSubjectUnderTest> : ContextSpecification<TSubjectUnderTest>
         where TSubjectUnderTest : class
     {
@@ -77,12 +77,7 @@ namespace Testeroids
         [PublicAPI]
         protected bool WasTaskExecuted(Task task)
         {
-            if (task == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            return task.IsCompleted && this.testTaskScheduler.HistoricQueue.Contains(task);
+            return TplTestHelper.WasTaskExecuted(task);
         }
 
         /// <summary>
@@ -93,12 +88,7 @@ namespace Testeroids
         [PublicAPI]
         protected bool WasTaskExecutedFirst(Task task)
         {
-            if (task == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            return task.IsCompleted && this.testTaskScheduler.HistoricQueue.FirstOrDefault() == task;
+            return TplTestHelper.WasTaskExecutedFirst(task);
         }
 
         /// <summary>
@@ -112,17 +102,7 @@ namespace Testeroids
             Task taskBefore, 
             Task taskAfter)
         {
-            if (!this.WasTaskExecuted(taskBefore))
-            {
-                return false;
-            }
-
-            if (!this.WasTaskExecuted(taskAfter))
-            {
-                return true;
-            }
-
-            return this.testTaskScheduler.HistoricQueue.IndexOf(taskBefore) < this.testTaskScheduler.HistoricQueue.IndexOf(taskAfter);
+            return TplTestHelper.WasTaskExecutedFirstComparedTo(taskBefore, taskAfter);
         }
 
         #endregion
