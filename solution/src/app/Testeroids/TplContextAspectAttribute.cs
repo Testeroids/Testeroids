@@ -32,11 +32,6 @@ namespace Testeroids
         [ImportMember("BaseTestFixtureSetUp", IsRequired = true, Order = ImportMemberOrder.BeforeIntroductions)]
         public Action BaseTestFixtureSetUpMethod;
 
-        /// <summary>
-        /// The scheduler which will be responsible for recording the order of the queuing of the tasks.
-        /// </summary>
-        private TplTestPlatformHelper.TestTaskScheduler testTaskScheduler;
-
         #endregion
 
         #region Public Properties
@@ -62,9 +57,9 @@ namespace Testeroids
         {
             this.BaseTestFixtureSetUpMethod();
 
-            this.testTaskScheduler = new TplTestPlatformHelper.TestTaskScheduler(this.ExecuteTplTasks);
+            var testTaskScheduler = new TplTestPlatformHelper.TestTaskScheduler(this.ExecuteTplTasks);
 
-            TplTestPlatformHelper.SetDefaultScheduler(this.testTaskScheduler);
+            TplTestPlatformHelper.SetDefaultScheduler(testTaskScheduler);
         }
 
         #endregion
