@@ -52,7 +52,7 @@ namespace Testeroids
         /// <summary>
         /// Replaces the <see cref="ContextSpecificationBase.PreTestSetUp"/> method to set the <see cref="TplTestPlatformHelper.TestTaskScheduler"/> as the default scheduler.
         /// </summary>
-        [IntroduceMember(OverrideAction = MemberOverrideAction.OverrideOrFail, IsVirtual = true, Visibility = Visibility.Family)]
+        [IntroduceMember(OverrideAction = MemberOverrideAction.OverrideOrFail, IsVirtual = true, Visibility = Visibility.Public)]
         public void BaseTestFixtureSetUp()
         {
             this.BaseTestFixtureSetUpMethod();
