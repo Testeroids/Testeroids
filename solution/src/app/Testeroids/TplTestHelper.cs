@@ -92,6 +92,27 @@ namespace Testeroids
             return TestTaskScheduler.HistoricQueue.IndexOf(taskBefore) < TestTaskScheduler.HistoricQueue.IndexOf(taskAfter);
         }
 
+        /// <summary>
+        /// Determines whether TPL tasks will be run on a given <see cref="IContextSpecification"/>. The <paramref name="contextSpecification"/> instance needs to have the <see cref="TplContextAspectAttribute"/> aspect applied to it.
+        /// </summary>
+        /// <param name="contextSpecification">
+        /// The context specification to inspect.
+        /// </param>
+        /// <returns>
+        /// The value defined in <see cref="TplContextAspectAttribute.ExecuteTplTasks"/>.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">The <paramref name="contextSpecification"/> instance does not have <see cref="TplContextAspectAttribute"/> applied to it.</exception>
+        public static bool WillExecuteTplTasksOn(IContextSpecification contextSpecification)
+        {
+            var tplContextAspectAttribute =
+                contextSpecification.GetType()
+                                    .GetCustomAttributes(typeof(TplContextAspectAttribute), true)
+                                    .Cast<TplContextAspectAttribute>()
+                                    .Single();
+
+            return tplContextAspectAttribute.ExecuteTplTasks;
+        }
+
         #endregion
     }
 }
