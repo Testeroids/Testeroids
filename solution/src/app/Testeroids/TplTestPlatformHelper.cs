@@ -67,7 +67,7 @@ namespace Testeroids
             /// <param name="task">The task to be executed.</param>
             protected override void QueueTask(Task task)
             {
-                throw new InvalidOperationException(string.Format("A TPL task was queued even though the test fixture does not derive from {0}. Please change the base class of the test fixture to use {0}.", typeof(TplContextSpecification<>).Name));
+                throw new InvalidOperationException(string.Format("A TPL task was queued even though the test fixture does not have the {0} applied. Please apply the aspect to the test fixture.", typeof(TplContextAspectAttribute).Name));
             }
 
             /// <summary>Runs the provided Task synchronously on the current thread.</summary>
