@@ -25,6 +25,21 @@ namespace Testeroids
 
         #endregion
 
+        #region Public Properties
+
+        /// <summary>
+        /// Gets or sets a value indicating whether queued tasks will be executes.
+        /// Setting this property to <c>false</c> will prevent any queued task from starting.
+        /// </summary>
+        /// <remarks>
+        /// This could be extended in the future to be a predicate which allows more fine-grained control over the tasks which should not be started.
+        /// </remarks>
+        public bool ExecuteTplTasks { get; set; }
+
+        #endregion
+
+        #region Public Methods and Operators
+
         /// <summary>
         /// Initializes the aspect instance. This method is invoked when all system elements of the aspect (like member imports)
         ///               have completed.
@@ -37,17 +52,6 @@ namespace Testeroids
 
             TplTestPlatformHelper.SetDefaultScheduler(this.testTaskScheduler);
         }
-
-        #region Public Properties
-
-        /// <summary>
-        /// Gets or sets a value indicating whether queued tasks will be executes.
-        /// Setting this property to <c>false</c> will prevent any queued task from starting.
-        /// </summary>
-        /// <remarks>
-        /// This could be extended in the future to be a predicate which allows more fine-grained control over the tasks which should not be started.
-        /// </remarks>
-        public bool ExecuteTplTasks { get; set; }
 
         #endregion
     }
