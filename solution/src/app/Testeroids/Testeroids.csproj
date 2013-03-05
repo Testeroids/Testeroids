@@ -124,7 +124,6 @@
     <Compile Include="TestException.cs" />
     <Compile Include="TestPlatformEnlightenmentProvider.cs" />
     <Compile Include="TplContextAspectAttribute.cs" />
-    <Compile Include="TplContextSpecification.cs" />
     <Compile Include="TplTestHelper.cs" />
     <Compile Include="TplTestPlatformHelper.cs" />
   </ItemGroup>
