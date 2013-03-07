@@ -5,6 +5,8 @@ date: 03.05.2013
 author: Fabio Salvalai
 published: false
 ---
+# This article is still a draft, please consider it as such, regarding its clarity and the typos it still contains.
+
 As a manager, or as a newcomer to the art of unit testing, you will most of the time hear people around you talking about "writing tests" or "unit-testing" without any distinction regarding '''how''' they actually proceed. There are 4 major approaches into writing unit tests, and a world of difference between them.
 
 
