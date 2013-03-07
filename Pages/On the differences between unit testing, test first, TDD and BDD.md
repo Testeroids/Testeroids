@@ -26,6 +26,8 @@ Insufflating life into a big slice of software is pretty easy. usually, you woul
 
 ###Dependency injection and Mocks.
 The answer to this problem is quite simple : Use mocks and dependency injection.
+
+####mocks
 If your subject under test must write a file to the disk : mock the file system away.
 Mocks are not to be confused with stubs. Stubs are implementations written by hand by the developer to return specific values. 
 Mocks are configurable, they usually come as libraries or frameworks. My own personal favorite one for the .Net language is moq, therefore, this is what the Testeroids framework uses it under the hood, but there are many others. They all fit the same purpose, just pick the one whose syntax suits you most.
@@ -33,7 +35,10 @@ In a nutshell, a mock will allow you to create an object which will implement th
 
 This is, by the way, why you should always respect Liskov's substitution principle and always, I mean *always* code against contracts instead of concrete classes, even though there will only ever be one single implementation for this contract. If it sounds like a big overhead of work to your ear, that just means you are not using the right tools to write your code. Have a look into ReSharper if you are a .Net developer. It's a paid software for commercial use, but it deserves every penny.
 
-Now, coding against interface will not help you much if you new-up every object your subject under test depends on. [ToBeContinued]
+####dependency injection
+Now, coding against interfaces will not help you much if you new-up every object your subject under test depends on, because since the decision of new-ing it up is taken in the code of the method using it, the tests can never replace this object with a mock. This is where dependency injection enters the equation.
+Every time you need to rely on a service, inject it. Don't use a static method, don't use a service locator, inject it.
+Dependency injection is no rocket science, it's just a fancy word to say that you are passing the service you require as a constructor argument. This alone will let you having your tests inject a mocked version of your object, which you can keep tabs on, and configure to behave the way you want him to.
 
 ##The 4 major approaches
 
