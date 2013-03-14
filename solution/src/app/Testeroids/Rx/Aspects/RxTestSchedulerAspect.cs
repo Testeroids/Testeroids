@@ -1,6 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright company="Testeroids" file="RxTestSchedulerAspect.cs">
-//   © 2012-2013 Testeroids. All rights reserved.
+//   � 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids.Rx.Aspects
@@ -20,7 +20,7 @@ namespace Testeroids.Rx.Aspects
     using RxSchedulers.Switch;
 
     /// <summary>
-    /// Aspect which adds support for Rx testing configuring the <see cref="SchedulerSwitch"/> for test purposes with the <see cref="TestScheduler"/>.
+    /// Aspect which adds support for Rx testing configuring the <see cref="RxSchedulers.Switch.SchedulerSwitch"/> for test purposes with the <see cref="TestScheduler"/>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     [Serializable]
@@ -83,7 +83,7 @@ namespace Testeroids.Rx.Aspects
 
         /// <summary>
         /// Replaces the <see cref="ContextSpecificationBase.PreTestSetUp"/> method to instantiate the <see cref="TestScheduler"/>
-        /// and configure the <see cref="SchedulerSwitch"/>.
+        /// and configure the <see cref="RxSchedulers.Switch.SchedulerSwitch"/>.
         /// </summary>
         [IntroduceMember(IsVirtual = true, OverrideAction = MemberOverrideAction.OverrideOrFail, Visibility = Visibility.Family)]
         public void PreTestSetUp()

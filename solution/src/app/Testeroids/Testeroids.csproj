@@ -58,6 +58,10 @@
       <HintPath>..\..\..\packages\PostSharp.2.1.7.22\lib\net20\PostSharp.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="RxSchedulers.Switch, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e4ac9b6316d2a5f7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\RxSchedulers.Switch.1.0.2\lib\net40\RxSchedulers.Switch.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Reactive.Core, Version=2.1.30214.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -117,6 +121,14 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RequiresPostSharp.cs" />
+    <Compile Include="Rx\Aspects\RxContextAspectAttribute.cs" />
+    <Compile Include="Rx\Aspects\RxTestSchedulerAspect.cs" />
+    <Compile Include="Rx\MockObserver.cs" />
+    <Compile Include="Rx\Recorded.cs" />
+    <Compile Include="Rx\RxContext.cs" />
+    <Compile Include="Rx\TestableObserverExtensions.cs" />
+    <Compile Include="Rx\TestScheduler.cs" />
+    <Compile Include="Rx\TimeSpanExtensions.cs" />
     <Compile Include="SequenceExtensions.cs" />
     <Compile Include="SubjectInstantiationContextSpecification.cs" />
     <Compile Include="TestCategories.cs" />
@@ -144,6 +156,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\PostSharpLicense.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Rx\Resources\PostSharpLicense.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
