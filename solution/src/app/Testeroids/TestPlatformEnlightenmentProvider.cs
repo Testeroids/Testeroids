@@ -14,7 +14,7 @@ namespace Testeroids
     /// <summary>
     /// Special implementation of <see cref="IPlatformEnlightenmentProvider"/> meant for test environments. It replaces the <see cref="IConcurrencyAbstractionLayer"/> for an instance of <see cref="TestConcurrencyAbstractionLayer"/>.
     /// </summary>
-    public class TestPlatformEnlightenmentProvider : IPlatformEnlightenmentProvider
+    internal class TestPlatformEnlightenmentProvider : IPlatformEnlightenmentProvider
     {
         #region Fields
 

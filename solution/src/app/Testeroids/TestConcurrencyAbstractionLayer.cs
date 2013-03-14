@@ -14,7 +14,7 @@ namespace Testeroids
     /// Test version of the <see cref="IConcurrencyAbstractionLayer"/> service, which relies on virtual time rather than on real timers and <see cref="System.Threading.Thread.Sleep(int)"/>.
     /// It leverages the <see cref="TestScheduler"/> used in a test fixture in order to schedule all events in the same container.
     /// </summary>
-    public class TestConcurrencyAbstractionLayer : IConcurrencyAbstractionLayer
+    internal class TestConcurrencyAbstractionLayer : IConcurrencyAbstractionLayer
     {
         #region Fields
 
