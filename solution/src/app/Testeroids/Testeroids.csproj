@@ -122,7 +122,7 @@
     </Compile>
     <Compile Include="RequiresPostSharp.cs" />
     <Compile Include="Rx\Aspects\RxContextAspectAttribute.cs" />
-    <Compile Include="Rx\Aspects\RxTestSchedulerAspect.cs" />
+    <Compile Include="Rx\Aspects\RxTestSchedulerAspectAttribute.cs" />
     <Compile Include="Rx\MockObserver.cs" />
     <Compile Include="Rx\Recorded.cs" />
     <Compile Include="Rx\RxContext.cs" />

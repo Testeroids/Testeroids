@@ -24,7 +24,7 @@ namespace Testeroids.Rx.Aspects
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     [Serializable]
-    public class RxTestSchedulerAspect : InstanceLevelAspect
+    public class RxTestSchedulerAspectAttribute : InstanceLevelAspect
     {
         #region Fields
 
@@ -51,9 +51,9 @@ namespace Testeroids.Rx.Aspects
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RxTestSchedulerAspect"/> class.
+        /// Initializes a new instance of the <see cref="RxTestSchedulerAspectAttribute"/> class.
         /// </summary>
-        public RxTestSchedulerAspect()
+        public RxTestSchedulerAspectAttribute()
         {
             this.AttributeTargetMemberAttributes = MulticastAttributes.Public | MulticastAttributes.Instance;
             this.AttributeTargetElements = MulticastTargets.Class;
