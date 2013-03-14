@@ -88,7 +88,7 @@ namespace Testeroids.Rx
             long time, 
             T value)
         {
-            return new Recorded<Notification<T>>(time, Notification.CreateOnNext(value));
+            return new Recorded<Notification<T>>(time, new OnNextNotification<T>(value));
         }
 
         /// <summary>
