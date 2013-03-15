@@ -8,7 +8,6 @@ namespace Testeroids.Rx
     using System;
     using System.Linq;
     using System.Reactive.Concurrency;
-    using System.Threading;
 
     using Microsoft.Reactive.Testing;
 
@@ -21,11 +20,6 @@ namespace Testeroids.Rx
     public class TestScheduler : Microsoft.Reactive.Testing.TestScheduler
     {
         #region Fields
-
-        /// <summary>
-        /// Used to get notified in <see cref="StartWaitingUntil(long)"/> that the current run should be canceled.
-        /// </summary>
-        private readonly ManualResetEventSlim isCanceledEvent = new ManualResetEventSlim(false);
 
         /// <summary>
         /// The synchronization primitive for access to the scheduler queue.
@@ -51,8 +45,9 @@ namespace Testeroids.Rx
         /// <returns>
         /// The <see cref="ITestableObserver{T}"/> which has been used to consume the <see cref="IObservable{T}"/>.
         /// </returns>
-        public ITestableObserver<T> Consume<T>(Func<IObservable<T>> create, 
-                                               TimeSpan absoluteEndTime)
+        public ITestableObserver<T> Consume<T>(
+            Func<IObservable<T>> create, 
+            TimeSpan absoluteEndTime)
         {
             return this.Consume(create, absoluteEndTime.Ticks);
         }
@@ -72,8 +67,9 @@ namespace Testeroids.Rx
         /// The <see cref="ITestableObserver{T}"/> which has been used to consume the <see cref="IObservable{T}"/>.
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="absoluteEndTime"/> is negative.</exception>
-        public ITestableObserver<T> Consume<T>(Func<IObservable<T>> create, 
-                                               long absoluteEndTime = long.MaxValue)
+        public ITestableObserver<T> Consume<T>(
+            Func<IObservable<T>> create, 
+            long absoluteEndTime = long.MaxValue)
         {
             if (this.Comparer.Compare(absoluteEndTime, 0) < 0)
             {
@@ -129,17 +125,28 @@ namespace Testeroids.Rx
         /// <summary>
         /// Schedules an action to be executed at the virtual time specified in <paramref name="dueTime"/>.
         /// </summary>
-        /// <typeparam name="TState">The type of the state passed to the scheduled action.</typeparam>
-        /// <param name="state">State passed to the action to be executed.</param>
-        /// <param name="action">Action to be executed.</param>
-        /// <param name="dueTime">Absolute virtual time at which to execute the action.</param>
+        /// <typeparam name="TState">
+        /// The type of the state passed to the scheduled action.
+        /// </typeparam>
+        /// <param name="state">
+        /// State passed to the action to be executed.
+        /// </param>
+        /// <param name="dueTime">
+        /// Absolute virtual time at which to execute the action.
+        /// </param>
+        /// <param name="action">
+        /// Action to be executed.
+        /// </param>
         /// <returns>
         /// Disposable object used to cancel the scheduled action (best effort).
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="action"/> is null.</exception>
-        public override IDisposable ScheduleAbsolute<TState>(TState state, 
-                                                             long dueTime, 
-                                                             Func<IScheduler, TState, IDisposable> action)
+        /// <exception cref="T:System.ArgumentNullException">
+        /// Thrown when <paramref name="action"/> is null.
+        /// </exception>
+        public override IDisposable ScheduleAbsolute<TState>(
+            TState state, 
+            long dueTime, 
+            Func<IScheduler, TState, IDisposable> action)
         {
             lock (this.schedulerQueueLockObject)
             {
