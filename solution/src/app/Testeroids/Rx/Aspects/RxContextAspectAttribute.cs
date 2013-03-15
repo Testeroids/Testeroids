@@ -20,6 +20,7 @@ namespace Testeroids.Rx.Aspects
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    [Obsolete("This aspect is obsolete. Please use RxTestSchedulerAspect instead.")]
     public class RxContextAspectAttribute : InstanceLevelAspect
     {
         #region Fields

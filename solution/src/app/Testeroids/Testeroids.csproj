@@ -158,9 +158,6 @@
   <ItemGroup>
     <None Include="Resources\PostSharpLicense.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Rx\Resources\PostSharpLicense.txt" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <Import Project="..\..\..\packages\PostSharp.2.1.7.22\tools\PostSharp.targets" Condition="Exists('..\..\..\packages\PostSharp.2.1.7.22\tools\PostSharp.targets')" />
