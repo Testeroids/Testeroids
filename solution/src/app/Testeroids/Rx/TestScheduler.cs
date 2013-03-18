@@ -211,16 +211,15 @@ namespace Testeroids.Rx
                 if (this.Comparer.Compare(next.DueTime, this.Clock) > 0)
                 {
                     this.Clock = next.DueTime;
-
-                    if (this.Clock > absoluteEndTime)
-                    {
-                        return;
-                    }
                 }
 
                 if (next.DueTime <= absoluteEndTime)
                 {
                     next.Invoke();
+                }
+                else
+                {
+                    return;
                 }
             }
         }
