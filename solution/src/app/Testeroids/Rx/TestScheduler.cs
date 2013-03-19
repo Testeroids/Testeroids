@@ -213,7 +213,7 @@ namespace Testeroids.Rx
                     this.Clock = next.DueTime;
                 }
 
-                if (next.DueTime <= absoluteEndTime)
+                if (this.Clock <= absoluteEndTime)
                 {
                     next.Invoke();
                 }
