@@ -38,11 +38,20 @@ namespace Testeroids.Rx.Aspects
         public Action BaseTearDownMethod;
 
         /// <summary>
+        /// The <see cref="ContextSpecificationBase.BaseTearDown"/> method on the target class.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Postsharp needs it to public")]
+        [UsedImplicitly]
+        [NotNull]
+        [ImportMember("PreTestSetUp", IsRequired = true, Order = ImportMemberOrder.BeforeIntroductions)]
+        public Action PreTestSetUpMethod;
+
+        /// <summary>
         /// The <see cref="TestScheduler"/> property on the target class.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Postsharp needs it to public")]
         [NotNull]
-        [ImportMember("TestScheduler", IsRequired = true, Order = ImportMemberOrder.Default)]
+        [ImportMember("TestScheduler", IsRequired = true, Order = ImportMemberOrder.BeforeIntroductions)]
         [UsedImplicitly]
         public Property<TestScheduler> TestSchedulerProperty;
 
@@ -63,6 +72,9 @@ namespace Testeroids.Rx.Aspects
 
         #region Public Methods and Operators
 
+        /// <summary>
+        /// Clear the <see cref="TestSchedulerProperty"/> and all schedulers in <see cref="SchedulerSwitch"/>.
+        /// </summary>
         [IntroduceMember(IsVirtual = true, OverrideAction = MemberOverrideAction.OverrideOrFail, Visibility = Visibility.Public)]
         public void BaseTearDown()
         {
@@ -96,12 +108,14 @@ namespace Testeroids.Rx.Aspects
             SchedulerSwitch.GetTaskPoolScheduler = () => testScheduler.Value;
             SchedulerSwitch.GetThreadPoolScheduler = () => testScheduler.Value;
 
-            // Replace the default IConcurrencyAbstractionLayer through a specialied PlatformEnlightenmentProvider, 
+            // Replace the default IConcurrencyAbstractionLayer through a specialized PlatformEnlightenmentProvider, 
             // in order to be able to leverage our TestScheduler to introduce virtual time everywhere.
             var testPlatformEnlightenmentProvider = (TestPlatformEnlightenmentProvider)PlatformEnlightenmentProvider.Current;
             testPlatformEnlightenmentProvider.GetTestScheduler = () => testScheduler.Value;
 
             this.TestSchedulerProperty.Set(testScheduler.Value);
+
+            this.PreTestSetUpMethod();
         }
 
         #endregion
