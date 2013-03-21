@@ -133,6 +133,7 @@
     <Compile Include="SequenceExtensions.cs" />
     <Compile Include="SubjectInstantiationContextSpecification.cs" />
     <Compile Include="TestCategories.cs" />
+    <Compile Include="TestComparers.cs" />
     <Compile Include="TestConcurrencyAbstractionLayer.cs" />
     <Compile Include="TestException.cs" />
     <Compile Include="TestPlatformEnlightenmentProvider.cs" />
