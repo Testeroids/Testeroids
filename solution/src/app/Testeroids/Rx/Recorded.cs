@@ -144,6 +144,72 @@ namespace Testeroids.Rx
             return OnNext(time.Ticks, value);
         }
 
+        /// <summary>
+        /// Creates a new subscription object with the given virtual subscription and unsubscription time.
+        /// </summary>
+        /// <returns>
+        /// An instance of a <see cref="Microsoft.Reactive.Testing.Subscription"/> object, which can be used to compare with actual results on <see cref="ITestableObservable{T}"/>.
+        /// </returns>
+        public static Subscription Subscription()
+        {
+            return new Subscription();
+        }
+
+        /// <summary>
+        /// Creates a new subscription object with the given virtual subscription and unsubscription time.
+        /// </summary>
+        /// <param name="subscribeTime">Virtual time at which the subscription occurred.</param>
+        /// <returns>
+        /// An instance of a <see cref="Microsoft.Reactive.Testing.Subscription"/> object, which can be used to compare with actual results on <see cref="ITestableObservable{T}"/>.
+        /// </returns>
+        public static Subscription Subscription(TimeSpan subscribeTime)
+        {
+            return new Subscription(subscribeTime.Ticks);
+        }
+
+        /// <summary>
+        /// Creates a new subscription object with the given virtual subscription and unsubscription time.
+        /// </summary>
+        /// <param name="subscribeTimeAsTicks">Virtual time at which the subscription occurred.</param>
+        /// <returns>
+        /// An instance of a <see cref="Microsoft.Reactive.Testing.Subscription"/> object, which can be used to compare with actual results on <see cref="ITestableObservable{T}"/>.
+        /// </returns>
+        public static Subscription Subscription(
+            long subscribeTimeAsTicks)
+        {
+            return new Subscription(subscribeTimeAsTicks);
+        }
+
+        /// <summary>
+        /// Creates a new subscription object with the given virtual subscription and unsubscription time.
+        /// </summary>
+        /// <param name="subscribeTime">Virtual time at which the subscription occurred.</param>
+        /// <param name="unsubscribeTime">Virtual time at which the unsubscription occurred.</param>
+        /// <returns>
+        /// An instance of a <see cref="Microsoft.Reactive.Testing.Subscription"/> object, which can be used to compare with actual results on <see cref="ITestableObservable{T}"/>.
+        /// </returns>
+        public static Subscription Subscription(
+            TimeSpan subscribeTime,
+            TimeSpan unsubscribeTime)
+        {
+            return new Subscription(subscribeTime.Ticks, unsubscribeTime.Ticks);
+        }
+
+        /// <summary>
+        /// Creates a new subscription object with the given virtual subscription and unsubscription time.
+        /// </summary>
+        /// <param name="subscribeTimeAsTicks">Virtual time at which the subscription occurred.</param>
+        /// <param name="unsubscribeTimeAsTicks">Virtual time at which the unsubscription occurred.</param>
+        /// <returns>
+        /// An instance of a <see cref="Microsoft.Reactive.Testing.Subscription"/> object, which can be used to compare with actual results on <see cref="ITestableObservable{T}"/>.
+        /// </returns>
+        public static Subscription Subscription(
+            long subscribeTimeAsTicks,
+            long unsubscribeTimeAsTicks)
+        {
+            return new Subscription(subscribeTimeAsTicks, unsubscribeTimeAsTicks);
+        }
+
         #endregion
     }
 }
