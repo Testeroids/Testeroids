@@ -124,7 +124,7 @@ namespace Testeroids.Mocking
         /// </summary>
         public void ResetAllCallCounts()
         {
-            this.NakedMock.ResetAllCallCounts();
+            this.NakedMock.ResetAllCalls();
         }
 
         public void SetReturnsDefault<TReturn>(TReturn value)
