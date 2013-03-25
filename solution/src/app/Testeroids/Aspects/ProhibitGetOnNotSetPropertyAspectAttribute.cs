@@ -20,8 +20,21 @@ namespace Testeroids.Aspects
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    [MulticastAttributeUsage(MulticastTargets.Class, 
+        TargetTypeAttributes = MulticastAttributes.AnyScope | MulticastAttributes.AnyVisibility | MulticastAttributes.NonAbstract | MulticastAttributes.Managed, 
+        AllowMultiple = false, Inheritance = MulticastInheritance.None)]
     public class ProhibitGetOnNotSetPropertyAspectAttribute : InstanceLevelAspect
     {
+        #region Constructors and Destructors
+
+        public ProhibitGetOnNotSetPropertyAspectAttribute()
+        {
+            this.AttributeTargetMemberAttributes = MulticastAttributes.AnyVisibility | MulticastAttributes.Instance;
+            this.AttributeTargetElements = MulticastTargets.Class;
+        }
+
+        #endregion
+
         #region Public Properties
 
         /// <summary>
@@ -44,10 +57,10 @@ namespace Testeroids.Aspects
         /// When the property's set method has not been called before.
         /// </exception>
         [OnLocationGetValueAdvice]
-        [MulticastPointcut(Targets = MulticastTargets.Property)]
+        [MulticastPointcut(Targets = MulticastTargets.Property, Attributes = MulticastAttributes.AnyVisibility | MulticastAttributes.Instance)]
         public void OnPropertyGet(LocationInterceptionArgs args)
         {
-            if (args.Location.PropertyInfo.GetSetMethod() != null
+            if (args.Location.PropertyInfo.GetSetMethod(true) != null
                 && !this.PropertySetList.Contains(args.LocationName))
             {
                 throw new PropertyNotSetException(args.LocationFullName);

@@ -62,6 +62,7 @@ namespace Testeroids
         {
             this.CheckSetupsAreMatchedWithVerifyCalls = false;
             this.AutoVerifyMocks = false;
+            this.ArePrerequisiteTestsRunning = false;
         }
 
         #endregion
