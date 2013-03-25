@@ -123,6 +123,7 @@
     <Compile Include="RequiresPostSharp.cs" />
     <Compile Include="Rx\Aspects\RxContextAspectAttribute.cs" />
     <Compile Include="Rx\Aspects\RxTestSchedulerAspectAttribute.cs" />
+    <Compile Include="Rx\TestSchedulerExtensions.cs" />
     <Compile Include="Rx\MockObserver.cs" />
     <Compile Include="Rx\OnNextNotification.cs" />
     <Compile Include="Rx\Recorded.cs" />
