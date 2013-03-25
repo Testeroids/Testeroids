@@ -116,6 +116,7 @@ namespace Testeroids
             Interlocked.Increment(ref this.numberOfTestsExecuted);
 
             this.PreTestSetUp();
+            this.InstantiateMocks();
             this.EstablishContext();
             this.InitializeSubjectUnderTest();
         }
@@ -128,6 +129,15 @@ namespace Testeroids
         public virtual void BaseTearDown()
         {
             this.DisposeContext();
+        }
+
+        /// <summary>
+        ///   Called when the test fixture is set up.
+        /// </summary>
+        [TestFixtureSetUp]
+        public virtual void BaseTestFixtureSetUp()
+        {
+            TplTestPlatformHelper.SetDefaultScheduler(new TplTestPlatformHelper.InvalidTaskScheduler());
         }
 
         /// <summary>
@@ -175,6 +185,14 @@ namespace Testeroids
         /// </summary>
         [DebuggerNonUserCode]
         protected virtual void DisposeContext()
+        {
+        }
+
+        /// <summary>
+        ///   Allows instantiation of mocks before the call to <see cref="EstablishContext"/>, so that all mock instances are available for use, even if they are not yet configured.
+        /// </summary>
+        [DebuggerNonUserCode]
+        protected virtual void InstantiateMocks()
         {
         }
 

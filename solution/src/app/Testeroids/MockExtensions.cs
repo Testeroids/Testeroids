@@ -20,6 +20,21 @@ namespace Testeroids
         #region Public Methods and Operators
 
         /// <summary>
+        /// Sets up <see cref="IEquatable{T}"/> on passed mock and returns it.
+        /// </summary>
+        /// <typeparam name="T">The mocked object's type.</typeparam>
+        /// <param name="mock">The mock to setup as <see cref="IEquatable{T}"/>.</param>
+        /// <returns>Returns the <paramref name="mock"/> implementing an additional interface, <see cref="IEquatable{T}"/>.</returns>
+        public static IMock<T> AsEquatable<T>(this IMock<T> mock) where T : class
+        {
+            mock.As<IEquatable<T>>()
+                .Setup(o => o.Equals(It.IsAny<T>()))
+                .Returns<T>(o => object.ReferenceEquals(mock.Object, o));
+
+            return mock;
+        }
+
+        /// <summary>
         ///   Method used to verify that a method is called uniquely once during Because.
         /// </summary>
         /// <param name="mock"> The mock instance on which the method must be run. </param>

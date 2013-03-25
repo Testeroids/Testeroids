@@ -23,16 +23,16 @@ namespace Testeroids.Tests
 
             private IMock<ICalculator> InjectedCalculatorMock { get; set; }
 
-            protected override Test BecauseSutIsCreated()
-            {
-                return new Test(this.InjectedCalculatorMock.Object);
-            }
-
             protected override void EstablishContext()
             {
                 base.EstablishContext();
 
                 this.InjectedCalculatorMock = this.MockRepository.CreateMock<ICalculator>();
+            }
+
+            protected override Test BecauseSutIsCreated()
+            {
+                return new Test(this.InjectedCalculatorMock.Object);
             }
 
             #endregion
@@ -165,6 +165,10 @@ namespace Testeroids.Tests
             {
                 #region Context
 
+                private static void NoOp()
+                {
+                }
+
                 protected abstract bool EstablishAutoVerifyMocks();
 
                 protected override void EstablishContext()
@@ -177,10 +181,6 @@ namespace Testeroids.Tests
                         .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
                         .Returns(0)
                         .Verifiable();
-                }
-
-                private static void NoOp()
-                {
                 }
 
                 protected override void Because()
@@ -201,13 +201,6 @@ namespace Testeroids.Tests
                         return true;
                     }
 
-                    protected override void EstablishContext()
-                    {
-                        base.EstablishContext();
-
-                        this.AutoVerifyMocks = true;
-                    }
-
                     public override void BaseTestFixtureTearDown()
                     {
                         try
@@ -220,6 +213,13 @@ namespace Testeroids.Tests
                         {
                             // This exception is expected, since we did not call exercise the this.InjectedCalculatorMock.Setup(o => o.Sum(...));
                         }
+                    }
+
+                    protected override void EstablishContext()
+                    {
+                        base.EstablishContext();
+
+                        this.AutoVerifyMocks = true;
                     }
 
                     #endregion

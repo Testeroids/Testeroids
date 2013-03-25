@@ -55,6 +55,7 @@ namespace Testeroids.Mocking
             {
                 return this.nakedMock.CallBase;
             }
+
             set
             {
                 this.nakedMock.CallBase = value;
@@ -67,6 +68,7 @@ namespace Testeroids.Mocking
             {
                 return this.nakedMock.DefaultValue;
             }
+
             set
             {
                 this.nakedMock.DefaultValue = value;
