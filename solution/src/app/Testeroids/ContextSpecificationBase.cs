@@ -185,14 +185,6 @@ namespace Testeroids
         }
 
         /// <summary>
-        ///   Allows instantiation of mocks before the call to <see cref="EstablishContext"/>, so that all mock instances are available for use, even if they are not yet configured.
-        /// </summary>
-        [DebuggerNonUserCode]
-        protected virtual void InstantiateMocks()
-        {
-        }
-
-        /// <summary>
         ///   The arrange part.
         /// </summary>
         [DebuggerNonUserCode]
@@ -204,6 +196,14 @@ namespace Testeroids
         ///   Performs additional initialization after the subject under test has been created.
         /// </summary>
         protected abstract void InitializeSubjectUnderTest();
+
+        /// <summary>
+        ///   Allows instantiation of mocks before the call to <see cref="EstablishContext"/>, so that all mock instances are available for use, even if they are not yet configured.
+        /// </summary>
+        [DebuggerNonUserCode]
+        protected virtual void InstantiateMocks()
+        {
+        }
 
         /// <summary>
         /// This test is meant for internal library use only.
