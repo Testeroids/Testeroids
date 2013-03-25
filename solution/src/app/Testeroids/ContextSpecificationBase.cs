@@ -115,8 +115,8 @@ namespace Testeroids
             Interlocked.Increment(ref this.numberOfTestsExecuted);
 
             this.PreTestSetUp();
-            this.ConfigureContext();
             this.InstantiateMocks();
+            this.BeforeEstablishContext();
             this.EstablishContext();
             this.InitializeSubjectUnderTest();
         }
@@ -190,7 +190,7 @@ namespace Testeroids
         ///   Allows configuration of the test fixture. It is called before  <see cref="InstantiateMocks"/>.
         /// </summary>
         [DebuggerNonUserCode]
-        protected virtual void ConfigureContext()
+        protected virtual void BeforeEstablishContext()
         {
         }
 
