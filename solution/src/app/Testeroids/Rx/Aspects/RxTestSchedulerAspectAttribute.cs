@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright company="Testeroids" file="RxTestSchedulerAspect.cs">
+// <copyright company="Testeroids" file="RxTestSchedulerAspectAttribute.cs">
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -7,6 +7,7 @@ namespace Testeroids.Rx.Aspects
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.Reactive.Concurrency;
     using System.Reactive.PlatformServices;
     using System.Threading;
 
@@ -29,13 +30,13 @@ namespace Testeroids.Rx.Aspects
         #region Fields
 
         /// <summary>
-        /// The <see cref="ContextSpecificationBase.BaseTearDown"/> method on the target class.
+        /// The <see cref="ContextSpecificationBase.PreTestSetUp"/> method on the target class.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Postsharp needs it to public")]
         [UsedImplicitly]
         [NotNull]
-        [ImportMember("BaseTearDown", IsRequired = true, Order = ImportMemberOrder.BeforeIntroductions)]
-        public Action BaseTearDownMethod;
+        [ImportMember("PreTestSetUp", IsRequired = true, Order = ImportMemberOrder.BeforeIntroductions)]
+        public Action BasePreTestSetUpMethod;
 
         /// <summary>
         /// The <see cref="ContextSpecificationBase.BaseTearDown"/> method on the target class.
@@ -43,8 +44,8 @@ namespace Testeroids.Rx.Aspects
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Postsharp needs it to public")]
         [UsedImplicitly]
         [NotNull]
-        [ImportMember("PreTestSetUp", IsRequired = true, Order = ImportMemberOrder.BeforeIntroductions)]
-        public Action PreTestSetUpMethod;
+        [ImportMember("BaseTearDown", IsRequired = true, Order = ImportMemberOrder.BeforeIntroductions)]
+        public Action BaseTearDownMethod;
 
         /// <summary>
         /// The <see cref="TestScheduler"/> property on the target class.
@@ -100,22 +101,24 @@ namespace Testeroids.Rx.Aspects
         [IntroduceMember(IsVirtual = true, OverrideAction = MemberOverrideAction.OverrideOrFail, Visibility = Visibility.Family)]
         public void PreTestSetUp()
         {
-            var testScheduler = new ThreadLocal<TestScheduler>(() => new TestScheduler());
-            SchedulerSwitch.GetCurrentThreadScheduler = () => testScheduler.Value;
-            SchedulerSwitch.GetDispatcherScheduler = () => testScheduler.Value;
-            SchedulerSwitch.GetImmediateScheduler = () => testScheduler.Value;
-            SchedulerSwitch.GetNewThreadScheduler = () => testScheduler.Value;
-            SchedulerSwitch.GetTaskPoolScheduler = () => testScheduler.Value;
-            SchedulerSwitch.GetThreadPoolScheduler = () => testScheduler.Value;
+            this.BasePreTestSetUpMethod();
+
+            Func<IScheduler> unassignedGuardScheduler = () => { throw new InvalidOperationException("Please assign a scheduler to the respective SchedulerSwitch property. No scheduler is currently assigned."); };
+
+            SchedulerSwitch.GetCurrentThreadScheduler = unassignedGuardScheduler;
+            SchedulerSwitch.GetDispatcherScheduler = unassignedGuardScheduler;
+            SchedulerSwitch.GetImmediateScheduler = unassignedGuardScheduler;
+            SchedulerSwitch.GetNewThreadScheduler = unassignedGuardScheduler;
+            SchedulerSwitch.GetTaskPoolScheduler = unassignedGuardScheduler;
+            SchedulerSwitch.GetThreadPoolScheduler = unassignedGuardScheduler;
 
             // Replace the default IConcurrencyAbstractionLayer through a specialized PlatformEnlightenmentProvider, 
             // in order to be able to leverage our TestScheduler to introduce virtual time everywhere.
             var testPlatformEnlightenmentProvider = (TestPlatformEnlightenmentProvider)PlatformEnlightenmentProvider.Current;
+            var testScheduler = new ThreadLocal<TestScheduler>(() => new TestScheduler());
             testPlatformEnlightenmentProvider.GetTestScheduler = () => testScheduler.Value;
 
             this.TestSchedulerProperty.Set(testScheduler.Value);
-
-            this.PreTestSetUpMethod();
         }
 
         #endregion
