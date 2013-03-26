@@ -189,7 +189,7 @@ namespace Testeroids.Rx
         /// An instance of a <see cref="Microsoft.Reactive.Testing.Subscription"/> object, which can be used to compare with actual results on <see cref="ITestableObservable{T}"/>.
         /// </returns>
         public static Subscription Subscription(
-            TimeSpan subscribeTime,
+            TimeSpan subscribeTime, 
             TimeSpan unsubscribeTime)
         {
             return new Subscription(subscribeTime.Ticks, unsubscribeTime.Ticks);
@@ -204,7 +204,7 @@ namespace Testeroids.Rx
         /// An instance of a <see cref="Microsoft.Reactive.Testing.Subscription"/> object, which can be used to compare with actual results on <see cref="ITestableObservable{T}"/>.
         /// </returns>
         public static Subscription Subscription(
-            long subscribeTimeAsTicks,
+            long subscribeTimeAsTicks, 
             long unsubscribeTimeAsTicks)
         {
             return new Subscription(subscribeTimeAsTicks, unsubscribeTimeAsTicks);

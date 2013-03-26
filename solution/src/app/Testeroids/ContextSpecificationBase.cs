@@ -118,6 +118,7 @@ namespace Testeroids
 
             this.PreTestSetUp();
             this.InstantiateMocks();
+            this.BeforeEstablishContext();
             this.EstablishContext();
             this.InitializeSubjectUnderTest();
         }
@@ -179,18 +180,27 @@ namespace Testeroids
         protected internal abstract void Because();
 
         /// <summary>
-        ///   Called to dispose all unmanaged resources used by the test.
+        /// This test is meant for internal library use only.
         /// </summary>
         [DebuggerNonUserCode]
-        protected virtual void DisposeContext()
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected virtual void PreTestSetUp()
         {
         }
 
         /// <summary>
-        ///   Allows instantiation of mocks before the call to <see cref="EstablishContext"/>, so that all mock instances are available for use, even if they are not yet configured.
+        ///   Allows configuration of the test fixture. It is called before  <see cref="InstantiateMocks"/>.
         /// </summary>
         [DebuggerNonUserCode]
-        protected virtual void InstantiateMocks()
+        protected virtual void BeforeEstablishContext()
+        {
+        }
+
+        /// <summary>
+        ///   Called to dispose all unmanaged resources used by the test.
+        /// </summary>
+        [DebuggerNonUserCode]
+        protected virtual void DisposeContext()
         {
         }
 
@@ -208,11 +218,10 @@ namespace Testeroids
         protected abstract void InitializeSubjectUnderTest();
 
         /// <summary>
-        /// This test is meant for internal library use only.
+        ///   Allows instantiation of mocks before the call to <see cref="EstablishContext"/>, so that all mock instances are available for use, even if they are not yet configured.
         /// </summary>
         [DebuggerNonUserCode]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected virtual void PreTestSetUp()
+        protected virtual void InstantiateMocks()
         {
         }
 
