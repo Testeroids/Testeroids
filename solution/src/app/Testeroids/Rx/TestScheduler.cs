@@ -40,28 +40,6 @@ namespace Testeroids.Rx
         /// </param>
         /// <param name="absoluteEndTime">
         /// The time at which the scheduler should stop.
-        /// The scheduler moves in time as it executes scheduled tasks.
-        /// </param>
-        /// <returns>
-        /// The <see cref="ITestableObserver{T}"/> which has been used to consume the <see cref="IObservable{T}"/>.
-        /// </returns>
-        public ITestableObserver<T> Consume<T>(
-            Func<IObservable<T>> create, 
-            TimeSpan absoluteEndTime)
-        {
-            return this.Consume(create, absoluteEndTime.Ticks);
-        }
-
-        /// <summary>
-        /// Creates the <see cref="IObservable{T}"/> to consume and subscribe to it.
-        /// Waits for the <see cref="VirtualTimeSchedulerBase{TAbsolute,TRelative}.Clock"/> to reach the end time or the scheduler to be canceled.
-        /// </summary>
-        /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
-        /// <param name="create">
-        /// The factory method which will create the <see cref="IObservable{T}"/> to consume.
-        /// </param>
-        /// <param name="absoluteEndTime">
-        /// The time at which the scheduler should stop.
         /// The scheduler moves in time as it executes scheduled tasks.</param>
         /// <returns>
         /// The <see cref="ITestableObserver{T}"/> which has been used to consume the <see cref="IObservable{T}"/>.
@@ -164,19 +142,6 @@ namespace Testeroids.Rx
         public void StartWaiting()
         {
             this.StartWaitingUntil(TimeSpan.MaxValue);
-        }
-
-        /// <summary>
-        /// Waits for Scheduler events until we are canceled or the <paramref name="absoluteEndTime"/> has been reached.
-        /// </summary>
-        /// <param name="absoluteEndTime">
-        /// The time at which the scheduler should stop.
-        /// The Scheduler moves in time as he execute scheduled tasks.
-        /// </param>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="absoluteEndTime"/> is negative.</exception>
-        public void StartWaitingUntil(TimeSpan absoluteEndTime)
-        {
-            this.StartWaitingUntil(absoluteEndTime.Ticks);
         }
 
         /// <summary>

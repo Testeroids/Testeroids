@@ -8,18 +8,20 @@ namespace Testeroids
     using System;
     using System.Reactive.Concurrency;
 
-    using Microsoft.Reactive.Testing;
+    using Testeroids.Rx;
+
+    using TestScheduler = Microsoft.Reactive.Testing.TestScheduler;
 
     /// <summary>
     /// Test version of the <see cref="IConcurrencyAbstractionLayer"/> service, which relies on virtual time rather than on real timers and <see cref="System.Threading.Thread.Sleep(int)"/>.
-    /// It leverages the <see cref="TestScheduler"/> used in a test fixture in order to schedule all events in the same container.
+    /// It leverages the <see cref="Microsoft.Reactive.Testing.TestScheduler"/> used in a test fixture in order to schedule all events in the same container.
     /// </summary>
     internal class TestConcurrencyAbstractionLayer : IConcurrencyAbstractionLayer
     {
         #region Fields
 
         /// <summary>
-        /// The concurrency abstraction layer instance to use when a <see cref="TestScheduler"/> is not being used.
+        /// The concurrency abstraction layer instance to use when a <see cref="Microsoft.Reactive.Testing.TestScheduler"/> is not being used.
         /// </summary>
         private readonly IConcurrencyAbstractionLayer defaultConcurrencyAbstractionLayer;
 
@@ -31,7 +33,7 @@ namespace Testeroids
         /// Initializes a new instance of the <see cref="TestConcurrencyAbstractionLayer"/> class.
         /// </summary>
         /// <param name="defaultConcurrencyAbstractionLayer">
-        /// The concurrency abstraction layer instance to use when a <see cref="TestScheduler"/> is not being used.
+        /// The concurrency abstraction layer instance to use when a <see cref="Microsoft.Reactive.Testing.TestScheduler"/> is not being used.
         /// </param>
         public TestConcurrencyAbstractionLayer(IConcurrencyAbstractionLayer defaultConcurrencyAbstractionLayer)
         {
@@ -110,7 +112,7 @@ namespace Testeroids
                 this.defaultConcurrencyAbstractionLayer.Sleep(timeout);
             }
 
-            this.GetTestScheduler().Sleep(timeout.Ticks);
+            this.GetTestScheduler().Sleep(timeout);
         }
 
         /// <summary>
