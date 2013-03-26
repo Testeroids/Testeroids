@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ProhibitGetOnNotSetPropertyAspectAttribute.cs" company="Testeroids">
+// <copyright file="ProhibitGetOnNotInitializedPropertyAspectAttribute.cs" company="Testeroids">
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -23,7 +23,7 @@ namespace Testeroids.Aspects
     [MulticastAttributeUsage(MulticastTargets.Class, 
         TargetTypeAttributes = MulticastAttributes.AnyScope | MulticastAttributes.AnyVisibility | MulticastAttributes.NonAbstract | MulticastAttributes.Managed, 
         AllowMultiple = false, Inheritance = MulticastInheritance.Multicast)]
-    public class ProhibitGetOnNotSetPropertyAspectAttribute : InstanceLevelAspect
+    public class ProhibitGetOnNotInitializedPropertyAspectAttribute : InstanceLevelAspect
     {
         #region Public Properties
 
@@ -40,10 +40,10 @@ namespace Testeroids.Aspects
         /// <summary>
         /// Method invoked <i>instead</i> of the <c>Get</c> semantic of property to which the current aspect is applied,
         ///               i.e. when the value of this field or property is retrieved.
-        /// If the property's set method has not been called the method will throw an <see cref="PropertyNotSetException"/>.
+        /// If the property's set method has not been called the method will throw an <see cref="PropertyNotInitializedException"/>.
         /// </summary>
         /// <param name="args">Advice arguments.</param>
-        /// <exception cref="PropertyNotSetException">
+        /// <exception cref="PropertyNotInitializedException">
         /// When the property's set method has not been called before.
         /// </exception>
         [OnLocationGetValueAdvice]
@@ -53,7 +53,7 @@ namespace Testeroids.Aspects
             if (args.Location.PropertyInfo.GetSetMethod(true) != null
                 && !this.PropertySetList.Contains(args.LocationName))
             {
-                throw new PropertyNotSetException(args.LocationFullName);
+                throw new PropertyNotInitializedException(args.LocationFullName);
             }
 
             args.ProceedGetValue();

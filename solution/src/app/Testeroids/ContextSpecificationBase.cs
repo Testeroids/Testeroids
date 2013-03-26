@@ -23,7 +23,7 @@ namespace Testeroids
     /// <summary>
     ///   Base class for implementing the AAA pattern.
     /// </summary>
-    [ProhibitGetOnNotSetPropertyAspect]
+    [ProhibitGetOnNotInitializedPropertyAspect]
     public abstract class ContextSpecificationBase : IContextSpecification
     {
         #region Fields

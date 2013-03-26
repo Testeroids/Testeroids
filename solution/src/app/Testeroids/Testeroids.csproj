@@ -98,7 +98,7 @@
     <Compile Include="Aspects\FailTestsOnAbstractClassesNonMarkedAbstractTestFixtureAspectAttribute.cs" />
     <Compile Include="Aspects\FailTestWithoutTestFixtureAspectAttribute.cs" />
     <Compile Include="Aspects\MakeEmptyTestsInconclusiveAspectAttribute.cs" />
-    <Compile Include="Aspects\ProhibitGetOnNotSetPropertyAspectAttribute.cs" />
+    <Compile Include="Aspects\ProhibitGetOnNotInitializedPropertyAspectAttribute.cs" />
     <Compile Include="Aspects\TypeInvestigationService.cs" />
     <Compile Include="Assert.cs" />
     <Compile Include="ContextSpecification.cs" />
@@ -121,7 +121,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="PropertyNotSetException.cs" />
+    <Compile Include="PropertyNotInitializedException.cs" />
     <Compile Include="RequiresPostSharp.cs" />
     <Compile Include="Rx\Aspects\RxContextAspectAttribute.cs" />
     <Compile Include="Rx\Aspects\RxTestSchedulerAspectAttribute.cs" />

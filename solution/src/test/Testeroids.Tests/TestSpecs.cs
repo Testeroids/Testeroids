@@ -273,10 +273,10 @@ namespace Testeroids.Tests
                 #endregion
 
                 /// <summary>
-                /// Test that the <see cref="given_instantiated_Sut.with_ProhibitGetOnNotSetPropertyAspectAttribute.Because"/> method throws a <see cref="PropertyNotSetException"/>.
+                /// Test that the <see cref="given_instantiated_Sut.with_ProhibitGetOnNotSetPropertyAspectAttribute.Because"/> method throws a <see cref="PropertyNotInitializedException"/>.
                 /// </summary>
                 [Test]
-                [ExpectedException(typeof(PropertyNotSetException))]
+                [ExpectedException(typeof(PropertyNotInitializedException))]
                 public void then_PropertyNotSetException_is_thrown()
                 {
                 }
