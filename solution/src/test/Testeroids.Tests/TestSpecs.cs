@@ -11,6 +11,7 @@ namespace Testeroids.Tests
 
     using NUnit.Framework;
 
+    using Testeroids.Aspects;
     using Testeroids.Aspects.Attributes;
 
     public abstract class TestSpecs
@@ -254,6 +255,32 @@ namespace Testeroids.Tests
                         Assert.Pass();
                     }
                 }
+            }
+
+            [TestFixture]
+            public sealed class with_ProhibitGetOnNotSetPropertyAspectAttribute : given_instantiated_Sut
+            {
+                #region Context
+
+                protected string TestProperty { get; private set; }
+
+                protected override void Because()
+                {
+                    // Access property before setting it
+                    this.TestProperty += string.Empty;
+                }
+
+                #endregion
+
+                /// <summary>
+                /// Test that the <see cref="given_instantiated_Sut.with_ProhibitGetOnNotSetPropertyAspectAttribute.Because"/> method throws a <see cref="PropertyNotInitializedException"/>.
+                /// </summary>
+                [Test]
+                [ExpectedException(typeof(PropertyNotInitializedException))]
+                public void then_PropertyNotSetException_is_thrown()
+                {
+                }
+
             }
 
             [AbstractTestFixture]
