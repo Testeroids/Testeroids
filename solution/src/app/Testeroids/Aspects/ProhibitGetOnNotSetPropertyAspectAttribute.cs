@@ -15,26 +15,16 @@ namespace Testeroids.Aspects
 
     /// <summary>
     /// Aspect which is applied to the <see cref="ContextSpecificationBase"/> type to verify that no Get method is accessed before
-    /// the set method has been called. This is to make sure that injected values are always established before they are used in a
+    /// the Set method has been called. This is to make sure that injected values are always established before they are used in a
     /// child test class.
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     [MulticastAttributeUsage(MulticastTargets.Class, 
         TargetTypeAttributes = MulticastAttributes.AnyScope | MulticastAttributes.AnyVisibility | MulticastAttributes.NonAbstract | MulticastAttributes.Managed, 
-        AllowMultiple = false, Inheritance = MulticastInheritance.None)]
+        AllowMultiple = false, Inheritance = MulticastInheritance.Multicast)]
     public class ProhibitGetOnNotSetPropertyAspectAttribute : InstanceLevelAspect
     {
-        #region Constructors and Destructors
-
-        public ProhibitGetOnNotSetPropertyAspectAttribute()
-        {
-            this.AttributeTargetMemberAttributes = MulticastAttributes.AnyVisibility | MulticastAttributes.Instance;
-            this.AttributeTargetElements = MulticastTargets.Class;
-        }
-
-        #endregion
-
         #region Public Properties
 
         /// <summary>

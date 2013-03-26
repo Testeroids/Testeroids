@@ -258,7 +258,6 @@ namespace Testeroids.Tests
             }
 
             [TestFixture]
-            [ProhibitGetOnNotSetPropertyAspect]
             public sealed class with_ProhibitGetOnNotSetPropertyAspectAttribute : given_instantiated_Sut
             {
                 #region Context
