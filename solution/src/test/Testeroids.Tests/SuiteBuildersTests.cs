@@ -6,6 +6,7 @@
 namespace Testeroids.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
 
@@ -198,30 +199,37 @@ namespace Testeroids.Tests
 
     public class SuiteTestBuilder : TestSuite
     {
-
         public SuiteTestBuilder(Type fixtureType)
             : base(fixtureType)
-        {
-            this.Fixture = Reflect.Construct(fixtureType);
-
+        {          
             foreach (MethodInfo method in fixtureType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy))
             {
                 if (method.Name.StartsWith("then_"))
                 {
-                    var nUnitTestMethod = new TriangulatedTestMethod(method);                    
-
                     // TODO : We can probably use multiple constructs of the fixture, call some methods on it to parametrize it with triangulation values, and call this.Add multiple times to add multiple Tests to the suite.                    
+
+                    List<Tuple<PropertyInfo, object>> triangulationValues = new List<Tuple<PropertyInfo, object>>();
+                    var nUnitTestMethod = new TriangulatedTestMethod(method, triangulationValues);
                     this.Add(nUnitTestMethod);
                 }
             }
         }
     }
 
+
     public class TriangulatedTestMethod : NUnitTestMethod
     {
-        public TriangulatedTestMethod(MethodInfo methodInfo)
+        private readonly IEnumerable<Tuple<PropertyInfo, object>> triangulationValues;
+
+        public TriangulatedTestMethod(MethodInfo methodInfo, IEnumerable<Tuple<PropertyInfo, object>> triangulationValues)
             : base(methodInfo)
         {
+            this.triangulationValues = triangulationValues;
+
+            foreach (var triangulationValue in triangulationValues)
+            {
+                // Find out when is this.Fixture instantiates, and by reflection: use triangulationValue.Item1 ( the PropertyInfo ) to override the property's value before running the tests.
+            }
         }
 
         public override TestResult RunTest()
