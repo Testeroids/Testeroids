@@ -43,8 +43,9 @@ namespace Testeroids.Tests
             /// <summary>
             /// TODO: This class has 2 test fixtures which require a simpler triangulation mechanism.
             /// </summary>
-            [AbstractTestFixture]
-            public abstract class when_Sum_is_called : given_instantiated_Sut
+            [TestFixture]
+            [TriangulatedFixture]
+            public class when_Sum_is_called : given_instantiated_Sut
             {
                 #region Context
 
@@ -58,20 +59,11 @@ namespace Testeroids.Tests
                 [TriangulationValues(7, -7)]
                 private int SpecifiedOperand2 { get; set; }
 
-                protected abstract int EstablishSpecifiedOperand1();
-
-                protected abstract int EstablishSpecifiedOperand2();
-
-                protected abstract int EstablishReturnedSum();
-
                 protected override void EstablishContext()
                 {
                     base.EstablishContext();
 
-                    this.SpecifiedOperand1 = this.EstablishSpecifiedOperand1();
-                    this.SpecifiedOperand2 = this.EstablishSpecifiedOperand2();
-
-                    this.ReturnedSum = this.EstablishReturnedSum();
+                    this.ReturnedSum = int.MaxValue;
 
                     this.InjectedCalculatorMock
                         .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
@@ -84,55 +76,7 @@ namespace Testeroids.Tests
                     this.Result = this.Sut.Sum(this.SpecifiedOperand1, this.SpecifiedOperand2);
                 }
 
-                #endregion
-
-                [TestFixture]
-                [TriangulatedFixture]
-                public class with_SpecifiedOperand1_equal_to_10_and_SpecifiedOperand2_equal_to_7 : when_Sum_is_called
-                {
-                    #region Context
-
-                    protected override int EstablishSpecifiedOperand1()
-                    {
-                        return 10;
-                    }
-
-                    protected override int EstablishSpecifiedOperand2()
-                    {
-                        return 7;
-                    }
-
-                    protected override int EstablishReturnedSum()
-                    {
-                        // Return an erroneous value, just to certify that we are returning the value which is handed out by the mock
-                        return int.MaxValue;
-                    }
-
-                    #endregion
-                }
-
-                [TestFixture]
-                public class with_SpecifiedOperand1_equal_to_10_and_SpecifiedOperand2_equal_to_minus_7 : when_Sum_is_called
-                {
-                    #region Context
-
-                    protected override int EstablishSpecifiedOperand1()
-                    {
-                        return 10;
-                    }
-
-                    protected override int EstablishSpecifiedOperand2()
-                    {
-                        return -7;
-                    }
-
-                    protected override int EstablishReturnedSum()
-                    {
-                        return 3;
-                    }
-
-                    #endregion
-                }
+                #endregion              
 
                 [Test]
                 public void then_Sum_is_called_once_on_InjectedTestMock()
@@ -150,6 +94,12 @@ namespace Testeroids.Tests
                 public void then_Sum_is_called_once_on_InjectedTestMock_passing_SpecifiedOperand2()
                 {
                     this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), this.SpecifiedOperand2), Times.Once());
+                }
+                
+                [Test] 
+                public void then_operand2_matches_minus7()
+                {
+                    Assert.AreEqual(this.SpecifiedOperand2, -7);
                 }
 
                 [Test] 
@@ -205,11 +155,20 @@ namespace Testeroids.Tests
             foreach (MethodInfo method in fixtureType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy))
             {
                 if (method.Name.StartsWith("then_"))
-                {
-                    // TODO : We can probably use multiple constructs of the fixture, call some methods on it to parametrize it with triangulation values, and call this.Add multiple times to add multiple Tests to the suite.                    
-
+                {                    
                     List<Tuple<PropertyInfo, object>> triangulationValues = new List<Tuple<PropertyInfo, object>>();
+
+                    // TODO: Read this off the Triangulation attributes.
+                    triangulationValues.Add(new Tuple<PropertyInfo, object>(this.FixtureType.GetProperty("SpecifiedOperand1", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public), 10));
+                    triangulationValues.Add(new Tuple<PropertyInfo, object>(this.FixtureType.GetProperty("SpecifiedOperand2", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public), 7));
                     var nUnitTestMethod = new TriangulatedTestMethod(method, triangulationValues);
+                    this.Add(nUnitTestMethod); 
+                    
+                    triangulationValues = new List<Tuple<PropertyInfo, object>>();
+                    // TODO: Read this off the Triangulation attributes.
+                    triangulationValues.Add(new Tuple<PropertyInfo, object>(this.FixtureType.GetProperty("SpecifiedOperand1", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public), 10));
+                    triangulationValues.Add(new Tuple<PropertyInfo, object>(this.FixtureType.GetProperty("SpecifiedOperand2", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public), -7));
+                    nUnitTestMethod = new TriangulatedTestMethod(method, triangulationValues);
                     this.Add(nUnitTestMethod);
                 }
             }
@@ -225,15 +184,18 @@ namespace Testeroids.Tests
             : base(methodInfo)
         {
             this.triangulationValues = triangulationValues;
-
-            foreach (var triangulationValue in triangulationValues)
-            {
-                // Find out when is this.Fixture instantiates, and by reflection: use triangulationValue.Item1 ( the PropertyInfo ) to override the property's value before running the tests.
-            }
+            TestName.Name = Guid.NewGuid().ToString();
         }
 
         public override TestResult RunTest()
         {
+            foreach (var triangulationValue in triangulationValues)
+            {
+                triangulationValue.Item1.SetValue(this.Fixture, triangulationValue.Item2, null);
+                // Find out when is this.Fixture instantiates, and by reflection: use triangulationValue.Item1 ( the PropertyInfo ) to override the property's value before running the tests.
+            }
+            var contextSpecificationBase = this.Fixture as ContextSpecificationBase;
+            contextSpecificationBase.BaseSetUp();
             return base.RunTest();
         }
     }
