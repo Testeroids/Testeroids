@@ -6,9 +6,13 @@
 namespace Testeroids.Tests
 {
     using System;
+    using System.Linq;
+    using System.Reflection;
 
     using Moq;
 
+    using NUnit.Core;
+    using NUnit.Core.Extensibility;
     using NUnit.Framework;
 
     using Testeroids.Aspects.Attributes;
@@ -82,6 +86,7 @@ namespace Testeroids.Tests
                 #endregion
 
                 [TestFixture]
+                [TriangulatedFixture]
                 public class with_SpecifiedOperand1_equal_to_10_and_SpecifiedOperand2_equal_to_7 : when_Sum_is_called
                 {
                     #region Context
@@ -146,12 +151,82 @@ namespace Testeroids.Tests
                     this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), this.SpecifiedOperand2), Times.Once());
                 }
 
-                [Test]
+                [Test] 
                 public void then_Result_matches_ReturnedSum()
                 {
                     Assert.AreEqual(this.ReturnedSum, this.Result);
                 }
             }
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+    [NUnitAddin(Description = "Hello World Plugin")]
+    public class TriangulatedFixture : Attribute, NUnit.Core.Extensibility.IAddin, ISuiteBuilder
+    {
+        public bool Install(IExtensionHost host)
+        {
+            IExtensionPoint testCaseBuilders = host.GetExtensionPoint("SuiteBuilders");
+
+            testCaseBuilders.Install(this); //this implements both interfaces
+
+            return true;
+
+        }       
+
+        public bool CanBuildFrom(Type type)
+        {
+            bool isOk;
+
+            if (type.IsAbstract)
+            {
+                isOk =  false;
+            }
+            else
+            {                
+                isOk = NUnit.Core.Reflect.HasAttribute(type, "Testeroids.Tests.TriangulatedFixture", true);
+            }
+
+            return isOk;
+        }
+
+        public NUnit.Core.Test BuildFrom(Type type)
+        {
+            return new SuiteTestBuilder(type);
+        }
+    }
+
+    public class SuiteTestBuilder : TestSuite
+    {
+
+        public SuiteTestBuilder(Type fixtureType)
+            : base(fixtureType)
+        {
+            this.Fixture = Reflect.Construct(fixtureType);
+
+            foreach (MethodInfo method in fixtureType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy))
+            {
+                if (method.Name.StartsWith("then_"))
+                {
+                    var nUnitTestMethod = new TriangulatedTestMethod(method);                    
+
+                    // TODO : We can probably use multiple constructs of the fixture, call some methods on it to parametrize it with triangulation values, and call this.Add multiple times to add multiple Tests to the suite.                    
+                    this.Add(nUnitTestMethod);
+                }
+            }
+        }
+    }
+
+    public class TriangulatedTestMethod : NUnitTestMethod
+    {
+        public TriangulatedTestMethod(MethodInfo methodInfo)
+            : base(methodInfo)
+        {
+        }
+
+        public override TestResult RunTest()
+        {
+            return base.RunTest();
         }
     }
 
