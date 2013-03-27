@@ -105,11 +105,11 @@ namespace Testeroids.Tests
                 /// <summary>
                 /// This one will fail in some cases because SpecifiedOperand2 is being triangulated with -7 and 7 !
                 /// </summary>
-                [Test]
-                public void then_SpecifiedOperand2_matches_minus7()
-                {
-                    Assert.AreEqual(this.SpecifiedOperand2, -7);
-                }
+                // [Test]
+                // public void then_SpecifiedOperand2_matches_minus7()
+                // {
+                //     Assert.AreEqual(this.SpecifiedOperand2, -7);
+                // }
 
                 [Test] 
                 public void then_Result_matches_ReturnedSum()
