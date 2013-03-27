@@ -47,8 +47,10 @@ namespace Testeroids.Tests
 
                 private int ReturnedSum { get; set; }
 
+                [TriangulationValues(10)]
                 private int SpecifiedOperand1 { get; set; }
 
+                [TriangulationValues(7, -7)]
                 private int SpecifiedOperand2 { get; set; }
 
                 protected abstract int EstablishSpecifiedOperand1();
@@ -150,6 +152,16 @@ namespace Testeroids.Tests
                     Assert.AreEqual(this.ReturnedSum, this.Result);
                 }
             }
+        }
+    }
+
+    internal class TriangulationValuesAttribute : Attribute
+    {
+        private readonly object[] triangulationValues;
+
+        public TriangulationValuesAttribute(params object[] triangulationValues)
+        {
+            this.triangulationValues = triangulationValues;            
         }
     }
 }
