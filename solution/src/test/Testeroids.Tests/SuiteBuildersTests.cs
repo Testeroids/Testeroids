@@ -96,8 +96,17 @@ namespace Testeroids.Tests
                     this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), this.SpecifiedOperand2), Times.Once());
                 }
                 
-                [Test] 
-                public void then_operand2_matches_minus7()
+                [Test]
+                public void then_SpecifiedOperand1_matches_10()
+                {
+                    Assert.AreEqual(this.SpecifiedOperand1, 10);
+                }
+
+                /// <summary>
+                /// This one will fail in some cases because SpecifiedOperand2 is being triangulated with -7 and 7 !
+                /// </summary>
+                [Test]
+                public void then_SpecifiedOperand2_matches_minus7()
                 {
                     Assert.AreEqual(this.SpecifiedOperand2, -7);
                 }
@@ -184,7 +193,8 @@ namespace Testeroids.Tests
             : base(methodInfo)
         {
             this.triangulationValues = triangulationValues;
-            TestName.Name = Guid.NewGuid().ToString();
+
+            TestName.Name = triangulationValues.Aggregate(TestName.Name + " - Triangulated : ",(s, tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, tuple.Item2.ToString()) );
         }
 
         public override TestResult RunTest()
