@@ -262,7 +262,7 @@ namespace Testeroids.Tests
             {
                 #region Context
 
-                protected string TestProperty { get; private set; }
+                private string TestProperty { get; set; }
 
                 protected override void Because()
                 {

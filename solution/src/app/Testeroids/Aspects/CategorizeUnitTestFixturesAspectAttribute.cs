@@ -80,16 +80,30 @@ namespace Testeroids.Aspects
                 yield break;
             }
 
-            var descriptionAttributeConstructorInfo = typeof(DescriptionAttribute).GetConstructor(new[] { typeof(string) });
-            var introduceDescriptionAspect = new CustomAttributeIntroductionAspect(new ObjectConstruction(descriptionAttributeConstructorInfo, GetDescription(targetMethod)));
+            var description = GetDescription(targetMethod);
+            if (!string.IsNullOrEmpty(description))
+            {
+                var descriptionAttributeConstructorInfo = typeof(DescriptionAttribute).GetConstructor(new[] { typeof(string) });
+                var introduceDescriptionAspect = new CustomAttributeIntroductionAspect(new ObjectConstruction(descriptionAttributeConstructorInfo, description));
 
-            // Add the Category attribute to the type. 
-            yield return new AspectInstance(targetMethod, introduceDescriptionAspect);
+                // Add the Description attribute to the type. 
+                yield return new AspectInstance(targetMethod, introduceDescriptionAspect);
+            }
         }
 
         #endregion
 
         #region Methods
+
+        private static string GetConditionName(MethodBase targetMethod)
+        {
+            var conditionParts = from type in GetTestFixtureChain(targetMethod.DeclaringType).Reverse()
+                                 where !type.Name.EndsWith("_Base")
+                                 select type.Name.Replace('_', ' ');
+            var conditionName = string.Join(", ", conditionParts);
+
+            return conditionName;
+        }
 
         /// <summary>
         ///   Get the description of the test out of the test class name.
@@ -102,16 +116,30 @@ namespace Testeroids.Aspects
             {
                 if (targetMethod.DeclaringType != null)
                 {
-                    var englishConditionName = targetMethod.DeclaringType.Name.Replace('_', ' ');
-                    var englishAssertName = targetMethod.Name.Replace('_', ' ');
+                    var naturalLanguageConditionName = GetConditionName(targetMethod);
+                    var naturalLanguageAssertName = targetMethod.Name.Replace('_', ' ');
 
-                    return string.Format("Test case for {0}: {1}, {2}.", GetTestedClassTypeName(targetMethod.DeclaringType), englishConditionName, englishAssertName);
+                    return string.Format("Test case for {0}:\n\t{1},\n\t\t{2}.", GetTestedClassTypeName(targetMethod.DeclaringType), naturalLanguageConditionName, naturalLanguageAssertName);
                 }
-
-                return string.Format("Test case for {0}: {1}, {2}.", GetTestedClassTypeName(targetMethod.DeclaringType), string.Empty, string.Empty);
             }
 
-            return string.Format("Test case for {0}: {1}, {2}.", string.Empty, string.Empty, string.Empty);
+            return string.Empty;
+        }
+
+        private static IEnumerable<Type> GetTestFixtureChain(Type testFixtureType)
+        {
+            while (testFixtureType != null && testFixtureType != typeof(ContextSpecificationBase))
+            {
+                if (testFixtureType.IsGenericType)
+                {
+                    // Stop when we reach a generic type - normally this is a ContextSpecification<TSubjectUnderTest>
+                    yield break;
+                }
+
+                yield return testFixtureType;
+
+                testFixtureType = testFixtureType.BaseType;
+            }
         }
 
         /// <summary>
