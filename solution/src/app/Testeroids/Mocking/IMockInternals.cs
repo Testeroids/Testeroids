@@ -3,10 +3,12 @@
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Testeroids.Mocking
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq.Expressions;
     using System.Reflection;
 
     /// <summary>
@@ -20,6 +22,15 @@ namespace Testeroids.Mocking
         /// Gets a list of all the methods which were set up and a <see cref="bool"/> indicating if the given method was verified through a call to <see cref="IMock.Verify"/>.
         /// </summary>
         IEnumerable<Tuple<MemberInfo, bool>> VerifiedSetups { get; }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// Reset the counts of all the method calls done previously.
+        /// </summary>
+        void ResetAllCallCounts();
 
         #endregion
     }
