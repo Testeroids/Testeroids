@@ -521,7 +521,7 @@ namespace Testeroids.Mocking
 
         public void Verifiable(string failMessage)
         {
-            this.Verifiable(failMessage);
+            this.wrappedSetup.Verifiable(failMessage);
         }
 
         #endregion

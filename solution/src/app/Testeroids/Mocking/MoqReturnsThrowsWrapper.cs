@@ -4,7 +4,7 @@ namespace Testeroids.Mocking
 
     using Moq.Language.Flow;
 
-    internal class MoqReturnsThrowsWrapper<T, TResult> : Moq.Language.Flow.IReturnsThrowsGetter<T, TResult>
+    internal class MoqReturnsThrowsWrapper<T, TResult> : Moq.Language.Flow.IReturnsThrows<T, TResult>
         where T : class
 
     {

@@ -6,6 +6,7 @@
 namespace Testeroids.Tests
 {
     using System;
+    using System.Diagnostics;
 
     using Moq;
 
@@ -328,7 +329,69 @@ namespace Testeroids.Tests
                 }
 
             }
-            
+
+            [TestFixture]
+            public sealed class when_Sum_is_not_called : given_instantiated_Sut
+            {
+                #region Context
+
+                protected override void Because()
+                {
+                    // nothing happened
+                    Debug.Print("Everything's fine so far");
+                }
+
+                protected override void EstablishContext()
+                {
+                    base.EstablishContext();
+                    
+                    this.AutoVerifyMocks = true;
+                    // this.CheckSetupsAreMatchedWithVerifyCalls = true;
+                    this.InjectedCalculatorMock
+                        .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
+                        .Returns(22)
+                        .DontEnforceSetupVerification()
+                        .Verifiable();
+                }
+
+                #endregion
+
+                [Test]
+                public void then_Sum_is_never_called_on_InjectedCalculatorMock()
+                {
+                    this.InjectedCalculatorMock.Verify(o => o.Radix, Times.Never());
+                }
+            }
+
+            [TestFixture]
+            public sealed class when_Radix_is_not_accessed : given_instantiated_Sut
+            {
+                #region Context
+                protected override void Because()
+                {
+                    // nothing happened
+                    Debug.Print("Everything's fine so far");
+                }
+
+                protected override void EstablishContext()
+                {
+                    base.EstablishContext();
+                    this.AutoVerifyMocks = true;
+                    this.InjectedCalculatorMock
+                        .SetupGet(o => o.Radix)
+                        .Returns(22)
+                        .DontEnforceSetupVerification()
+                        .Verifiable();
+                }
+
+                #endregion
+
+                [Test]
+                public void then_Radix_is_never_accessed_on_InjectedCalculatorMock()
+                {
+                    this.InjectedCalculatorMock.Verify(o => o.Radix, Times.Never());
+                }
+            }
 
             [AbstractTestFixture]
             public abstract class when_Sum_is_called : given_instantiated_Sut
@@ -430,15 +493,31 @@ namespace Testeroids.Tests
                     }
 
                     [TestFixture]
-                    public class with_Sum_called_once_beforehand : when_Sum_is_called
+                    public class with_Sum_called_once_beforehand : with_returned_result
                     {
                         #region Context
 
-                        protected override void EstablishContext()
+                        protected override int EstablishSpecifiedOperand1()
                         {
-                            base.EstablishContext();
+                            return 42;
+                        }
 
-                            this.Sut.Sum(this.SpecifiedOperand1, this.SpecifiedOperand2);
+                        protected override int EstablishSpecifiedOperand2()
+                        {
+                            return 1337;
+                        }
+
+                        protected override int EstablishReturnedSum()
+                        {
+                            return int.MaxValue;
+                        }
+
+                        protected override void InitializeSubjectUnderTest()
+                        {
+                            base.InitializeSubjectUnderTest();
+
+                            // an other call before the actual Act.
+                            this.InjectedCalculatorMock.Object.Sum(this.SpecifiedOperand1, this.SpecifiedOperand2);
                         }
 
                         #endregion
