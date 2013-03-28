@@ -6,8 +6,6 @@
 
 namespace Testeroids.Mocking
 {
-    using System.Linq.Expressions;
-
     public static class MoqVerifiesExtensions
     {        
         public static Moq.Language.IVerifies DontEnforceSetupVerification(this Moq.Language.IVerifies verifies)
@@ -24,12 +22,5 @@ namespace Testeroids.Mocking
             verifies.Verifiable();
             return verifies;
         }
-    }
-
-    internal interface IVerifiesInternals
-    {
-        LambdaExpression Expression { get; set; }
-
-        IVerifiedMock TesteroidsMock { get; set; }        
     }
 }

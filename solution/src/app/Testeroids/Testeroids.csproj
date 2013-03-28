@@ -111,6 +111,7 @@
     <Compile Include="IssueAttribute.cs" />
     <Compile Include="Mocking\IMockInternals.cs" />
     <Compile Include="Mocking\IVerifiedMock.cs" />
+    <Compile Include="Mocking\IVerifiesInternals.cs" />
     <Compile Include="Mocking\MockRepository.cs" />
     <Compile Include="Mocking\MoqReturnsResultWrapper.cs" />
     <Compile Include="Mocking\MoqReturnsThrowsWrapper.cs" />

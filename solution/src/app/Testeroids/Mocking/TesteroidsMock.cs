@@ -429,10 +429,7 @@ namespace Testeroids.Mocking
         public void UnregisterSetupForVerification(LambdaExpression expression)
         {
             var memberInfo = GetMemberInfoFromExpression(expression);
-            if (this.registeredSetups.ContainsKey(memberInfo))
-            {
-                this.registeredSetups.Remove(memberInfo);
-            }
+            this.registeredSetups.Remove(memberInfo);            
         }
 
         private void RegisterSetupForVerification(LambdaExpression expression)
