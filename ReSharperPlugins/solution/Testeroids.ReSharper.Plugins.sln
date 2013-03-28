@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMocker", "src\app\SharpMocker\SharpMocker.csproj", "{1FC991B8-EB90-414B-9238-75759E51CAF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMocker.RS71", "src\app\SharpMocker.RS71\SharpMocker.RS71.csproj", "{B04BE5BB-860B-48F4-88D3-5B1D5ED1FA8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testeroids.PrivateWatchDog", "src\app\Testeroids.PrivateWatchDog\Testeroids.PrivateWatchDog.csproj", "{799A4D3B-939E-4C91-99B0-6651DA05EC9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testeroids.EstablishmentMethodsMustBeSealed", "src\app\Testeroids.EstablishmentMethodsMustBeSealed\Testeroids.EstablishmentMethodsMustBeSealed.csproj", "{AE4EFF94-5D42-4765-99D5-39197BA1FDDA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1FC991B8-EB90-414B-9238-75759E51CAF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FC991B8-EB90-414B-9238-75759E51CAF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FC991B8-EB90-414B-9238-75759E51CAF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FC991B8-EB90-414B-9238-75759E51CAF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B04BE5BB-860B-48F4-88D3-5B1D5ED1FA8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B04BE5BB-860B-48F4-88D3-5B1D5ED1FA8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B04BE5BB-860B-48F4-88D3-5B1D5ED1FA8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B04BE5BB-860B-48F4-88D3-5B1D5ED1FA8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{799A4D3B-939E-4C91-99B0-6651DA05EC9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{799A4D3B-939E-4C91-99B0-6651DA05EC9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{799A4D3B-939E-4C91-99B0-6651DA05EC9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{799A4D3B-939E-4C91-99B0-6651DA05EC9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE4EFF94-5D42-4765-99D5-39197BA1FDDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE4EFF94-5D42-4765-99D5-39197BA1FDDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE4EFF94-5D42-4765-99D5-39197BA1FDDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE4EFF94-5D42-4765-99D5-39197BA1FDDA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

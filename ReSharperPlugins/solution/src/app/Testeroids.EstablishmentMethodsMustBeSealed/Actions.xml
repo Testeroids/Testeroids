@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<actions>
+  <insert group-id="ReSharper" position="last">
+    <action-group id="Testeroids.EstablishmentMethodsMustBeSealed" text="Testeroids.EstablishmentMethodsMustBeSealed">
+      <action id="Testeroids.EstablishmentMethodsMustBeSealed.About" text="About Establishment Methods Must Be Sealed"/>
+      <!-- to break up elements use <separator/> -->
+    </action-group>
+  </insert>
+</actions>
