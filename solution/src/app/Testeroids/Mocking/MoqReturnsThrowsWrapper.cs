@@ -4,12 +4,12 @@ namespace Testeroids.Mocking
 
     using Moq.Language.Flow;
 
-    internal class MoqReturnsThrowsWrapper<T, TResult> : Moq.Language.Flow.IReturnsThrows<T, TResult>
+    internal class MoqReturnsThrowsWrapper<T, TResult> : Moq.Language.Flow.IReturnsThrowsGetter<T, TResult>
         where T : class
 
     {
-        private readonly Moq.Language.Flow.IReturnsThrows<T, TResult> wrappedReturnsThrows;
-                
+        private readonly IReturnsThrows<T, TResult> wrappedReturnsThrows;
+
         public MoqReturnsThrowsWrapper(Moq.Language.Flow.IReturnsThrows<T, TResult> wrappedReturnsThrows)
         {
             this.wrappedReturnsThrows = wrappedReturnsThrows;            

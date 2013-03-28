@@ -400,7 +400,7 @@ namespace Testeroids.Tests
                         override protected sealed int EstablishReturnedSum()
                         {
                             // Return an erroneous value, just to certify that we are returning the value which is handed out by the mock
-                            return int.MaxValue;
+                            return Int32.MaxValue;
                         }
 
                         #endregion
@@ -424,6 +424,21 @@ namespace Testeroids.Tests
                         protected override sealed int EstablishReturnedSum()
                         {
                             return 3;
+                        }
+
+                        #endregion
+                    }
+
+                    [TestFixture]
+                    public class with_Sum_called_once_beforehand : when_Sum_is_called
+                    {
+                        #region Context
+
+                        protected override void EstablishContext()
+                        {
+                            base.EstablishContext();
+
+                            this.Sut.Sum(this.SpecifiedOperand1, this.SpecifiedOperand2);
                         }
 
                         #endregion

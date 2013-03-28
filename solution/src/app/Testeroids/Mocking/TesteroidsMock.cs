@@ -243,7 +243,10 @@ namespace Testeroids.Mocking
 
             this.RegisterSetupForVerification(expression);
 
-            return setupGetter;
+            // todo : Use a factory to make it testable (?).
+            var moqWrappedSetup = new MoqSetupGetterWrapper<T, TProperty>(setupGetter, expression, this);
+
+            return moqWrappedSetup;
         }
 
         public IMock<T> SetupProperty<TProperty>(Expression<Func<T, TProperty>> property)
