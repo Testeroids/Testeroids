@@ -24,6 +24,7 @@ namespace Testeroids
     /// <summary>
     ///   Base class for implementing the AAA pattern.
     /// </summary>
+    [ProhibitGetOnNotInitializedPropertyAspect]
     public abstract class ContextSpecificationBase : IContextSpecification
     {
         #region Fields
@@ -62,6 +63,7 @@ namespace Testeroids
         {
             this.CheckSetupsAreMatchedWithVerifyCalls = false;
             this.AutoVerifyMocks = false;
+            this.ArePrerequisiteTestsRunning = false;
         }
 
         #endregion
