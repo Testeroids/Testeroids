@@ -134,7 +134,14 @@ namespace Testeroids.Mocking
 
         public void Verify()
         {
-            this.nakedMock.Verify();
+            try
+            {
+                this.nakedMock.Verify();
+            }
+            catch (MockException e) // why the heck is MockVerificationException internal ??
+            {
+                throw new SetupWasNeverUsedException("Some setups were applied to the mock, but the members were never actually used:\r\n\r\n" + e.Message + "\r\nIf this is intentionnal, do not call .Verifiable() or .EnforceUsage() on the setup.", e);
+            }
         }
 
         public void VerifyAll()

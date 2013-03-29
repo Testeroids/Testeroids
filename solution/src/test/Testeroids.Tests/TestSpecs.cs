@@ -209,9 +209,9 @@ namespace Testeroids.Tests
                         {
                             base.BaseTestFixtureTearDown();
 
-                            throw new Exception("Mock setup automatic verification is not working. Expected MockException was not thrown.");
+                            throw new Exception("Mock setup automatic verification is not working. Expected SetupWasNeverUsedException was not thrown.");
                         }
-                        catch (MockException)
+                        catch (SetupWasNeverUsedException)
                         {
                             // This exception is expected, since we did not call exercise the this.InjectedCalculatorMock.Setup(o => o.Sum(...));
                         }
@@ -227,7 +227,7 @@ namespace Testeroids.Tests
                     #endregion
 
                     [Test]
-                    public void then_MockException_is_thrown_on_test_fixture_teardown()
+                    public void then_SetupWasNeverUsedException_is_thrown_on_test_fixture_teardown()
                     {
                         Assert.Pass();
                     }
@@ -350,8 +350,8 @@ namespace Testeroids.Tests
                     this.InjectedCalculatorMock
                         .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
                         .Returns(22)
-                        .DontEnforceSetupVerification()
-                        .Verifiable();
+                        .DontEnforceSetupVerification();
+                    //.EnforceUsage();
                 }
 
                 #endregion
@@ -380,8 +380,8 @@ namespace Testeroids.Tests
                     this.InjectedCalculatorMock
                         .SetupGet(o => o.Radix)
                         .Returns(22)
-                        .DontEnforceSetupVerification()
-                        .Verifiable();
+                        .DontEnforceSetupVerification();
+                        //.EnforceUsage();
                 }
 
                 #endregion
