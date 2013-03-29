@@ -6,21 +6,107 @@ namespace Testeroids.Mocking
     using Moq.Language;
     using Moq.Language.Flow;
 
-    internal class MoqSetupSetterWrapper<TMock, TResult> : ISetupSetter<TMock, TResult>, IVerifiesInternals
+    internal class MoqSetupSetterWrapper<TMock> : ISetup<TMock>, IVerifiesInternals
         where TMock : class
     {
-        public MoqSetupSetterWrapper(ISetupSetter<TMock, TResult> setupSetter,
+        private ISetup<TMock> setupSet;
+
+
+        public MoqSetupSetterWrapper(ISetup<TMock> setupSet,
                                      Action<TMock> setterExpression,
                                      TesteroidsMock<TMock> testeroidsMock)
         {
+            this.setupSet = setupSet;
+            this.Expression = setterExpression;
+            this.TesteroidsMock = testeroidsMock;
+        }
+
+        protected MoqSetupSetterWrapper()
+        {
             throw new NotImplementedException();
-        }      
+        }
 
-        public LambdaExpression Expression { get; set; }
+        public ICallbackResult Callback(Action action)
+        {
+            throw new NotImplementedException();
+        }
 
-        public IVerifiedMock TesteroidsMock { get; set; }
+        public ICallbackResult Callback<T>(Action<T> action)
+        {
+            throw new NotImplementedException();
+        }
 
-        public ICallbackResult Callback(Action<TResult> action)
+        public ICallbackResult Callback<T1, T2>(Action<T1, T2> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICallbackResult Callback<T1, T2, T3>(Action<T1, T2, T3> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICallbackResult Callback<T1, T2, T3, T4>(Action<T1, T2, T3, T4> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICallbackResult Callback<T1, T2, T3, T4, T5>(Action<T1, T2, T3, T4, T5> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6>(Action<T1, T2, T3, T4, T5, T6> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6, T7>(Action<T1, T2, T3, T4, T5, T6, T7> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6, T7, T8>(Action<T1, T2, T3, T4, T5, T6, T7, T8> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> action)
         {
             throw new NotImplementedException();
         }
@@ -165,6 +251,28 @@ namespace Testeroids.Mocking
 
         public IVerifies Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(Action<TMock> eventExpression,
                                                                                                        Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, EventArgs> func)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Expression { get; set; }
+
+        public IVerifiedMock TesteroidsMock { get; set; }
+    }
+
+    internal class MoqSetupSetterWrapper<TMock, TProperty> : MoqSetupSetterWrapper<TMock>, 
+                                ISetupSetter<TMock, TProperty>
+                                                  
+        where TMock : class
+    {
+        public MoqSetupSetterWrapper(ISetupSetter<TMock, TProperty> setupSetter,
+                                     Action<TMock> setterExpression,
+                                     TesteroidsMock<TMock> testeroidsMock)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICallbackResult Callback(Action<TProperty> action)
         {
             throw new NotImplementedException();
         }

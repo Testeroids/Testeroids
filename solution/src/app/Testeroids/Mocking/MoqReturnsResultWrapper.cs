@@ -9,13 +9,13 @@ namespace Testeroids.Mocking
     internal class MoqReturnsResultWrapper<T, TResult> : Moq.Language.Flow.IReturnsResult<T>, IVerifiesInternals
         where T : class
     {
-        public LambdaExpression Expression { get; set; }
+        public object Expression { get; set; }
 
         public Moq.Language.Flow.IReturnsResult<T> ReturnsResult { get; set; }
 
         public IVerifiedMock TesteroidsMock { get; set; }
 
-        public MoqReturnsResultWrapper(LambdaExpression expression,
+        public MoqReturnsResultWrapper(object expression,
                                        Moq.Language.Flow.IReturnsResult<T> returnsResult,
                                        IVerifiedMock testeroidsMock)
         {

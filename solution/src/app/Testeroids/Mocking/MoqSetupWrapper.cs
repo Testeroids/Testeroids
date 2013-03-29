@@ -28,16 +28,16 @@ namespace Testeroids.Mocking
                                LambdaExpression expression, 
                                IVerifiedMock testeroidsMock)
         {
+            this.wrappedSetup = wrappedSetup;
             this.Expression = expression;
             this.TesteroidsMock = testeroidsMock;
-            this.wrappedSetup = wrappedSetup;
         }
 
         #endregion
 
         #region Public Properties
 
-        public LambdaExpression Expression { get; set; }
+        public object Expression { get; set; }
 
         public IVerifiedMock TesteroidsMock { get; set; }
 
@@ -302,7 +302,7 @@ namespace Testeroids.Mocking
 
         #region Public Properties
 
-        public LambdaExpression Expression { get; set; }
+        public object Expression { get; set; }
 
         public IVerifiedMock TesteroidsMock { get; set; }
 

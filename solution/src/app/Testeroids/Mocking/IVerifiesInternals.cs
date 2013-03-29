@@ -4,7 +4,7 @@
 
     internal interface IVerifiesInternals
     {
-        LambdaExpression Expression { get; set; }
+        object Expression { get; set; }
 
         IVerifiedMock TesteroidsMock { get; set; }        
     }

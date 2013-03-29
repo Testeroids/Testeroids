@@ -30,7 +30,7 @@ namespace Testeroids.Mocking
 
         #region Public Properties
 
-        public LambdaExpression Expression { get; set; }
+        public object Expression { get; set; }
 
         public IVerifiedMock TesteroidsMock { get; set; }
 
