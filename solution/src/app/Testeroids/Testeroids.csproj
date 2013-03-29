@@ -117,6 +117,7 @@
     <Compile Include="Mocking\MoqReturnsThrowsGetterWrapper.cs" />
     <Compile Include="Mocking\MoqReturnsThrowsWrapper.cs" />
     <Compile Include="Mocking\MoqSetupGetterWrapper.cs" />
+    <Compile Include="Mocking\MoqSetupSetterWrapper.cs" />
     <Compile Include="Mocking\MoqVerifiesExtensions.cs" />
     <Compile Include="Mocking\MoqSetupWrapper.cs" />
     <Compile Include="Mocking\SetupWasNeverUsedException.cs" />

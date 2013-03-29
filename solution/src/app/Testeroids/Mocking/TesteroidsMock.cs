@@ -275,14 +275,20 @@ namespace Testeroids.Mocking
         {
             var setupSetter = this.nakedTypedMock.SetupSet<TProperty>(setterExpression);
 
-            return setupSetter;
+            var moqWrappedSetup = new MoqSetupSetterWrapper<T, TProperty>(setupSetter, setterExpression, this);
+
+            return moqWrappedSetup;
         }
 
         public Moq.Language.Flow.ISetup<T> SetupSet(Action<T> setterExpression)
         {
+
             var setupSet = this.nakedTypedMock.SetupSet(setterExpression);
 
-            return setupSet;
+            throw new NotImplementedException();
+            //var moqWrappedSetup = new MoqSetupWrapper<T>(setupSet, setterExpression ,this);
+
+            //return moqWrappedSetup;
         }
 
         public void Verify(Expression<Action<T>> expression)

@@ -389,7 +389,36 @@ namespace Testeroids.Tests
                 [Test]
                 public void then_Radix_is_never_accessed_on_InjectedCalculatorMock()
                 {
-                    this.InjectedCalculatorMock.Verify(o => o.Radix, Times.Never());
+                    this.InjectedCalculatorMock.VerifyGet(o => o.Radix, Times.Never());
+                }
+            }
+
+            [TestFixture]
+            public sealed class when_Radix_is_not_set : given_instantiated_Sut
+            {
+                #region Context
+                protected override void Because()
+                {
+                    // nothing happened
+                    Debug.Print("Everything's fine so far");
+                }
+
+                protected override void EstablishContext()
+                {
+                    base.EstablishContext();
+                    this.AutoVerifyMocks = true;
+
+                    this.InjectedCalculatorMock
+                        .SetupSet(o => o.Radix = It.IsAny<int>())
+                        .DontEnforceSetupVerification();
+                }
+
+                #endregion
+
+                [Test]
+                public void then_Radix_is_never_accessed_on_InjectedCalculatorMock()
+                {
+                    this.InjectedCalculatorMock.VerifySet(o => o.Radix = It.IsAny<int>(), Times.Never());
                 }
             }
 
