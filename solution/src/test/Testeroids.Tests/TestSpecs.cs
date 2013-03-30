@@ -409,8 +409,7 @@ namespace Testeroids.Tests
                     this.AutoVerifyMocks = true;
 
                     this.InjectedCalculatorMock
-                        .SetupSet(o => o.Radix = It.IsAny<int>())
-                        .DontEnforceSetupVerification();
+                        .SetupSet(o => o.Radix = It.IsAny<int>());
                 }
 
                 #endregion
@@ -621,6 +620,70 @@ namespace Testeroids.Tests
                         this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
                     }
                 }
+            }
+
+            [TestFixture]
+            public sealed class when_Radix_is_set_with_EnforceUsage_activated : given_instantiated_Sut
+            {
+                #region Context
+                protected override void Because()
+                {
+                    this.Sut.Calculator.Radix = 2;
+                }
+
+                protected override void EstablishContext()
+                {
+                    base.EstablishContext();
+
+                    this.InjectedCalculatorMock
+                        .SetupSet(o => o.Radix = It.IsAny<int>())
+                        .DontEnforceSetupVerification()
+                        .EnforceUsage();
+                }
+
+                #endregion
+
+                // we are testing the test here... it looks weird, but it's intentional : hey, we're really testing the test framework !
+                [Test]
+                public void then_Radix_is_set_once_on_InjectedCalculatorMock()
+                {
+                    this.InjectedCalculatorMock.VerifySet(o => o.Radix = It.IsAny<int>(), Times.Once());
+                }
+            }
+
+            [TestFixture]
+            public sealed class when_Radix_is_set_and_no_test_verifies_it_has_been_and_CheckSetupsAreMatchedWithVerifyCalls_is_true : given_instantiated_Sut
+            {
+                #region Context
+                protected override void Because()
+                {
+                    this.Sut.Calculator.Radix = 5;
+                }
+
+                protected override void EstablishContext()
+                {
+                    base.EstablishContext();
+
+                    this.CheckSetupsAreMatchedWithVerifyCalls = true;
+
+                    this.InjectedCalculatorMock
+                        .SetupSet(o => o.Radix = It.IsAny<int>())
+                        .DontEnforceSetupVerification(); // commenting this line should fail the fixture with an MockNotVerifiedException proper error message.
+                }
+
+                #endregion
+
+                [Test]
+                public void then_other_tests_can_pass()
+                {
+                    Assert.Pass();
+                }
+                // we are testing the test here... it looks weird, but it's intetional : hey, we're really testing the test framework !
+                //[Test]
+                //public void then_Radix_is_never_set_on_InjectedCalculatorMock()
+                //{
+                //    this.InjectedCalculatorMock.VerifySet(o => o.Radix = It.IsAny<int>(), Times.Never());
+                //}
             }
         }
     }

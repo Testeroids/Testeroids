@@ -6,6 +6,7 @@
 namespace Testeroids
 {
     using System;
+    using System.Linq.Expressions;
     using System.Reflection;
 
     /// <summary>
@@ -21,15 +22,35 @@ namespace Testeroids
         /// <param name="unverifiedMember">
         /// The unverified member.
         /// </param>
-        public MockNotVerifiedException(MemberInfo unverifiedMember)
-            : base(
-                string.Format(
-                    unverifiedMember.MemberType == MemberTypes.Property
-                        ? "The {0} property mock for the {1} type was set up but not verified."
-                        : "The {0} method mock for the {1} type was set up but not verified.", 
-                    unverifiedMember, 
-                    unverifiedMember.DeclaringType))
+        public MockNotVerifiedException(object unverifiedMember)
+            : base(GenerateMessage(unverifiedMember))
         {
+        }
+
+        private static string GenerateMessage(object expression)
+        {
+            var unverifiedMember = expression as MemberInfo;
+            string generatedMessage = null;
+            if (unverifiedMember != null)
+            {
+                generatedMessage = string.Format(unverifiedMember.MemberType == MemberTypes.Property
+                                                     ? "The {0} property mock for the {1} type was set up but not verified."
+                                                     : "The {0} method mock for the {1} type was set up but not verified.", unverifiedMember, unverifiedMember.DeclaringType);
+            }
+            else
+            {
+                // do your thing.
+                var action = expression as Tuple<object, string>;
+                if (action != null)
+                {
+                    generatedMessage = string.Format("The property setter mocked for the following setup could not be verified : \r\n\r\n{0}", action.Item2);
+                }
+                else
+                {
+                    generatedMessage = "A member mock was set up but not verified.";
+                }
+            }
+            return generatedMessage;
         }
 
         #endregion
