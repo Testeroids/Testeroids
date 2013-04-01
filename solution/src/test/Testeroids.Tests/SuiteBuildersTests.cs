@@ -193,8 +193,10 @@ namespace Testeroids.Tests
             : base(methodInfo)
         {
             this.triangulationValues = triangulationValues;
+            var testFixture = new TriangulatedTestMethodFixture(Method.DeclaringType);
+            this.Parent = testFixture;
 
-            TestName.Name = triangulationValues.Aggregate(TestName.Name + " - Triangulated : ",(s, tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, tuple.Item2.ToString()) );
+            this.TestName.Name = triangulationValues.Aggregate(TestName.Name + " - Triangulated : ",(s, tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, tuple.Item2.ToString()) );
         }
 
         public override TestResult RunTest()
@@ -207,6 +209,19 @@ namespace Testeroids.Tests
             var contextSpecificationBase = this.Fixture as ContextSpecificationBase;
             contextSpecificationBase.BaseSetUp();
             return base.RunTest();
+        }
+    }
+
+    public class TriangulatedTestMethodFixture : NUnitTestFixture
+    {
+        public TriangulatedTestMethodFixture(Type declaringType)
+            : base(declaringType)
+        {
+            var baseType = declaringType.BaseType;
+            if (baseType != null)
+            {
+                this.Parent = new TriangulatedTestMethodFixture(baseType);
+            }
         }
     }
 
