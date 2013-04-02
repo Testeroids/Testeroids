@@ -181,7 +181,8 @@ namespace Testeroids.Tests
                     this.InjectedCalculatorMock
                         .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
                         .Returns(0)
-                        .Verifiable();
+                        .DontEnforceSetupVerification() // Here, we don't want to make sure Sum had its calls verified (vercal).
+                        .EnforceUsage(); // ... we just want to make sure the mocked method was called.
                 }
 
                 protected override void Because()
