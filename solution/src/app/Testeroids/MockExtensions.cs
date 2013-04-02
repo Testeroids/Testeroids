@@ -44,6 +44,7 @@ namespace Testeroids
         /// <param name="verifyMethod"> The method whose call number must be check. </param>
         /// <typeparam name="T"> Type of the mock. </typeparam>
         [PublicAPI]
+        [Obsolete("Testeroids now automatically resets the calls just before calling the Because() method.")]
         public static void VerifyCalledOnceDuringBecause<T>(
             this IMock<T> mock, 
             ContextSpecificationBase contextSpecification, 
@@ -74,6 +75,7 @@ namespace Testeroids
         /// Type of the mock. 
         /// </typeparam>
         [PublicAPI]
+        [Obsolete("Testeroids now automatically resets the calls just before calling the Because() method.")]
         public static void VerifyNumberOfCallsDuringBecause<T>(
             this IMock<T> mock, 
             ContextSpecificationBase contextSpecification, 
