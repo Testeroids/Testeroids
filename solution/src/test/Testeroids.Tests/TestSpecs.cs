@@ -181,7 +181,8 @@ namespace Testeroids.Tests
                     this.InjectedCalculatorMock
                         .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
                         .Returns(0)
-                        .Verifiable();
+                        .DontEnforceSetupVerification() // Here, we don't want to make sure Sum had its calls verified (vercal).
+                        .EnforceUsage(); // ... we just want to make sure the mocked method was called.
                 }
 
                 protected override void Because()
@@ -299,6 +300,16 @@ namespace Testeroids.Tests
                     [ExpectedException(typeof(TestException))]
                     public void then_TestException_is_thrown()
                     {
+                    }
+
+                    /// <summary>
+                    /// We should be able to get rid of this test by supporting DontEnforceSetupVerification() on IThrows --> issue #13 ()
+                    /// </summary>
+                    [Test]
+                    [ExceptionResilient(typeof(TestException))]
+                    public void then_Clear_is_called_once_on_InjectedCalculatorMock_even_if_a_TestException_is_thrown_after()
+                    {
+                        this.InjectedCalculatorMock.Verify(o => o.Clear(), Times.Once());
                     }
                 }
             }

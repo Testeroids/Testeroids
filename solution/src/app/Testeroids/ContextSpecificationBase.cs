@@ -61,8 +61,8 @@ namespace Testeroids
         /// </summary>
         protected ContextSpecificationBase()
         {
-            this.CheckSetupsAreMatchedWithVerifyCalls = false;
-            this.AutoVerifyMocks = false;
+            this.CheckSetupsAreMatchedWithVerifyCalls = true;
+            this.AutoVerifyMocks = true;
             this.ArePrerequisiteTestsRunning = false;
         }
 
@@ -227,7 +227,7 @@ namespace Testeroids
         [UsedImplicitly]
         protected void OnBecauseRequested()
         {
-            this.MockRepository.ResetAllCallCounts();
+            this.MockRepository.ResetAllCalls();
             this.Because();
         }
 

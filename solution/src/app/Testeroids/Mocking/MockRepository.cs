@@ -82,7 +82,7 @@ namespace Testeroids.Mocking
         /// Reset the counts of all the method calls done previously.
         /// </summary>
         /// <remarks>Only verified mocks will be affected.</remarks>
-        public void ResetAllCallCounts()
+        public void ResetAllCalls()
         {
             var resetableMocks = this.mocksTrackedForUsageVerification.OfType<IMockInternals>();
             foreach (var mock in resetableMocks)
