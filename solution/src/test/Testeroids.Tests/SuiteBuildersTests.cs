@@ -161,6 +161,7 @@ namespace Testeroids.Tests
         public SuiteTestBuilder(Type fixtureType)
             : base(fixtureType)
         {          
+            this.Parent = new TriangulatedTestMethodFixture(fixtureType);
             foreach (MethodInfo method in fixtureType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy))
             {
                 if (method.Name.StartsWith("then_"))
