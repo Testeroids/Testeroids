@@ -8,8 +8,8 @@ namespace Testeroids.Mocking
         where T : class
 
     {
-        private readonly Moq.Language.Flow.IReturnsThrows<T, TResult> wrappedReturnsThrows;
-                
+        private readonly IReturnsThrows<T, TResult> wrappedReturnsThrows;
+
         public MoqReturnsThrowsWrapper(Moq.Language.Flow.IReturnsThrows<T, TResult> wrappedReturnsThrows)
         {
             this.wrappedReturnsThrows = wrappedReturnsThrows;            

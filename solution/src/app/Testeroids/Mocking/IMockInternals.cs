@@ -21,7 +21,7 @@ namespace Testeroids.Mocking
         /// <summary>
         /// Gets a list of all the methods which were set up and a <see cref="bool"/> indicating if the given method was verified through a call to <see cref="IMock.Verify"/>.
         /// </summary>
-        IEnumerable<Tuple<MemberInfo, bool>> VerifiedSetups { get; }
+        IEnumerable<Tuple<object, bool>> VerifiedSetups { get; }
 
         #endregion
 

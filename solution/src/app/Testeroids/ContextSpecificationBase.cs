@@ -101,6 +101,9 @@ namespace Testeroids
         /// <summary>
         /// Gets or sets a value indicating whether mocks will be checked to ensure that all setups were verified in a test.
         /// </summary>
+        /// <remarks>
+        /// TODO : this should probably be true by default. Use DontEnforceSetupVerification for exceptional cases.
+        /// </remarks>
         [PublicAPI]
         protected bool CheckSetupsAreMatchedWithVerifyCalls { get; set; }
 

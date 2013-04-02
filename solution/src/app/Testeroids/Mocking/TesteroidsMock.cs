@@ -90,7 +90,7 @@ namespace Testeroids.Mocking
         /// <summary>
         /// Gets a list of all the members which were set up and a <see cref="bool"/> indicating if the given method was verified through a call to <see cref="IMock.Verify"/>.
         /// </summary>
-        IEnumerable<Tuple<MemberInfo, bool>> IMockInternals.VerifiedSetups
+        IEnumerable<Tuple<object, bool>> IMockInternals.VerifiedSetups
         {
             get
             {
@@ -134,7 +134,14 @@ namespace Testeroids.Mocking
 
         public void Verify()
         {
-            this.nakedMock.Verify();
+            try
+            {
+                this.nakedMock.Verify();
+            }
+            catch (MockException e) // why the heck is MockVerificationException internal ??
+            {
+                throw new SetupWasNeverUsedException("Some setups were applied to the mock, but the members were never actually used:\r\n\r\n" + e.Message + "\r\nIf this is intentionnal, do not call .Verifiable() or .EnforceUsage() on the setup.", e);
+            }
         }
 
         public void VerifyAll()
@@ -146,9 +153,9 @@ namespace Testeroids.Mocking
 
         #region Methods
 
-        protected virtual IEnumerable<Tuple<MemberInfo, bool>> GetVerifiedSetups()
+        protected virtual IEnumerable<Tuple<object, bool>> GetVerifiedSetups()
         {
-            return Enumerable.Empty<Tuple<MemberInfo, bool>>();
+            return Enumerable.Empty<Tuple<object, bool>>();
         }
 
         #endregion
@@ -167,7 +174,7 @@ namespace Testeroids.Mocking
         /// <summary>
         /// The dictionary of all registered Setup methods. The <see cref="bool"/> value indicates whether the Setup call has been matched with a <see cref="IMock{T}.Verify(System.Linq.Expressions.Expression{System.Action{T}})"/> call.
         /// </summary>
-        private readonly Dictionary<MemberInfo, bool> registeredSetups = new Dictionary<MemberInfo, bool>();
+        private readonly Dictionary<object, bool> registeredSetups = new Dictionary<object, bool>();
 
         #endregion
 
@@ -243,7 +250,10 @@ namespace Testeroids.Mocking
 
             this.RegisterSetupForVerification(expression);
 
-            return setupGetter;
+            // todo : Use a factory to make it testable (?).
+            var moqWrappedSetup = new MoqSetupGetterWrapper<T, TProperty>(setupGetter, expression, this);
+
+            return moqWrappedSetup;
         }
 
         public IMock<T> SetupProperty<TProperty>(Expression<Func<T, TProperty>> property)
@@ -265,14 +275,26 @@ namespace Testeroids.Mocking
         {
             var setupSetter = this.nakedTypedMock.SetupSet<TProperty>(setterExpression);
 
-            return setupSetter;
+            this.RegisterSetupForVerification(setterExpression);
+
+            var moqWrappedSetup = new MoqSetupSetterWrapper<T, TProperty>(setupSetter, setterExpression, this);
+
+            return moqWrappedSetup;
         }
 
         public Moq.Language.Flow.ISetup<T> SetupSet(Action<T> setterExpression)
         {
             var setupSet = this.nakedTypedMock.SetupSet(setterExpression);
+            
+            // ((Moq.IProxyCall)(setupSet)).SetupExpression would have been perfect, but IProxyCall is internal. we could also retrieve it by reflection in order to be able to find out the name of the property which was set.
+            // HACK : since we can't get an Expression, we'll just store the Action<T> and the ToString() representation of the ISetup<T> object returned by SetupSet in a Tuple. the ToString representation is just so we can have a proper error message if we need to throw a MockNotVerifiedException.
 
-            return setupSet;
+            var hackyObject = new Tuple<object,string>(setterExpression, setupSet.ToString());
+            this.RegisterSetupForVerification(hackyObject);
+
+            var moqWrappedSetup = new MoqSetupSetterWrapper<T>(setupSet, hackyObject, this);                     
+
+            return moqWrappedSetup;
         }
 
         public void Verify(Expression<Action<T>> expression)
@@ -404,21 +426,16 @@ namespace Testeroids.Mocking
 
         #region Methods
 
-        protected override IEnumerable<Tuple<MemberInfo, bool>> GetVerifiedSetups()
+        protected override IEnumerable<Tuple<object, bool>> GetVerifiedSetups()
         {
-            return this.registeredSetups.Select(x => new Tuple<MemberInfo, bool>(x.Key, x.Value));
-        }
-
-        private static MemberInfo GetMemberInfoFromExpression(LambdaExpression expression)
-        {
-            return expression.Body is MethodCallExpression
-                       ? ((MethodCallExpression)expression.Body).Method
-                       : ((MemberExpression)expression.Body).Member;
+            return this.registeredSetups.Select(x => new Tuple<object, bool>(x.Key, x.Value));
         }
 
         private void MarkSetUpExpressionAsMatchedByVerifyCall(LambdaExpression expression)
         {
-            var memberInfo = GetMemberInfoFromExpression(expression);
+            var memberInfo = expression.Body is MethodCallExpression
+                                 ? ((MethodCallExpression)expression.Body).Method
+                                 : ((MemberExpression)expression.Body).Member;
             this.registeredSetups[memberInfo] = true;
         }
 
@@ -426,18 +443,39 @@ namespace Testeroids.Mocking
         /// Unregisters the specified expression in order to ignore it in the sanity check which makes sure there is a call verification unit test for each setup.
         /// </summary>
         /// <param name="expression"></param>
-        public void UnregisterSetupForVerification(LambdaExpression expression)
+        public void UnregisterSetupForVerification(object expression)
         {
-            var memberInfo = GetMemberInfoFromExpression(expression);
-            this.registeredSetups.Remove(memberInfo);            
+            var lambdaExpression = expression as LambdaExpression;
+            MemberInfo memberInfo;
+            if (lambdaExpression != null)
+            {
+                memberInfo = lambdaExpression.Body is MethodCallExpression ? ((MethodCallExpression)lambdaExpression.Body).Method : ((MemberExpression)lambdaExpression.Body).Member;
+                this.registeredSetups.Remove(memberInfo);   
+            }
+            else
+            {
+                this.registeredSetups.Remove(expression);
+            }
         }
 
-        private void RegisterSetupForVerification(LambdaExpression expression)
+        private void RegisterSetupForVerification(object expression)
         {
-            var memberInfo = GetMemberInfoFromExpression(expression);
-            if (!this.registeredSetups.ContainsKey(memberInfo))
+            var lambdaExpression = expression as LambdaExpression;
+            object setupExpression;
+            if (lambdaExpression != null)
             {
-                this.registeredSetups[memberInfo] = false;
+                setupExpression = lambdaExpression.Body is MethodCallExpression
+                                 ? ((MethodCallExpression)lambdaExpression.Body).Method
+                                 : ((MemberExpression)lambdaExpression.Body).Member;
+            }
+            else
+            {
+                setupExpression = expression;
+            }
+
+            if (!this.registeredSetups.ContainsKey(setupExpression))
+            {
+                this.registeredSetups[setupExpression] = false;
             }
         }
 

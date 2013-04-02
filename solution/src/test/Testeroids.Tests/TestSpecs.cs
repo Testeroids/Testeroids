@@ -6,6 +6,7 @@
 namespace Testeroids.Tests
 {
     using System;
+    using System.Diagnostics;
 
     using Moq;
 
@@ -209,9 +210,9 @@ namespace Testeroids.Tests
                         {
                             base.BaseTestFixtureTearDown();
 
-                            throw new Exception("Mock setup automatic verification is not working. Expected MockException was not thrown.");
+                            throw new Exception("Mock setup automatic verification is not working. Expected SetupWasNeverUsedException was not thrown.");
                         }
-                        catch (MockException)
+                        catch (SetupWasNeverUsedException)
                         {
                             // This exception is expected, since we did not call exercise the this.InjectedCalculatorMock.Setup(o => o.Sum(...));
                         }
@@ -227,7 +228,7 @@ namespace Testeroids.Tests
                     #endregion
 
                     [Test]
-                    public void then_MockException_is_thrown_on_test_fixture_teardown()
+                    public void then_SetupWasNeverUsedException_is_thrown_on_test_fixture_teardown()
                     {
                         Assert.Pass();
                     }
@@ -339,7 +340,97 @@ namespace Testeroids.Tests
                 }
 
             }
-            
+
+            [TestFixture]
+            public sealed class when_Sum_is_not_called : given_instantiated_Sut
+            {
+                #region Context
+
+                protected override void Because()
+                {
+                    // nothing happened
+                    Debug.Print("Everything's fine so far");
+                }
+
+                protected override void EstablishContext()
+                {
+                    base.EstablishContext();
+                    
+                    this.AutoVerifyMocks = true;
+                    // this.CheckSetupsAreMatchedWithVerifyCalls = true;
+                    this.InjectedCalculatorMock
+                        .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
+                        .Returns(22)
+                        .DontEnforceSetupVerification();
+                    //.EnforceUsage();
+                }
+
+                #endregion
+
+                [Test]
+                public void then_Sum_is_never_called_on_InjectedCalculatorMock()
+                {
+                    this.InjectedCalculatorMock.Verify(o => o.Radix, Times.Never());
+                }
+            }
+
+            [TestFixture]
+            public sealed class when_Radix_is_not_accessed : given_instantiated_Sut
+            {
+                #region Context
+                protected override void Because()
+                {
+                    // nothing happened
+                    Debug.Print("Everything's fine so far");
+                }
+
+                protected override void EstablishContext()
+                {
+                    base.EstablishContext();
+                    this.AutoVerifyMocks = true;
+                    this.InjectedCalculatorMock
+                        .SetupGet(o => o.Radix)
+                        .Returns(22)
+                        .DontEnforceSetupVerification();
+                        //.EnforceUsage();
+                }
+
+                #endregion
+
+                [Test]
+                public void then_Radix_is_never_accessed_on_InjectedCalculatorMock()
+                {
+                    this.InjectedCalculatorMock.VerifyGet(o => o.Radix, Times.Never());
+                }
+            }
+
+            [TestFixture]
+            public sealed class when_Radix_is_not_set : given_instantiated_Sut
+            {
+                #region Context
+                protected override void Because()
+                {
+                    // nothing happened
+                    Debug.Print("Everything's fine so far");
+                }
+
+                protected override void EstablishContext()
+                {
+                    base.EstablishContext();
+                    this.AutoVerifyMocks = true;
+
+                    this.InjectedCalculatorMock
+                        .SetupSet(o => o.Radix = It.IsAny<int>());
+                }
+
+                #endregion
+
+                [Test]
+                public void then_Radix_is_never_accessed_on_InjectedCalculatorMock()
+                {
+                    this.InjectedCalculatorMock.VerifySet(o => o.Radix = It.IsAny<int>(), Times.Never());
+                }
+            }
 
             [AbstractTestFixture]
             public abstract class when_Sum_is_called : given_instantiated_Sut
@@ -411,7 +502,7 @@ namespace Testeroids.Tests
                         override protected sealed int EstablishReturnedSum()
                         {
                             // Return an erroneous value, just to certify that we are returning the value which is handed out by the mock
-                            return int.MaxValue;
+                            return Int32.MaxValue;
                         }
 
                         #endregion
@@ -435,6 +526,37 @@ namespace Testeroids.Tests
                         protected override sealed int EstablishReturnedSum()
                         {
                             return 3;
+                        }
+
+                        #endregion
+                    }
+
+                    [TestFixture]
+                    public class with_Sum_called_once_beforehand : with_returned_result
+                    {
+                        #region Context
+
+                        protected override int EstablishSpecifiedOperand1()
+                        {
+                            return 42;
+                        }
+
+                        protected override int EstablishSpecifiedOperand2()
+                        {
+                            return 1337;
+                        }
+
+                        protected override int EstablishReturnedSum()
+                        {
+                            return int.MaxValue;
+                        }
+
+                        protected override void InitializeSubjectUnderTest()
+                        {
+                            base.InitializeSubjectUnderTest();
+
+                            // an other call before the actual Act.
+                            this.InjectedCalculatorMock.Object.Sum(this.SpecifiedOperand1, this.SpecifiedOperand2);
                         }
 
                         #endregion
@@ -509,6 +631,70 @@ namespace Testeroids.Tests
                         this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
                     }
                 }
+            }
+
+            [TestFixture]
+            public sealed class when_Radix_is_set_with_EnforceUsage_activated : given_instantiated_Sut
+            {
+                #region Context
+                protected override void Because()
+                {
+                    this.Sut.Calculator.Radix = 2;
+                }
+
+                protected override void EstablishContext()
+                {
+                    base.EstablishContext();
+
+                    this.InjectedCalculatorMock
+                        .SetupSet(o => o.Radix = It.IsAny<int>())
+                        .DontEnforceSetupVerification()
+                        .EnforceUsage();
+                }
+
+                #endregion
+
+                // we are testing the test here... it looks weird, but it's intentional : hey, we're really testing the test framework !
+                [Test]
+                public void then_Radix_is_set_once_on_InjectedCalculatorMock()
+                {
+                    this.InjectedCalculatorMock.VerifySet(o => o.Radix = It.IsAny<int>(), Times.Once());
+                }
+            }
+
+            [TestFixture]
+            public sealed class when_Radix_is_set_and_no_test_verifies_it_has_been_and_CheckSetupsAreMatchedWithVerifyCalls_is_true : given_instantiated_Sut
+            {
+                #region Context
+                protected override void Because()
+                {
+                    this.Sut.Calculator.Radix = 5;
+                }
+
+                protected override void EstablishContext()
+                {
+                    base.EstablishContext();
+
+                    this.CheckSetupsAreMatchedWithVerifyCalls = true;
+
+                    this.InjectedCalculatorMock
+                        .SetupSet(o => o.Radix = It.IsAny<int>())
+                        .DontEnforceSetupVerification(); // commenting this line should fail the fixture with an MockNotVerifiedException proper error message.
+                }
+
+                #endregion
+
+                [Test]
+                public void then_other_tests_can_pass()
+                {
+                    Assert.Pass();
+                }
+                // we are testing the test here... it looks weird, but it's intetional : hey, we're really testing the test framework !
+                //[Test]
+                //public void then_Radix_is_never_set_on_InjectedCalculatorMock()
+                //{
+                //    this.InjectedCalculatorMock.VerifySet(o => o.Radix = It.IsAny<int>(), Times.Never());
+                //}
             }
         }
     }

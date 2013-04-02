@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\..\Testeroids.pfx</AssemblyOriginatorKeyFile>
@@ -114,9 +114,13 @@
     <Compile Include="Mocking\IVerifiesInternals.cs" />
     <Compile Include="Mocking\MockRepository.cs" />
     <Compile Include="Mocking\MoqReturnsResultWrapper.cs" />
+    <Compile Include="Mocking\MoqReturnsThrowsGetterWrapper.cs" />
     <Compile Include="Mocking\MoqReturnsThrowsWrapper.cs" />
+    <Compile Include="Mocking\MoqSetupGetterWrapper.cs" />
+    <Compile Include="Mocking\MoqSetupSetterWrapper.cs" />
     <Compile Include="Mocking\MoqVerifiesExtensions.cs" />
     <Compile Include="Mocking\MoqSetupWrapper.cs" />
+    <Compile Include="Mocking\SetupWasNeverUsedException.cs" />
     <Compile Include="Mocking\TesteroidsMock.cs" />
     <Compile Include="MockNotVerifiedException.cs" />
     <Compile Include="MockExtensions.cs" />
