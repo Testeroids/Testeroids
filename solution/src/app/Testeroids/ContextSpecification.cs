@@ -5,6 +5,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids
 {
+    using System;
+
     /// <summary>
     ///   Implements the base class to define a Context/Specification style test fixture to test a class method.
     /// </summary>
@@ -18,6 +20,20 @@ namespace Testeroids
         ///   Gets the instance of the subject under test.
         /// </summary>
         protected TSubjectUnderTest Sut { get; private set; }
+
+        /// <summary>
+        ///   Called to dispose all unmanaged resources used by the test. Additionally, it disposes the <see cref="Sut"/> if it is <see cref="IDisposable"/>.
+        /// </summary>
+        protected override void DisposeContext()
+        {
+            base.DisposeContext();
+
+            var disposableSut = this.Sut as IDisposable;
+            if (disposableSut != null)
+            {
+                disposableSut.Dispose();
+            }
+        }
 
         #endregion
 
