@@ -134,12 +134,26 @@ namespace Testeroids.Mocking
 
         public void Verify()
         {
-            this.nakedMock.Verify();
+            try
+            {
+                this.nakedMock.Verify();
+            }
+            catch (MockException e)
+            {
+                throw new MockSetupMethodNeverUsedException(e);
+            }
         }
 
         public void VerifyAll()
         {
-            this.nakedMock.VerifyAll();
+            try
+            {
+                this.nakedMock.VerifyAll();
+            }
+            catch (MockException e)
+            {
+                throw new MockSetupMethodNeverUsedException(e);
+            }
         }
 
         #endregion
