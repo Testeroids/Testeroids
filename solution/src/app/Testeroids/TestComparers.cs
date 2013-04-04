@@ -48,8 +48,8 @@ namespace Testeroids
                 object y)
             {
                 return object.ReferenceEquals(x, y)
-                           ? x.GetHashCode().CompareTo(y.GetHashCode())
-                           : 0;
+                           ? 0
+                           : x.GetHashCode().CompareTo(y.GetHashCode());
             }
 
             #endregion
