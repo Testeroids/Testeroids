@@ -13,6 +13,8 @@ namespace Testeroids
     using Moq.Language;
     using Moq.Language.Flow;
 
+    using Testeroids.Mocking;
+
     public interface IMock
     {
         #region Public Properties
@@ -105,7 +107,7 @@ namespace Testeroids
         /// 
         /// </code>
         /// </example>
-        /// <exception cref="T:Moq.MockException">Not all verifiable expectations were met.</exception>
+        /// <exception cref="MockSetupMethodNeverUsedException">Not all verifiable expectations were met.</exception>
         [SuppressMessage("Microsoft.Usage", "CA2200:RethrowToPreserveStackDetails", Justification = "We want to explicitly reset the stack trace here.")]
         void Verify();
 
@@ -129,7 +131,7 @@ namespace Testeroids
         /// 
         /// </code>
         /// </example>
-        /// <exception cref="T:Moq.MockException">At least one expectation was not met.</exception>
+        /// <exception cref="MockSetupMethodNeverUsedException">At least one expectation was not met.</exception>
         [SuppressMessage("Microsoft.Usage", "CA2200:RethrowToPreserveStackDetails", Justification = "We want to explicitly reset the stack trace here.")]
         void VerifyAll();
 
