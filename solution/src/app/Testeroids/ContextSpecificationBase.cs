@@ -225,7 +225,7 @@ namespace Testeroids
         ///   This will be called by the <see cref="ArrangeActAssertAspectAttribute"/> aspect. Performs the "Act" part, or the logic which is to be tested.
         /// </summary>      
         [UsedImplicitly]
-        protected void OnBecauseRequested()
+        internal protected void OnBecauseRequested()
         {
             this.MockRepository.ResetAllCalls();
             this.Because();

@@ -7,6 +7,10 @@ namespace Testeroids.Tests
 {
     using System;
 
+    using JetBrains.Annotations;
+
+    using Microsoft.Reactive.Testing;
+
     using Moq;
 
     using NUnit.Framework;
@@ -14,6 +18,10 @@ namespace Testeroids.Tests
     using Testeroids.Aspects;
     using Testeroids.Aspects.Attributes;
     using Testeroids.Mocking;
+    using Testeroids.Rx.Aspects;
+    using Testeroids.Rx;
+
+    using TestScheduler = Testeroids.Rx.TestScheduler;
 
     public abstract class TestSpecs
     {
@@ -508,6 +516,67 @@ namespace Testeroids.Tests
                     {
                         this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
                     }
+                }
+            }
+
+            [RxTestSchedulerAspect]
+            [TestFixture]
+            [TplContextAspect(ExecuteTplTasks = true)]
+            public class when_ReturnObserver_is_called : given_instantiated_Sut
+            {
+                #region Context
+
+                [UsedImplicitly]
+                protected TestScheduler TestScheduler { get; private set; }
+
+                /// <remarks> Please, as the property's type, mention explicitly the <see cref="System.Type"/> returned by Clear.</remarks>                                
+                public ITestableObserver<int> Result { get; private set; }
+
+                protected sealed override void Because()
+                {
+                    this.Result = this.TestScheduler.Consume(() => this.Sut.ReturnObserver());
+                }
+
+                #endregion
+
+                /// <summary>
+                /// Test that the <see cref="given_instantiated_Sut.when_ReturnObserver_is_called.Because"/> method throws a <see cref="TestException"/>.
+                /// </summary>
+                [Test]
+                [ExpectedException(typeof(TestException))]
+                public void then_TestException_is_thrown()
+                {
+                    Assert.IsTrue(true);
+                }
+            }
+
+            [RxTestSchedulerAspect]
+            [TestFixture]
+            public class when_ReturnObserver_is_called_without_TplContextAspect : given_instantiated_Sut
+            {
+                #region Context
+
+                [UsedImplicitly]
+                protected TestScheduler TestScheduler { get; private set; }
+
+                /// <remarks> Please, as the property's type, mention explicitly the <see cref="System.Type"/> returned by Clear.</remarks>                                
+                public ITestableObserver<int> Result { get; private set; }
+
+                protected sealed override void Because()
+                {
+                    this.Result = this.TestScheduler.Consume(() => this.Sut.ReturnObserver());
+                }
+
+                #endregion
+
+                /// <summary>
+                /// Test that the <see cref="Because"/> method throws a <see cref="InvalidOperationException"/> because there is a missing attribute.
+                /// </summary>
+                [Test]
+                [ExpectedException(typeof(InvalidOperationException))]
+                public void then_InvalidOperationException_is_thrown()
+                {
+                    Assert.IsTrue(true);
                 }
             }
         }

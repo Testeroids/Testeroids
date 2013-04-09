@@ -5,6 +5,15 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids.Tests
 {
+    using System;
+    using System.Reactive;
+    using System.Reactive.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.Reactive.Testing;
+
+    using Moq;
+
     public class Test
     {
         #region Fields
@@ -48,5 +57,12 @@ namespace Testeroids.Tests
         }
 
         #endregion
+
+        public IObservable<int> ReturnObserver()
+        {
+            return Observable.Create<int>((observer,
+                                           token) =>
+                                          Task<IDisposable>.Factory.StartNew(() => { throw new TestException(); }));
+        }
     }
 }
