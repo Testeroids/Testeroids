@@ -102,7 +102,7 @@ namespace Testeroids
         {
             this.BaseSetUpMethod();
 
-            // beware : we never unregister from the event here!
+            // FIXME: beware : we never unregister from the event here! it might lead to a memory leak, but I wanted to make sure it is registered explicitly for THIS test (making sure it was loaded in the correct AppDomain)
             TplTestPlatformHelper.TestTaskScheduler.UnobservedTaskException += TestTaskSchedulerOnUnobservedTaskException;
 
         }
