@@ -123,20 +123,21 @@ namespace Testeroids
                 var contingentProperties = task.GetType().GetField("m_contingentProperties", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(task);
                 if (contingentProperties != null)
                 {
-                    var exceptionsHolder = contingentProperties.GetType().GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(contingentProperties);
-                    if (exceptionsHolder != null)
+                    var exceptionsHolderFieldInfo = contingentProperties.GetType().GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic);
+                    if (exceptionsHolderFieldInfo != null)
                     {
-                        var isHandled = (bool)exceptionsHolder.GetType().GetField("m_isHandled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(exceptionsHolder);
-
-                        if (!isHandled)
+                        var exceptionsHolder = exceptionsHolderFieldInfo.GetValue(contingentProperties);
+                        if (exceptionsHolder != null)
                         {
-                            // we'll throw the exceptions one after the other. therefore, we won't have aggregate exceptions, but only the internal ones.
-                            task.Exception.Handle(exception =>
-                                {
-                                    throw exception;
-                                });
+                            var isHandled = (bool)exceptionsHolder.GetType().GetField("m_isHandled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(exceptionsHolder);
+
+                            if (!isHandled)
+                            {
+                                // we'll throw the exceptions one after the other. therefore, we won't have aggregate exceptions, but only the internal ones.
+                                task.Exception.Handle(exception => { throw exception; });
+                            }
                         }
-                    }   
+                    }
                 }              
             }
         }
