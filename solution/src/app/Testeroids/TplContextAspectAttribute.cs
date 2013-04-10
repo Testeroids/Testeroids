@@ -121,20 +121,23 @@ namespace Testeroids
                 // task.m_contingentProperties.m_exceptionsHolder.m_isHandled
                 // HACK: we should be able to dramatically improve performances: When finalized, TaskExceptionHolder (a private member down the chain of a Task) throws the static event TaskScheduler.UnobservedTaskException. Unfortunately, for some reason I could not get this event to get fired. therefore, I had to resort to reflection in order to fail only unobserved tasks. :(
                 var contingentProperties = task.GetType().GetField("m_contingentProperties", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(task);
-                var exceptionsHolder = contingentProperties.GetType().GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(contingentProperties);
-                if (exceptionsHolder != null)
+                if (contingentProperties != null)
                 {
-                    var isHandled = (bool)exceptionsHolder.GetType().GetField("m_isHandled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(exceptionsHolder);
-
-                    if (!isHandled)
+                    var exceptionsHolder = contingentProperties.GetType().GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(contingentProperties);
+                    if (exceptionsHolder != null)
                     {
-                        // we'll throw the exceptions one after the other. therefore, we won't have aggregate exceptions, but only the internal ones.
-                        task.Exception.Handle(exception =>
-                            {                                
-                                throw exception;
-                            });                        
-                    }
-                }                
+                        var isHandled = (bool)exceptionsHolder.GetType().GetField("m_isHandled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(exceptionsHolder);
+
+                        if (!isHandled)
+                        {
+                            // we'll throw the exceptions one after the other. therefore, we won't have aggregate exceptions, but only the internal ones.
+                            task.Exception.Handle(exception =>
+                                {
+                                    throw exception;
+                                });
+                        }
+                    }   
+                }              
             }
         }
 
