@@ -6,6 +6,8 @@
 
 namespace Testeroids
 {
+    using System;
+    using System.Collections;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Globalization;
@@ -13,8 +15,11 @@ namespace Testeroids
     using System.Reactive.PlatformServices;
     using System.Reflection;
     using System.Threading;
+    using System.Threading.Tasks;
 
     using JetBrains.Annotations;
+
+    using Microsoft.Reactive.Testing;
 
     using NUnit.Framework;
 
@@ -229,6 +234,52 @@ namespace Testeroids
         {
             this.MockRepository.ResetAllCalls();
             this.Because();
+            this.RethrowPiggybackedExceptionsForTestableObserver();
+            this.OnExitingBecause();
+        }
+
+        [UsedImplicitly]
+        public virtual void OnExitingBecause()
+        {            
+        }
+
+        private void RethrowPiggybackedExceptionsForTestableObserver()
+        {
+            // TODO: Find a better way to access "Result". The problem here is that we can't import properties of a generic type with ImportMember            
+            var result = this.GetType().GetProperty("Result", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+
+            if (result != null)
+            {
+                var propertyType = result.PropertyType;
+                if (propertyType.IsGenericType)
+                {
+                    var propertyTypeMatchesTestableObserver = propertyType.GetGenericTypeDefinition() == typeof(ITestableObserver<>);
+                    if (propertyTypeMatchesTestableObserver)
+                    {
+                        var testableObserver = result.GetValue(this, null);
+                        var messages = testableObserver.GetType().GetProperty("Messages", BindingFlags.Instance | BindingFlags.Public).GetValue(testableObserver, null) as IList;
+                        if (messages != null)
+                        {
+                            foreach (var message in messages)
+                            {
+                                var value = message.GetType().GetProperty("Value", BindingFlags.Instance | BindingFlags.Public).GetValue(message, null);
+                                var exception = value.GetType().GetProperty("Exception", BindingFlags.Instance | BindingFlags.Public).GetValue(value, null) as Exception;
+                                if (exception != null)
+                                {
+                                    // throw new Exception(exception.GetType().ToString());
+                                    if (exception is TaskSchedulerException)
+                                    {
+                                        exception = exception as TaskSchedulerException;
+                                        exception = exception.InnerException;
+                                    }
+
+                                    throw exception;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>

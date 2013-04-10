@@ -6,6 +6,7 @@
 namespace Testeroids.Tests
 {
     using System;
+    using System.Threading.Tasks;
 
     using JetBrains.Annotations;
 
@@ -575,6 +576,77 @@ namespace Testeroids.Tests
                 [Test]
                 [ExpectedException(typeof(InvalidOperationException))]
                 public void then_InvalidOperationException_is_thrown()
+                {
+                    Assert.IsTrue(true);
+                }
+            }
+
+            [TestFixture]
+            [TplContextAspect(ExecuteTplTasks = true)]
+            public class when_FailingSumAsync_is_called : given_instantiated_Sut
+            {
+                #region Context
+
+                /// <remarks> Please, as the property's type, mention explicitly the <see cref="System.Type"/> returned by SumAsync.</remarks>
+                private Task<int> Result { get; set; }
+
+                protected override void Because()
+                {
+                    this.Result = this.Sut.FailingSumAsync();
+                }
+
+                #endregion
+
+                [Test]
+                [ExpectedException(typeof(NotImplementedException))]
+                public void then_NotImplementedException_is_thrown()
+                {
+                    Assert.IsTrue(true);
+                }
+            }
+
+            [TestFixture]
+            [TplContextAspect(ExecuteTplTasks = true)]
+            public class when_FireAndForgetFailingTask_is_called : given_instantiated_Sut
+            {
+                #region Context                                
+
+                protected override void Because()
+                {
+                    this.Sut.FireAndForgetFailingTask();
+                }
+
+                #endregion
+
+                /// <summary>
+                /// Test that the <see cref="given_instantiated_Sut.when_SumAsync_is_called.Because"/> method throws a <see cref="NotSupportedException"/>.
+                /// </summary>
+                [Test]
+                [ExpectedException(typeof(NotImplementedException))]
+                public void then_NotImplementedException_is_thrown()
+                {
+                }
+            }
+
+            [TestFixture]
+            [TplContextAspect(ExecuteTplTasks = true)]
+            public class when_FireForgetAndSwallowFailingTask_is_called : given_instantiated_Sut
+            {
+                #region Context
+
+                protected override void Because()
+                {
+                    this.Sut.FireForgetAndSwallowFailingTask();
+                }
+
+                #endregion
+
+                /// <summary>
+                /// Test that the <see cref="given_instantiated_Sut.when_SumAsync_is_called.Because"/> method throws a <see cref="NotSupportedException"/>.
+                /// </summary>
+                [Test]
+                // [ExpectedException(typeof(AggregateException))]
+                public void then_AggregateException_is_thrown()
                 {
                     Assert.IsTrue(true);
                 }

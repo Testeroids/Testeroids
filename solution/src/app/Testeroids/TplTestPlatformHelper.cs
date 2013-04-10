@@ -161,7 +161,7 @@ namespace Testeroids
 
                 this.HistoricQueue.Add(task);
             }
-
+            
             /// <summary>Runs the provided Task synchronously on the current thread.</summary>
             /// <param name="task">The task to be executed.</param>
             /// <param name="taskWasPreviouslyQueued">Whether the Task was previously queued to the scheduler.</param>
@@ -181,6 +181,14 @@ namespace Testeroids
             }
 
             #endregion
+        }
+
+        public static TaskScheduler GetDefaultScheduler()
+        {
+            var taskSchedulerType = typeof(TaskScheduler);
+            var defaultTaskSchedulerField = taskSchedulerType.GetField("s_defaultTaskScheduler", BindingFlags.GetField | BindingFlags.Static | BindingFlags.NonPublic);
+            Debug.Assert(defaultTaskSchedulerField != null, "Could not find the TaskScheduler.s_defaultTaskScheduler field. We are assuming this implementation aspect of the .NET Framework to be able to unit test TPL.");
+            return (TaskScheduler)defaultTaskSchedulerField.GetValue(null);
         }
     }
 }

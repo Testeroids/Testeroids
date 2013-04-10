@@ -64,5 +64,48 @@ namespace Testeroids.Tests
                                            token) =>
                                           Task<IDisposable>.Factory.StartNew(() => { throw new TestException(); }));
         }
+
+        public Task<int> SumAsync(int a, int b)
+        {
+            return new TaskFactory<int>().StartNew(() => a + b);
+        }
+
+        public Task<int> FailingSumAsync()
+        {
+            var failingSumAsync = this.SumAsync(4, 5).ContinueWith(task =>
+                {
+                    throw new NotImplementedException(string.Format("If everything went fine, the result should have been {0}, but it didn't and an exception was thrown. Therefore, you should see it in the runner :)", task.Result));
+                    return 0;
+                });
+            return failingSumAsync;
+        }
+
+        public Task<int> SwallowedFailingSumAsync()
+        {
+            var failingSumAsync = this.SumAsync(4, 5).ContinueWith(task =>
+            {
+                throw new NotImplementedException(string.Format("If everything went fine, the result should have been {0}, but it didn't and an exception was thrown. Therefore, you should see it in the runner :)", task.Result));
+                return 0;
+            });
+            try
+            {
+                failingSumAsync.Wait();
+            }
+            catch (Exception)
+            {
+                // Swallow
+            }
+            return failingSumAsync;
+        }
+
+        public void FireAndForgetFailingTask()
+        {
+            this.FailingSumAsync();
+        }
+
+        public void FireForgetAndSwallowFailingTask()
+        {
+            this.SwallowedFailingSumAsync();
+        }
     }
 }
