@@ -641,12 +641,8 @@ namespace Testeroids.Tests
 
                 #endregion
 
-                /// <summary>
-                /// Test that the <see cref="given_instantiated_Sut.when_SumAsync_is_called.Because"/> method throws a <see cref="NotSupportedException"/>.
-                /// </summary>
                 [Test]
-                // [ExpectedException(typeof(AggregateException))]
-                public void then_AggregateException_is_thrown()
+                public void then_no_exception_is_thrown()
                 {
                     Assert.IsTrue(true);
                 }
