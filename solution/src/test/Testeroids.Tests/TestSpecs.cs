@@ -647,6 +647,49 @@ namespace Testeroids.Tests
                     Assert.IsTrue(true);
                 }
             }
+
+            public abstract class when_Dispose_is_called : given_instantiated_Sut
+            {
+                #region Context
+
+                protected IDisposable SpecifiedDisposableDependency { get; private set; }
+
+                protected abstract IDisposable EstablishSpecifiedDisposableDependency();
+
+                protected override void EstablishContext()
+                {
+                    base.EstablishContext();
+                    this.SpecifiedDisposableDependency = this.EstablishSpecifiedDisposableDependency();
+                }
+
+                protected sealed override void Because()
+                {
+                    this.Sut.RegisterDisposableDependency(this.SpecifiedDisposableDependency);
+                }
+
+                #endregion
+
+                [TestFixture]
+                public class with_SpecifiedDependency_has_not_setup_its_DisposeMethod : when_Dispose_is_called
+                {
+                    #region Context
+                    
+                    protected override sealed IDisposable EstablishSpecifiedDisposableDependency()
+                    {
+                        var mock = this.MockRepository.CreateMock<IDisposable>();
+                        // don't setup Dispose()
+                        return mock.Object;
+                    }
+
+                    #endregion
+
+                    [Test]
+                    public void then_no_MockException_is_thrown()
+                    {
+                        Assert.IsTrue(true);
+                    }                    
+                }
+            }
         }
     }
 }

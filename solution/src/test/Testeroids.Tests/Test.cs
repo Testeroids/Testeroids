@@ -14,11 +14,13 @@ namespace Testeroids.Tests
 
     using Moq;
 
-    public class Test
+    public class Test : IDisposable
     {
         #region Fields
 
         private readonly ICalculator calculator;
+
+        private IDisposable disposableDependency;
 
         #endregion
 
@@ -106,6 +108,16 @@ namespace Testeroids.Tests
         public void FireForgetAndSwallowFailingTask()
         {
             this.SwallowedFailingSumAsync();
+        }
+
+        public void RegisterDisposableDependency(IDisposable disposableDependency)
+        {
+            this.disposableDependency = disposableDependency;
+        }
+
+        public void Dispose()
+        {
+            this.disposableDependency.Dispose();
         }
     }
 }
