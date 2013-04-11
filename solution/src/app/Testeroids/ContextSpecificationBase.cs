@@ -211,6 +211,20 @@ namespace Testeroids
         [DebuggerNonUserCode]
         protected virtual void DisposeContext()
         {
+            this.SetupCallToDisposeOnMocks();
+        }
+
+        private void SetupCallToDisposeOnMocks()
+        {
+            var mocks = ((IInternalsMockRepository)this.MockRepository).CreatedMocks;
+            foreach (var mock in mocks)
+            {
+                if (mock.Object is IDisposable)
+                {
+                    // Note : It's ok to call .As<IDisposable>() here, be cause we already did it when we called MockRepository.CreateMock<MyOtherInterfaceWhichImplementsIDisposable>()
+                    mock.As<IDisposable>().Setup(o => o.Dispose());
+                }
+            }
         }
 
         /// <summary>

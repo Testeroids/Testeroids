@@ -419,7 +419,7 @@ namespace Testeroids.Tests
 
                         override protected sealed int EstablishReturnedSum()
                         {
-                            // Return an erroneous value, just to certify that we are returning the value which is handed out by the mock
+                            // Return an erroneous value, just to certify that we are returning the value which is handed out by the SpecifiedDisposableDependencyMock
                             return int.MaxValue;
                         }
 
@@ -652,9 +652,9 @@ namespace Testeroids.Tests
             {
                 #region Context
 
-                protected IDisposable SpecifiedDisposableDependency { get; private set; }
+                protected IDisposableDependency SpecifiedDisposableDependency { get; private set; }
 
-                protected abstract IDisposable EstablishSpecifiedDisposableDependency();
+                protected abstract IDisposableDependency EstablishSpecifiedDisposableDependency();
 
                 protected override void EstablishContext()
                 {
@@ -670,16 +670,27 @@ namespace Testeroids.Tests
                 #endregion
 
                 [TestFixture]
-                public class with_SpecifiedDependency_has_not_setup_its_DisposeMethod : when_Dispose_is_called
+                public class with_SpecifiedDependency_has_not_setup_its_DisposeMethod_but_does_have_setup_for_DoSomething : when_Dispose_is_called
                 {
                     #region Context
                     
-                    protected override sealed IDisposable EstablishSpecifiedDisposableDependency()
+                    protected override sealed IDisposableDependency EstablishSpecifiedDisposableDependency()
                     {
-                        var mock = this.MockRepository.CreateMock<IDisposable>();
+                        this.SpecifiedDisposableDependencyMock = this.MockRepository.CreateMock<IDisposableDependency>();
                         // don't setup Dispose()
-                        return mock.Object;
+                        return this.SpecifiedDisposableDependencyMock.Object;
                     }
+
+                    private IMock<IDisposableDependency> SpecifiedDisposableDependencyMock { get; set; }
+
+                    protected override void EstablishContext()
+                    {
+                        base.EstablishContext();
+
+                        this.SpecifiedDisposableDependencyMock
+                            .Setup(o => o.DoSomething())
+                            .DontEnforceSetupVerification();
+                    }                    
 
                     #endregion
 

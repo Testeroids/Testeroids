@@ -20,7 +20,7 @@ namespace Testeroids.Tests
 
         private readonly ICalculator calculator;
 
-        private IDisposable disposableDependency;
+        private IDisposableDependency disposableDependency;
 
         #endregion
 
@@ -110,14 +110,23 @@ namespace Testeroids.Tests
             this.SwallowedFailingSumAsync();
         }
 
-        public void RegisterDisposableDependency(IDisposable disposableDependency)
+        public void RegisterDisposableDependency(IDisposableDependency disposableDependency)
         {
             this.disposableDependency = disposableDependency;
         }
 
         public void Dispose()
         {
-            this.disposableDependency.Dispose();
+            var dependency = this.disposableDependency;
+            if (dependency != null)
+            {
+                dependency.Dispose();
+            }
         }
+    }
+
+    public interface IDisposableDependency : IDisposable
+    {
+        void DoSomething();
     }
 }

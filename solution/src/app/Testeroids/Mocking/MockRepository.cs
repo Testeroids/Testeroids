@@ -6,14 +6,16 @@
 
 namespace Testeroids.Mocking
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
 
     using JetBrains.Annotations;
 
     using Moq;
 
-    internal class MockRepository : IMockRepository
+    internal class MockRepository : IMockRepository, IInternalsMockRepository
     {
         #region Fields
 
@@ -29,6 +31,13 @@ namespace Testeroids.Mocking
 
         #endregion
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MockRepository"/> class.
+        /// </summary>
+        public MockRepository()
+        {
+            this.CreatedMocks = new List<IMock>();
+        }
         #region Public Methods and Operators
 
         /// <summary>
@@ -72,6 +81,14 @@ namespace Testeroids.Mocking
         {
             var mock = new TesteroidsMock<TMock>().As<TMock>();
 
+            var interfaces = typeof(TMock).FindInterfaces((type, criteria) => type == typeof(IDisposable), null);
+
+            if (interfaces.Any())
+            {
+                mock.As<IDisposable>();
+            }
+
+            this.CreatedMocks.Add(mock);
             this.mocksTrackedForMatchingVerifyCallCheck.Add(mock);
             this.mocksTrackedForUsageVerification.Add(mock);
 
@@ -108,8 +125,13 @@ namespace Testeroids.Mocking
             {
                 this.mocksTrackedForUsageVerification.Clear();
             }
-        }
+        }        
 
         #endregion
+
+        /// <summary>
+        /// All the mocks which have ever been created by this instance of the MockRepository.
+        /// </summary>
+        public IList<IMock> CreatedMocks { get; private set; }
     }
 }

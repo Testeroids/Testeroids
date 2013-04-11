@@ -6,7 +6,17 @@
 
 namespace Testeroids
 {
+    using System.Collections.Generic;
+
     using Moq;
+
+    internal interface IInternalsMockRepository
+    {
+        /// <summary>
+        /// All the mocks which have ever been created by this instance of the MockRepository.
+        /// </summary>
+        IList<IMock> CreatedMocks { get; }
+    }
 
     /// <summary>
     /// Provides consistent mock creation and tracking for later verification. Aspects subject to verification
