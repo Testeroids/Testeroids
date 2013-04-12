@@ -126,10 +126,13 @@ namespace Testeroids
                     var exceptionsHolderFieldInfo = contingentProperties.GetType().GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic);
                     if (exceptionsHolderFieldInfo != null)
                     {
+                        throw new Exception("exceptionsHolderFieldInfo.Name =" + exceptionsHolderFieldInfo.Name);
                         var exceptionsHolder = exceptionsHolderFieldInfo.GetValue(contingentProperties);
                         if (exceptionsHolder != null)
                         {
+                            throw new Exception("exceptionsHolder.ToString() =" + exceptionsHolder.ToString());
                             var isHandled = (bool)exceptionsHolder.GetType().GetField("m_isHandled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(exceptionsHolder);
+                            throw new Exception("isHandled =" + isHandled.ToString());
 
                             if (!isHandled)
                             {
