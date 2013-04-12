@@ -143,7 +143,7 @@ namespace Testeroids.Tests
                 {
                     #region Context
 
-                    protected override bool EstablishCheckAllSetupsVerified()
+                    protected override sealed bool EstablishCheckAllSetupsVerified()
                     {
                         return false;
                     }
@@ -207,7 +207,7 @@ namespace Testeroids.Tests
                 {
                     #region Context
 
-                    protected override bool EstablishAutoVerifyMocks()
+                    protected override sealed bool EstablishAutoVerifyMocks()
                     {
                         return true;
                     }
@@ -247,7 +247,7 @@ namespace Testeroids.Tests
                 {
                     #region Context
 
-                    protected override bool EstablishAutoVerifyMocks()
+                    protected override sealed bool EstablishAutoVerifyMocks()
                     {
                         return false;
                     }
