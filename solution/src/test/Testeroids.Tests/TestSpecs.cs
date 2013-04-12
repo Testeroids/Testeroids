@@ -598,7 +598,7 @@ namespace Testeroids.Tests
                 #endregion
 
                 [Test]
-                [ExpectedException(typeof(NotImplementedException))]
+                // [ExpectedException(typeof(NotImplementedException))]
                 public void then_NotImplementedException_is_thrown()
                 {
                     Assert.IsTrue(true);
@@ -622,7 +622,7 @@ namespace Testeroids.Tests
                 /// Test that the <see cref="given_instantiated_Sut.when_SumAsync_is_called.Because"/> method throws a <see cref="NotSupportedException"/>.
                 /// </summary>
                 [Test]
-                [ExpectedException(typeof(NotImplementedException))]
+                // [ExpectedException(typeof(NotImplementedException))]
                 public void then_NotImplementedException_is_thrown()
                 {
                 }
