@@ -6,6 +6,9 @@
 namespace Testeroids.Tests
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
@@ -598,10 +601,10 @@ namespace Testeroids.Tests
                 #endregion
 
                 [Test]
-                // [ExpectedException(typeof(NotImplementedException))]
-                public void then_NotImplementedException_is_thrown()
+                public void then_UnhandledExceptions_contains_NotImplementedException()
                 {
-                    Assert.IsTrue(false);
+                    // Todo : extending CollectionAssert to add a ContainsAnyOfType<T> might be a good idea.
+                    Assert.IsTrue(this.UnhandledExceptions.AnyOfType<NotImplementedException>());                    
                 }
             }
 
@@ -618,14 +621,11 @@ namespace Testeroids.Tests
 
                 #endregion
 
-                /// <summary>
-                /// Test that the <see cref="given_instantiated_Sut.when_SumAsync_is_called.Because"/> method throws a <see cref="NotSupportedException"/>.
-                /// </summary>
                 [Test]
-                // [ExpectedException(typeof(NotImplementedException))]
-                public void then_NotImplementedException_is_thrown()
+                public void then_UnhandledExceptions_contains_NotImplementedException()
                 {
-                    Assert.IsTrue(false);
+                    // Todo : extending CollectionAssert to add a ContainsAnyOfType<T> might be a good idea.
+                    Assert.IsTrue(this.UnhandledExceptions.AnyOfType<NotImplementedException>());
                 }
             }
 
@@ -648,6 +648,14 @@ namespace Testeroids.Tests
                     Assert.IsTrue(true);
                 }
             }
+        }
+    }
+
+    static class EnumerableExtensions
+    {
+        public static bool AnyOfType<TElement>(this IEnumerable source)
+        {
+            return source.OfType<TElement>().Any();
         }
     }
 }

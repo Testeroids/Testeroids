@@ -134,7 +134,11 @@ namespace Testeroids
                             if (!isHandled)
                             {
                                 // we'll throw the exceptions one after the other. therefore, we won't have aggregate exceptions, but only the internal ones.
-                                task.Exception.Handle(exception => { throw exception; });
+                                task.Exception.Handle(exception =>
+                                    {
+                                        ((IContextSpecification)this.Instance).UnhandledExceptions.Add(exception);
+                                        return true;
+                                    });
                             }
                         }
                     }

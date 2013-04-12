@@ -5,6 +5,9 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     ///   Base class for implementing the AAA pattern.
     /// </summary>
@@ -16,6 +19,8 @@ namespace Testeroids
         ///   Gets a value indicating whether there are prerequisite tests running.
         /// </summary>
         bool ArePrerequisiteTestsRunning { get; }
+
+        IList<Exception> UnhandledExceptions { get; }
 
         #endregion
     }

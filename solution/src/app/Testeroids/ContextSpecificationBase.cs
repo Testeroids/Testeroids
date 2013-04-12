@@ -8,6 +8,7 @@ namespace Testeroids
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Globalization;
@@ -66,6 +67,7 @@ namespace Testeroids
         /// </summary>
         protected ContextSpecificationBase()
         {
+            this.UnhandledExceptions = new List<Exception>();
             this.CheckSetupsAreMatchedWithVerifyCalls = true;
             this.AutoVerifyMocks = true;
             this.ArePrerequisiteTestsRunning = false;
@@ -80,6 +82,8 @@ namespace Testeroids
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public bool ArePrerequisiteTestsRunning { get; private set; }
+
+        public IList<Exception> UnhandledExceptions { get; private set; }
 
         /// <summary>
         /// Gets the mock repository which allows the derived classes centralized mock creation and tracking.
