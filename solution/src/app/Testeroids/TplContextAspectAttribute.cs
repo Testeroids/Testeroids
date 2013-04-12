@@ -125,7 +125,7 @@ namespace Testeroids
                 {
                     // throw new Exception("contingentProperties.ToString() =" + contingentProperties.ToString());
                     var contingentPropertiesType = contingentProperties.GetType();
-                    throw new Exception("contingentPropertiesType.Name =" + contingentPropertiesType.Name);
+                    // throw new Exception("contingentPropertiesType.Name =" + contingentPropertiesType.Name);
                     var exceptionsHolderFieldInfo = contingentPropertiesType.GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic);
                     throw new Exception("exceptionsHolderFieldInfo.Name =" + exceptionsHolderFieldInfo.ToString());
                     if (exceptionsHolderFieldInfo != null)
