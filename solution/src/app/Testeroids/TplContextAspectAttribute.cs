@@ -114,7 +114,6 @@ namespace Testeroids
         public void OnExitingBecause()
         {
             this.OnExitingBecauseMethod();
-            Task
             var testTaskScheduler = (TplTestPlatformHelper.TestTaskScheduler)TplTestPlatformHelper.GetDefaultScheduler();
             foreach (var task in testTaskScheduler.HistoricQueue)
             {
@@ -123,7 +122,7 @@ namespace Testeroids
                 //var message = task.GetType().GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public).Aggregate("methods : ", (s, info) => s += "\r\n" + info.Name);
                 //message += task.GetType().GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public).Aggregate("fields : ", (s, info) => s += "\r\n" + info.Name);
 
-                var contingentProperties = task.GetType().GetField("EnsureContingentPropertiesInitialized", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(task, new object[] { true });
+                var contingentProperties = task.GetType().GetField("m_contingentProperties", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(task);
                 if (contingentProperties != null)
                 {
                     var message = contingentProperties.GetType().GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public).Aggregate("methods : ", (s, info) => s += "\r\n" + info.Name);
