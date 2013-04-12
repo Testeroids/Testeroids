@@ -129,10 +129,12 @@ namespace Testeroids
                     var contingentPropertiesType = contingentProperties.GetType();
                     // throw new Exception("contingentPropertiesType.Name =" + contingentPropertiesType.Name);
                     var exceptionsHolderFieldInfo = contingentPropertiesType.GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic);
+                    throw new Exception("exceptionsHolderFieldInfo =" + exceptionsHolderFieldInfo);
+
                     if (exceptionsHolderFieldInfo != null)
                     {
                         
-                        // throw new Exception("exceptionsHolderFieldInfo.Name =" + exceptionsHolderFieldInfo.Name);
+                        
                         var exceptionsHolder = exceptionsHolderFieldInfo.GetValue(contingentProperties);
                         throw new Exception("exceptionsHolder =" + exceptionsHolder);
                         if (exceptionsHolder != null)
