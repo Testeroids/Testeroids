@@ -126,7 +126,7 @@ namespace Testeroids
                     var exceptionsHolderFieldInfo = contingentProperties.GetType().GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic);
                     if (exceptionsHolderFieldInfo != null)
                     {
-                        throw new Exception("exceptionsHolderFieldInfo.Name =" + exceptionsHolderFieldInfo.Name);
+                        //throw new Exception("exceptionsHolderFieldInfo.Name =" + exceptionsHolderFieldInfo.Name);
                         var exceptionsHolder = exceptionsHolderFieldInfo.GetValue(contingentProperties);
                         if (exceptionsHolder != null)
                         {
