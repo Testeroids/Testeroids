@@ -601,7 +601,7 @@ namespace Testeroids.Tests
                 // [ExpectedException(typeof(NotImplementedException))]
                 public void then_NotImplementedException_is_thrown()
                 {
-                    Assert.IsTrue(true);
+                    Assert.IsTrue(false);
                 }
             }
 
@@ -625,6 +625,7 @@ namespace Testeroids.Tests
                 // [ExpectedException(typeof(NotImplementedException))]
                 public void then_NotImplementedException_is_thrown()
                 {
+                    Assert.IsTrue(false);
                 }
             }
 
