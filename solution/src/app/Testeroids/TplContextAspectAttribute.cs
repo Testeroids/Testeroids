@@ -123,7 +123,7 @@ namespace Testeroids
                 var contingentProperties = task.GetType().GetField("m_contingentProperties", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(task);
                 if (contingentProperties != null)
                 {
-                    throw new Exception("contingentProperties.ToString() =" + contingentProperties.ToString());
+                    // throw new Exception("contingentProperties.ToString() =" + contingentProperties.ToString());
                     var contingentPropertiesType = contingentProperties.GetType();
                     throw new Exception("contingentPropertiesType.Name =" + contingentPropertiesType.Name);
                     var exceptionsHolderFieldInfo = contingentPropertiesType.GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic);
