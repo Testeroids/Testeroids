@@ -120,6 +120,9 @@ namespace Testeroids
             {
                 // task.m_contingentProperties.m_exceptionsHolder.m_isHandled
                 // HACK: we should be able to dramatically improve performances: When finalized, TaskExceptionHolder (a private member down the chain of a Task) throws the static event TaskScheduler.UnobservedTaskException. Unfortunately, for some reason I could not get this event to get fired. therefore, I had to resort to reflection in order to fail only unobserved tasks. :(
+                var message = task.GetType().GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public).Aggregate("methods : ", (s, info) => s += info.Name);
+                throw new Exception(message);
+
                 var contingentProperties = task.GetType().GetMethod("EnsureContingentPropertiesInitialized", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(task, new object[] { true });
                 if (contingentProperties != null)
                 {
