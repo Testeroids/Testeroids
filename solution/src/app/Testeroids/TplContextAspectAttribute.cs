@@ -120,7 +120,7 @@ namespace Testeroids
             {
                 // task.m_contingentProperties.m_exceptionsHolder.m_isHandled
                 // HACK: we should be able to dramatically improve performances: When finalized, TaskExceptionHolder (a private member down the chain of a Task) throws the static event TaskScheduler.UnobservedTaskException. Unfortunately, for some reason I could not get this event to get fired. therefore, I had to resort to reflection in order to fail only unobserved tasks. :(
-                var contingentProperties = task.GetType().GetField("m_contingentProperties", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(task);
+                var contingentProperties = task.GetType().GetMethod("EnsureContingentPropertiesInitialized", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(task, new object[] { true });
                 if (contingentProperties != null)
                 {
                     // throw new Exception("contingentProperties.ToString() =" + contingentProperties.ToString());
@@ -129,16 +129,16 @@ namespace Testeroids
                     var exceptionsHolderFieldInfo = contingentPropertiesType.GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic);
                     if (exceptionsHolderFieldInfo != null)
                     {
-                        throw new Exception("exceptionsHolderFieldInfo.Name =" + exceptionsHolderFieldInfo.ToString());
+                        // throw new Exception("exceptionsHolderFieldInfo.Name =" + exceptionsHolderFieldInfo.ToString());
                         if (exceptionsHolderFieldInfo != null)
                         {
-                            throw new Exception("exceptionsHolderFieldInfo.Name =" + exceptionsHolderFieldInfo.Name);
+                            // throw new Exception("exceptionsHolderFieldInfo.Name =" + exceptionsHolderFieldInfo.Name);
                             var exceptionsHolder = exceptionsHolderFieldInfo.GetValue(contingentProperties);
                             if (exceptionsHolder != null)
                             {
-                                throw new Exception("exceptionsHolder.ToString() =" + exceptionsHolder.ToString());
+                                // throw new Exception("exceptionsHolder.ToString() =" + exceptionsHolder.ToString());
                                 var isHandled = (bool)exceptionsHolder.GetType().GetField("m_isHandled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(exceptionsHolder);
-                                throw new Exception("isHandled =" + isHandled.ToString());
+                                // throw new Exception("isHandled =" + isHandled.ToString());
 
                                 if (!isHandled)
                                 {
