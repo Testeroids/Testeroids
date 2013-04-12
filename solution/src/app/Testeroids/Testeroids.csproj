@@ -37,7 +37,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\..\Testeroids.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>Testeroids.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="JetBrains.Annotations">
@@ -153,12 +153,10 @@
     <Compile Include="TplTestPlatformHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\Testeroids.pfx">
-      <Link>Testeroids.pfx</Link>
-    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Testeroids.pfx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
