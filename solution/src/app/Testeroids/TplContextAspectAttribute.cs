@@ -140,7 +140,7 @@ namespace Testeroids
                     if (exceptionsHolderFieldInfo != null)
                     {                                                
                         var exceptionsHolder = exceptionsHolderFieldInfo.GetValue(contingentProperties);
-                        throw new Exception(message + "\r\n\r\n--> exceptionsHolder =" + exceptionsHolder);
+                        //throw new Exception(message + "\r\n\r\n--> exceptionsHolder =" + exceptionsHolder);
                         if (exceptionsHolder != null)
                         {
                             // throw new Exception("exceptionsHolder.ToString() =" + exceptionsHolder.ToString());
