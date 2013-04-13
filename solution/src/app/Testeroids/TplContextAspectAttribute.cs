@@ -128,18 +128,17 @@ namespace Testeroids
                     // throw new Exception("contingentProperties.ToString() =" + contingentProperties.ToString());
                     var contingentPropertiesType = contingentProperties.GetType();
                     // throw new Exception("contingentPropertiesType.Name =" + contingentPropertiesType.Name);
-                    var exceptionsHolderFieldInfo = contingentPropertiesType.GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic);
+                    // var exceptionsHolderFieldInfo = contingentPropertiesType.GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic);
                     var allfields = task.GetType().GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
+                    var exceptionsHolderFieldInfo = allfields.First(o => o.Name == "m_exceptionsHolder");
                     var message = allfields.Aggregate("\r\nfields : ", (s, info) => s += "\r\n" + info.Name);
 
-                    throw new Exception("contingentPropertiesType.m_exceptionsHolder --> exceptionsHolderFieldInfo =" + exceptionsHolderFieldInfo + "\r\n allfields contains m_exceptionsHolder : "+allfields.Any(o=>o.Name == "m_exceptionsHolder"));
+                    //throw new Exception("contingentPropertiesType.m_exceptionsHolder --> exceptionsHolderFieldInfo =" + exceptionsHolderFieldInfo + "\r\n allfields contains m_exceptionsHolder : "+allfields.First(o=>o.Name == "m_exceptionsHolder"));
 
                     if (exceptionsHolderFieldInfo != null)
-                    {
-                        
-                        
+                    {                                                
                         var exceptionsHolder = exceptionsHolderFieldInfo.GetValue(contingentProperties);
-                        throw new Exception("exceptionsHolder =" + exceptionsHolder);
+                        throw new Exception(message + "\r\n\r\n--> exceptionsHolder =" + exceptionsHolder);
                         if (exceptionsHolder != null)
                         {
                             // throw new Exception("exceptionsHolder.ToString() =" + exceptionsHolder.ToString());
