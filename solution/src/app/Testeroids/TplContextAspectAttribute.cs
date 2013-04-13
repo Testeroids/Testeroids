@@ -125,27 +125,16 @@ namespace Testeroids
                 var contingentProperties = task.GetType().GetField("m_contingentProperties", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(task);
                 if (contingentProperties != null)
                 {
-                    // throw new Exception("contingentProperties.ToString() =" + contingentProperties.ToString());
                     var contingentPropertiesType = contingentProperties.GetType();
-                    // throw new Exception("contingentPropertiesType.Name =" + contingentPropertiesType.Name);
-                    //var exceptionsHolderFieldInfo = contingentPropertiesType.GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic);
                     var allfields = contingentPropertiesType.GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
-                    var message = allfields.Aggregate("\r\nfields : ", (s, info) => s += "\r\n" + info.Name);
-                    //throw new Exception(message + "\r\n\r\n--> exceptionsHolder ? :" + allfields.First(o => o.Name.Contains("m_exceptionsHolder")));
-
                     var exceptionsHolderFieldInfo = allfields.First(o => o.Name.Contains("m_exceptionsHolder"));
-
-                    //throw new Exception("contingentPropertiesType.m_exceptionsHolder --> exceptionsHolderFieldInfo =" + exceptionsHolderFieldInfo + "\r\n allfields contains m_exceptionsHolder : "+allfields.First(o=>o.Name == "m_exceptionsHolder"));
 
                     if (exceptionsHolderFieldInfo != null)
                     {                                                
                         var exceptionsHolder = exceptionsHolderFieldInfo.GetValue(contingentProperties);
-                        //throw new Exception(message + "\r\n\r\n--> exceptionsHolder =" + exceptionsHolder);
                         if (exceptionsHolder != null)
                         {
-                            // throw new Exception("exceptionsHolder.ToString() =" + exceptionsHolder.ToString());
                             var isHandled = (bool)exceptionsHolder.GetType().GetField("m_isHandled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(exceptionsHolder);
-                            // throw new Exception("isHandled =" + isHandled.ToString());
 
                             if (!isHandled)
                             {
