@@ -195,16 +195,13 @@ namespace Testeroids
         {
             // task.m_contingentProperties.m_exceptionsHolder.m_isHandled
             // HACK: we should be able to dramatically improve performances: When finalized, TaskExceptionHolder (a private member down the chain of a Task) throws the static event TaskScheduler.UnobservedTaskException. Unfortunately, for some reason I could not get this event to get fired. therefore, I had to resort to reflection in order to fail only unobserved tasks. :(
-            //var message = task.GetType().GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public).Aggregate("methods : ", (s, info) => s += "\r\n" + info.Name);
-            //message += task.GetType().GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public).Aggregate("fields : ", (s, info) => s += "\r\n" + info.Name);
-
+            // Note : this resource helped. Read the comments around m_contingentProperties and AddException(): http://www.dotnetframework.org/default.aspx/4@0/4@0/untmp/DEVDIV_TFS/Dev10/Releases/RTMRel/ndp/clr/src/BCL/System/Threading/Tasks/Task@cs/1305376/Task@cs
             var contingentProperties = task.GetType().GetField("m_contingentProperties", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(task);
             bool isHandled = false;
             if (contingentProperties != null)
             {
                 var contingentPropertiesType = contingentProperties.GetType();
-                var allfields = contingentPropertiesType.GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
-                //var exceptionsHolderFieldInfo = allfields.First(o => o.Name == "m_exceptionsHolder");
+                // in .net 4.0, the m_exceptionsHolder field is public and requires the BindingFlags.Public flag ! (public volatile TaskExceptionHolder m_exceptionsHolder;) but not on .net 4.5 (internal volatile TaskExceptionHolder m_exceptionsHolder;)
                 var exceptionsHolderFieldInfo = contingentPropertiesType.GetType().GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 
                 if (exceptionsHolderFieldInfo != null)
