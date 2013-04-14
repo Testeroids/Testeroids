@@ -204,8 +204,8 @@ namespace Testeroids
             {
                 var contingentPropertiesType = contingentProperties.GetType();
                 var allfields = contingentPropertiesType.GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
-                var exceptionsHolderFieldInfo = allfields.First(o => o.Name == "m_exceptionsHolder");
-                // var exceptionsHolderFieldInfo = contingentPropertiesType.GetType().GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic);
+                //var exceptionsHolderFieldInfo = allfields.First(o => o.Name == "m_exceptionsHolder");
+                var exceptionsHolderFieldInfo = contingentPropertiesType.GetType().GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 
                 if (exceptionsHolderFieldInfo != null)
                 {
