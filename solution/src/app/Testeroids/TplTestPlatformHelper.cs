@@ -190,5 +190,33 @@ namespace Testeroids
             Debug.Assert(defaultTaskSchedulerField != null, "Could not find the TaskScheduler.s_defaultTaskScheduler field. We are assuming this implementation aspect of the .NET Framework to be able to unit test TPL.");
             return (TaskScheduler)defaultTaskSchedulerField.GetValue(null);
         }
+
+        public static bool IsFaultedTaskHandled(Task task)
+        {
+            // task.m_contingentProperties.m_exceptionsHolder.m_isHandled
+            // HACK: we should be able to dramatically improve performances: When finalized, TaskExceptionHolder (a private member down the chain of a Task) throws the static event TaskScheduler.UnobservedTaskException. Unfortunately, for some reason I could not get this event to get fired. therefore, I had to resort to reflection in order to fail only unobserved tasks. :(
+            //var message = task.GetType().GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public).Aggregate("methods : ", (s, info) => s += "\r\n" + info.Name);
+            //message += task.GetType().GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public).Aggregate("fields : ", (s, info) => s += "\r\n" + info.Name);
+
+            var contingentProperties = task.GetType().GetField("m_contingentProperties", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(task);
+            bool isHandled = false;
+            if (contingentProperties != null)
+            {
+                var contingentPropertiesType = contingentProperties.GetType();
+                var allfields = contingentPropertiesType.GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
+                var exceptionsHolderFieldInfo = allfields.First(o => o.Name == "m_exceptionsHolder");
+                // var exceptionsHolderFieldInfo = contingentPropertiesType.GetType().GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic);
+
+                if (exceptionsHolderFieldInfo != null)
+                {
+                    var exceptionsHolder = exceptionsHolderFieldInfo.GetValue(contingentProperties);
+                    if (exceptionsHolder != null)
+                    {
+                        isHandled = (bool)exceptionsHolder.GetType().GetField("m_isHandled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(exceptionsHolder);
+                    }
+                }
+            }
+            return isHandled;
+        }
     }
 }

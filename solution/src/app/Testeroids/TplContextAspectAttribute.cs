@@ -114,42 +114,25 @@ namespace Testeroids
         public void OnExitingBecause()
         {
             this.OnExitingBecauseMethod();
+            
             var testTaskScheduler = (TplTestPlatformHelper.TestTaskScheduler)TplTestPlatformHelper.GetDefaultScheduler();
             foreach (var task in testTaskScheduler.HistoricQueue)
             {
-                // task.m_contingentProperties.m_exceptionsHolder.m_isHandled
-                // HACK: we should be able to dramatically improve performances: When finalized, TaskExceptionHolder (a private member down the chain of a Task) throws the static event TaskScheduler.UnobservedTaskException. Unfortunately, for some reason I could not get this event to get fired. therefore, I had to resort to reflection in order to fail only unobserved tasks. :(
-                //var message = task.GetType().GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public).Aggregate("methods : ", (s, info) => s += "\r\n" + info.Name);
-                //message += task.GetType().GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public).Aggregate("fields : ", (s, info) => s += "\r\n" + info.Name);
 
-                var contingentProperties = task.GetType().GetField("m_contingentProperties", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(task);
-                if (contingentProperties != null)
+                if (task.IsFaulted)
                 {
-                    var contingentPropertiesType = contingentProperties.GetType();
-                    var allfields = contingentPropertiesType.GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
-                    var exceptionsHolderFieldInfo = allfields.First(o => o.Name== "m_exceptionsHolder");
-                    // var exceptionsHolderFieldInfo = contingentPropertiesType.GetType().GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic);
-
-                    if (exceptionsHolderFieldInfo != null)
-                    {                                                
-                        var exceptionsHolder = exceptionsHolderFieldInfo.GetValue(contingentProperties);
-                        if (exceptionsHolder != null)
+                    var isHandled = TplTestPlatformHelper.IsFaultedTaskHandled(task);
+                    if (!isHandled)
+                    {
+                        // we'll throw the exceptions one after the other. therefore, we won't have aggregate exceptions, but only the internal ones.
+                        task.Exception.Handle(exception =>
                         {
-                            var isHandled = (bool)exceptionsHolder.GetType().GetField("m_isHandled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(exceptionsHolder);
-
-                            if (!isHandled)
-                            {
-                                // we'll throw the exceptions one after the other. therefore, we won't have aggregate exceptions, but only the internal ones.
-                                task.Exception.Handle(exception =>
-                                    {
-                                        ((IContextSpecification)this.Instance).UnhandledExceptions.Add(exception);
-                                        return true;
-                                    });
-                            }
-                        }
-                        
+                            ((IContextSpecification)this.Instance).UnhandledExceptions.Add(exception);
+                            return true;
+                        });
                     }
-                }              
+                }
+                
             }
         }
 
