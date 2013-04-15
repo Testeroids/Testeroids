@@ -129,7 +129,7 @@ namespace Testeroids.Aspects
         [PublicAPI]
         public static bool IsConcreteTestFixture(Type classTypeToInvestigate)
         {
-            return classTypeToInvestigate.IsDefined(typeof(TestFixtureAttribute), false);
+            return !classTypeToInvestigate.IsAbstract && classTypeToInvestigate.IsDefined(typeof(TestFixtureAttribute), false);
         }
 
         /// <summary>
