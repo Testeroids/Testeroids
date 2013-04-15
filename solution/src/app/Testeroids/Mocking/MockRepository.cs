@@ -3,6 +3,7 @@
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Testeroids.Mocking
 {
     using System.Collections.Generic;
@@ -75,6 +76,19 @@ namespace Testeroids.Mocking
             this.mocksTrackedForUsageVerification.Add(mock);
 
             return mock;
+        }
+
+        /// <summary>
+        /// Reset the counts of all the method calls done previously.
+        /// </summary>
+        /// <remarks>Only verified mocks will be affected.</remarks>
+        public void ResetAllCalls()
+        {
+            var resetableMocks = this.mocksTrackedForUsageVerification.OfType<IMockInternals>();
+            foreach (var mock in resetableMocks)
+            {
+                mock.ResetAllCallCounts();
+            }
         }
 
         /// <summary>

@@ -3,6 +3,7 @@
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Testeroids
 {
     using System.ComponentModel;
@@ -60,8 +61,8 @@ namespace Testeroids
         /// </summary>
         protected ContextSpecificationBase()
         {
-            this.CheckSetupsAreMatchedWithVerifyCalls = false;
-            this.AutoVerifyMocks = false;
+            this.CheckSetupsAreMatchedWithVerifyCalls = true;
+            this.AutoVerifyMocks = true;
             this.ArePrerequisiteTestsRunning = false;
         }
 
@@ -175,8 +176,11 @@ namespace Testeroids
         #region Methods
 
         /// <summary>
-        ///   This will be called by the <see cref="ArrangeActAssertAspectAttribute"/> aspect. Performs the "Act" part, or the logic which is to be tested.
+        /// The because method as overridable by the user of Testeroids. Will be called by <see cref="OnBecauseRequested"/>.
         /// </summary>
+        /// <remarks>Internaly, <see cref="OnBecauseRequested"/> does make sure any verified mock created by the <see cref="MockRepository"/> has its recorded calls reset.
+        /// This means that any call to a mocked method will "forget" about the method calls done prior to calling <see cref="Because"/>.
+        /// </remarks>
         protected internal abstract void Because();
 
         /// <summary>
@@ -218,6 +222,16 @@ namespace Testeroids
         protected abstract void InitializeSubjectUnderTest();
 
         /// <summary>
+        ///   This will be called by the <see cref="ArrangeActAssertAspectAttribute"/> aspect. Performs the "Act" part, or the logic which is to be tested.
+        /// </summary>      
+        [UsedImplicitly]
+        protected void OnBecauseRequested()
+        {
+            this.MockRepository.ResetAllCalls();
+            this.Because();
+        }
+
+        /// <summary>
         ///   Allows instantiation of mocks before the call to <see cref="EstablishContext"/>, so that all mock instances are available for use, even if they are not yet configured.
         /// </summary>
         [DebuggerNonUserCode]
@@ -241,10 +255,10 @@ namespace Testeroids
                 foreach (var prerequisiteTest in prerequisiteTestsToRun)
                 {
                     prerequisiteTest.Invoke(
-                        this, 
-                        BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic, 
-                        null, 
-                        null, 
+                        this,
+                        BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic,
+                        null,
+                        null,
                         CultureInfo.InvariantCulture);
                 }
             }

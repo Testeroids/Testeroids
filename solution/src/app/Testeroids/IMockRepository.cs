@@ -3,6 +3,7 @@
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace Testeroids
 {
     using Moq;
@@ -29,6 +30,12 @@ namespace Testeroids
         /// <returns>An instance of <typeparamref name="TMock"/> which can be passed to the Subject Under Test and verified afterwards.</returns>
         /// <remarks>The created mock is always "strict", meaning that every behavior has to be set up explicitly.</remarks>
         IMock<TMock> CreateMock<TMock>() where TMock : class;
+
+        /// <summary>
+        /// Reset the counts of all the method calls done previously.
+        /// </summary>
+        /// <remarks>Only verified mocks will be affected.</remarks>
+        void ResetAllCalls();
 
         /// <summary>
         /// Ensures that all the verifiable mock setups were actually used, by invoking <see cref="IMock.Verify"/> on all mocks.
