@@ -118,7 +118,7 @@ namespace Testeroids.Aspects
         /// <returns> <c>true</c> if type is an <see cref="Testeroids.Aspects.Attributes.AbstractTestFixtureAttribute"/>, <c>false</c> otherwise. </returns>
         public static bool IsAbstractTestFixture(Type classTypeToInvestigate)
         {
-            return classTypeToInvestigate.IsDefined(typeof(AbstractTestFixtureAttribute), false);
+            return classTypeToInvestigate.IsAbstract && typeof(IContextSpecification).IsAssignableFrom(classTypeToInvestigate);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Testeroids.Aspects
         [PublicAPI]
         public static bool IsConcreteTestFixture(Type classTypeToInvestigate)
         {
-            return !classTypeToInvestigate.IsAbstract && classTypeToInvestigate.IsDefined(typeof(TestFixtureAttribute), false);
+            return !classTypeToInvestigate.IsAbstract && typeof(IContextSpecification).IsAssignableFrom(classTypeToInvestigate);
         }
 
         /// <summary>
