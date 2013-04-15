@@ -626,7 +626,7 @@ namespace Testeroids.Tests
                 }
 
                 [Test]
-                [FaultedTaskExpectedException(typeof(NotImplementedException))]
+                [FaultedTaskExceptionResilient(typeof(NotImplementedException))]
                 public void then_using_FaultedTaskExceptionResilient_doesnt_fail_the_test()
                 {
                     Assert.IsTrue(true);

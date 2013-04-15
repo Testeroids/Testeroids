@@ -202,7 +202,7 @@ namespace Testeroids
             {
                 var contingentPropertiesType = contingentProperties.GetType();
                 // in .net 4.0, the m_exceptionsHolder field is public and requires the BindingFlags.Public flag ! (public volatile TaskExceptionHolder m_exceptionsHolder;) but not on .net 4.5 (internal volatile TaskExceptionHolder m_exceptionsHolder;)
-                var exceptionsHolderFieldInfo = contingentPropertiesType.GetType().GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                var exceptionsHolderFieldInfo = contingentPropertiesType.GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 
                 if (exceptionsHolderFieldInfo != null)
                 {
