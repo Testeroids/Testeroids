@@ -227,11 +227,11 @@ namespace Testeroids.Aspects
         /// </summary>
         /// <param name="instance"> The instance of the testFixture. </param>
         /// <param name="methodInfo"> The test method. </param>
-        /// <param name="becauseAction"> The because method. </param>
+        /// <param name="onBecauseRequestedAction"> The because method. </param>
         private void OnTestMethodEntry(
             IContextSpecification instance,
             MethodBase methodInfo,
-            Action becauseAction)
+            Action onBecauseRequestedAction)
         {
             var isRunningInTheContextOfAnotherTest = instance.ArePrerequisiteTestsRunning;
 
@@ -242,12 +242,43 @@ namespace Testeroids.Aspects
 
             var isRunningPrerequisite = methodInfo.IsDefined(typeof(PrerequisiteAttribute), true);
 
-            becauseAction();
+            onBecauseRequestedAction();
 
             if (!isRunningPrerequisite)
             {
                 this.RunPrerequisiteTestsMethod();
             }
+
+            // Handle FaultedTaskExpectedExceptionAttribute and FaultedTaskExceptionResilientAttribute
+            var taskAttributes = methodInfo.GetCustomAttributes(typeof(FaultedTaskExceptionAttribute), false);
+            var exceptionAttribute = taskAttributes.OfType<FaultedTaskExpectedExceptionAttribute>().FirstOrDefault();
+            if (exceptionAttribute != null)
+            {
+                Assert.IsTrue(instance.UnhandledExceptions.Any(o => o.GetType() == exceptionAttribute.ExpectedException));
+            }
+            else
+            {
+                var exceptionResilientAttribute = taskAttributes.OfType<FaultedTaskExceptionResilientAttribute>().FirstOrDefault();
+                if (exceptionResilientAttribute != null)
+                {
+                    // if we protect ourselves against some exceptions but not the ones which were thrown.
+                    foreach (var unhandledException in instance.UnhandledExceptions)
+                    {
+                        if (unhandledException.GetType() != exceptionResilientAttribute.Exception)
+                        {
+                            throw new UnexpectedUnhandledException(unhandledException);
+                        }
+                    }
+                }
+                else
+                {
+                    // if we don't protect ourselves against any exception
+                    foreach (var unhandledException in instance.UnhandledExceptions)
+                    {
+                        throw new UnexpectedUnhandledException(unhandledException);
+                    }
+                }
+            }           
         }
 
         #endregion

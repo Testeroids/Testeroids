@@ -131,8 +131,7 @@ namespace Testeroids
                             return true;
                         });
                     }
-                }
-                
+                }                
             }
         }
 

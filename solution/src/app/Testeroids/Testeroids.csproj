@@ -98,9 +98,13 @@
     <Compile Include="Aspects\FailTestFixtureWithoutTestAspectAttribute.cs" />
     <Compile Include="Aspects\FailTestsOnAbstractClassesNonMarkedAbstractTestFixtureAspectAttribute.cs" />
     <Compile Include="Aspects\FailTestWithoutTestFixtureAspectAttribute.cs" />
+    <Compile Include="Aspects\FaultedTaskExceptionAttribute.cs" />
+    <Compile Include="Aspects\FaultedTaskExceptionResilientAttribute.cs" />
+    <Compile Include="Aspects\FaultedTaskExpectedExceptionAttribute.cs" />
     <Compile Include="Aspects\MakeEmptyTestsInconclusiveAspectAttribute.cs" />
     <Compile Include="Aspects\ProhibitGetOnNotInitializedPropertyAspectAttribute.cs" />
     <Compile Include="Aspects\TypeInvestigationService.cs" />
+    <Compile Include="UnexpectedUnhandledException.cs" />
     <Compile Include="Assert.cs" />
     <Compile Include="ContextSpecification.cs" />
     <Compile Include="ContextSpecificationBase.cs" />

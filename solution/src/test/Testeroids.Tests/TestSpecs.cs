@@ -533,7 +533,6 @@ namespace Testeroids.Tests
                 [UsedImplicitly]
                 protected TestScheduler TestScheduler { get; private set; }
 
-                /// <remarks> Please, as the property's type, mention explicitly the <see cref="System.Type"/> returned by Clear.</remarks>                                
                 public ITestableObserver<int> Result { get; private set; }
 
                 protected sealed override void Because()
@@ -563,7 +562,6 @@ namespace Testeroids.Tests
                 [UsedImplicitly]
                 protected TestScheduler TestScheduler { get; private set; }
 
-                /// <remarks> Please, as the property's type, mention explicitly the <see cref="System.Type"/> returned by Clear.</remarks>                                
                 public ITestableObserver<int> Result { get; private set; }
 
                 protected sealed override void Because()
@@ -590,7 +588,6 @@ namespace Testeroids.Tests
             {
                 #region Context
 
-                /// <remarks> Please, as the property's type, mention explicitly the <see cref="System.Type"/> returned by SumAsync.</remarks>
                 private Task<int> Result { get; set; }
 
                 protected override void Because()
@@ -601,10 +598,11 @@ namespace Testeroids.Tests
                 #endregion
 
                 [Test]
+                [FaultedTaskExpectedException(typeof(NotImplementedException))]
                 public void then_UnhandledExceptions_contains_NotImplementedException()
                 {
                     // Todo : extending CollectionAssert to add a ContainsAnyOfType<T> might be a good idea.
-                    Assert.IsTrue(this.UnhandledExceptions.AnyOfType<NotImplementedException>());                    
+                    // Assert.IsTrue(this.UnhandledExceptions.AnyOfType<NotImplementedException>());                    
                 }
             }
 
@@ -622,10 +620,24 @@ namespace Testeroids.Tests
                 #endregion
 
                 [Test]
+                [FaultedTaskExpectedException(typeof(NotImplementedException))]
                 public void then_UnhandledExceptions_contains_NotImplementedException()
                 {
-                    // Todo : extending CollectionAssert to add a ContainsAnyOfType<T> might be a good idea.
-                    Assert.IsTrue(this.UnhandledExceptions.AnyOfType<NotImplementedException>());
+                }
+
+                [Test]
+                [FaultedTaskExpectedException(typeof(NotImplementedException))]
+                public void then_using_FaultedTaskExceptionResilient_doesnt_fail_the_test()
+                {
+                    Assert.IsTrue(true);
+                }
+
+                [Test]
+                [ExpectedException(typeof(UnexpectedUnhandledException))]
+                public void then_UnexpectedUnhandledException_is_thrown_if_test_is_not_decorated_with_any_FaultedtaskExceptionAttribute()
+                {
+                    // we test something unrelated.
+                    Assert.IsTrue(true);
                 }
             }
 
@@ -648,14 +660,6 @@ namespace Testeroids.Tests
                     Assert.IsTrue(true);
                 }
             }
-        }
-    }
-
-    static class EnumerableExtensions
-    {
-        public static bool AnyOfType<TElement>(this IEnumerable source)
-        {
-            return source.OfType<TElement>().Any();
         }
     }
 }
