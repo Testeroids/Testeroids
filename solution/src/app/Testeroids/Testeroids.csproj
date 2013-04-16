@@ -87,17 +87,13 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Aspects\ArrangeActAssertAspectAttribute.cs" />
-    <Compile Include="Aspects\Attributes\AbstractTestFixtureAttribute.cs" />
     <Compile Include="Aspects\Attributes\DoNotCallBecauseMethodAttribute.cs" />
     <Compile Include="Aspects\Attributes\ExceptionResilientAttribute.cs" />
     <Compile Include="Aspects\CategorizeUnitTestFixturesAspectAttribute.cs" />
     <Compile Include="Aspects\ErrorService.cs" />
-    <Compile Include="Aspects\FailAbstractTestFixtureWithoutTestFixtureAspectAttribute.cs" />
     <Compile Include="Aspects\FailNotCalledBaseEstablishContextAspectAttribute.cs" />
     <Compile Include="Aspects\FailPrivateFieldCalledInNestedClassAspectAttribute.cs" />
     <Compile Include="Aspects\FailTestFixtureWithoutTestAspectAttribute.cs" />
-    <Compile Include="Aspects\FailTestsOnAbstractClassesNonMarkedAbstractTestFixtureAspectAttribute.cs" />
-    <Compile Include="Aspects\FailTestWithoutTestFixtureAspectAttribute.cs" />
     <Compile Include="Aspects\MakeEmptyTestsInconclusiveAspectAttribute.cs" />
     <Compile Include="Aspects\ProhibitGetOnNotInitializedPropertyAspectAttribute.cs" />
     <Compile Include="Aspects\TypeInvestigationService.cs" />
