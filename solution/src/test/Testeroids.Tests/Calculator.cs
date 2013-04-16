@@ -24,15 +24,15 @@ namespace Testeroids.Tests
 
         #region Public Methods and Operators
 
+        public void Clear()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public int Sum(int a, 
                        int b)
         {
             return a + b;
-        }
-
-        public void Clear()
-        {
-            throw new System.NotImplementedException();
         }
 
         #endregion

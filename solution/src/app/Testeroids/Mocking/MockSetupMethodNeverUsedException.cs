@@ -1,3 +1,8 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MockSetupMethodNeverUsedException.cs" company="Testeroids">
+//   © 2012-2013 Testeroids. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids.Mocking
 {
     using System;
@@ -9,6 +14,8 @@ namespace Testeroids.Mocking
     /// </summary>
     public class MockSetupMethodNeverUsedException : Exception
     {
+        #region Constructors and Destructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MockSetupMethodNeverUsedException"/> class.
         /// </summary>
@@ -18,9 +25,11 @@ namespace Testeroids.Mocking
         /// <param name="innerException">
         /// The inner exception.
         /// </param>
-        public MockSetupMethodNeverUsedException(string message, Exception innerException)
+        public MockSetupMethodNeverUsedException(
+            string message, 
+            Exception innerException)
             : base(message, innerException)
-        {            
+        {
         }
 
         /// <summary>
@@ -29,9 +38,12 @@ namespace Testeroids.Mocking
         /// <param name="innerException">
         /// The inner exception.
         /// </param>
-        public MockSetupMethodNeverUsedException(MockException innerException) : 
-            this("Some methods of the mock were setup, but never used.\r\n\r\n" + innerException.Message, innerException)
+        public MockSetupMethodNeverUsedException(MockException innerException)
+            :
+                this(string.Format("Some methods of the mock were setup, but never used.\r\n\r\n{0}", innerException.Message), innerException)
         {
         }
+
+        #endregion
     }
 }

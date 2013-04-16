@@ -183,15 +183,6 @@ namespace Testeroids
         protected internal abstract void Because();
 
         /// <summary>
-        /// This test is meant for internal library use only.
-        /// </summary>
-        [DebuggerNonUserCode]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected virtual void PreTestSetUp()
-        {
-        }
-
-        /// <summary>
         ///   Allows configuration of the test fixture. It is called before  <see cref="InstantiateMocks"/>.
         /// </summary>
         [DebuggerNonUserCode]
@@ -221,6 +212,14 @@ namespace Testeroids
         protected abstract void InitializeSubjectUnderTest();
 
         /// <summary>
+        ///   Allows instantiation of mocks before the call to <see cref="EstablishContext"/>, so that all mock instances are available for use, even if they are not yet configured.
+        /// </summary>
+        [DebuggerNonUserCode]
+        protected virtual void InstantiateMocks()
+        {
+        }
+
+        /// <summary>
         ///   This will be called by the <see cref="ArrangeActAssertAspectAttribute"/> aspect. Performs the "Act" part, or the logic which is to be tested.
         /// </summary>      
         [UsedImplicitly]
@@ -231,10 +230,11 @@ namespace Testeroids
         }
 
         /// <summary>
-        ///   Allows instantiation of mocks before the call to <see cref="EstablishContext"/>, so that all mock instances are available for use, even if they are not yet configured.
+        /// This test is meant for internal library use only.
         /// </summary>
         [DebuggerNonUserCode]
-        protected virtual void InstantiateMocks()
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected virtual void PreTestSetUp()
         {
         }
 

@@ -7,11 +7,8 @@ namespace Testeroids.Tests
 {
     using System;
 
-    using Moq;
-
     using NUnit.Framework;
 
-    using Testeroids.Aspects;
     using Testeroids.Aspects.Attributes;
     using Testeroids.Mocking;
 
@@ -313,7 +310,7 @@ namespace Testeroids.Tests
                     }
                 }
             }
-			
+
             [TestFixture]
             public sealed class with_ProhibitGetOnNotSetPropertyAspectAttribute : given_instantiated_Sut
             {
@@ -337,20 +334,18 @@ namespace Testeroids.Tests
                 public void then_PropertyNotSetException_is_thrown()
                 {
                 }
-
             }
-            
 
             [AbstractTestFixture]
             public abstract class when_Sum_is_called : given_instantiated_Sut
             {
                 #region Context
 
+                private int Result { get; set; }
+
                 private int SpecifiedOperand1 { get; set; }
 
                 private int SpecifiedOperand2 { get; set; }
-
-                private int Result { get; set; }
 
                 protected abstract int EstablishSpecifiedOperand1();
 
@@ -370,7 +365,7 @@ namespace Testeroids.Tests
                 {
                     this.Result = this.Sut.Sum(this.SpecifiedOperand1, this.SpecifiedOperand2);
                 }
-                
+
                 #endregion
 
                 [AbstractTestFixture]
@@ -378,12 +373,13 @@ namespace Testeroids.Tests
                 {
                     #region Context
 
+                    private int ReturnedSum { get; set; }
+
                     protected abstract int EstablishReturnedSum();
 
-                    private int ReturnedSum { get; set; }
                     protected override void EstablishContext()
                     {
- 	                    base.EstablishContext();
+                        base.EstablishContext();
                         this.ReturnedSum = this.EstablishReturnedSum();
                         this.InjectedCalculatorMock
                             .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
@@ -391,6 +387,7 @@ namespace Testeroids.Tests
                             .DontEnforceSetupVerification()
                             .EnforceUsage();
                     }
+
                     #endregion
 
                     [TestFixture]
@@ -408,7 +405,7 @@ namespace Testeroids.Tests
                             return 7;
                         }
 
-                        override protected sealed int EstablishReturnedSum()
+                        protected override sealed int EstablishReturnedSum()
                         {
                             // Return an erroneous value, just to certify that we are returning the value which is handed out by the mock
                             return int.MaxValue;
