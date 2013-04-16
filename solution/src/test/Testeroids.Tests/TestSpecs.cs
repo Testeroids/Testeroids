@@ -7,6 +7,8 @@ namespace Testeroids.Tests
 {
     using System;
 
+    using Moq;
+
     using NUnit.Framework;
 
     using Testeroids.Aspects.Attributes;
@@ -77,13 +79,12 @@ namespace Testeroids.Tests
                     this.InjectedCalculatorMock
                         .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
                         .Returns(0);
-                        //.DontEnforceSetupVerification()
-                        //.EnforceUsage();
-
+                    //// .DontEnforceSetupVerification()
+                    // .EnforceUsage();
                     this.InjectedCalculatorMock
                         .Setup(o => o.Clear());
-                    //.DontEnforceSetupVerification()
-                    //.EnforceUsage();
+                    //// .DontEnforceSetupVerification()
+                    // .EnforceUsage();
                 }
 
                 protected override void Because()
@@ -131,7 +132,7 @@ namespace Testeroids.Tests
                 {
                     #region Context
 
-                    protected override bool EstablishCheckAllSetupsVerified()
+                    protected override sealed bool EstablishCheckAllSetupsVerified()
                     {
                         return false;
                     }
@@ -195,7 +196,7 @@ namespace Testeroids.Tests
                 {
                     #region Context
 
-                    protected override bool EstablishAutoVerifyMocks()
+                    protected override sealed bool EstablishAutoVerifyMocks()
                     {
                         return true;
                     }
@@ -235,7 +236,7 @@ namespace Testeroids.Tests
                 {
                     #region Context
 
-                    protected override bool EstablishAutoVerifyMocks()
+                    protected override sealed bool EstablishAutoVerifyMocks()
                     {
                         return false;
                     }
