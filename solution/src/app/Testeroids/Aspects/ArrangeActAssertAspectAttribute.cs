@@ -206,7 +206,7 @@ namespace Testeroids.Aspects
         /// <summary>
         ///   Method executed when entering a test method.
         /// </summary>
-        /// <param name="instance"> The instance of the testFixture. </param>
+        /// <param name="instance"> The instance of the context specification. </param>
         /// <param name="methodInfo"> The test method. </param>
         /// <param name="becauseAction"> The because method. </param>
         private void OnTestMethodEntry(

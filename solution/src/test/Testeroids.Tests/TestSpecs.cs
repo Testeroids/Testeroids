@@ -95,7 +95,6 @@ namespace Testeroids.Tests
 
                 #endregion
 
-                [TestFixture]
                 public class with_CheckAllSetupsVerified_turned_on : with_CheckAllSetupsVerified_setting_Base
                 {
                     #region Context
@@ -128,7 +127,6 @@ namespace Testeroids.Tests
                     }
                 }
 
-                [TestFixture]
                 public class with_CheckAllSetupsVerified_turned_off : with_CheckAllSetupsVerified_setting_Base
                 {
                     #region Context
@@ -192,7 +190,6 @@ namespace Testeroids.Tests
 
                 #endregion
 
-                [TestFixture]
                 public class with_AutoVerifyMocks_turned_on : with_AutoVerifyMocks_setting_Base
                 {
                     #region Context
@@ -232,7 +229,6 @@ namespace Testeroids.Tests
                     }
                 }
 
-                [TestFixture]
                 public class with_AutoVerifyMocks_turned_off : with_AutoVerifyMocks_setting_Base
                 {
                     #region Context
