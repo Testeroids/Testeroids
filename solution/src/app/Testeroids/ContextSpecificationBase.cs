@@ -3,7 +3,6 @@
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Testeroids
 {
     using System.ComponentModel;
@@ -178,7 +177,7 @@ namespace Testeroids
         /// <summary>
         /// The because method as overridable by the user of Testeroids. Will be called by <see cref="OnBecauseRequested"/>.
         /// </summary>
-        /// <remarks>Internaly, <see cref="OnBecauseRequested"/> does make sure any verified mock created by the <see cref="MockRepository"/> has its recorded calls reset.
+        /// <remarks>Internally, <see cref="OnBecauseRequested"/> does make sure any verified mock created by the <see cref="MockRepository"/> has its recorded calls reset.
         /// This means that any call to a mocked method will "forget" about the method calls done prior to calling <see cref="Because"/>.
         /// </remarks>
         protected internal abstract void Because();
@@ -255,10 +254,10 @@ namespace Testeroids
                 foreach (var prerequisiteTest in prerequisiteTestsToRun)
                 {
                     prerequisiteTest.Invoke(
-                        this,
-                        BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic,
-                        null,
-                        null,
+                        this, 
+                        BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic, 
+                        null, 
+                        null, 
                         CultureInfo.InvariantCulture);
                 }
             }

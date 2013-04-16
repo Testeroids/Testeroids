@@ -5,6 +5,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids
 {
+    using System;
+
     using Testeroids.Aspects;
 
     /// <summary>
@@ -40,10 +42,11 @@ namespace Testeroids
         protected abstract TSubjectUnderTest BecauseSutIsCreated();
 
         /// <summary>
-        ///   Performs additional initialization after the subject under test has been created. Not used in this scenario.
+        ///   Performs additional initialization after the subject under test has been created. Used only to suppress finalization of the <see cref="Sut"/>, since we're not testing that.
         /// </summary>
         protected override sealed void InitializeSubjectUnderTest()
         {
+            GC.SuppressFinalize(this.Sut);
         }
 
         #endregion
