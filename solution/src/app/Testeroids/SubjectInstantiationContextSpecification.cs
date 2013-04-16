@@ -32,7 +32,7 @@ namespace Testeroids
         /// </summary>
         protected internal override void Because()
         {
-            this.Sut = this.BecauseSutIsCreated();
+            this.InstantiateSut();
         }
 
         /// <summary>
@@ -46,6 +46,14 @@ namespace Testeroids
         /// </summary>
         protected override sealed void InitializeSubjectUnderTest()
         {
+        }
+
+        /// <summary>
+        /// Instantiates the Subject Under Test.
+        /// </summary>
+        private void InstantiateSut()
+        {
+            this.Sut = this.BecauseSutIsCreated();
             GC.SuppressFinalize(this.Sut);
         }
 
