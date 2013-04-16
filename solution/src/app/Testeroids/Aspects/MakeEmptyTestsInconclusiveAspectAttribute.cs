@@ -44,7 +44,7 @@ namespace Testeroids.Aspects
         {
             // Use reflection to find <see cref="TestFixtureAttribute"/>, instead of binding to the NUnit type directly.
             // This prevents versioning issues with PostSharp when applying the aspect at compile-time.
-            return TypeInvestigationService.IsTestFixture(type) && base.CompileTimeValidate(type);
+            return TypeInvestigationService.IsContextSpecification(type) && base.CompileTimeValidate(type);
         }
 
         /// <summary>

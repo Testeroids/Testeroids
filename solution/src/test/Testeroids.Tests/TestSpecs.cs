@@ -16,7 +16,6 @@ namespace Testeroids.Tests
 
     public abstract class TestSpecs
     {
-        [TestFixture]
         public sealed class after_instantiating_Sut : SubjectInstantiationContextSpecification<Test>
         {
             #region Context
@@ -94,7 +93,6 @@ namespace Testeroids.Tests
 
                 #endregion
 
-                [TestFixture]
                 public class with_CheckAllSetupsVerified_turned_on : with_CheckAllSetupsVerified_setting_Base
                 {
                     #region Context
@@ -127,7 +125,6 @@ namespace Testeroids.Tests
                     }
                 }
 
-                [TestFixture]
                 public class with_CheckAllSetupsVerified_turned_off : with_CheckAllSetupsVerified_setting_Base
                 {
                     #region Context
@@ -191,7 +188,6 @@ namespace Testeroids.Tests
 
                 #endregion
 
-                [TestFixture]
                 public class with_AutoVerifyMocks_turned_on : with_AutoVerifyMocks_setting_Base
                 {
                     #region Context
@@ -231,7 +227,6 @@ namespace Testeroids.Tests
                     }
                 }
 
-                [TestFixture]
                 public class with_AutoVerifyMocks_turned_off : with_AutoVerifyMocks_setting_Base
                 {
                     #region Context
@@ -264,7 +259,7 @@ namespace Testeroids.Tests
                 }
             }
 
-            public class when_Clear_is_called : given_instantiated_Sut
+            public abstract class when_Clear_is_called : given_instantiated_Sut
             {
                 #region Context
 
@@ -275,7 +270,6 @@ namespace Testeroids.Tests
 
                 #endregion
 
-                [TestFixture]
                 public class with_Clear_on_InjectedCalculatorMock_throwing_TestException : when_Clear_is_called
                 {
                     #region Context
@@ -311,8 +305,7 @@ namespace Testeroids.Tests
                     }
                 }
             }
-
-            [TestFixture]
+			
             public sealed class with_ProhibitGetOnNotSetPropertyAspectAttribute : given_instantiated_Sut
             {
                 #region Context
@@ -337,7 +330,6 @@ namespace Testeroids.Tests
                 }
             }
 
-            [AbstractTestFixture]
             public abstract class when_Sum_is_called : given_instantiated_Sut
             {
                 #region Context
@@ -369,7 +361,6 @@ namespace Testeroids.Tests
 
                 #endregion
 
-                [AbstractTestFixture]
                 public abstract class with_returned_result : when_Sum_is_called
                 {
                     #region Context
@@ -391,7 +382,6 @@ namespace Testeroids.Tests
 
                     #endregion
 
-                    [TestFixture]
                     public class with_SpecifiedOperand1_equal_to_10_and_SpecifiedOperand2_equal_to_7 : with_returned_result
                     {
                         #region Context
@@ -415,7 +405,6 @@ namespace Testeroids.Tests
                         #endregion
                     }
 
-                    [TestFixture]
                     public class with_SpecifiedOperand1_equal_to_10_and_SpecifiedOperand2_equal_to_minus_7 : with_returned_result
                     {
                         #region Context
@@ -463,7 +452,6 @@ namespace Testeroids.Tests
                     }
                 }
 
-                [TestFixture]
                 public class with_thrown_TestException : when_Sum_is_called
                 {
                     #region Context

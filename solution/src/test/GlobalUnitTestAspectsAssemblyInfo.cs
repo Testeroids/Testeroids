@@ -10,9 +10,6 @@ using Testeroids.Aspects;
 
 [assembly: ArrangeActAssertAspect(AttributeTargetMemberAttributes = MulticastAttributes.Public | MulticastAttributes.Instance, AttributeTargetElements = MulticastTargets.Class)]
 [assembly: MakeEmptyTestsInconclusiveAspect]
-[assembly: FailAbstractTestFixtureWithoutTestFixtureAspect]
 [assembly: FailTestFixtureWithoutTestAspect]
-[assembly: FailTestWithoutTestFixtureAspect]
-[assembly: FailTestsOnAbstractClassesNonMarkedAbstractTestFixtureAspect]
 [assembly: CategorizeUnitTestFixturesAspect]
 [assembly: FailNotCalledBaseEstablishContextAspect]
