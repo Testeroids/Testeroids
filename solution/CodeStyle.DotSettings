@@ -5,16 +5,25 @@
 	<s:String x:Key="/Default/CodeStyle/CodeCleanup/Profiles/=No_0020Brainer_0020Test_0020Cleanup/@EntryIndexedValue"></s:String>
 	<s:Boolean x:Key="/Default/CodeStyle/CodeCleanup/Profiles/=No_0020Brainer_0020Test_0020Cleanup/@EntryIndexRemoved">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeStyle/CodeCleanup/Profiles/=StyleCop/@EntryIndexRemoved">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/ALIGN_MULTILINE_ARRAY_AND_OBJECT_INITIALIZER/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/ALIGN_MULTILINE_BINARY_EXPRESSIONS_CHAIN/@EntryValue">True</s:Boolean>
+	<s:Int64 x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/BLANK_LINES_AFTER_START_COMMENT/@EntryValue">1</s:Int64>
+	<s:Int64 x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/BLANK_LINES_AROUND_FIELD/@EntryValue">1</s:Int64>
+	<s:Int64 x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/BLANK_LINES_AROUND_TYPE/@EntryValue">1</s:Int64>
+	<s:Int64 x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/BLANK_LINES_INSIDE_TYPE/@EntryValue">0</s:Int64>
 	<s:String x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/CASE_BLOCK_BRACES/@EntryValue">NEXT_LINE</s:String>
 	<s:Int64 x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/CONTINUOUS_INDENT_MULTIPLIER/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/PLACE_SIMPLE_ACCESSOR_ATTRIBUTE_ON_SAME_LINE/@EntryValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/PLACE_SIMPLE_LINQ_ON_SINGLE_LINE/@EntryValue">False</s:Boolean>
 	<s:Int64 x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/WRAP_LIMIT/@EntryValue">120</s:Int64>
 	<s:String x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/WRAP_MULTIPLE_TYPE_PARAMEER_CONSTRAINTS_STYLE/@EntryValue">CHOP_ALWAYS</s:String>
 	<s:String x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/WRAP_TERNARY_EXPR_STYLE/@EntryValue">CHOP_ALWAYS</s:String>
+	<s:String x:Key="/Default/CodeStyle/CodeFormatting/XmlDocFormatter/TagAttributeIndenting/@EntryValue">ByFirstAttr</s:String>
 	<s:Boolean x:Key="/Default/CodeStyle/CodeFormatting/XmlFormatter/BlankLineAfterProcessingInstructions/@EntryValue">False</s:Boolean>
 	<s:Int64 x:Key="/Default/CodeStyle/CodeFormatting/XmlFormatter/MaxSingleLineTagLength/@EntryValue">120</s:Int64>
 	<s:Boolean x:Key="/Default/CodeStyle/CodeFormatting/XmlFormatter/ProcessingInstructionSpaceAfterLastAttr/@EntryValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeStyle/CodeFormatting/XmlFormatter/WrapBeforeAttr/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/CodeStyle/CSharpMemberOrderPattern/LayoutType/@EntryValue">CustomLayout</s:String>
 	<s:String x:Key="/Default/FilterSettingsManager/AttributeFilterXml/@EntryValue">&lt;data&gt;&lt;AttributeFilter ClassMask="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" AssemblyOrModule="*" IsEnabled="True" /&gt;&lt;/data&gt;</s:String>
 	<s:String x:Key="/Default/FilterSettingsManager/CoverageFilterXml/@EntryValue">&lt;data&gt;&lt;IncludeFilters&gt;&lt;Filter ModuleMask="*" ClassMask="*" FunctionMask="*" IsEnabled="True" /&gt;&lt;/IncludeFilters&gt;&lt;ExcludeFilters&gt;&lt;Filter ModuleMask="*.Tests*" ClassMask="*" FunctionMask="*" IsEnabled="True" /&gt;&lt;Filter ModuleMask="Liebherr.Aspects" ClassMask="*" FunctionMask="*" IsEnabled="True" /&gt;&lt;Filter ModuleMask="Liebherr.Aspects.*" ClassMask="*" FunctionMask="*" IsEnabled="True" /&gt;&lt;Filter ModuleMask="Liebherr.Contracts" ClassMask="*" FunctionMask="*" IsEnabled="True" /&gt;&lt;Filter ModuleMask="Liebherr.*.Contracts" ClassMask="*" FunctionMask="*" IsEnabled="True" /&gt;&lt;Filter ModuleMask="*" ClassMask="*.Resources" FunctionMask="*" IsEnabled="True" /&gt;&lt;Filter ModuleMask="*" ClassMask="*.Settings" FunctionMask="*" IsEnabled="True" /&gt;&lt;Filter ModuleMask="*" ClassMask="*.Views.*" FunctionMask="*" IsEnabled="True" /&gt;&lt;/ExcludeFilters&gt;&lt;/data&gt;</s:String>
 	<s:String x:Key="/Default/CodeStyle/CodeCleanup/Profiles/=StyleCop/@EntryIndexedValue"></s:String>
@@ -30,7 +39,7 @@
 	<s:String x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/FORCE_IFELSE_BRACES_STYLE/@EntryValue">ALWAYS_ADD</s:String>
 	<s:String x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/FORCE_USING_BRACES_STYLE/@EntryValue">ALWAYS_ADD</s:String>
 	<s:String x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/FORCE_WHILE_BRACES_STYLE/@EntryValue">ALWAYS_ADD</s:String>
-	<s:Boolean x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/INDENT_ANONYMOUS_METHOD_BLOCK/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/INDENT_ANONYMOUS_METHOD_BLOCK/@EntryValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/INDENT_EMBRACED_INITIALIZER_BLOCK/@EntryValue">False</s:Boolean>
 	<s:Int64 x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/KEEP_BLANK_LINES_IN_CODE/@EntryValue">1</s:Int64>
 	<s:Int64 x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/KEEP_BLANK_LINES_IN_DECLARATIONS/@EntryValue">1</s:Int64>
@@ -58,7 +67,7 @@
 	<s:Boolean x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/WRAP_LINES/@EntryValue">False</s:Boolean>
 	<s:String x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/WRAP_PARAMETERS_STYLE/@EntryValue">CHOP_ALWAYS</s:String>
 	<s:String x:Key="/Default/CodeStyle/CSharpMemberOrderPattern/CustomPattern/@EntryValue">&lt;?xml version="1.0" encoding="utf-8"?&gt;&#xD;
-&lt;!-- Last updated 15.05.2012 --&gt;&#xD;
+&lt;!-- Last updated 15.04.2013 --&gt;&#xD;
 &lt;Patterns xmlns="urn:shemas-jetbrains-com:member-reordering-patterns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:shemas-jetbrains-com:member-reordering-patterns C:\Users\lmbpop0\Desktop\MemberReorderingPatterns.xsd"&gt;&#xD;
 	&lt;!-- Do not reorder COM interfaces --&gt;&#xD;
 	&lt;Pattern&gt;&#xD;
@@ -437,6 +446,18 @@
 					&lt;/And&gt;&#xD;
 					&lt;And&gt;&#xD;
 						&lt;Kind Is="method"/&gt;&#xD;
+						&lt;Name Is="^PreTestSetUp$"/&gt;&#xD;
+					&lt;/And&gt;&#xD;
+					&lt;And&gt;&#xD;
+						&lt;Kind Is="method"/&gt;&#xD;
+						&lt;Name Is="^InstantiateMocks$"/&gt;&#xD;
+					&lt;/And&gt;&#xD;
+					&lt;And&gt;&#xD;
+						&lt;Kind Is="method"/&gt;&#xD;
+						&lt;Name Is="^BeforeEstablishContext$"/&gt;&#xD;
+					&lt;/And&gt;&#xD;
+					&lt;And&gt;&#xD;
+						&lt;Kind Is="method"/&gt;&#xD;
 						&lt;Name Is="^EstablishContext$"/&gt;&#xD;
 					&lt;/And&gt;&#xD;
 					&lt;And&gt;&#xD;
@@ -501,6 +522,9 @@
 					&lt;Kind Is="method"/&gt;&#xD;
 					&lt;Not&gt;&#xD;
 						&lt;Or&gt;&#xD;
+							&lt;Name Is="^PreTestSetUp$"/&gt;&#xD;
+							&lt;Name Is="^InstantiateMocks$"/&gt;&#xD;
+							&lt;Name Is="^BeforeEstablishContext$"/&gt;&#xD;
 							&lt;Name Is="^EstablishContext$"/&gt;&#xD;
 							&lt;Name Is="^BecauseSutIsCreated$"/&gt;&#xD;
 							&lt;Name Is="^CreateSubjectUnderTest$"/&gt;&#xD;
@@ -522,6 +546,9 @@
 					&lt;Abstract/&gt;&#xD;
 					&lt;Not&gt;&#xD;
 						&lt;Or&gt;&#xD;
+							&lt;Name Is="^PreTestSetUp$"/&gt;&#xD;
+							&lt;Name Is="^InstantiateMocks$"/&gt;&#xD;
+							&lt;Name Is="^BeforeEstablishContext$"/&gt;&#xD;
 							&lt;Name Is="^EstablishContext$"/&gt;&#xD;
 							&lt;Name Is="^BecauseSutIsCreated$"/&gt;&#xD;
 							&lt;Name Is="^CreateSubjectUnderTest$"/&gt;&#xD;
@@ -531,6 +558,36 @@
 							&lt;HasAttribute CLRName="NUnit.Framework.TestAttribute" Inherit="false"/&gt;&#xD;
 						&lt;/Or&gt;&#xD;
 					&lt;/Not&gt;&#xD;
+				&lt;/And&gt;&#xD;
+			&lt;/Match&gt;&#xD;
+			&lt;!--&lt;Group Region="Context" /&gt;--&gt;&#xD;
+		&lt;/Entry&gt;&#xD;
+		&lt;!--Context/PreTestSetUp--&gt;&#xD;
+		&lt;Entry&gt;&#xD;
+			&lt;Match&gt;&#xD;
+				&lt;And&gt;&#xD;
+					&lt;Kind Is="method"/&gt;&#xD;
+					&lt;Name Is="^PreTestSetUp$"/&gt;&#xD;
+				&lt;/And&gt;&#xD;
+			&lt;/Match&gt;&#xD;
+			&lt;!--&lt;Group Region="Context" /&gt;--&gt;&#xD;
+		&lt;/Entry&gt;&#xD;
+		&lt;!--Context/InstantiateMocks--&gt;&#xD;
+		&lt;Entry&gt;&#xD;
+			&lt;Match&gt;&#xD;
+				&lt;And&gt;&#xD;
+					&lt;Kind Is="method"/&gt;&#xD;
+					&lt;Name Is="^InstantiateMocks$"/&gt;&#xD;
+				&lt;/And&gt;&#xD;
+			&lt;/Match&gt;&#xD;
+			&lt;!--&lt;Group Region="Context" /&gt;--&gt;&#xD;
+		&lt;/Entry&gt;&#xD;
+		&lt;!--Context/BeforeEstablishContext--&gt;&#xD;
+		&lt;Entry&gt;&#xD;
+			&lt;Match&gt;&#xD;
+				&lt;And&gt;&#xD;
+					&lt;Kind Is="method"/&gt;&#xD;
+					&lt;Name Is="^BeforeEstablishContext$"/&gt;&#xD;
 				&lt;/And&gt;&#xD;
 			&lt;/Match&gt;&#xD;
 			&lt;!--&lt;Group Region="Context" /&gt;--&gt;&#xD;

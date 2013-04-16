@@ -3,7 +3,6 @@
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Testeroids.Mocking
 {
     using System.Collections.Generic;

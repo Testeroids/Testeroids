@@ -11,7 +11,6 @@ namespace Testeroids.Tests
 
     using NUnit.Framework;
 
-    using Testeroids.Aspects;
     using Testeroids.Aspects.Attributes;
     using Testeroids.Mocking;
 
@@ -79,13 +78,12 @@ namespace Testeroids.Tests
                     this.InjectedCalculatorMock
                         .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
                         .Returns(0);
-                        //.DontEnforceSetupVerification()
-                        //.EnforceUsage();
-
+                    //// .DontEnforceSetupVerification()
+                    // .EnforceUsage();
                     this.InjectedCalculatorMock
                         .Setup(o => o.Clear());
-                    //.DontEnforceSetupVerification()
-                    //.EnforceUsage();
+                    //// .DontEnforceSetupVerification()
+                    // .EnforceUsage();
                 }
 
                 protected override void Because()
@@ -131,7 +129,7 @@ namespace Testeroids.Tests
                 {
                     #region Context
 
-                    protected override bool EstablishCheckAllSetupsVerified()
+                    protected override sealed bool EstablishCheckAllSetupsVerified()
                     {
                         return false;
                     }
@@ -194,7 +192,7 @@ namespace Testeroids.Tests
                 {
                     #region Context
 
-                    protected override bool EstablishAutoVerifyMocks()
+                    protected override sealed bool EstablishAutoVerifyMocks()
                     {
                         return true;
                     }
@@ -233,7 +231,7 @@ namespace Testeroids.Tests
                 {
                     #region Context
 
-                    protected override bool EstablishAutoVerifyMocks()
+                    protected override sealed bool EstablishAutoVerifyMocks()
                     {
                         return false;
                     }
@@ -330,19 +328,17 @@ namespace Testeroids.Tests
                 public void then_PropertyNotSetException_is_thrown()
                 {
                 }
-
             }
-            
 
             public abstract class when_Sum_is_called : given_instantiated_Sut
             {
                 #region Context
 
+                private int Result { get; set; }
+
                 private int SpecifiedOperand1 { get; set; }
 
                 private int SpecifiedOperand2 { get; set; }
-
-                private int Result { get; set; }
 
                 protected abstract int EstablishSpecifiedOperand1();
 
@@ -362,19 +358,20 @@ namespace Testeroids.Tests
                 {
                     this.Result = this.Sut.Sum(this.SpecifiedOperand1, this.SpecifiedOperand2);
                 }
-                
+
                 #endregion
 
                 public abstract class with_returned_result : when_Sum_is_called
                 {
                     #region Context
 
+                    private int ReturnedSum { get; set; }
+
                     protected abstract int EstablishReturnedSum();
 
-                    private int ReturnedSum { get; set; }
                     protected override void EstablishContext()
                     {
- 	                    base.EstablishContext();
+                        base.EstablishContext();
                         this.ReturnedSum = this.EstablishReturnedSum();
                         this.InjectedCalculatorMock
                             .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
@@ -382,6 +379,7 @@ namespace Testeroids.Tests
                             .DontEnforceSetupVerification()
                             .EnforceUsage();
                     }
+
                     #endregion
 
                     public class with_SpecifiedOperand1_equal_to_10_and_SpecifiedOperand2_equal_to_7 : with_returned_result
@@ -398,7 +396,7 @@ namespace Testeroids.Tests
                             return 7;
                         }
 
-                        override protected sealed int EstablishReturnedSum()
+                        protected override sealed int EstablishReturnedSum()
                         {
                             // Return an erroneous value, just to certify that we are returning the value which is handed out by the mock
                             return int.MaxValue;

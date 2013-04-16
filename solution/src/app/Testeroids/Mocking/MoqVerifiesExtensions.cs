@@ -1,14 +1,17 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MoqSetupWrapped.cs" company="Testeroids">
+// <copyright file="MoqVerifiesExtensions.cs" company="Testeroids">
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Testeroids.Mocking
 {
+    using Moq.Language;
+
     public static class MoqVerifiesExtensions
-    {        
-        public static Moq.Language.IVerifies DontEnforceSetupVerification(this Moq.Language.IVerifies verifies)
+    {
+        #region Public Methods and Operators
+
+        public static IVerifies DontEnforceSetupVerification(this IVerifies verifies)
         {
             var testeroidsSetup = (Mocking.IVerifiesInternals)verifies;
             var expression = testeroidsSetup.Expression;
@@ -17,10 +20,12 @@ namespace Testeroids.Mocking
             return verifies;
         }
 
-        public static Moq.Language.IVerifies EnforceUsage(this Moq.Language.IVerifies verifies)
+        public static IVerifies EnforceUsage(this IVerifies verifies)
         {
             verifies.Verifiable();
             return verifies;
         }
+
+        #endregion
     }
 }
