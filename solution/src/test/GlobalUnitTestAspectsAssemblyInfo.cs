@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="GlobalUnitTestAspectsAssemblyInfo.cs" company="Liebherr International AG">
-//   © 2012 Liebherr. All rights reserved.
+// <copyright file="GlobalUnitTestAspectsAssemblyInfo.cs" company="Testeroids">
+//   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -10,9 +10,6 @@ using Testeroids.Aspects;
 
 [assembly: ArrangeActAssertAspect(AttributeTargetMemberAttributes = MulticastAttributes.Public | MulticastAttributes.Instance, AttributeTargetElements = MulticastTargets.Class)]
 [assembly: MakeEmptyTestsInconclusiveAspect]
-[assembly: FailAbstractTestFixtureWithoutTestFixtureAspect]
 [assembly: FailTestFixtureWithoutTestAspect]
-[assembly: FailTestWithoutTestFixtureAspect]
-[assembly: FailTestsOnAbstractClassesNonMarkedAbstractTestFixtureAspect]
 [assembly: CategorizeUnitTestFixturesAspect]
 [assembly: FailNotCalledBaseEstablishContextAspect]

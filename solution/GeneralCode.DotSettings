@@ -1,11 +1,10 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/CodeAnnotations/DefaultNamespace/@EntryValue">JetBrains.Annotations</s:String>
 	<s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=GCSuppressFinalizeForTypeWithoutDestructor/@EntryIndexedValue">DO_NOT_SHOW</s:String>
+	<s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=ParameterTypeCanBeEnumerable_002EGlobal/@EntryIndexedValue">DO_NOT_SHOW</s:String>
 	<s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=UnusedMemberInSuper_002EGlobal/@EntryIndexedValue">WARNING</s:String>
 	<s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=UnusedMember_002EGlobal/@EntryIndexedValue">DO_NOT_SHOW</s:String>
 	<s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=VirtualMemberNeverOverriden_002EGlobal/@EntryIndexedValue">DO_NOT_SHOW</s:String>
-	
-	
-	
 	
 	
 	
@@ -56,7 +55,7 @@
             if (disposing)&#xD;
             {&#xD;
                 // Dispose of managed resources&#xD;
-				$END$&#xD;
+                $END$&#xD;
             }&#xD;
 &#xD;
             // Dispose of native resources&#xD;
@@ -64,21 +63,6 @@
 &#xD;
         #endregion&#xD;
 </s:String>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=41127BDE19966946A80879B8BD27407F/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=41127BDE19966946A80879B8BD27407F/Comment/@EntryValue">Use of RegKey is not a best practice. For mockability purposes, use IRegKey from SystemWrapper.</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=41127BDE19966946A80879B8BD27407F/CustomPatternPlaceholder/=RegKey/@KeyIndexDefined">True</s:Boolean>
@@ -110,6 +94,7 @@
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=81125D5F2CACC64FBDD8DE744C33FDB7/TreatPostfixAndPrefixOperatorEquivalent/@EntryValue">False</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=81125D5F2CACC64FBDD8DE744C33FDB7/TreatReversedBinaryExpressionsEquivalent/@EntryValue">Never</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=81125D5F2CACC64FBDD8DE744C33FDB7/TypePlaceholderMatchesVoid/@EntryValue">False</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=8CE8D66AAED0F94B8EAAD66BCAA56A49/ReplacePattern/@EntryValue">this.CreateMock&lt;I$A_Type$&gt;().Object</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=90E7261B3C4545498A47455BA1C4D356/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=90E7261B3C4545498A47455BA1C4D356/Comment/@EntryValue">Use of DateTime is not a best practice. For mockability purposes, use IDateTime from SystemWrapper.</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=90E7261B3C4545498A47455BA1C4D356/CustomPatternPlaceholder/=DateTime/@KeyIndexDefined">True</s:Boolean>
@@ -127,4 +112,9 @@
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=90E7261B3C4545498A47455BA1C4D356/SmartMatchAssociativeExpressions/@EntryValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=90E7261B3C4545498A47455BA1C4D356/TreatPostfixAndPrefixOperatorEquivalent/@EntryValue">False</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=90E7261B3C4545498A47455BA1C4D356/TreatReversedBinaryExpressionsEquivalent/@EntryValue">Never</s:String>
-	<s:Boolean x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=90E7261B3C4545498A47455BA1C4D356/TypePlaceholderMatchesVoid/@EntryValue">False</s:Boolean></wpf:ResourceDictionary>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=9173A039E492484CB2EE6E73EEE82E53/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=9173A039E492484CB2EE6E73EEE82E53/Color/@EntryValue">Blue</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=9173A039E492484CB2EE6E73EEE82E53/MatchComments/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=9173A039E492484CB2EE6E73EEE82E53/Name/@EntryValue">Fixme</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=9173A039E492484CB2EE6E73EEE82E53/Pattern/@EntryValue">(?&lt;=\W|^)(?&lt;TAG&gt;FIXME)(\W|$)(.*)</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/Todo/TodoPatterns/=9173A039E492484CB2EE6E73EEE82E53/TodoIconStyle/@EntryValue">Error</s:String></wpf:ResourceDictionary>

@@ -1,9 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testeroids", "src\app\Testeroids\Testeroids.csproj", "{78BE9C59-3148-41F1-B1D0-9D51FA1F0B03}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testeroids.Rx", "src\app\Testeroids.Rx\Testeroids.Rx.csproj", "{DE7E5DBA-5C70-4627-BD6B-B5108FA378F4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testeroids.Tests", "src\test\Testeroids.Tests\Testeroids.Tests.csproj", "{BF1AB69F-1098-4019-AD34-A09CDA1116B2}"
 EndProject
@@ -17,10 +15,6 @@ Global
 		{78BE9C59-3148-41F1-B1D0-9D51FA1F0B03}.Debug|x86.Build.0 = Debug|Any CPU
 		{78BE9C59-3148-41F1-B1D0-9D51FA1F0B03}.Release|x86.ActiveCfg = Release|Any CPU
 		{78BE9C59-3148-41F1-B1D0-9D51FA1F0B03}.Release|x86.Build.0 = Release|Any CPU
-		{DE7E5DBA-5C70-4627-BD6B-B5108FA378F4}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{DE7E5DBA-5C70-4627-BD6B-B5108FA378F4}.Debug|x86.Build.0 = Debug|Any CPU
-		{DE7E5DBA-5C70-4627-BD6B-B5108FA378F4}.Release|x86.ActiveCfg = Release|Any CPU
-		{DE7E5DBA-5C70-4627-BD6B-B5108FA378F4}.Release|x86.Build.0 = Release|Any CPU
 		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Debug|x86.Build.0 = Debug|Any CPU
 		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Release|x86.ActiveCfg = Release|Any CPU

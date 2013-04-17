@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="FailTestFixtureWithoutTestAspectAttribute.cs" company="Testeroids">
-//   © 2012 Testeroids. All rights reserved.
+//   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids.Aspects
@@ -33,9 +33,9 @@ namespace Testeroids.Aspects
         /// <returns> false if the given class is marked as <see cref="TestFixtureAttribute"/> and does not contain at least one <see cref="TestAttribute"/> method, true otherwise. </returns>
         public override bool CompileTimeValidate(Type type)
         {
-            if (TypeInvestigationService.IsConcreteTestFixture(type) && !TypeInvestigationService.GetAllTestMethods(type).Any())
+            if (TypeInvestigationService.IsConcreteContextSpecification(type) && !TypeInvestigationService.GetAllTestMethods(type).Any())
             {
-                return ErrorService.RaiseError(this.GetType(), type, string.Format("{0} does not contain any tests. TestFixture must contain tests", type.Name));
+                return ErrorService.RaiseError(this.GetType(), type, string.Format("{0} does not contain any tests. Concrete ContextSpecifications must contain tests", type.Name));
             }
 
             return base.CompileTimeValidate(type);

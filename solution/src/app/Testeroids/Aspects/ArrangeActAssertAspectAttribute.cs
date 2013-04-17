@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ArrangeActAssertAspectAttribute.cs" company="Testeroids">
-//   © 2012 Testeroids. All rights reserved.
+//   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids.Aspects
@@ -39,9 +39,9 @@ namespace Testeroids.Aspects
         [NotNull]
         [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", 
             Justification = "Reviewed. PostSharp requires this to be public.")]
-        [ImportMember("Because", IsRequired = true)]
+        [ImportMember("OnBecauseRequested", IsRequired = true)]
         [UsedImplicitly]
-        public Action BecauseMethod;
+        public Action OnBecauseRequestedMethod;
 
         /// <summary>
         ///   Field bound at runtime to a delegate of the method <c>RunPrerequisiteTests</c> .
@@ -77,22 +77,7 @@ namespace Testeroids.Aspects
         /// <returns><c>true</c> if the attribute needs to be applied to the type; <c>false</c> otherwise.</returns>
         public override bool CompileTimeValidate(Type type)
         {
-            var isTestFixture =
-                type.GetCustomAttributes(false)
-                    .Any(x => x is TestFixtureAttribute || x is AbstractTestFixtureAttribute);
-
-            bool isValid;
-
-            if (!isTestFixture || !typeof(IContextSpecification).IsAssignableFrom(type))
-            {
-                isValid = false;
-            }
-            else
-            {
-                isValid = base.CompileTimeValidate(type);
-            }
-
-            return isValid;
+            return typeof(IContextSpecification).IsAssignableFrom(type) && base.CompileTimeValidate(type);
         }
 
         /// <summary>
@@ -139,7 +124,7 @@ namespace Testeroids.Aspects
                 this.OnTestMethodEntry(
                     (IContextSpecification)args.Instance, 
                     args.Method, 
-                    this.BecauseMethod);
+                    this.OnBecauseRequestedMethod);
             }
             catch (Exception e)
             {
@@ -174,7 +159,7 @@ namespace Testeroids.Aspects
         [DebuggerNonUserCode]
         public void OnStandardTestMethodEntry(MethodExecutionArgs args)
         {
-            this.OnTestMethodEntry((IContextSpecification)args.Instance, args.Method, this.BecauseMethod);
+            this.OnTestMethodEntry((IContextSpecification)args.Instance, args.Method, this.OnBecauseRequestedMethod);
         }
 
         #endregion
@@ -220,7 +205,7 @@ namespace Testeroids.Aspects
         /// <summary>
         ///   Method executed when entering a test method.
         /// </summary>
-        /// <param name="instance"> The instance of the testFixture. </param>
+        /// <param name="instance"> The instance of the context specification. </param>
         /// <param name="methodInfo"> The test method. </param>
         /// <param name="becauseAction"> The because method. </param>
         private void OnTestMethodEntry(

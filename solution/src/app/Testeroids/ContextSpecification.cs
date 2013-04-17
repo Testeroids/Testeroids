@@ -1,11 +1,12 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ContextSpecification.cs" company="Testeroids">
-//   © 2012 Testeroids. All rights reserved.
+//   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Testeroids
 {
+    using System;
+
     /// <summary>
     ///   Implements the base class to define a Context/Specification style test fixture to test a class method.
     /// </summary>
@@ -36,6 +37,8 @@ namespace Testeroids
         protected override void InitializeSubjectUnderTest()
         {
             this.Sut = this.CreateSubjectUnderTest();
+
+            GC.SuppressFinalize(this.Sut);
         }
 
         #endregion

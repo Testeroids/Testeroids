@@ -1,4 +1,9 @@
-﻿namespace Testeroids.Tests
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Calculator.cs" company="Testeroids">
+//   © 2012-2013 Testeroids. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+namespace Testeroids.Tests
 {
     internal class Calculator : ICalculator
     {
@@ -19,7 +24,12 @@
 
         #region Public Methods and Operators
 
-        public int Sum(int a,
+        public void Clear()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public int Sum(int a, 
                        int b)
         {
             return a + b;

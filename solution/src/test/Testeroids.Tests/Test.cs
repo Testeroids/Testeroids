@@ -1,4 +1,9 @@
-﻿namespace Testeroids.Tests
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Test.cs" company="Testeroids">
+//   © 2012-2013 Testeroids. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+namespace Testeroids.Tests
 {
     public class Test
     {
@@ -21,14 +26,22 @@
 
         public ICalculator Calculator
         {
-            get { return this.calculator; }
+            get
+            {
+                return this.calculator;
+            }
         }
 
         #endregion
 
         #region Public Methods and Operators
 
-        public int Sum(int a,
+        public void Clear()
+        {
+            this.Calculator.Clear();
+        }
+
+        public int Sum(int a, 
                        int b)
         {
             return this.Calculator.Sum(a, b);

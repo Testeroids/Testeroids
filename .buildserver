@@ -1,0 +1,5 @@
+[General]
+ActiveBuildServerType = TeamCity
+[TeamCity]
+BuildServerUrl = teamcity.codebetter.com
+ProjectName = Testeroids

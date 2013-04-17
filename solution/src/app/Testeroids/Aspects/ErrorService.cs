@@ -1,9 +1,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ErrorService.cs" company="Testeroids">
-//   © 2012 Testeroids. All rights reserved.
+//   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Testeroids.Aspects
 {
     using System;
@@ -27,8 +26,8 @@ namespace Testeroids.Aspects
         /// <param name="message"> The message to give explaining the error. </param>
         /// <returns> always false as an error has occurred. </returns>
         public static bool RaiseError(
-            Type aspectType,
-            Type verifiedClassType,
+            Type aspectType, 
+            Type verifiedClassType, 
             string message)
         {
             message = string.Concat(aspectType.Name, " : \r\n\r\n ", message);
@@ -45,8 +44,8 @@ namespace Testeroids.Aspects
         /// <param name="message"> The message to give explaining the error. </param>
         /// <returns> always false as an error has occurred. </returns>
         public static bool RaiseError(
-            Type aspectType,
-            MethodBase verifiedMethod,
+            Type aspectType, 
+            MethodBase verifiedMethod, 
             string message)
         {
             message = string.Concat(aspectType.Name, " : \r\n\r\n ", message);

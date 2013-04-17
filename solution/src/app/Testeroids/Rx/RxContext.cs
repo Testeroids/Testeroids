@@ -1,6 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="RxContext.cs" company="Testeroids">
-//   © 2012 Testeroids. All rights reserved.
+//   � 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids.Rx
@@ -8,13 +8,11 @@ namespace Testeroids.Rx
     using System;
     using System.Reactive.Concurrency;
 
-    using Microsoft.Reactive.Testing;
-
     using RxSchedulers.Switch;
 
     /// <summary>
     /// Implements functionality which is useful for a <see cref="IContextSpecification"/> implementation in what relates to Reactive Extensions,
-    /// namely configuring the <see cref="SchedulerSwitch"/> for test purposes, and lazy instantiation of <see cref="TestScheduler"/>s.
+    /// namely configuring the <see cref="RxSchedulers.Switch.SchedulerSwitch"/> for test purposes, and lazy instantiation of <see cref="TestScheduler"/>s.
     /// </summary>
     [Serializable]
     public class RxContext

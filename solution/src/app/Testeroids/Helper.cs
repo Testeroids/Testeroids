@@ -1,9 +1,8 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="Helper.cs" company="Testeroids">
-//   © 2012 Testeroids. All rights reserved.
+//   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Testeroids
 {
     using System;
@@ -36,16 +35,16 @@ namespace Testeroids
         /// Returns any exception thrown by <see cref="Activator.CreateInstance(System.Type,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)"/>. Unwraps <see cref="TargetInvocationException"/>.
         /// </exception>
         public static T InstancePrivateObject<T>(
-            this IContextSpecification specification,
+            this IContextSpecification specification, 
             params object[] args)
         {
             try
             {
                 return (T)Activator.CreateInstance(
-                    typeof(T),
-                    BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.CreateInstance,
-                    null,
-                    args,
+                    typeof(T), 
+                    BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.CreateInstance, 
+                    null, 
+                    args, 
                     null);
             }
             catch (TargetInvocationException exception)
@@ -66,17 +65,17 @@ namespace Testeroids
         /// <param name="methodName"> The method Name. </param>
         /// <param name="args"> The args to pass to the method. </param>
         public static void InvokePrivate(
-            object target,
-            string methodName,
+            object target, 
+            string methodName, 
             object[] args = null)
         {
             try
             {
                 target.GetType().InvokeMember(
-                    methodName,
-                    BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod,
-                    null,
-                    target,
+                    methodName, 
+                    BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.InvokeMethod, 
+                    null, 
+                    target, 
                     args);
             }
             catch (TargetInvocationException exception)
@@ -97,8 +96,8 @@ namespace Testeroids
         /// <param name="fieldName"> The name of the field to set. </param>
         /// <param name="newValue"> The new value for the field. </param>
         public static void SetPrivateField(
-            object target,
-            string fieldName,
+            object target, 
+            string fieldName, 
             object newValue)
         {
             try
@@ -113,10 +112,10 @@ namespace Testeroids
                 }
 
                 fieldInfo.SetValue(
-                    target,
-                    newValue,
-                    BindingFlags,
-                    null,
+                    target, 
+                    newValue, 
+                    BindingFlags, 
+                    null, 
                     CultureInfo.InvariantCulture);
             }
             catch (TargetInvocationException exception)
@@ -138,8 +137,8 @@ namespace Testeroids
         /// <param name="newValue"> The new value for the property. </param>
         /// <exception cref="Exception">An exception, in case the property setter throws one.</exception>
         public static void SetPrivateProperty(
-            object target,
-            string propertyName,
+            object target, 
+            string propertyName, 
             object newValue)
         {
             try
@@ -152,11 +151,11 @@ namespace Testeroids
                 }
 
                 propertyInfo.SetValue(
-                    target,
-                    newValue,
-                    BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
-                    null,
-                    null,
+                    target, 
+                    newValue, 
+                    BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, 
+                    null, 
+                    null, 
                     CultureInfo.InvariantCulture);
             }
             catch (TargetInvocationException exception)
