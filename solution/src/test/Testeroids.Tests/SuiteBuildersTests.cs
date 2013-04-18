@@ -196,8 +196,17 @@ namespace Testeroids.Tests
             var testFixture = new TriangulatedTestMethodFixture(Method.DeclaringType);
             this.Parent = testFixture;
 
-            this.TestName.Name = triangulationValues.Aggregate(TestName.Name + " - Triangulated : ",(s, tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, tuple.Item2.ToString()) );
+            var triangulatedName = triangulationValues.Aggregate(TestName.Name + " - Triangulated : ", (s,
+                                                                                                 tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, tuple.Item2.ToString()));
+            this.TestName.Name = triangulatedName;
+            this.TestName.FullName += Counter;
+            Counter++;
         }
+
+        /// <summary>
+        /// NCrunch doesn't like tests which have the same FullName, and has strict rules regarding what makes a FullName  valid. Until we know more about what those rules are, we'll just increment a counter and append it to the end of the test name in order to make sure they are just as slightly different as needed. in the future, we'll need to make the FullName meaningful.
+        /// </summary>
+        static protected int Counter { get; set; }
 
         public override TestResult RunTest()
         {
