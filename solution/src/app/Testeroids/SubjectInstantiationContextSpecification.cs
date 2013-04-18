@@ -42,7 +42,7 @@ namespace Testeroids
         protected abstract TSubjectUnderTest BecauseSutIsCreated();
 
         /// <summary>
-        ///   Performs additional initialization after the subject under test has been created. Used only to suppress finalization of the <see cref="Sut"/>, since we're not testing that.
+        ///   Performs additional initialization after the subject under test has been created.
         /// </summary>
         protected override sealed void InitializeSubjectUnderTest()
         {
