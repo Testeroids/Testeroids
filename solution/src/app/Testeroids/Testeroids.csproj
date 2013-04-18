@@ -126,6 +126,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="PropertyAlreadyInitializedException.cs" />
     <Compile Include="PropertyNotInitializedException.cs" />
     <Compile Include="RequiresPostSharp.cs" />
     <Compile Include="Rx\Aspects\RxContextAspectAttribute.cs" />

@@ -51,7 +51,7 @@ namespace Testeroids.Aspects
         public void OnPropertySet(LocationInterceptionArgs args)
         {
             if (args.Location.PropertyInfo.GetSetMethod(true) != null &&
-                !this.PropertySetList.Contains(args.LocationName))
+                this.PropertySetList.Contains(args.LocationName))
             {
                 throw new PropertyAlreadyInitializedException(args.LocationFullName);
             }
