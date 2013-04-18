@@ -11,7 +11,6 @@ namespace Testeroids.Aspects
     using PostSharp.Aspects;
     using PostSharp.Aspects.Advices;
     using PostSharp.Extensibility;
-    using PostSharp.Reflection;
 
     /// <summary>
     /// Aspect which is applied to the <see cref="ContextSpecificationBase"/> type to verify that no Get method is accessed before
@@ -25,13 +24,12 @@ namespace Testeroids.Aspects
         AllowMultiple = false, Inheritance = MulticastInheritance.Multicast)]
     public class ProhibitGetOnNotInitializedPropertyAspectAttribute : InstanceLevelAspect
     {
-        #region Public Properties
+        #region Fields
 
         /// <summary>
-        /// Gets the list containing the names of the properties where the Set method has been accessed
+        /// The list containing the names of the properties where the Set method has been accessed
         /// </summary>
-        [IntroduceMember(OverrideAction = MemberOverrideAction.Ignore, Visibility = Visibility.Family)]
-        public List<string> PropertySetList { get; private set; }
+        private List<string> propertySetList;
 
         #endregion
 
@@ -51,7 +49,7 @@ namespace Testeroids.Aspects
         public void OnPropertyGet(LocationInterceptionArgs args)
         {
             if (args.Location.PropertyInfo.GetSetMethod(true) != null &&
-                !this.PropertySetList.Contains(args.LocationName))
+                !this.propertySetList.Contains(args.LocationName))
             {
                 throw new PropertyNotInitializedException(args.LocationFullName);
             }
@@ -68,9 +66,9 @@ namespace Testeroids.Aspects
         [OnLocationSetValueAdvice(Master = "OnPropertyGet")]
         public void OnPropertySet(LocationInterceptionArgs args)
         {
-            if (!this.PropertySetList.Contains(args.LocationName))
+            if (!this.propertySetList.Contains(args.LocationName))
             {
-                this.PropertySetList.Add(args.LocationName);
+                this.propertySetList.Add(args.LocationName);
             }
 
             args.ProceedSetValue();
@@ -84,7 +82,7 @@ namespace Testeroids.Aspects
         {
             base.RuntimeInitializeInstance();
 
-            this.PropertySetList = new List<string>();
+            this.propertySetList = new List<string>();
         }
 
         #endregion

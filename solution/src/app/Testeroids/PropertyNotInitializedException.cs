@@ -7,6 +7,8 @@ namespace Testeroids
 {
     using System;
 
+    using JetBrains.Annotations;
+
     /// <summary>
     /// Exception is thrown when code tries to call the get method on a property which has not been set
     /// </summary>
@@ -21,7 +23,7 @@ namespace Testeroids
         /// Full name of the property which hasn't been set before get was accessed
         /// </param>
         public PropertyNotInitializedException(string propertyName)
-            : base("Property " + propertyName + "'s get method was called before the property was set")
+            : base(string.Format("Property {0}'s get method was called before the property was set", propertyName))
         {
             this.PropertyName = propertyName;
         }
@@ -33,6 +35,7 @@ namespace Testeroids
         /// <summary>
         /// Gets the full name of the property which hasn't been set before get was accessed
         /// </summary>
+        [PublicAPI]
         public string PropertyName { get; private set; }
 
         #endregion
