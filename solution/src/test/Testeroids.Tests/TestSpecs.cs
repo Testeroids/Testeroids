@@ -395,6 +395,6 @@ namespace Testeroids.Tests
                     Assert.AreEqual(this.ReturnedSum, this.Result);
                 }
             }
-        }
+        } 
     }
 }

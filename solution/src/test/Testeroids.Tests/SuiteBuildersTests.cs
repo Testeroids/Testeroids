@@ -8,6 +8,7 @@ namespace Testeroids.Tests
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
 
@@ -56,7 +57,7 @@ namespace Testeroids.Tests
 
                 private int ReturnedSum { get; set; }
 
-                [TriangulationValues(10)]
+                [TriangulationValues(10, 5)]
                 private int SpecifiedOperand1 { get; set; }
 
                 [TriangulationValues(7, -7, 8)]
@@ -105,14 +106,14 @@ namespace Testeroids.Tests
                     Assert.AreEqual(this.SpecifiedOperand1, 10);
                 }
 
-                /// <summary>
-                /// This one will fail in some cases because SpecifiedOperand2 is being triangulated with -7 and 7 !
-                /// </summary>
-                // [Test]
-                // public void then_SpecifiedOperand2_matches_minus7()
-                // {
-                //     Assert.AreEqual(this.SpecifiedOperand2, -7);
-                // }
+                ///// <summary>
+                ///// This one will fail in some cases because SpecifiedOperand2 is being triangulated with -7 and 7 !
+                ///// </summary>
+                ////  [Test]
+                ////  public void then_SpecifiedOperand2_matches_minus7()
+                ////  {
+                ////      Assert.AreEqual(this.SpecifiedOperand2, -7);
+                ////  }
 
                 [Test] 
                 public void then_Result_matches_ReturnedSum()
@@ -131,7 +132,7 @@ namespace Testeroids.Tests
         {
             IExtensionPoint testCaseBuilders = host.GetExtensionPoint("SuiteBuilders");
 
-            testCaseBuilders.Install(this); //this implements both interfaces
+            testCaseBuilders.Install(this);
 
             return true;
 
@@ -161,6 +162,7 @@ namespace Testeroids.Tests
 
     public class SuiteTestBuilder : TestSuite
     {
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]
         public SuiteTestBuilder(Type fixtureType)
             : base(fixtureType)
         {
@@ -178,78 +180,77 @@ namespace Testeroids.Tests
                         (info, criteria) => info.IsDefined(typeof(TriangulationValuesAttribute), false),
                         null).Cast<PropertyInfo>();
 
-                    Dictionary<PropertyInfo, TriangulatedValuesInformation> possibleValuesForProperties = new Dictionary<PropertyInfo, TriangulatedValuesInformation>();
+                    var possibleValuesForProperties = new Dictionary<PropertyInfo, TriangulatedValuesInformation>();
 
                     foreach (var property in triangulatedProperties)
                     {
                         object[] values = property.GetCustomAttributes(typeof(TriangulationValuesAttribute), false).Cast<TriangulationValuesAttribute>().Single().TriangulationValues;                        
                         var valuesInfo = new TriangulatedValuesInformation(values);
                         possibleValuesForProperties.Add(property, valuesInfo);
-                        // triangulationValues.Add(new Tuple<PropertyInfo, object>(property,values));
                     }
 
-                    bool dontIncrementNextProperty = false;
-                    bool finishedIterationForCurrentPropertyValues = false;
-                    triangulationValues = new List<Tuple<PropertyInfo, object>>();
-                    int indexOfLastPropertyIncremented = -1;
-
-                    // dontIncrementNextProperty to true means that we are still not done iterating the current property. if it's false that means that we are done iterating the current property's triangulated values
-                    while (!finishedIterationForCurrentPropertyValues && triangulationValues.Count <= possibleValuesForProperties.Count)
+                    foreach (var triangulatedValuesInformation in this.DiscoverTestMethods(possibleValuesForProperties, method))
                     {
-                        triangulationValues = new List<Tuple<PropertyInfo, object>>();
-
-                        // make sure the order is deterministic (is it necessary ?)
-                        var propertyInfos = possibleValuesForProperties.Keys.OrderBy(o => o.Name).ToList();
-
-                        foreach (var property in propertyInfos)
-                        {
-                            var currentIndex = possibleValuesForProperties[property].CurrentlyProcessedValueIndex;
-                            triangulationValues.Add(new Tuple<PropertyInfo, object>(property, possibleValuesForProperties[property].Values[currentIndex]));
-
-                            var currentIndexOfProperty = propertyInfos.IndexOf(property);
-
-                            // get the current index ready for next step.
-                            if (currentIndex >= possibleValuesForProperties[property].Values.Length - 1)
-                            {
-                                possibleValuesForProperties[property].CurrentlyProcessedValueIndex = 0;
-                                finishedIterationForCurrentPropertyValues = true;                                
-                            }
-                            else
-                            {
-                                var nextIndexToProcess = currentIndex;
-                                if (!(indexOfLastPropertyIncremented == currentIndexOfProperty && finishedIterationForCurrentPropertyValues == false))
-                                {
-                                    nextIndexToProcess++;                                    
-                                }
-
-                                possibleValuesForProperties[property].CurrentlyProcessedValueIndex = nextIndexToProcess;
-                                dontIncrementNextProperty = true;
-                                finishedIterationForCurrentPropertyValues = false;
-                            }
-
-                            indexOfLastPropertyIncremented = currentIndexOfProperty;
-                            // if index = maxindex we should set a flag that says "retenue"
-                        }
-                        var nUnitTestMethod = new TriangulatedTestMethod(method, triangulationValues);
-                        this.Add(nUnitTestMethod);
-                        myString += "\r\ntriangulationValues[0] - " + triangulationValues[0].Item2 + " triangulationValues[1] - " + triangulationValues[1].Item2;
-                    }
-                    
-                    // triangulationValues.Add(new Tuple<PropertyInfo, object>(this.FixtureType.GetProperty("SpecifiedOperand1", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public), 10));
-                    // triangulationValues.Add(new Tuple<PropertyInfo, object>(this.FixtureType.GetProperty("SpecifiedOperand2", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public), 7));
-                    //var nUnitTestMethod = new TriangulatedTestMethod(method, triangulationValues);
-                    //this.Add(nUnitTestMethod); 
-                    
-                    //triangulationValues = new List<Tuple<PropertyInfo, object>>();
-                    //// TODO: Read this off the Triangulation attributes.
-                    //triangulationValues.Add(new Tuple<PropertyInfo, object>(this.FixtureType.GetProperty("SpecifiedOperand1", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public), 10));
-                    //triangulationValues.Add(new Tuple<PropertyInfo, object>(this.FixtureType.GetProperty("SpecifiedOperand2", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public), -7));
-                    //nUnitTestMethod = new TriangulatedTestMethod(method, triangulationValues);
-                    //this.Add(nUnitTestMethod);
+                        this.Add(triangulatedValuesInformation);
+                    }                    
                 }
-            }
+            }            
+        }
 
-            // throw new Exception(myString);
+        internal IEnumerable<TriangulatedTestMethod> DiscoverTestMethods(Dictionary<PropertyInfo, TriangulatedValuesInformation> possibleValuesForProperties,
+                                         MethodInfo method)
+        {
+            List<Tuple<PropertyInfo, object>> triangulationValues;
+            bool finishedIterationForCurrentPropertyValues = false;
+            triangulationValues = new List<Tuple<PropertyInfo, object>>();
+            int indexOfLastPropertyIterated = 0;
+
+            while (!finishedIterationForCurrentPropertyValues && triangulationValues.Count <= possibleValuesForProperties.Count)
+            {
+                triangulationValues = new List<Tuple<PropertyInfo, object>>();
+
+                var propertyInfos = possibleValuesForProperties.Keys.ToArray();
+
+                for (int index = 0; index < propertyInfos.Length; index++)
+                {
+                    var property = propertyInfos[index];
+                    var currentIndex = possibleValuesForProperties[property].CurrentlyProcessedValueIndex;
+                    triangulationValues.Add(new Tuple<PropertyInfo, object>(property, possibleValuesForProperties[property].Values[currentIndex]));
+
+                    var currentIndexOfProperty = index;
+
+                    // get the current index ready for next step.
+                    if (currentIndex >= possibleValuesForProperties[property].Values.Length - 1)
+                    {
+                        possibleValuesForProperties[property].CurrentlyProcessedValueIndex = 0;
+                        indexOfLastPropertyIterated = currentIndexOfProperty;
+                        finishedIterationForCurrentPropertyValues = true;
+                    }
+                    else
+                    {
+                        var nextIndexToProcess = currentIndex;
+
+                        var isLastIteratedPropertyTheCurrentOne = indexOfLastPropertyIterated == currentIndexOfProperty;
+
+                        if (true)
+                        {
+                            var iterationOfPropertyValuesIsNotFinished = isLastIteratedPropertyTheCurrentOne && finishedIterationForCurrentPropertyValues == false;
+
+                            if (!iterationOfPropertyValuesIsNotFinished)
+                            {
+                                nextIndexToProcess++;
+                                indexOfLastPropertyIterated = currentIndexOfProperty;
+                            }
+                        }
+
+                        possibleValuesForProperties[property].CurrentlyProcessedValueIndex = nextIndexToProcess;
+                        finishedIterationForCurrentPropertyValues = false;
+                    }
+                }
+
+                var nUnitTestMethod = new TriangulatedTestMethod(method, triangulationValues);
+                yield return nUnitTestMethod;
+            }
         }
     }
 
