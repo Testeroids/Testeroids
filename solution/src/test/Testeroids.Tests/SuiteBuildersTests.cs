@@ -7,8 +7,11 @@ namespace Testeroids.Tests
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Reflection;
+
+    using Combinatorics.Collections;
 
     using Moq;
 
@@ -56,7 +59,7 @@ namespace Testeroids.Tests
                 [TriangulationValues(10)]
                 private int SpecifiedOperand1 { get; set; }
 
-                [TriangulationValues(7, -7)]
+                [TriangulationValues(7, -7, 8)]
                 private int SpecifiedOperand2 { get; set; }
 
                 protected override void EstablishContext()
@@ -160,31 +163,108 @@ namespace Testeroids.Tests
     {
         public SuiteTestBuilder(Type fixtureType)
             : base(fixtureType)
-        {          
+        {
+            string myString = "";
             this.Parent = new TriangulatedTestMethodFixture(fixtureType);
             foreach (MethodInfo method in fixtureType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy))
             {
                 if (method.Name.StartsWith("then_"))
                 {                    
-                    List<Tuple<PropertyInfo, object>> triangulationValues = new List<Tuple<PropertyInfo, object>>();
+                    List<Tuple<PropertyInfo, object>> triangulationValues = null;
 
                     // TODO: Read this off the Triangulation attributes.
-                    triangulationValues.Add(new Tuple<PropertyInfo, object>(this.FixtureType.GetProperty("SpecifiedOperand1", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public), 10));
-                    triangulationValues.Add(new Tuple<PropertyInfo, object>(this.FixtureType.GetProperty("SpecifiedOperand2", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public), 7));
-                    var nUnitTestMethod = new TriangulatedTestMethod(method, triangulationValues);
-                    this.Add(nUnitTestMethod); 
-                    
+                    var triangulatedProperties = method.DeclaringType.FindMembers(MemberTypes.Property,
+                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public, 
+                        (info, criteria) => info.IsDefined(typeof(TriangulationValuesAttribute), false),
+                        null).Cast<PropertyInfo>();
+
+                    Dictionary<PropertyInfo, TriangulatedValuesInformation> possibleValuesForProperties = new Dictionary<PropertyInfo, TriangulatedValuesInformation>();
+
+                    foreach (var property in triangulatedProperties)
+                    {
+                        object[] values = property.GetCustomAttributes(typeof(TriangulationValuesAttribute), false).Cast<TriangulationValuesAttribute>().Single().TriangulationValues;                        
+                        var valuesInfo = new TriangulatedValuesInformation(values);
+                        possibleValuesForProperties.Add(property, valuesInfo);
+                        // triangulationValues.Add(new Tuple<PropertyInfo, object>(property,values));
+                    }
+
+                    bool dontIncrementNextProperty = false;
+                    bool finishedIterationForCurrentPropertyValues = false;
                     triangulationValues = new List<Tuple<PropertyInfo, object>>();
-                    // TODO: Read this off the Triangulation attributes.
-                    triangulationValues.Add(new Tuple<PropertyInfo, object>(this.FixtureType.GetProperty("SpecifiedOperand1", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public), 10));
-                    triangulationValues.Add(new Tuple<PropertyInfo, object>(this.FixtureType.GetProperty("SpecifiedOperand2", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public), -7));
-                    nUnitTestMethod = new TriangulatedTestMethod(method, triangulationValues);
-                    this.Add(nUnitTestMethod);
+                    int indexOfLastPropertyIncremented = -1;
+
+                    // dontIncrementNextProperty to true means that we are still not done iterating the current property. if it's false that means that we are done iterating the current property's triangulated values
+                    while (!finishedIterationForCurrentPropertyValues && triangulationValues.Count <= possibleValuesForProperties.Count)
+                    {
+                        triangulationValues = new List<Tuple<PropertyInfo, object>>();
+
+                        // make sure the order is deterministic (is it necessary ?)
+                        var propertyInfos = possibleValuesForProperties.Keys.OrderBy(o => o.Name).ToList();
+
+                        foreach (var property in propertyInfos)
+                        {
+                            var currentIndex = possibleValuesForProperties[property].CurrentlyProcessedValueIndex;
+                            triangulationValues.Add(new Tuple<PropertyInfo, object>(property, possibleValuesForProperties[property].Values[currentIndex]));
+
+                            var currentIndexOfProperty = propertyInfos.IndexOf(property);
+
+                            // get the current index ready for next step.
+                            if (currentIndex >= possibleValuesForProperties[property].Values.Length - 1)
+                            {
+                                possibleValuesForProperties[property].CurrentlyProcessedValueIndex = 0;
+                                finishedIterationForCurrentPropertyValues = true;                                
+                            }
+                            else
+                            {
+                                var nextIndexToProcess = currentIndex;
+                                if (!(indexOfLastPropertyIncremented == currentIndexOfProperty && finishedIterationForCurrentPropertyValues == false))
+                                {
+                                    nextIndexToProcess++;                                    
+                                }
+
+                                possibleValuesForProperties[property].CurrentlyProcessedValueIndex = nextIndexToProcess;
+                                dontIncrementNextProperty = true;
+                                finishedIterationForCurrentPropertyValues = false;
+                            }
+
+                            indexOfLastPropertyIncremented = currentIndexOfProperty;
+                            // if index = maxindex we should set a flag that says "retenue"
+                        }
+                        var nUnitTestMethod = new TriangulatedTestMethod(method, triangulationValues);
+                        this.Add(nUnitTestMethod);
+                        myString += "\r\ntriangulationValues[0] - " + triangulationValues[0].Item2 + " triangulationValues[1] - " + triangulationValues[1].Item2;
+                    }
+                    
+                    // triangulationValues.Add(new Tuple<PropertyInfo, object>(this.FixtureType.GetProperty("SpecifiedOperand1", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public), 10));
+                    // triangulationValues.Add(new Tuple<PropertyInfo, object>(this.FixtureType.GetProperty("SpecifiedOperand2", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public), 7));
+                    //var nUnitTestMethod = new TriangulatedTestMethod(method, triangulationValues);
+                    //this.Add(nUnitTestMethod); 
+                    
+                    //triangulationValues = new List<Tuple<PropertyInfo, object>>();
+                    //// TODO: Read this off the Triangulation attributes.
+                    //triangulationValues.Add(new Tuple<PropertyInfo, object>(this.FixtureType.GetProperty("SpecifiedOperand1", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public), 10));
+                    //triangulationValues.Add(new Tuple<PropertyInfo, object>(this.FixtureType.GetProperty("SpecifiedOperand2", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public), -7));
+                    //nUnitTestMethod = new TriangulatedTestMethod(method, triangulationValues);
+                    //this.Add(nUnitTestMethod);
                 }
             }
+
+            // throw new Exception(myString);
         }
     }
 
+    public class TriangulatedValuesInformation
+    {
+        public TriangulatedValuesInformation(object[] values)
+        {
+            this.Values = values;
+            this.CurrentlyProcessedValueIndex = 0;
+        }
+
+        public int CurrentlyProcessedValueIndex { get; set; }
+
+        public object[] Values { get; private set; }
+    }
 
     public class TriangulatedTestMethod : NUnitTestMethod
     {
@@ -200,14 +280,9 @@ namespace Testeroids.Tests
             var triangulatedName = triangulationValues.Aggregate(TestName.Name + " - Triangulated : ", (s,
                                                                                                  tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, tuple.Item2.ToString()));
             this.TestName.Name = triangulatedName;
-            this.TestName.FullName += Counter;
-            Counter++;
+            this.TestName.FullName = triangulationValues.Aggregate(TestName.FullName + "Triangulated", (s,
+                                                                                                 tuple) => string.Format("{0}_{1}Is{2}", s, tuple.Item1.Name, tuple.Item2.ToString()));
         }
-
-        /// <summary>
-        /// NCrunch doesn't like tests which have the same FullName, and has strict rules regarding what makes a FullName  valid. Until we know more about what those rules are, we'll just increment a counter and append it to the end of the test name in order to make sure they are just as slightly different as needed. in the future, we'll need to make the FullName meaningful.
-        /// </summary>
-        static protected int Counter { get; set; }
 
         public override TestResult RunTest()
         {
@@ -237,11 +312,11 @@ namespace Testeroids.Tests
 
     internal class TriangulationValuesAttribute : Attribute
     {
-        private readonly object[] triangulationValues;
+        public object[] TriangulationValues { get; private set; }
 
         public TriangulationValuesAttribute(params object[] triangulationValues)
         {
-            this.triangulationValues = triangulationValues;            
+            this.TriangulationValues = triangulationValues;            
         }
     }
 }
