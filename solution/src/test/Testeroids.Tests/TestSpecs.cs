@@ -93,7 +93,7 @@ namespace Testeroids.Tests
                 {
                     #region Context
 
-                    protected override bool EstablishCheckAllSetupsVerified()
+                    protected override sealed bool EstablishCheckAllSetupsVerified()
                     {
                         return true;
                     }
@@ -126,7 +126,7 @@ namespace Testeroids.Tests
                 {
                     #region Context
 
-                    protected override bool EstablishCheckAllSetupsVerified()
+                    protected override sealed bool EstablishCheckAllSetupsVerified()
                     {
                         return false;
                     }
@@ -189,7 +189,7 @@ namespace Testeroids.Tests
                 {
                     #region Context
 
-                    protected override bool EstablishAutoVerifyMocks()
+                    protected override sealed bool EstablishAutoVerifyMocks()
                     {
                         return true;
                     }
@@ -229,7 +229,7 @@ namespace Testeroids.Tests
                 {
                     #region Context
 
-                    protected override bool EstablishAutoVerifyMocks()
+                    protected override sealed bool EstablishAutoVerifyMocks()
                     {
                         return false;
                     }
@@ -329,17 +329,17 @@ namespace Testeroids.Tests
                 {
                     #region Context
 
-                    protected override int EstablishSpecifiedOperand1()
+                    protected override sealed int EstablishSpecifiedOperand1()
                     {
                         return 10;
                     }
 
-                    protected override int EstablishSpecifiedOperand2()
+                    protected override sealed int EstablishSpecifiedOperand2()
                     {
                         return 7;
                     }
 
-                    protected override int EstablishReturnedSum()
+                    protected override sealed int EstablishReturnedSum()
                     {
                         // Return an erroneous value, just to certify that we are returning the value which is handed out by the mock
                         return int.MaxValue;
@@ -353,17 +353,17 @@ namespace Testeroids.Tests
                 {
                     #region Context
 
-                    protected override int EstablishSpecifiedOperand1()
+                    protected override sealed int EstablishSpecifiedOperand1()
                     {
                         return 10;
                     }
 
-                    protected override int EstablishSpecifiedOperand2()
+                    protected override sealed int EstablishSpecifiedOperand2()
                     {
                         return -7;
                     }
 
-                    protected override int EstablishReturnedSum()
+                    protected override sealed int EstablishReturnedSum()
                     {
                         return 3;
                     }
