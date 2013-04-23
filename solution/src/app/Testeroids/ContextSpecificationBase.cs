@@ -180,15 +180,6 @@ namespace Testeroids
         protected internal abstract void Because();
 
         /// <summary>
-        /// This test is meant for internal library use only.
-        /// </summary>
-        [DebuggerNonUserCode]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected virtual void PreTestSetUp()
-        {
-        }
-
-        /// <summary>
         ///   Allows configuration of the test fixture. It is called before  <see cref="InstantiateMocks"/>.
         /// </summary>
         [DebuggerNonUserCode]
@@ -222,6 +213,15 @@ namespace Testeroids
         /// </summary>
         [DebuggerNonUserCode]
         protected virtual void InstantiateMocks()
+        {
+        }
+
+        /// <summary>
+        /// This test is meant for internal library use only.
+        /// </summary>
+        [DebuggerNonUserCode]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected virtual void PreTestSetUp()
         {
         }
 

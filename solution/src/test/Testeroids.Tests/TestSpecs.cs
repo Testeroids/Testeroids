@@ -11,7 +11,6 @@ namespace Testeroids.Tests
 
     using NUnit.Framework;
 
-    using Testeroids.Aspects;
     using Testeroids.Aspects.Attributes;
 
     public abstract class TestSpecs
@@ -280,7 +279,6 @@ namespace Testeroids.Tests
                 public void then_PropertyNotSetException_is_thrown()
                 {
                 }
-
             }
 
             [AbstractTestFixture]
@@ -395,6 +393,6 @@ namespace Testeroids.Tests
                     Assert.AreEqual(this.ReturnedSum, this.Result);
                 }
             }
-        } 
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="SuiteBuildersTests.cs" company="Testeroids">
-//   © 2013 Testeroids. All rights reserved.
+//   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids.Tests
@@ -8,20 +8,15 @@ namespace Testeroids.Tests
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
-
-    using Combinatorics.Collections;
 
     using Moq;
 
     using NUnit.Core;
     using NUnit.Core.Extensibility;
     using NUnit.Framework;
-
-    using Testeroids.Aspects.Attributes;
 
     public class SuiteBuildersTests
     {
@@ -43,8 +38,8 @@ namespace Testeroids.Tests
                 return new Test(this.InjectedCalculatorMock.Object);
             }
 
-            #endregion          
-            
+            #endregion
+
             /// <summary>
             /// TODO: This class has 2 test fixtures which require a simpler triangulation mechanism.
             /// </summary>
@@ -81,7 +76,7 @@ namespace Testeroids.Tests
                     this.Result = this.Sut.Sum(this.SpecifiedOperand1, this.SpecifiedOperand2);
                 }
 
-                #endregion              
+                #endregion
 
                 [Test]
                 public void then_Sum_is_called_once_on_InjectedTestMock()
@@ -100,7 +95,7 @@ namespace Testeroids.Tests
                 {
                     this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), this.SpecifiedOperand2), Times.Once());
                 }
-                
+
                 [Test]
                 public void then_SpecifiedOperand1_matches_10()
                 {
@@ -115,8 +110,7 @@ namespace Testeroids.Tests
                 ////  {
                 ////      Assert.AreEqual(this.SpecifiedOperand2, -7);
                 ////  }
-
-                [Test] 
+                [Test]
                 public void then_Result_matches_ReturnedSum()
                 {
                     Assert.AreEqual(this.ReturnedSum, this.Result);
@@ -127,17 +121,16 @@ namespace Testeroids.Tests
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     [NUnitAddin(Description = "Hello World Plugin")]
-    public class TriangulatedFixture : Attribute, NUnit.Core.Extensibility.IAddin, ISuiteBuilder
+    public class TriangulatedFixture : Attribute, 
+                                       NUnit.Core.Extensibility.IAddin, 
+                                       ISuiteBuilder
     {
-        public bool Install(IExtensionHost host)
+        #region Public Methods and Operators
+
+        public NUnit.Core.Test BuildFrom(Type type)
         {
-            IExtensionPoint testCaseBuilders = host.GetExtensionPoint("SuiteBuilders");
-
-            testCaseBuilders.Install(this);
-
-            return true;
-
-        }       
+            return new SuiteTestBuilder(type);
+        }
 
         public bool CanBuildFrom(Type type)
         {
@@ -145,30 +138,38 @@ namespace Testeroids.Tests
 
             if (type.IsAbstract)
             {
-                isOk =  false;
+                isOk = false;
             }
             else
-            {                
+            {
                 isOk = NUnit.Core.Reflect.HasAttribute(type, "Testeroids.Tests.TriangulatedFixture", true);
             }
 
             return isOk;
         }
 
-        public NUnit.Core.Test BuildFrom(Type type)
+        public bool Install(IExtensionHost host)
         {
-            return new SuiteTestBuilder(type);
+            var testCaseBuilders = host.GetExtensionPoint("SuiteBuilders");
+
+            testCaseBuilders.Install(this);
+
+            return true;
         }
+
+        #endregion
     }
 
     public class SuiteTestBuilder : TestSuite
     {
+        #region Constructors and Destructors
+
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]
         public SuiteTestBuilder(Type fixtureType)
             : base(fixtureType)
         {
             this.Parent = new TriangulatedTestMethodFixture(fixtureType);
-            foreach (MethodInfo method in fixtureType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy))
+            foreach (var method in fixtureType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy))
             {
                 // Let's ignore methods which are not decorated with the TestAttribute attribute.
                 if (!method.GetCustomAttributes(typeof(TestAttribute), true).Any())
@@ -177,9 +178,10 @@ namespace Testeroids.Tests
                 }
 
                 var triangulatedProperties = method.DeclaringType.FindMembers(
-                    MemberTypes.Property,
-                    BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public,
-                    (info, criteria) => info.IsDefined(typeof(TriangulationValuesAttribute), false),
+                    MemberTypes.Property, 
+                    BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public, 
+                    (info, 
+                     criteria) => info.IsDefined(typeof(TriangulationValuesAttribute), false), 
                     null).Cast<PropertyInfo>();
 
                 var possibleValuesForProperties = new Dictionary<PropertyInfo, TriangulatedValuesInformation>();
@@ -201,8 +203,12 @@ namespace Testeroids.Tests
                 {
                     this.Add(new TriangulatedTestMethod(method, triangulatedSet));
                 }
-            }            
+            }
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Recursively builds the triangulation sets and stores them in the specified <paramref name="triangulatedSets"/> accumulator.
@@ -212,9 +218,9 @@ namespace Testeroids.Tests
         /// <param name="triangulatedProperties">The properties in need of triangulation</param>
         /// <param name="triangulatedSets">Serves as an accumulator and operation output for the outcome of the recursion.</param>
         private void BuildTriangulationSet(
-            IList<Tuple<PropertyInfo, object>> triangulationValues,
-            IDictionary<PropertyInfo, TriangulatedValuesInformation> possibleValuesForProperties,
-            IList<PropertyInfo> triangulatedProperties,
+            IList<Tuple<PropertyInfo, object>> triangulationValues, 
+            IDictionary<PropertyInfo, TriangulatedValuesInformation> possibleValuesForProperties, 
+            IList<PropertyInfo> triangulatedProperties, 
             ICollection<IList<Tuple<PropertyInfo, object>>> triangulatedSets)
         {
             // if the recursion is complete, add the just built set of tiangulated values - representing a complete list of values for all the triangulated properties - to the triangulatedSets.
@@ -229,7 +235,7 @@ namespace Testeroids.Tests
 
             var possibleValues = possibleValuesForProperties[currentProperty].Values;
 
-            for (int index = 0; index < possibleValues.Length; index++)
+            for (var index = 0; index < possibleValues.Length; index++)
             {
                 var possibleValue = possibleValues[index];
 
@@ -237,8 +243,8 @@ namespace Testeroids.Tests
                 // Create n-1 different lists, with n being the number of possible values for the current property.
                 // Recycle the one which was passed as argument, as the *last* list to be processed (so as to leave the other lists unaffected)
                 var newtriangulationSet = index < possibleValues.Length
-                                               ? triangulationValues.ToList()
-                                               : triangulationValues;
+                                              ? triangulationValues.ToList()
+                                              : triangulationValues;
 
                 // for a given property, we its possible values (one at each iteration of the current for loop.)
                 newtriangulationSet.Add(new Tuple<PropertyInfo, object>(currentProperty, possibleValue));
@@ -247,54 +253,81 @@ namespace Testeroids.Tests
                 this.BuildTriangulationSet(newtriangulationSet, possibleValuesForProperties, triangulatedProperties, triangulatedSets);
             }
         }
+
+        #endregion
     }
 
     public class TriangulatedValuesInformation
     {
+        #region Constructors and Destructors
+
         public TriangulatedValuesInformation(object[] values)
         {
             this.Values = values;
             this.CurrentlyProcessedValueIndex = 0;
         }
 
+        #endregion
+
+        #region Public Properties
+
         public int CurrentlyProcessedValueIndex { get; set; }
 
         public object[] Values { get; private set; }
+
+        #endregion
     }
 
     public class TriangulatedTestMethod : NUnitTestMethod
     {
+        #region Fields
+
         private readonly IEnumerable<Tuple<PropertyInfo, object>> triangulationValues;
 
-        public TriangulatedTestMethod(MethodInfo methodInfo, IEnumerable<Tuple<PropertyInfo, object>> triangulationValues)
+        #endregion
+
+        #region Constructors and Destructors
+
+        public TriangulatedTestMethod(MethodInfo methodInfo, 
+                                      IEnumerable<Tuple<PropertyInfo, object>> triangulationValues)
             : base(methodInfo)
         {
             this.triangulationValues = triangulationValues;
-            var testFixture = new TriangulatedTestMethodFixture(Method.DeclaringType);
+            var testFixture = new TriangulatedTestMethodFixture(this.Method.DeclaringType);
             this.Parent = testFixture;
 
-            var triangulatedName = triangulationValues.Aggregate(TestName.Name + " - Triangulated : ", (s,
-                                                                                                 tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, tuple.Item2.ToString()));
+            var triangulatedName = triangulationValues.Aggregate(this.TestName.Name + " - Triangulated : ", (s, 
+                                                                                                             tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, tuple.Item2.ToString()));
             this.TestName.Name = triangulatedName;
-            this.TestName.FullName = triangulationValues.Aggregate(TestName.FullName + "Triangulated", (s,
-                                                                                                 tuple) => string.Format("{0}_{1}Is{2}", s, tuple.Item1.Name, tuple.Item2.ToString()));
+            this.TestName.FullName = triangulationValues.Aggregate(this.TestName.FullName + "Triangulated", (s, 
+                                                                                                             tuple) => string.Format("{0}_{1}Is{2}", s, tuple.Item1.Name, tuple.Item2.ToString()));
         }
+
+        #endregion
+
+        #region Public Methods and Operators
 
         public override TestResult RunTest()
         {
-            foreach (var triangulationValue in triangulationValues)
+            foreach (var triangulationValue in this.triangulationValues)
             {
                 triangulationValue.Item1.SetValue(this.Fixture, triangulationValue.Item2, null);
-                // Find out when is this.Fixture instantiates, and by reflection: use triangulationValue.Item1 ( the PropertyInfo ) to override the property's value before running the tests.
+
+// Find out when is this.Fixture instantiates, and by reflection: use triangulationValue.Item1 ( the PropertyInfo ) to override the property's value before running the tests.
             }
+
             var contextSpecificationBase = this.Fixture as ContextSpecificationBase;
             contextSpecificationBase.BaseSetUp();
             return base.RunTest();
         }
+
+        #endregion
     }
 
     public class TriangulatedTestMethodFixture : NUnitTestFixture
     {
+        #region Constructors and Destructors
+
         public TriangulatedTestMethodFixture(Type declaringType)
             : base(declaringType)
         {
@@ -304,15 +337,25 @@ namespace Testeroids.Tests
                 this.Parent = new TriangulatedTestMethodFixture(baseType);
             }
         }
+
+        #endregion
     }
 
     internal class TriangulationValuesAttribute : Attribute
     {
-        public object[] TriangulationValues { get; private set; }
+        #region Constructors and Destructors
 
         public TriangulationValuesAttribute(params object[] triangulationValues)
         {
-            this.TriangulationValues = triangulationValues;            
+            this.TriangulationValues = triangulationValues;
         }
+
+        #endregion
+
+        #region Public Properties
+
+        public object[] TriangulationValues { get; private set; }
+
+        #endregion
     }
 }
