@@ -60,8 +60,8 @@ namespace Testeroids
         /// </summary>
         protected ContextSpecificationBase()
         {
-            this.CheckSetupsAreMatchedWithVerifyCalls = false;
-            this.AutoVerifyMocks = false;
+            this.CheckSetupsAreMatchedWithVerifyCalls = true;
+            this.AutoVerifyMocks = true;
             this.ArePrerequisiteTestsRunning = false;
         }
 
@@ -175,14 +175,13 @@ namespace Testeroids
         #region Methods
 
         /// <summary>
-        ///   This will be called by the <see cref="ArrangeActAssertAspectAttribute"/> aspect. Performs the "Act" part, or the logic which is to be tested.
+        /// The because method as overridable by the user of Testeroids. Will be called by <see cref="OnBecauseRequested"/>.
         /// </summary>
+        /// <remarks>Internally, <see cref="OnBecauseRequested"/> does make sure any verified mock created by the <see cref="MockRepository"/> has its recorded calls reset.
+        /// This means that any call to a mocked method will "forget" about the method calls done prior to calling <see cref="Because"/>.
+        /// </remarks>
         protected internal abstract void Because();
-
-        /// <summary>
-        ///   Allows configuration of the test fixture. It is called before  <see cref="InstantiateMocks"/>.
-        /// </summary>
-        [DebuggerNonUserCode]
+        /// This test is meant for internal library use only.
         protected virtual void BeforeEstablishContext()
         {
         }
@@ -214,6 +213,16 @@ namespace Testeroids
         [DebuggerNonUserCode]
         protected virtual void InstantiateMocks()
         {
+        }
+
+        /// <summary>
+        ///   This will be called by the <see cref="ArrangeActAssertAspectAttribute"/> aspect. Performs the "Act" part, or the logic which is to be tested.
+        /// </summary>      
+        [UsedImplicitly]
+        protected void OnBecauseRequested()
+        {
+            this.MockRepository.ResetAllCalls();
+            this.Because();
         }
 
         /// <summary>

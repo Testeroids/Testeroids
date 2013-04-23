@@ -15,6 +15,8 @@ namespace Testeroids.Tests
 
         #region Public Methods and Operators
 
+        void Clear();
+
         int Sum(int a, 
                 int b);
 

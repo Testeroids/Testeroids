@@ -31,6 +31,12 @@ namespace Testeroids
         IMock<TMock> CreateMock<TMock>() where TMock : class;
 
         /// <summary>
+        /// Reset the counts of all the method calls done previously.
+        /// </summary>
+        /// <remarks>Only verified mocks will be affected.</remarks>
+        void ResetAllCalls();
+
+        /// <summary>
         /// Ensures that all the verifiable mock setups were actually used, by invoking <see cref="IMock.Verify"/> on all mocks.
         /// </summary>
         /// <exception cref="MockException">Thrown if not all mocks were actually used by the SUT.</exception>

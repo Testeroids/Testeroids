@@ -78,6 +78,19 @@ namespace Testeroids.Mocking
         }
 
         /// <summary>
+        /// Reset the counts of all the method calls done previously.
+        /// </summary>
+        /// <remarks>Only verified mocks will be affected.</remarks>
+        public void ResetAllCalls()
+        {
+            var resetableMocks = this.mocksTrackedForUsageVerification.OfType<IMockInternals>();
+            foreach (var mock in resetableMocks)
+            {
+                mock.ResetAllCallCounts();
+            }
+        }
+
+        /// <summary>
         /// Ensures that all the verifiable mock setups were actually used, by invoking <see cref="IMock.Verify"/> on all mocks.
         /// </summary>
         /// <exception cref="MockException">Thrown if not all mocks were actually used by the SUT.</exception>

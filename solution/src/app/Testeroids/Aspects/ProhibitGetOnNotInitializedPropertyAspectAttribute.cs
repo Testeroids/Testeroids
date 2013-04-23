@@ -50,8 +50,8 @@ namespace Testeroids.Aspects
         [MulticastPointcut(Targets = MulticastTargets.Property, Attributes = MulticastAttributes.AnyVisibility | MulticastAttributes.Instance)]
         public void OnPropertyGet(LocationInterceptionArgs args)
         {
-            if (args.Location.PropertyInfo.GetSetMethod(true) != null
-                && !this.PropertySetList.Contains(args.LocationName))
+            if (args.Location.PropertyInfo.GetSetMethod(true) != null &&
+                !this.PropertySetList.Contains(args.LocationName))
             {
                 throw new PropertyNotInitializedException(args.LocationFullName);
             }

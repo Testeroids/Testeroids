@@ -118,6 +118,14 @@ namespace Testeroids.Mocking
             return new TesteroidsMock<TInterface>(this.nakedMock.As<TInterface>());
         }
 
+        /// <summary>
+        /// Reset the counts of all the method calls done previously.
+        /// </summary>
+        public void ResetAllCallCounts()
+        {
+            this.NakedMock.ResetAllCalls();
+        }
+
         public void SetReturnsDefault<TReturn>(TReturn value)
         {
             this.nakedMock.SetReturnsDefault(value);
@@ -125,12 +133,26 @@ namespace Testeroids.Mocking
 
         public void Verify()
         {
-            this.nakedMock.Verify();
+            try
+            {
+                this.nakedMock.Verify();
+            }
+            catch (MockException e)
+            {
+                throw new MockSetupMethodNeverUsedException(e);
+            }
         }
 
         public void VerifyAll()
         {
-            this.nakedMock.VerifyAll();
+            try
+            {
+                this.nakedMock.VerifyAll();
+            }
+            catch (MockException e)
+            {
+                throw new MockSetupMethodNeverUsedException(e);
+            }
         }
 
         #endregion
@@ -147,7 +169,8 @@ namespace Testeroids.Mocking
 
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Will add documentation from base interface once that is finished.")]
     internal class TesteroidsMock<T> : TesteroidsMock, 
-                                       IMock<T>
+                                       IMock<T>, 
+                                       IVerifiedMock
         where T : class
     {
         #region Fields
@@ -209,7 +232,10 @@ namespace Testeroids.Mocking
 
             this.RegisterSetupForVerification(expression);
 
-            return setup;
+            // todo : Use a factory to make it testable (?).
+            var moqWrappedSetup = new MoqSetupWrapper<T>(setup, expression, this);
+
+            return moqWrappedSetup;
         }
 
         public ISetup<T, TResult> Setup<TResult>(Expression<Func<T, TResult>> expression)
@@ -218,7 +244,10 @@ namespace Testeroids.Mocking
 
             this.RegisterSetupForVerification(expression);
 
-            return setup;
+            // todo : Use a factory to make it testable (?).
+            var moqWrappedSetup = new MoqSetupWrapper<T, TResult>(setup, expression, this);
+
+            return moqWrappedSetup;
         }
 
         public ISetupGetter<T, TProperty> SetupGet<TProperty>(Expression<Func<T, TProperty>> expression)
@@ -257,6 +286,16 @@ namespace Testeroids.Mocking
             var setupSet = this.nakedTypedMock.SetupSet(setterExpression);
 
             return setupSet;
+        }
+
+        /// <summary>
+        /// Unregisters the specified expression in order to ignore it in the sanity check which makes sure there is a call verification unit test for each setup.
+        /// </summary>
+        /// <param name="expression"></param>
+        public void UnregisterSetupForVerification(LambdaExpression expression)
+        {
+            var memberInfo = GetMemberInfoFromExpression(expression);
+            this.registeredSetups.Remove(memberInfo);
         }
 
         public void Verify(Expression<Action<T>> expression)
