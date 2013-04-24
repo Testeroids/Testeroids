@@ -53,6 +53,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Moq.Testeroids.4.0.10819\lib\NET40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.core">
+      <HintPath>..\..\..\NUnitDependencies_Todo_Create_NuGet\nunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.core.interfaces">
+      <HintPath>..\..\..\NUnitDependencies_Todo_Create_NuGet\nunit.core.interfaces.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -140,6 +146,7 @@
     <Compile Include="Rx\TimeSpanExtensions.cs" />
     <Compile Include="SequenceExtensions.cs" />
     <Compile Include="SubjectInstantiationContextSpecification.cs" />
+    <Compile Include="SuiteTestBuilder.cs" />
     <Compile Include="TestCategories.cs" />
     <Compile Include="TestComparers.cs" />
     <Compile Include="TestConcurrencyAbstractionLayer.cs" />
@@ -148,6 +155,11 @@
     <Compile Include="TplContextAspectAttribute.cs" />
     <Compile Include="TplTestHelper.cs" />
     <Compile Include="TplTestPlatformHelper.cs" />
+    <Compile Include="TriangulatedFixture.cs" />
+    <Compile Include="TriangulatedTestMethod.cs" />
+    <Compile Include="TriangulatedTestMethodFixture.cs" />
+    <Compile Include="TriangulatedValuesInformation.cs" />
+    <Compile Include="TriangulationValuesAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Testeroids.pfx">
