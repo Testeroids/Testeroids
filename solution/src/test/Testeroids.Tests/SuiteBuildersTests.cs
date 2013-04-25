@@ -5,9 +5,14 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids.Tests
 {
+    using System;
+
     using Moq;
 
+    using NUnit.Core.Extensibility;
     using NUnit.Framework;
+
+    using Testeroids.NUnitAddins;
 
     public class SuiteBuildersTests
     {
@@ -108,5 +113,8 @@ namespace Testeroids.Tests
                 }
             }
         }
+
+
+
     }
 }

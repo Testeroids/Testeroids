@@ -9,6 +9,8 @@ namespace Testeroids
     using System.Globalization;
     using System.Reflection;
 
+    using Testeroids.Contracts;
+
     /// <summary>
     ///   A class designed to help with accessing private constructors/properties.
     /// </summary>

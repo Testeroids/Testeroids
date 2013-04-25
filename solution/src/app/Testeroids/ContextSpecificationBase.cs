@@ -18,6 +18,7 @@ namespace Testeroids
     using NUnit.Framework;
 
     using Testeroids.Aspects;
+    using Testeroids.Contracts;
     using Testeroids.Mocking;
 
     /// <summary>
@@ -181,6 +182,7 @@ namespace Testeroids
         /// This means that any call to a mocked method will "forget" about the method calls done prior to calling <see cref="Because"/>.
         /// </remarks>
         protected internal abstract void Because();
+
         /// This test is meant for internal library use only.
         protected virtual void BeforeEstablishContext()
         {

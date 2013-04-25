@@ -10,6 +10,8 @@ namespace Testeroids.Aspects
     using System.Linq;
     using System.Reflection;
 
+    using Contracts;
+
     using JetBrains.Annotations;
 
     using NUnit.Framework;
@@ -24,10 +26,10 @@ namespace Testeroids.Aspects
         #region Public Methods and Operators
 
         /// <summary>
-        ///   Returns the list of abstract, nested types implementing <see cref="IContextSpecification"/>  in passed type.
+        ///   Returns the list of abstract, nested types implementing <see cref="Testeroids.Contracts.IContextSpecification"/>  in passed type.
         /// </summary>
         /// <param name="classTypeToInvestigate"> The type to investigate. </param>
-        /// <returns> the list of abstract, nested types implementing <see cref="IContextSpecification"/>. </returns>
+        /// <returns> the list of abstract, nested types implementing <see cref="Testeroids.Contracts.IContextSpecification"/>. </returns>
         [UsedImplicitly]
         public static IEnumerable<Type> GetAbstractContextSpecificationTypes(Type classTypeToInvestigate)
         {
@@ -46,10 +48,10 @@ namespace Testeroids.Aspects
         }
 
         /// <summary>
-        ///   Returns the list of nested types implementing <see cref="IContextSpecification"/> in passed type.
+        ///   Returns the list of nested types implementing <see cref="Testeroids.Contracts.IContextSpecification"/> in passed type.
         /// </summary>
         /// <param name="typeToInvestigate"> The type to investigate. </param>
-        /// <returns> the list of nested types implementing <see cref="IContextSpecification"/>. </returns>
+        /// <returns> the list of nested types implementing <see cref="Testeroids.Contracts.IContextSpecification"/>. </returns>
         [UsedImplicitly]
         public static IEnumerable<Type> GetAllContextSpecificationTypes(Type typeToInvestigate)
         {
@@ -68,10 +70,10 @@ namespace Testeroids.Aspects
         }
 
         /// <summary>
-        ///   Returns the list of nested types implementing <see cref="IContextSpecification"/> in passed type.
+        ///   Returns the list of nested types implementing <see cref="Testeroids.Contracts.IContextSpecification"/> in passed type.
         /// </summary>
         /// <param name="classTypeToInvestigate"> The type to investigate. </param>
-        /// <returns> the list of nested types implementing <see cref="IContextSpecification"/>. </returns>
+        /// <returns> the list of nested types implementing <see cref="Testeroids.Contracts.IContextSpecification"/>. </returns>
         [UsedImplicitly]
         public static IEnumerable<Type> GetConcreteContextSpecificationTypes(Type classTypeToInvestigate)
         {
@@ -115,7 +117,7 @@ namespace Testeroids.Aspects
         ///   Test if type is an abstract context specification.
         /// </summary>
         /// <param name="classTypeToInvestigate"> The type To Investigate. </param>
-        /// <returns> <c>true</c> if type is an abstract <see cref="IContextSpecification"/>, <c>false</c> otherwise. </returns>
+        /// <returns> <c>true</c> if type is an abstract <see cref="Testeroids.Contracts.IContextSpecification"/>, <c>false</c> otherwise. </returns>
         [UsedImplicitly]
         public static bool IsAbstractContextSpecification(Type classTypeToInvestigate)
         {
@@ -126,7 +128,7 @@ namespace Testeroids.Aspects
         ///   Test if injected type is a context specification.
         /// </summary>
         /// <param name="classTypeToInvestigate"> The type To Investigate. </param>
-        /// <returns> <c>true</c> if injected type is a concrete <see cref="IContextSpecification"/>, <c>false</c> otherwise. </returns>
+        /// <returns> <c>true</c> if injected type is a concrete <see cref="Testeroids.Contracts.IContextSpecification"/>, <c>false</c> otherwise. </returns>
         [UsedImplicitly]
         public static bool IsConcreteContextSpecification(Type classTypeToInvestigate)
         {
@@ -170,7 +172,7 @@ namespace Testeroids.Aspects
         ///   Test if injected type is a context specification test fixture.
         /// </summary>
         /// <param name="classTypeToInvestigate"> The type To Investigate. </param>
-        /// <returns> <c>true</c> if injected type is an <see cref="IContextSpecification"/>, <c>false</c> otherwise. </returns>
+        /// <returns> <c>true</c> if injected type is an <see cref="Testeroids.Contracts.IContextSpecification"/>, <c>false</c> otherwise. </returns>
         [UsedImplicitly]
         public static bool IsContextSpecification(Type classTypeToInvestigate)
         {

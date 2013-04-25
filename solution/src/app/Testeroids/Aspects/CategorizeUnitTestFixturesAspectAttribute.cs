@@ -16,6 +16,8 @@ namespace Testeroids.Aspects
     using PostSharp.Extensibility;
     using PostSharp.Reflection;
 
+    using Testeroids.Contracts;
+
     /// <summary>
     ///   CategorizeUnitTestFixturesAspect injects the <see cref="NUnit.Framework.CategoryAttribute" /> attribute (to group all test fixtures under their respective SUT) and the <see
     ///    cref="NUnit.Framework.DescriptionAttribute" /> attribute (to transform the test name into an English sentence) into all test fixtures in an assembly (categorized by top-level specification class).

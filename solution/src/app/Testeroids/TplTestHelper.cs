@@ -9,6 +9,8 @@ namespace Testeroids
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Contracts;
+
     using JetBrains.Annotations;
 
     /// <summary>
@@ -93,7 +95,7 @@ namespace Testeroids
         }
 
         /// <summary>
-        /// Determines whether TPL tasks will be run on a given <see cref="IContextSpecification"/>. The <paramref name="contextSpecification"/> instance needs to have the <see cref="TplContextAspectAttribute"/> aspect applied to it.
+        /// Determines whether TPL tasks will be run on a given <see cref="Testeroids.Contracts.IContextSpecification"/>. The <paramref name="contextSpecification"/> instance needs to have the <see cref="TplContextAspectAttribute"/> aspect applied to it.
         /// </summary>
         /// <param name="contextSpecification">
         /// The context specification to inspect.

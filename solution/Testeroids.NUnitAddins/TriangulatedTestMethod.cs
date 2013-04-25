@@ -1,4 +1,4 @@
-﻿namespace Testeroids
+namespace Testeroids.NUnitAddins
 {
     using System;
     using System.Collections.Generic;
@@ -6,6 +6,8 @@
     using System.Reflection;
 
     using NUnit.Core;
+
+    using Testeroids.Contracts;
 
     public class TriangulatedTestMethod : NUnitTestMethod
     {
@@ -45,7 +47,7 @@
 // Find out when is this.Fixture instantiates, and by reflection: use triangulationValue.Item1 ( the PropertyInfo ) to override the property's value before running the tests.
             }
 
-            var contextSpecificationBase = this.Fixture as ContextSpecificationBase;
+            var contextSpecificationBase = this.Fixture as IContextSpecification;
             contextSpecificationBase.BaseSetUp();
             return base.RunTest();
         }

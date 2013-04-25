@@ -9,10 +9,12 @@ namespace Testeroids.Tests
 
     using Moq;
 
+    using NUnit.Core.Extensibility;
     using NUnit.Framework;
 
     using Testeroids.Aspects.Attributes;
     using Testeroids.Mocking;
+    using Testeroids.NUnitAddins;
 
     public abstract class TestSpecs
     {
@@ -305,7 +307,7 @@ namespace Testeroids.Tests
                     }
                 }
             }
-			
+
             public sealed class with_ProhibitGetOnNotSetPropertyAspectAttribute : given_instantiated_Sut
             {
                 #region Context
@@ -386,17 +388,17 @@ namespace Testeroids.Tests
                     {
                         #region Context
 
-                    protected override sealed int EstablishSpecifiedOperand1()
+                        protected override sealed int EstablishSpecifiedOperand1()
                         {
                             return 10;
                         }
 
-                    protected override sealed int EstablishSpecifiedOperand2()
+                        protected override sealed int EstablishSpecifiedOperand2()
                         {
                             return 7;
                         }
 
-                    protected override sealed int EstablishReturnedSum()
+                        protected override sealed int EstablishReturnedSum()
                         {
                             // Return an erroneous value, just to certify that we are returning the value which is handed out by the mock
                             return int.MaxValue;
@@ -409,17 +411,17 @@ namespace Testeroids.Tests
                     {
                         #region Context
 
-                    protected override sealed int EstablishSpecifiedOperand1()
+                        protected override sealed int EstablishSpecifiedOperand1()
                         {
                             return 10;
                         }
 
-                    protected override sealed int EstablishSpecifiedOperand2()
+                        protected override sealed int EstablishSpecifiedOperand2()
                         {
                             return -7;
                         }
 
-                    protected override sealed int EstablishReturnedSum()
+                        protected override sealed int EstablishReturnedSum()
                         {
                             return 3;
                         }

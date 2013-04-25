@@ -1,4 +1,4 @@
-﻿namespace Testeroids
+namespace Testeroids.NUnitAddins
 {
     using System;
     using System.Collections.Generic;
