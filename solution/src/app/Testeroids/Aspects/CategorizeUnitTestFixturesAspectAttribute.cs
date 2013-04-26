@@ -16,7 +16,7 @@ namespace Testeroids.Aspects
     using PostSharp.Extensibility;
     using PostSharp.Reflection;
 
-    using Testeroids.Contracts;
+    using Testeroids.TriangulationEngine;
 
     /// <summary>
     ///   CategorizeUnitTestFixturesAspect injects the <see cref="NUnit.Framework.CategoryAttribute" /> attribute (to group all test fixtures under their respective SUT) and the <see

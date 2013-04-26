@@ -5,10 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testeroids", "src\app\Teste
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testeroids.Tests", "src\test\Testeroids.Tests\Testeroids.Tests.csproj", "{BF1AB69F-1098-4019-AD34-A09CDA1116B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testeroids.NUnitAddins", "Testeroids.NUnitAddins\Testeroids.NUnitAddins.csproj", "{4664FDFB-641D-4056-AE5B-D1A05B0A92AA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testeroids.Contracts", "Testeroids.Contracts\Testeroids.Contracts.csproj", "{D260DCAD-35E6-4A2A-8CAC-9AAE68DD3565}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,26 +39,6 @@ Global
 		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Release|x86.ActiveCfg = Release|Any CPU
 		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Release|x86.Build.0 = Release|Any CPU
-		{4664FDFB-641D-4056-AE5B-D1A05B0A92AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4664FDFB-641D-4056-AE5B-D1A05B0A92AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4664FDFB-641D-4056-AE5B-D1A05B0A92AA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{4664FDFB-641D-4056-AE5B-D1A05B0A92AA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{4664FDFB-641D-4056-AE5B-D1A05B0A92AA}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{4664FDFB-641D-4056-AE5B-D1A05B0A92AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4664FDFB-641D-4056-AE5B-D1A05B0A92AA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4664FDFB-641D-4056-AE5B-D1A05B0A92AA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{4664FDFB-641D-4056-AE5B-D1A05B0A92AA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{4664FDFB-641D-4056-AE5B-D1A05B0A92AA}.Release|x86.ActiveCfg = Release|Any CPU
-		{D260DCAD-35E6-4A2A-8CAC-9AAE68DD3565}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D260DCAD-35E6-4A2A-8CAC-9AAE68DD3565}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D260DCAD-35E6-4A2A-8CAC-9AAE68DD3565}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{D260DCAD-35E6-4A2A-8CAC-9AAE68DD3565}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{D260DCAD-35E6-4A2A-8CAC-9AAE68DD3565}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{D260DCAD-35E6-4A2A-8CAC-9AAE68DD3565}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D260DCAD-35E6-4A2A-8CAC-9AAE68DD3565}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D260DCAD-35E6-4A2A-8CAC-9AAE68DD3565}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{D260DCAD-35E6-4A2A-8CAC-9AAE68DD3565}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{D260DCAD-35E6-4A2A-8CAC-9AAE68DD3565}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

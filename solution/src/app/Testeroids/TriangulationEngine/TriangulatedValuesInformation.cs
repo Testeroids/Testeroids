@@ -1,4 +1,4 @@
-namespace Testeroids.NUnitAddins
+namespace Testeroids.TriangulationEngine
 {
     public class TriangulatedValuesInformation
     {

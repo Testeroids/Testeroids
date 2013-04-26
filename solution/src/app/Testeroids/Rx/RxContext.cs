@@ -10,8 +10,10 @@ namespace Testeroids.Rx
 
     using RxSchedulers.Switch;
 
+    using Testeroids.TriangulationEngine;
+
     /// <summary>
-    /// Implements functionality which is useful for a <see cref="Testeroids.Contracts.IContextSpecification"/> implementation in what relates to Reactive Extensions,
+    /// Implements functionality which is useful for a <see cref="IContextSpecification"/> implementation in what relates to Reactive Extensions,
     /// namely configuring the <see cref="RxSchedulers.Switch.SchedulerSwitch"/> for test purposes, and lazy instantiation of <see cref="TestScheduler"/>s.
     /// </summary>
     [Serializable]

@@ -1,4 +1,4 @@
-namespace Testeroids.NUnitAddins
+namespace Testeroids.TriangulationEngine
 {
     using System;
     using System.Collections.Generic;

@@ -1,4 +1,4 @@
-namespace Testeroids.NUnitAddins
+namespace Testeroids.TriangulationEngine
 {
     using System;
     using System.Collections.Generic;
@@ -6,8 +6,6 @@ namespace Testeroids.NUnitAddins
     using System.Reflection;
 
     using NUnit.Core;
-
-    using Testeroids.Contracts;
 
     public class TriangulatedTestMethod : NUnitTestMethod
     {
