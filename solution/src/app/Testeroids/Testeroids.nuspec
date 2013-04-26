@@ -24,4 +24,7 @@
             <dependency id="Rx-Testing" version="2.1.30214.0" />
         </dependencies>
     </metadata>
+	<files>
+		<file src="NuGetContent\TriangulatedFixture.cs" target="content/TesteroidsAddins/TriangulatedFixture.cs"/>
+	</files>
 </package>
