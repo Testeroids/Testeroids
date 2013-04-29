@@ -7,7 +7,7 @@ namespace Testeroids.TesteroidsAddins
     using Testeroids.TriangulationEngine;
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    [NUnitAddin(Description = "Testeroid Triangulation Engine")]
+    [NUnitAddin(Description = "Testeroids Triangulation Engine")]
     public class TriangulatedFixture : Attribute, 
                                        NUnit.Core.Extensibility.IAddin, 
                                        ISuiteBuilder
