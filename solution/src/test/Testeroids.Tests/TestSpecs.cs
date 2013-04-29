@@ -14,7 +14,7 @@ namespace Testeroids.Tests
 
     using Testeroids.Aspects.Attributes;
     using Testeroids.Mocking;
-    using Testeroids.NUnitAddins;
+    using Testeroids.TesteroidsAddins;
 
     public abstract class TestSpecs
     {

@@ -1,8 +1,10 @@
-namespace Testeroids.TriangulationEngine
+namespace Testeroids.TesteroidsAddins
 {
     using System;
 
     using NUnit.Core.Extensibility;
+
+    using Testeroids.TriangulationEngine;
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     [NUnitAddin(Description = "Testeroid Triangulation Engine")]

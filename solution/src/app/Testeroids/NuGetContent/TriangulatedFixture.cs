@@ -1,4 +1,4 @@
-namespace Testeroids.NUnitAddins
+namespace Testeroids.TesteroidsAddins
 {
     using System;
 
@@ -29,7 +29,7 @@ namespace Testeroids.NUnitAddins
             }
             else
             {
-                isOk = NUnit.Core.Reflect.HasAttribute(type, "Testeroids.TriangulatedFixture", true);
+                isOk = NUnit.Core.Reflect.HasAttribute(type, "Testeroids.TesteroidsAddins.TriangulatedFixture", true);
             }
 
             return isOk;

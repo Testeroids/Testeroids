@@ -12,6 +12,7 @@ namespace Testeroids.Tests
     using NUnit.Core.Extensibility;
     using NUnit.Framework;
 
+    using Testeroids.TesteroidsAddins;
     using Testeroids.TriangulationEngine;
 
     public class SuiteBuildersTests
@@ -40,7 +41,7 @@ namespace Testeroids.Tests
             /// TODO: This class has 2 test fixtures which require a simpler triangulation mechanism.
             /// </summary>
             [TestFixture]
-            [NUnitAddins.TriangulatedFixture]
+            [TriangulatedFixture]
             public class when_Sum_is_called : given_instantiated_Sut
             {
                 #region Context
