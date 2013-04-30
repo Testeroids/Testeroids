@@ -58,9 +58,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\app\Testeroids\NuGetContent\TriangulatedFixture.cs">
-      <Link>TriangulatedFixture.cs</Link>
-    </Compile>
     <Compile Include="..\GlobalUnitTestAspectsAssemblyInfo.cs">
       <Link>Properties\GlobalUnitTestAspectsAssemblyInfo.cs</Link>
     </Compile>
@@ -71,6 +68,11 @@
     <Compile Include="ICalculator.cs" />
     <Compile Include="SuiteBuildersTests.cs" />
     <Compile Include="Test.cs" />
+    <Compile Include="TesteroidsAddins\TriangulatedFixture1.g.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TriangulatedFixture.tt</DependentUpon>
+    </Compile>
     <Compile Include="TestSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -84,6 +86,13 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="TesteroidsAddins\TriangulatedFixture.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TriangulatedFixture1.g.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
