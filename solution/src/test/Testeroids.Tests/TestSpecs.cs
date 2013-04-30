@@ -9,12 +9,10 @@ namespace Testeroids.Tests
 
     using Moq;
 
-    using NUnit.Core.Extensibility;
     using NUnit.Framework;
 
     using Testeroids.Aspects.Attributes;
     using Testeroids.Mocking;
-    using Testeroids.TesteroidsAddins;
 
     public abstract class TestSpecs
     {

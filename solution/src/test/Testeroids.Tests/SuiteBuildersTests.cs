@@ -12,7 +12,7 @@ namespace Testeroids.Tests
     using NUnit.Core.Extensibility;
     using NUnit.Framework;
 
-    using Testeroids.TesteroidsAddins;
+    using Testeroids.Tests.TesteroidsAddins;
     using Testeroids.TriangulationEngine;
 
     public class SuiteBuildersTests
