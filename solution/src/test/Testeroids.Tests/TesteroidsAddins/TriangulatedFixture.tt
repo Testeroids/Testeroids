@@ -54,7 +54,7 @@ namespace <#=namespaceName#>
             }
             else
             {
-                isOk = NUnit.Core.Reflect.HasAttribute(type, "Testeroids.TesteroidsAddins.TriangulatedFixture", true);
+                isOk = NUnit.Core.Reflect.HasAttribute(type, "<#=namespaceName#>.TriangulatedFixture", true);
             }
 
             return isOk;
