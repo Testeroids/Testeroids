@@ -132,7 +132,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="PropertyNotInitializedException.cs" />
-    <Compile Include="RequiresPostSharp.cs" />
     <Compile Include="Rx\Aspects\RxContextAspectAttribute.cs" />
     <Compile Include="Rx\Aspects\RxTestSchedulerAspectAttribute.cs" />
     <Compile Include="Rx\TestSchedulerExtensions.cs" />

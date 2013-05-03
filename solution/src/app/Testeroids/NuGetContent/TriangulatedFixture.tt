@@ -46,15 +46,21 @@ namespace <#=namespaceName#>
 
         public bool CanBuildFrom(Type type)
         {
-            bool isOk;
+		    bool isOk;
 
             if (type.IsAbstract)
             {
                 isOk = false;
+
             }
             else
             {
-                isOk = NUnit.Core.Reflect.HasAttribute(type, "<#=namespaceName#>.TriangulatedFixture", true);
+                isOk = false;
+                while (type.BaseType != typeof(object) && !isOk)
+                {
+                    isOk = NUnit.Core.Reflect.HasAttribute(type, "<#=namespaceName#>.TriangulatedFixture", true);
+                    type = type.BaseType;
+                }                
             }
 
             return isOk;

@@ -177,13 +177,20 @@ namespace Testeroids
 
         /// <summary>
         /// The because method as overridable by the user of Testeroids. Will be called by <see cref="OnBecauseRequested"/>.
-        /// </summary>
-        /// <remarks>Internally, <see cref="OnBecauseRequested"/> does make sure any verified mock created by the <see cref="MockRepository"/> has its recorded calls reset.
+        /// </summary>        
+        /// <remarks>
+        /// <see cref="Because"/> will be injected through AOP on entering a test method.
+        /// Internally, <see cref="OnBecauseRequested"/> does make sure any verified mock created by the <see cref="MockRepository"/> has its recorded calls reset.
         /// This means that any call to a mocked method will "forget" about the method calls done prior to calling <see cref="Because"/>.
         /// </remarks>
         protected internal abstract void Because();
 
-        /// This test is meant for internal library use only.
+        /// <summary>
+        /// This is a hook method which will be called during the test's Set-Up phase, right after <see cref="InstantiateMocks"/> and before <see cref="EstablishContext"/>.
+        /// </summary>
+        /// <remarks>
+        /// This method is meant for internal library use only.
+        /// </remarks>
         protected virtual void BeforeEstablishContext()
         {
         }

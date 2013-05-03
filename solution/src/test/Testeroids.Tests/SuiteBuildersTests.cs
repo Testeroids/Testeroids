@@ -5,11 +5,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids.Tests
 {
-    using System;
-
     using Moq;
 
-    using NUnit.Core.Extensibility;
     using NUnit.Framework;
 
     using Testeroids.Tests.TesteroidsAddins;
@@ -21,7 +18,7 @@ namespace Testeroids.Tests
         {
             #region Context
 
-            protected IMock<ICalculator> InjectedCalculatorMock { get; private set; }
+            private IMock<ICalculator> InjectedCalculatorMock { get; set; }
 
             protected override void EstablishContext()
             {
@@ -114,8 +111,5 @@ namespace Testeroids.Tests
                 }
             }
         }
-
-
-
     }
 }

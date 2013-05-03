@@ -13,6 +13,8 @@ namespace Testeroids.Tests
 
     using Testeroids.Aspects.Attributes;
     using Testeroids.Mocking;
+    using Testeroids.Tests.TesteroidsAddins;
+    using Testeroids.TriangulationEngine;
 
     public abstract class TestSpecs
     {
@@ -493,6 +495,93 @@ namespace Testeroids.Tests
                     public void then_Sum_is_called_once_on_InjectedCalculatorMock()
                     {
                         this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
+                    }
+                }
+            }
+
+            [TriangulatedFixture]
+            public abstract class when_Sum_is_called_with_triangulation_on_abstract_Context : given_instantiated_Sut
+            {
+                #region Context
+
+                private int Result { get; set; }
+
+                [TriangulationValues(5, 6)]
+                private int SpecifiedOperand1 { get; set; }
+
+                private int SpecifiedOperand2 { get; set; }
+
+                protected abstract int EstablishSpecifiedOperand2();
+
+                protected override void EstablishContext()
+                {
+                    base.EstablishContext();
+
+                    this.SpecifiedOperand2 = this.EstablishSpecifiedOperand2();
+
+                    this.CheckSetupsAreMatchedWithVerifyCalls = true;
+                }
+
+                protected override sealed void Because()
+                {
+                    this.Result = this.Sut.Sum(this.SpecifiedOperand1, this.SpecifiedOperand2);
+                }
+
+                #endregion
+
+                public abstract class with_returned_result : when_Sum_is_called_with_triangulation_on_abstract_Context
+                {
+                    #region Context
+
+                    private int ReturnedSum { get; set; }
+
+                    private int EstablishReturnedSum()
+                    {
+                        // Return an erroneous value, just to certify that we are returning the value which is handed out by the mock
+                        return SpecifiedOperand1 + SpecifiedOperand2;
+                    }
+
+                    protected override void EstablishContext()
+                    {
+                        base.EstablishContext();
+                        this.ReturnedSum = this.EstablishReturnedSum();
+                        this.InjectedCalculatorMock
+                            .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
+                            .Returns(this.ReturnedSum)
+                            .DontEnforceSetupVerification()
+                            .EnforceUsage();
+                    }
+
+                    #endregion
+
+                    public class with_SpecifiedOperand2_equal_to_7 : with_returned_result
+                    {
+                        #region Context
+
+                        protected override sealed int EstablishSpecifiedOperand2()
+                        {
+                            return 7;
+                        }
+
+                        #endregion
+                    }
+
+                    public class with_SpecifiedOperand2_equal_to_minus_7 : with_returned_result
+                    {
+                        #region Context
+
+                        protected override sealed int EstablishSpecifiedOperand2()
+                        {
+                            return -7;
+                        }
+
+                        #endregion
+                    }                    
+
+                    [Test]
+                    public void then_Result_matches_ReturnedSum()
+                    {
+                        Assert.AreEqual(this.ReturnedSum, this.Result);
                     }
                 }
             }

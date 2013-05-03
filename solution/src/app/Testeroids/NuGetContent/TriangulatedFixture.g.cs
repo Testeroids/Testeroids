@@ -1,4 +1,10 @@
-namespace Testeroids.TesteroidsAddins
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TriangulatedFixture1.g.cs" company="Testeroids">
+//   © 2012-2013 Testeroids. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Testeroids.Tests.TesteroidsAddins
 {
     using System;
 
@@ -21,15 +27,21 @@ namespace Testeroids.TesteroidsAddins
 
         public bool CanBuildFrom(Type type)
         {
-            bool isOk;
+		    bool isOk;
 
             if (type.IsAbstract)
             {
                 isOk = false;
+
             }
             else
             {
-                isOk = NUnit.Core.Reflect.HasAttribute(type, "Testeroids.TesteroidsAddins.TriangulatedFixture", true);
+                isOk = false;
+                while (type.BaseType != typeof(object) && !isOk)
+                {
+                    isOk = NUnit.Core.Reflect.HasAttribute(type, "Testeroids.Tests.TesteroidsAddins.TriangulatedFixture", true);
+                    type = type.BaseType;
+                }                
             }
 
             return isOk;

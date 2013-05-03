@@ -27,12 +27,21 @@ namespace Testeroids.TriangulationEngine
                     continue;
                 }
 
-                var triangulatedProperties = method.DeclaringType.FindMembers(
-                    MemberTypes.Property, 
-                    BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public, 
-                    (info, 
-                     criteria) => info.IsDefined(typeof(TriangulationValuesAttribute), false), 
-                    null).Cast<PropertyInfo>();
+                Type contextType = fixtureType;
+                IEnumerable<PropertyInfo> triangulatedProperties = Enumerable.Empty<PropertyInfo>();
+                while (contextType != typeof(object))
+                {
+                    triangulatedProperties = contextType
+                        .FindMembers(
+                            MemberTypes.Property,
+                            BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public,
+                            (info, criteria) => info.IsDefined(typeof(TriangulationValuesAttribute), false),
+                            null)
+                       .Cast<PropertyInfo>()
+                       .Concat(triangulatedProperties);
+                    contextType = contextType.BaseType;
+                }
+
 
                 var possibleValuesForProperties = new Dictionary<PropertyInfo, TriangulatedValuesInformation>();
 
