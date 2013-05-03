@@ -40,7 +40,9 @@ namespace Testeroids.TriangulationEngine
         {
             foreach (var triangulationValue in this.triangulationValues)
             {
-                triangulationValue.Item1.SetValue(this.Fixture, triangulationValue.Item2, null);
+                var setMethod = triangulationValue.Item1.GetSetMethod(true);
+                setMethod.Invoke(this.Fixture, new[] { triangulationValue.Item2 });
+                // triangulationValue.Item1.SetValue(this.Fixture, triangulationValue.Item2, null);
 
 // Find out when is this.Fixture instantiates, and by reflection: use triangulationValue.Item1 ( the PropertyInfo ) to override the property's value before running the tests.
             }

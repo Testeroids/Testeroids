@@ -45,7 +45,7 @@ namespace Testeroids.TriangulationEngine
 
                 var possibleValuesForProperties = new Dictionary<PropertyInfo, TriangulatedValuesInformation>();
 
-                foreach (var property in triangulatedProperties)
+                foreach (var property in triangulatedProperties.Where(o => o.CanWrite))
                 {
                     var values = property.GetCustomAttributes(typeof(TriangulationValuesAttribute), false).Cast<TriangulationValuesAttribute>().Single().TriangulationValues;
                     var valuesInfo = new TriangulatedValuesInformation(values);

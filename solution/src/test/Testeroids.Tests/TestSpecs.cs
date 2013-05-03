@@ -507,7 +507,7 @@ namespace Testeroids.Tests
                 private int Result { get; set; }
 
                 [TriangulationValues(5, 6)]
-                private int SpecifiedOperand1 { get; set; }
+                protected int SpecifiedOperand1 { get; private set; }
 
                 private int SpecifiedOperand2 { get; set; }
 
@@ -520,6 +520,12 @@ namespace Testeroids.Tests
                     this.SpecifiedOperand2 = this.EstablishSpecifiedOperand2();
 
                     this.CheckSetupsAreMatchedWithVerifyCalls = true;
+                }
+
+                protected override void DisposeContext()
+                {
+                    SpecifiedOperand1 = 0;
+                    base.DisposeContext();                    
                 }
 
                 protected override sealed void Because()
