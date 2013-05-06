@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ProhibitGetOnNotInitializedPropertyAspectAttribute.cs" company="Testeroids">
+// <copyright file="ProhibitSetOnInitializedPropertyAspectAttribute.cs" company="Testeroids">
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -22,7 +22,7 @@ namespace Testeroids.Aspects
     [MulticastAttributeUsage(MulticastTargets.Class, 
         TargetTypeAttributes = MulticastAttributes.AnyScope | MulticastAttributes.AnyVisibility | MulticastAttributes.NonAbstract | MulticastAttributes.Managed, 
         AllowMultiple = false, Inheritance = MulticastInheritance.Multicast)]
-    public class ProhibitGetOnNotInitializedPropertyAspectAttribute : InstanceLevelAspect
+    public class ProhibitSetOnInitializedPropertyAspectAttribute : InstanceLevelAspect
     {
         #region Fields
 
@@ -36,40 +36,25 @@ namespace Testeroids.Aspects
         #region Public Methods and Operators
 
         /// <summary>
-        /// Method invoked <i>instead</i> of the <c>Get</c> semantic of property to which the current aspect is applied,
-        ///               i.e. when the value of this field or property is retrieved.
-        /// If the property's set method has not been called the method will throw an <see cref="PropertyNotInitializedException"/>.
+        /// Method invoked <i>instead</i> of the <c>Set</c> semantic of the field or property to which the current aspect is applied,
+        ///               i.e. when the value of this field or property is changed.
+        /// If the property's set method has already been called the method will throw an <see cref="PropertyAlreadyInitializedException"/>.
         /// </summary>
         /// <param name="args">Advice arguments.</param>
         /// <exception cref="PropertyNotInitializedException">
-        /// When the property's set method has not been called before.
+        /// When the property's set method has already been called before.
         /// </exception>
-        [OnLocationGetValueAdvice]
+        [OnLocationSetValueAdvice]
         [MulticastPointcut(Targets = MulticastTargets.Property, Attributes = MulticastAttributes.AnyVisibility | MulticastAttributes.Instance)]
-        public void OnPropertyGet(LocationInterceptionArgs args)
-        {
-            if (args.Location.PropertyInfo.GetSetMethod(true) != null &&
-                !this.propertySetList.Contains(args.LocationName))
-            {
-                throw new PropertyNotInitializedException(args.LocationFullName);
-            }
-
-            args.ProceedGetValue();
-        }
-
-        /// <summary>
-        /// Method invoked <i>instead</i> of the <c>Set</c> semantic of the field or property to which the current aspect is applied,
-        ///               i.e. when the value of this field or property is changed.
-        /// Adds the property to the list of properties where set has been accessed.
-        /// </summary>
-        /// <param name="args">Advice arguments.</param>
-        [OnLocationSetValueAdvice(Master = "OnPropertyGet")]
         public void OnPropertySet(LocationInterceptionArgs args)
         {
-            if (!this.propertySetList.Contains(args.LocationName))
+            if (args.Location.PropertyInfo.GetSetMethod(true) != null &&
+                this.propertySetList.Contains(args.LocationName))
             {
-                this.propertySetList.Add(args.LocationName);
+                throw new PropertyAlreadyInitializedException(args.LocationFullName);
             }
+
+            this.propertySetList.Add(args.LocationName);
 
             args.ProceedSetValue();
         }
