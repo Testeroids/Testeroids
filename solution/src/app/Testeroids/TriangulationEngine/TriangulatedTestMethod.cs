@@ -23,7 +23,7 @@ namespace Testeroids.TriangulationEngine
         {
             this.triangulationValues = triangulationValues;
             var testFixture = new TriangulatedTestMethodFixture(this.Method.DeclaringType);
-            this.Parent = testFixture;
+            // this.Parent = testFixture;
 
             var triangulatedName = triangulationValues.Aggregate(this.TestName.Name + " - Triangulated : ", (s, 
                                                                                                              tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, tuple.Item2.ToString()));
@@ -38,6 +38,12 @@ namespace Testeroids.TriangulationEngine
 
         public override TestResult RunTest()
         {
+            var tplContextFix = this.Parent as ITplContextFix;
+            if (tplContextFix != null)
+            {
+                tplContextFix.AddTplSupport();                
+            }          
+
             foreach (var triangulationValue in this.triangulationValues)
             {
                 var setMethod = triangulationValue.Item1.GetSetMethod(true);

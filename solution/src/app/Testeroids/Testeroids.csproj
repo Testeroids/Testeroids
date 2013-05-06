@@ -155,6 +155,7 @@
     <Compile Include="TplTestHelper.cs" />
     <Compile Include="TplTestPlatformHelper.cs" />
     <Compile Include="TriangulationEngine\IContextSpecification.cs" />
+    <Compile Include="TriangulationEngine\ITplContextFix.cs" />
     <Compile Include="TriangulationEngine\SuiteTestBuilder.cs" />
     <Compile Include="TriangulationEngine\TriangulatedTestMethod.cs" />
     <Compile Include="TriangulationEngine\TriangulatedTestMethodFixture.cs" />

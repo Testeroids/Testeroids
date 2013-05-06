@@ -10,7 +10,8 @@ namespace Testeroids.TriangulationEngine
     using NUnit.Core;
     using NUnit.Framework;
 
-    public class SuiteTestBuilder : TestSuite
+    public class SuiteTestBuilder : TestSuite,
+                                    ITplContextFix
     {
         #region Constructors and Destructors
 
@@ -69,6 +70,8 @@ namespace Testeroids.TriangulationEngine
 
         #region Methods
 
+
+
         /// <summary>
         /// Recursively builds the triangulation sets and stores them in the specified <paramref name="triangulatedSets"/> accumulator.
         /// </summary>
@@ -114,5 +117,17 @@ namespace Testeroids.TriangulationEngine
         }
 
         #endregion
+
+        public void AddTplSupport()
+        {
+            var customAttributes = this.FixtureType.GetCustomAttributes(true);
+            var tplContextAspect = customAttributes.OfType<TplContextAspectAttribute>().FirstOrDefault();
+            if (tplContextAspect != null)
+            {
+                var testTaskScheduler = new TplTestPlatformHelper.TestTaskScheduler(tplContextAspect.ExecuteTplTasks);
+
+                TplTestPlatformHelper.SetDefaultScheduler(testTaskScheduler);
+            }
+        }
     }
 }
