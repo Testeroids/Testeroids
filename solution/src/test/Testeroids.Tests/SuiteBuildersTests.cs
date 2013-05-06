@@ -286,8 +286,8 @@ namespace Testeroids.Tests
 
                     /// <remarks>
                     ///  HACK : we use the type's name in string representation because TestTaskScheduler is internal to Testeroids.
-                    /// </remarks>>                    
-                    [Test]                    
+                    /// </remarks>
+                    [Test]
                     public void then_Default_TaskScheduler_is_of_type_TestTaskScheduler()
                     {
                         Assert.AreEqual("TestTaskScheduler", TaskScheduler.Default.GetType().Name);
