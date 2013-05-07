@@ -22,7 +22,7 @@ namespace Testeroids.Tests.TesteroidsAddins
 
         public NUnit.Core.Test BuildFrom(Type type)
         {
-            return new SuiteTestBuilder(type);
+            return new TriangulatedTestSuiteBuilder(type);
         }
 
         public bool CanBuildFrom(Type type)

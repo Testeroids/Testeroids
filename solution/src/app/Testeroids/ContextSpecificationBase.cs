@@ -119,7 +119,6 @@ namespace Testeroids
 
             this.PreTestSetUp();
             this.InstantiateMocks();
-            this.BeforeEstablishContext();
             this.EstablishContext();
             this.InitializeSubjectUnderTest();
         }
@@ -184,16 +183,6 @@ namespace Testeroids
         /// This means that any call to a mocked method will "forget" about the method calls done prior to calling <see cref="Because"/>.
         /// </remarks>
         protected internal abstract void Because();
-
-        /// <summary>
-        /// This is a hook method which will be called during the test's Set-Up phase, right after <see cref="InstantiateMocks"/> and before <see cref="EstablishContext"/>.
-        /// </summary>
-        /// <remarks>
-        /// This method is meant for internal library use only.
-        /// </remarks>
-        protected virtual void BeforeEstablishContext()
-        {
-        }
 
         /// <summary>
         ///   Called to dispose all unmanaged resources used by the test.

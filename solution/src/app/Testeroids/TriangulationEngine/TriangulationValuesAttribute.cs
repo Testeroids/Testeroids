@@ -2,10 +2,20 @@ namespace Testeroids.TriangulationEngine
 {
     using System;
 
+    /// <summary>
+    /// The attribute used to decorate properties in test specs in order to apply triangulation to it.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property)]
     public class TriangulationValuesAttribute : Attribute
     {
         #region Constructors and Destructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TriangulationValuesAttribute"/> class.
+        /// </summary>
+        /// <param name="triangulationValues">
+        /// The values which were defined to use for the triangulation.
+        /// </param>
         public TriangulationValuesAttribute(params object[] triangulationValues)
         {
             this.TriangulationValues = triangulationValues;
@@ -15,6 +25,9 @@ namespace Testeroids.TriangulationEngine
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets the values which were defined to use for the triangulation.
+        /// </summary>
         public object[] TriangulationValues { get; private set; }
 
         #endregion

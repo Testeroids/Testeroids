@@ -1,3 +1,9 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TriangulatedTestSuiteBuilder.cs" company="Testeroids">
+//   © 2012-2013 Testeroids. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Testeroids.TriangulationEngine
 {
     using System;
@@ -10,13 +16,22 @@ namespace Testeroids.TriangulationEngine
     using NUnit.Core;
     using NUnit.Framework;
 
-    public class SuiteTestBuilder : TestSuite,
-                                    ITplContextFix
+    /// <summary>
+    /// The test suite builder for triangulated tests. Will be responsible for the creation of the combinations of triangulated properties' values.
+    /// </summary>
+    public class TriangulatedTestSuiteBuilder : TestSuite, 
+                                                ITplContextFix
     {
         #region Constructors and Destructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TriangulatedTestSuiteBuilder"/> class.
+        /// </summary>
+        /// <param name="fixtureType">
+        /// The type of the fixture containing the test methods one which the triangulation should be applied.
+        /// </param>
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]
-        public SuiteTestBuilder(Type fixtureType)
+        public TriangulatedTestSuiteBuilder(Type fixtureType)
             : base(fixtureType)
         {
             this.Parent = new TriangulatedTestMethodFixture(fixtureType);
@@ -28,29 +43,28 @@ namespace Testeroids.TriangulationEngine
                     continue;
                 }
 
-                Type contextType = fixtureType;
-                IEnumerable<PropertyInfo> triangulatedProperties = Enumerable.Empty<PropertyInfo>();
+                var contextType = fixtureType;
+                var triangulatedProperties = Enumerable.Empty<PropertyInfo>();
                 while (contextType != typeof(object))
                 {
                     triangulatedProperties = contextType
                         .FindMembers(
-                            MemberTypes.Property,
-                            BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public,
-                            (info, criteria) => info.IsDefined(typeof(TriangulationValuesAttribute), false),
+                            MemberTypes.Property, 
+                            BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public, 
+                            (info, 
+                             criteria) => info.IsDefined(typeof(TriangulationValuesAttribute), false), 
                             null)
-                       .Cast<PropertyInfo>()
-                       .Concat(triangulatedProperties);
+                        .Cast<PropertyInfo>()
+                        .Concat(triangulatedProperties);
                     contextType = contextType.BaseType;
                 }
 
-
-                var possibleValuesForProperties = new Dictionary<PropertyInfo, TriangulatedValuesInformation>();
+                var possibleValuesForProperties = new Dictionary<PropertyInfo, object[]>();
 
                 foreach (var property in triangulatedProperties.Where(o => o.CanWrite))
                 {
                     var values = property.GetCustomAttributes(typeof(TriangulationValuesAttribute), false).Cast<TriangulationValuesAttribute>().Single().TriangulationValues;
-                    var valuesInfo = new TriangulatedValuesInformation(values);
-                    possibleValuesForProperties.Add(property, valuesInfo);
+                    possibleValuesForProperties.Add(property, values);
                 }
 
                 var propertyInfos = possibleValuesForProperties.Keys.ToArray();
@@ -68,9 +82,29 @@ namespace Testeroids.TriangulationEngine
 
         #endregion
 
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// Adds support for the TPL contexts as done by the <see cref="TplContextAspectAttribute"/>.
+        /// </summary>
+        /// <remarks>
+        /// The mechanism is sub-optimal at the moment, because it duplicates the code of the <see cref="TplContextAspectAttribute"/>. eventually, we should make the code re-usable.
+        /// </remarks>
+        public void AddTplSupport()
+        {
+            var customAttributes = this.FixtureType.GetCustomAttributes(true);
+            var tplContextAspect = customAttributes.OfType<TplContextAspectAttribute>().FirstOrDefault();
+            if (tplContextAspect != null)
+            {
+                var testTaskScheduler = new TplTestPlatformHelper.TestTaskScheduler(tplContextAspect.ExecuteTplTasks);
+
+                TplTestPlatformHelper.SetDefaultScheduler(testTaskScheduler);
+            }
+        }
+
+        #endregion
+
         #region Methods
-
-
 
         /// <summary>
         /// Recursively builds the triangulation sets and stores them in the specified <paramref name="triangulatedSets"/> accumulator.
@@ -81,7 +115,7 @@ namespace Testeroids.TriangulationEngine
         /// <param name="triangulatedSets">Serves as an accumulator and operation output for the outcome of the recursion.</param>
         private void BuildTriangulationSet(
             IList<Tuple<PropertyInfo, object>> triangulationValues, 
-            IDictionary<PropertyInfo, TriangulatedValuesInformation> possibleValuesForProperties, 
+            Dictionary<PropertyInfo, object[]> possibleValuesForProperties, 
             IList<PropertyInfo> triangulatedProperties, 
             ICollection<IList<Tuple<PropertyInfo, object>>> triangulatedSets)
         {
@@ -95,7 +129,7 @@ namespace Testeroids.TriangulationEngine
             // find the current property:
             var currentProperty = triangulatedProperties[triangulationValues.Count];
 
-            var possibleValues = possibleValuesForProperties[currentProperty].Values;
+            var possibleValues = possibleValuesForProperties[currentProperty];
 
             for (var index = 0; index < possibleValues.Length; index++)
             {
@@ -117,17 +151,5 @@ namespace Testeroids.TriangulationEngine
         }
 
         #endregion
-
-        public void AddTplSupport()
-        {
-            var customAttributes = this.FixtureType.GetCustomAttributes(true);
-            var tplContextAspect = customAttributes.OfType<TplContextAspectAttribute>().FirstOrDefault();
-            if (tplContextAspect != null)
-            {
-                var testTaskScheduler = new TplTestPlatformHelper.TestTaskScheduler(tplContextAspect.ExecuteTplTasks);
-
-                TplTestPlatformHelper.SetDefaultScheduler(testTaskScheduler);
-            }
-        }
     }
 }

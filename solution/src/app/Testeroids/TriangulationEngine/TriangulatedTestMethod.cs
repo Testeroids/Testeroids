@@ -7,29 +7,39 @@ namespace Testeroids.TriangulationEngine
 
     using NUnit.Core;
 
+    /// <summary>
+    /// Represents an occurence of the combination of a test for which one or more properties have been triangulated.
+    /// </summary>
     public class TriangulatedTestMethod : NUnitTestMethod
     {
         #region Fields
 
-        private readonly IEnumerable<Tuple<PropertyInfo, object>> triangulationValues;
+        /// <summary>
+        /// A list of the properties on which triangulation should be applied, along with their possible values.
+        /// </summary>
+        private readonly IList<Tuple<PropertyInfo, object>> triangulationValues;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public TriangulatedTestMethod(MethodInfo methodInfo, 
-                                      IEnumerable<Tuple<PropertyInfo, object>> triangulationValues)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TriangulatedTestMethod"/> class.
+        /// </summary>
+        /// <param name="methodInfo">
+        /// The <see cref="MethodInfo"/> on top of which the triangulated test must be built.
+        /// </param>
+        /// <param name="triangulationValues">
+        /// A list of the properties on which triangulation should be applied, along with their possible values.
+        /// </param>
+        public TriangulatedTestMethod(MethodInfo methodInfo, IList<Tuple<PropertyInfo, object>> triangulationValues)
             : base(methodInfo)
         {
             this.triangulationValues = triangulationValues;
-            var testFixture = new TriangulatedTestMethodFixture(this.Method.DeclaringType);
-            // this.Parent = testFixture;
 
-            var triangulatedName = triangulationValues.Aggregate(this.TestName.Name + " - Triangulated : ", (s, 
-                                                                                                             tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, tuple.Item2.ToString()));
+            var triangulatedName = this.triangulationValues.Aggregate(this.TestName.Name + " - Triangulated : ", (s, tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, tuple.Item2.ToString()));
             this.TestName.Name = triangulatedName;
-            this.TestName.FullName = triangulationValues.Aggregate(this.TestName.FullName + "Triangulated", (s, 
-                                                                                                             tuple) => string.Format("{0}_{1}Is{2}", s, tuple.Item1.Name, tuple.Item2.ToString()));
+            this.TestName.FullName = this.triangulationValues.Aggregate(this.TestName.FullName + "Triangulated", (s, tuple) => string.Format("{0}_{1}Is{2}", s, tuple.Item1.Name, tuple.Item2.ToString()));
         }
 
         #endregion
@@ -47,10 +57,7 @@ namespace Testeroids.TriangulationEngine
             foreach (var triangulationValue in this.triangulationValues)
             {
                 var setMethod = triangulationValue.Item1.GetSetMethod(true);
-                setMethod.Invoke(this.Fixture, new[] { triangulationValue.Item2 });
-                // triangulationValue.Item1.SetValue(this.Fixture, triangulationValue.Item2, null);
-
-// Find out when is this.Fixture instantiates, and by reflection: use triangulationValue.Item1 ( the PropertyInfo ) to override the property's value before running the tests.
+                setMethod.Invoke(this.Fixture, new[] { triangulationValue.Item2 });              
             }
 
             var contextSpecificationBase = this.Fixture as IContextSpecification;
