@@ -2,10 +2,12 @@ namespace Testeroids.TriangulationEngine
 {
     using System;
 
+    using JetBrains.Annotations;
+
     /// <summary>
     /// The attribute used to decorate properties in test specs in order to apply triangulation to it.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property), MeansImplicitUse(ImplicitUseKindFlags.Assign)]
     public class TriangulationValuesAttribute : Attribute
     {
         #region Constructors and Destructors
