@@ -22,6 +22,10 @@
             <dependency id="PostSharp" version="2.1.7.22" />
             <dependency id="RxSchedulers.Switch" version="1.0.2" />
             <dependency id="Rx-Testing" version="2.1.30214.0" />
+			<dependency id="NUnit.AddinsDependencies" version="1.0.0" />
         </dependencies>
     </metadata>
+	<files>
+		<file src="solution\src\app\Testeroids\NuGetContent\TriangulatedFixture.tt" target="content/TesteroidsAddins/TriangulatedFixture.tt"/>
+	</files>
 </package>

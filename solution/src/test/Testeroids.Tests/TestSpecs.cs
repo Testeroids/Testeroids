@@ -78,10 +78,12 @@ namespace Testeroids.Tests
                     this.InjectedCalculatorMock
                         .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
                         .Returns(0);
+
                     //// .DontEnforceSetupVerification()
                     // .EnforceUsage();
                     this.InjectedCalculatorMock
                         .Setup(o => o.Clear());
+
                     //// .DontEnforceSetupVerification()
                     // .EnforceUsage();
                 }
@@ -305,7 +307,7 @@ namespace Testeroids.Tests
                     }
                 }
             }
-			
+
             public sealed class with_ProhibitGetOnNotSetPropertyAspectAttribute : given_instantiated_Sut
             {
                 #region Context
