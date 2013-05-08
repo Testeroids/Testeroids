@@ -109,6 +109,7 @@
     <Compile Include="ContextSpecification.cs" />
     <Compile Include="ContextSpecificationBase.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="IContextSpecification.cs" />
     <Compile Include="IMock.cs" />
     <Compile Include="IMockRepository.cs" />
     <Compile Include="IssueAttribute.cs" />
@@ -154,7 +155,6 @@
     <Compile Include="TplContextAspectAttribute.cs" />
     <Compile Include="TplTestHelper.cs" />
     <Compile Include="TplTestPlatformHelper.cs" />
-    <Compile Include="TriangulationEngine\IContextSpecification.cs" />
     <Compile Include="TriangulationEngine\ITplContextFix.cs" />
     <Compile Include="TriangulationEngine\TriangulatedTestSuiteBuilder.cs" />
     <Compile Include="TriangulationEngine\TriangulatedTestMethod.cs" />

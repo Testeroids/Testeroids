@@ -3,7 +3,7 @@
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-namespace Testeroids.TriangulationEngine
+namespace Testeroids
 {
     using System.ComponentModel;
 

@@ -20,8 +20,7 @@ namespace Testeroids.Aspects
     using PostSharp.Aspects.Advices;
     using PostSharp.Extensibility;
 
-    using Testeroids.Aspects.Attributes;
-    using Testeroids.TriangulationEngine;
+    using Testeroids.Aspects.Attributes;   
 
     /// <summary>
     ///   <see cref="ArrangeActAssertAspectAttribute" /> provides behavior that is necessary for a better integration of AAA syntax with the unit testing framework.
