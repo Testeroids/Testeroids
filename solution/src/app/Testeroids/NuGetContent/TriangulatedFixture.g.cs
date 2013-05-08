@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TriangulatedFixture.g.cs" company="Testeroids">
+// <copyright file="TriangulatedFixture1.g.cs" company="Testeroids">
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
