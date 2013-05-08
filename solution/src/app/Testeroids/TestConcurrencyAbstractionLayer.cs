@@ -8,9 +8,7 @@ namespace Testeroids
     using System;
     using System.Reactive.Concurrency;
 
-    using Microsoft.Reactive.Testing;
-
-    using TestSchedulerExtensions = Testeroids.Rx.TestSchedulerExtensions;
+    using Testeroids.Rx;
 
     /// <summary>
     /// Test version of the <see cref="IConcurrencyAbstractionLayer"/> service, which relies on virtual time rather than on real timers and <see cref="System.Threading.Thread.Sleep(int)"/>.
@@ -62,7 +60,7 @@ namespace Testeroids
         /// <summary>
         /// Gets or sets the function which can return the <see cref="Microsoft.Reactive.Testing.TestScheduler"/> instance used in the tests.
         /// </summary>
-        internal Func<TestScheduler> GetTestScheduler { get; set; }
+        internal Func<Microsoft.Reactive.Testing.TestScheduler> GetTestScheduler { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether the default scheduler will be used.
@@ -112,7 +110,7 @@ namespace Testeroids
                 this.defaultConcurrencyAbstractionLayer.Sleep(timeout);
             }
 
-            TestSchedulerExtensions.Sleep(this.GetTestScheduler(), timeout);
+            this.GetTestScheduler().Sleep(timeout);
         }
 
         /// <summary>
