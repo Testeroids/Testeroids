@@ -24,7 +24,7 @@ namespace Testeroids
         #endregion
 
         /// <summary>
-        ///   Sets up the test (calls Testeroids.ContextSpecificationBase.EstablishContext() followed by Testeroids.ContextSpecificationBase.InitializeSubjectUnderTest()).
+        ///   Sets up the test (calls <see cref="Testeroids.ContextSpecificationBase.EstablishContext"/> followed by Testeroids.ContextSpecificationBase.InitializeSubjectUnderTest()).
         /// </summary>
         [SetUp]
         [EditorBrowsable(EditorBrowsableState.Never)]
