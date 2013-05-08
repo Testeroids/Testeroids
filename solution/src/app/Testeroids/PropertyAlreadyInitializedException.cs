@@ -23,7 +23,7 @@ namespace Testeroids
         /// Full name of the property which hasn't been set before get was accessed
         /// </param>
         public PropertyAlreadyInitializedException(string propertyName)
-            : base(string.Format("Property {0} was already set.",  propertyName))
+            : base(string.Format("Property {0} was already set.", propertyName))
         {
             this.PropertyName = propertyName;
         }
