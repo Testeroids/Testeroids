@@ -13,8 +13,6 @@ namespace Testeroids.Tests
 
     using Testeroids.Aspects.Attributes;
     using Testeroids.Mocking;
-    using Testeroids.Tests.TesteroidsAddins;
-    using Testeroids.TriangulationEngine;
 
     public abstract class TestSpecs
     {
@@ -80,10 +78,12 @@ namespace Testeroids.Tests
                     this.InjectedCalculatorMock
                         .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
                         .Returns(0);
+
                     //// .DontEnforceSetupVerification()
                     // .EnforceUsage();
                     this.InjectedCalculatorMock
                         .Setup(o => o.Clear());
+
                     //// .DontEnforceSetupVerification()
                     // .EnforceUsage();
                 }

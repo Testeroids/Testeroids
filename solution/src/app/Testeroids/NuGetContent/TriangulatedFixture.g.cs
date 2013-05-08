@@ -1,13 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TriangulatedFixture1.g.cs" company="Testeroids">
+// <copyright file="TriangulatedFixture.g.cs" company="Testeroids">
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Testeroids.Tests.TesteroidsAddins
 {
     using System;
 
+    using NUnit.Core;
     using NUnit.Core.Extensibility;
 
     using Testeroids.TriangulationEngine;
@@ -20,19 +20,18 @@ namespace Testeroids.Tests.TesteroidsAddins
     {
         #region Public Methods and Operators
 
-        public NUnit.Core.Test BuildFrom(Type type)
+        public Test BuildFrom(Type type)
         {
             return new TriangulatedTestSuiteBuilder(type);
         }
 
         public bool CanBuildFrom(Type type)
         {
-		    bool isOk;
+            bool isOk;
 
             if (type.IsAbstract)
             {
                 isOk = false;
-
             }
             else
             {
@@ -41,7 +40,7 @@ namespace Testeroids.Tests.TesteroidsAddins
                 {
                     isOk = NUnit.Core.Reflect.HasAttribute(type, "Testeroids.Tests.TesteroidsAddins.TriangulatedFixture", true);
                     type = type.BaseType;
-                }                
+                }
             }
 
             return isOk;

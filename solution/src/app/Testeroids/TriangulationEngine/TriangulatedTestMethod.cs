@@ -1,3 +1,9 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TriangulatedTestMethod.cs" company="Testeroids">
+//   © 2012-2013 Testeroids. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Testeroids.TriangulationEngine
 {
     using System;
@@ -32,14 +38,17 @@ namespace Testeroids.TriangulationEngine
         /// <param name="triangulationValues">
         /// A list of the properties on which triangulation should be applied, along with their possible values.
         /// </param>
-        public TriangulatedTestMethod(MethodInfo methodInfo, IList<Tuple<PropertyInfo, object>> triangulationValues)
+        public TriangulatedTestMethod(MethodInfo methodInfo, 
+                                      IList<Tuple<PropertyInfo, object>> triangulationValues)
             : base(methodInfo)
         {
             this.triangulationValues = triangulationValues;
 
-            var triangulatedName = this.triangulationValues.Aggregate(this.TestName.Name + " - Triangulated : ", (s, tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, tuple.Item2.ToString()));
+            var triangulatedName = this.triangulationValues.Aggregate(this.TestName.Name + " - Triangulated : ", (s, 
+                                                                                                                  tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, tuple.Item2.ToString()));
             this.TestName.Name = triangulatedName;
-            this.TestName.FullName = this.triangulationValues.Aggregate(this.TestName.FullName + "Triangulated", (s, tuple) => string.Format("{0}_{1}Is{2}", s, tuple.Item1.Name, tuple.Item2.ToString()));
+            this.TestName.FullName = this.triangulationValues.Aggregate(this.TestName.FullName + "Triangulated", (s, 
+                                                                                                                  tuple) => string.Format("{0}_{1}Is{2}", s, tuple.Item1.Name, tuple.Item2.ToString()));
         }
 
         #endregion
@@ -51,13 +60,13 @@ namespace Testeroids.TriangulationEngine
             var tplContextFix = this.Parent as ITplContextFix;
             if (tplContextFix != null)
             {
-                tplContextFix.AddTplSupport();                
-            }          
+                tplContextFix.AddTplSupport();
+            }
 
             foreach (var triangulationValue in this.triangulationValues)
             {
                 var setMethod = triangulationValue.Item1.GetSetMethod(true);
-                setMethod.Invoke(this.Fixture, new[] { triangulationValue.Item2 });              
+                setMethod.Invoke(this.Fixture, new[] { triangulationValue.Item2 });
             }
 
             var contextSpecificationBase = this.Fixture as IContextSpecification;

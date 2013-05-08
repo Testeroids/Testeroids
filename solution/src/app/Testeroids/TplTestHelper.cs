@@ -11,8 +11,6 @@ namespace Testeroids
 
     using JetBrains.Annotations;
 
-    using Testeroids.TriangulationEngine;
-
     /// <summary>
     /// Allows access to the test <see cref="TaskScheduler"/> associated with the current test fixture.
     /// </summary>

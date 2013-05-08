@@ -119,10 +119,10 @@ namespace Testeroids.Tests
             {
                 #region Context
 
-                private int Result { get; set; }
-
                 [TriangulationValues(5, 6)]
                 protected int SpecifiedOperand1 { get; private set; }
+
+                private int Result { get; set; }
 
                 private int SpecifiedOperand2 { get; set; }
 
@@ -137,15 +137,15 @@ namespace Testeroids.Tests
                     this.CheckSetupsAreMatchedWithVerifyCalls = true;
                 }
 
-                protected override void DisposeContext()
-                {
-                    SpecifiedOperand1 = 0;
-                    base.DisposeContext();
-                }
-
                 protected override sealed void Because()
                 {
                     this.Result = this.Sut.Sum(this.SpecifiedOperand1, this.SpecifiedOperand2);
+                }
+
+                protected override void DisposeContext()
+                {
+                    this.SpecifiedOperand1 = 0;
+                    base.DisposeContext();
                 }
 
                 #endregion
@@ -159,7 +159,7 @@ namespace Testeroids.Tests
                     private int EstablishReturnedSum()
                     {
                         // Return an erroneous value, just to certify that we are returning the value which is handed out by the mock
-                        return SpecifiedOperand1 + SpecifiedOperand2;
+                        return this.SpecifiedOperand1 + this.SpecifiedOperand2;
                     }
 
                     protected override void EstablishContext()
@@ -213,10 +213,10 @@ namespace Testeroids.Tests
             {
                 #region Context
 
-                private int Result { get; set; }
-
                 [TriangulationValues(5, 6)]
                 protected int SpecifiedOperand1 { get; private set; }
+
+                private int Result { get; set; }
 
                 private int SpecifiedOperand2 { get; set; }
 
@@ -231,15 +231,15 @@ namespace Testeroids.Tests
                     this.CheckSetupsAreMatchedWithVerifyCalls = true;
                 }
 
-                protected override void DisposeContext()
-                {
-                    SpecifiedOperand1 = 0;
-                    base.DisposeContext();
-                }
-
                 protected override sealed void Because()
                 {
                     this.Result = this.Sut.Sum(this.SpecifiedOperand1, this.SpecifiedOperand2);
+                }
+
+                protected override void DisposeContext()
+                {
+                    this.SpecifiedOperand1 = 0;
+                    base.DisposeContext();
                 }
 
                 #endregion
@@ -253,14 +253,14 @@ namespace Testeroids.Tests
                     private int EstablishReturnedSum()
                     {
                         // Return an erroneous value, just to certify that we are returning the value which is handed out by the mock
-                        return SpecifiedOperand1 + SpecifiedOperand2;
+                        return this.SpecifiedOperand1 + this.SpecifiedOperand2;
                     }
 
                     protected override void EstablishContext()
                     {
                         base.EstablishContext();
 
-                        SpecifiedOperand1 = 1;
+                        this.SpecifiedOperand1 = 1;
 
                         this.ReturnedSum = this.EstablishReturnedSum();
                         this.InjectedCalculatorMock

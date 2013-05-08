@@ -1,3 +1,9 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TriangulationValuesAttribute.cs" company="Testeroids">
+//   © 2012-2013 Testeroids. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Testeroids.TriangulationEngine
 {
     using System;
@@ -7,7 +13,8 @@ namespace Testeroids.TriangulationEngine
     /// <summary>
     /// The attribute used to decorate properties in test specs in order to apply triangulation to it.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property), MeansImplicitUse(ImplicitUseKindFlags.Assign)]
+    [AttributeUsage(AttributeTargets.Property)]
+    [MeansImplicitUse(ImplicitUseKindFlags.Assign)]
     public class TriangulationValuesAttribute : Attribute
     {
         #region Constructors and Destructors

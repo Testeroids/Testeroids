@@ -23,11 +23,15 @@ namespace Testeroids
 
         #endregion
 
+        #region Public Methods and Operators
+
         /// <summary>
         ///   Sets up the test (calls <see cref="Testeroids.ContextSpecificationBase.EstablishContext"/> followed by Testeroids.ContextSpecificationBase.InitializeSubjectUnderTest()).
         /// </summary>
         [SetUp]
         [EditorBrowsable(EditorBrowsableState.Never)]
         void BaseSetUp();
+
+        #endregion
     }
 }

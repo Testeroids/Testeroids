@@ -15,7 +15,6 @@ namespace Testeroids.Aspects
     using NUnit.Framework;
 
     using Testeroids.Aspects.Attributes;
-    using Testeroids.TriangulationEngine;
 
     /// <summary>
     ///   Responsible for checking the nature of a type.
@@ -36,17 +35,6 @@ namespace Testeroids.Aspects
         }
 
         /// <summary>
-        ///   Returns the list of types nested in passed type.
-        /// </summary>
-        /// <param name="classTypeToInvestigate"> The type to investigate. </param>
-        /// <returns> the list of nested types. </returns>
-        [UsedImplicitly]
-        public static IEnumerable<Type> GetAllNestedTypes(Type classTypeToInvestigate)
-        {
-            return classTypeToInvestigate.GetNestedTypes();
-        }
-
-        /// <summary>
         ///   Returns the list of nested types implementing <see cref="IContextSpecification"/> in passed type.
         /// </summary>
         /// <param name="typeToInvestigate"> The type to investigate. </param>
@@ -55,6 +43,17 @@ namespace Testeroids.Aspects
         public static IEnumerable<Type> GetAllContextSpecificationTypes(Type typeToInvestigate)
         {
             return typeToInvestigate.GetNestedTypes().Where(y => IsContextSpecification(y) || IsAbstractContextSpecification(y));
+        }
+
+        /// <summary>
+        ///   Returns the list of types nested in passed type.
+        /// </summary>
+        /// <param name="classTypeToInvestigate"> The type to investigate. </param>
+        /// <returns> the list of nested types. </returns>
+        [UsedImplicitly]
+        public static IEnumerable<Type> GetAllNestedTypes(Type classTypeToInvestigate)
+        {
+            return classTypeToInvestigate.GetNestedTypes();
         }
 
         /// <summary>
@@ -135,6 +134,17 @@ namespace Testeroids.Aspects
         }
 
         /// <summary>
+        ///   Test if injected type is a context specification test fixture.
+        /// </summary>
+        /// <param name="classTypeToInvestigate"> The type To Investigate. </param>
+        /// <returns> <c>true</c> if injected type is an <see cref="IContextSpecification"/>, <c>false</c> otherwise. </returns>
+        [UsedImplicitly]
+        public static bool IsContextSpecification(Type classTypeToInvestigate)
+        {
+            return IsAbstractContextSpecification(classTypeToInvestigate) || IsConcreteContextSpecification(classTypeToInvestigate);
+        }
+
+        /// <summary>
         ///   Checks if a test method has the ExceptionResilient attribute.
         /// </summary>
         /// <param name="method"> The method to check. </param>
@@ -165,17 +175,6 @@ namespace Testeroids.Aspects
         public static bool IsPrerequisiteTestMethod(MethodBase method)
         {
             return method.IsDefined(typeof(PrerequisiteAttribute), false);
-        }
-
-        /// <summary>
-        ///   Test if injected type is a context specification test fixture.
-        /// </summary>
-        /// <param name="classTypeToInvestigate"> The type To Investigate. </param>
-        /// <returns> <c>true</c> if injected type is an <see cref="IContextSpecification"/>, <c>false</c> otherwise. </returns>
-        [UsedImplicitly]
-        public static bool IsContextSpecification(Type classTypeToInvestigate)
-        {
-            return IsAbstractContextSpecification(classTypeToInvestigate) || IsConcreteContextSpecification(classTypeToInvestigate);
         }
 
         /// <summary>
