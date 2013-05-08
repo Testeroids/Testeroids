@@ -118,7 +118,6 @@ namespace Testeroids
 
             this.PreTestSetUp();
             this.InstantiateMocks();
-            this.BeforeEstablishContext();
             this.EstablishContext();
             this.InitializeSubjectUnderTest();
         }
@@ -176,19 +175,13 @@ namespace Testeroids
 
         /// <summary>
         /// The because method as overridable by the user of Testeroids. Will be called by <see cref="OnBecauseRequested"/>.
-        /// </summary>
-        /// <remarks>Internally, <see cref="OnBecauseRequested"/> does make sure any verified mock created by the <see cref="MockRepository"/> has its recorded calls reset.
+        /// </summary>        
+        /// <remarks>
+        /// <see cref="Because"/> will be injected through AOP on entering a test method.
+        /// Internally, <see cref="OnBecauseRequested"/> does make sure any verified mock created by the <see cref="MockRepository"/> has its recorded calls reset.
         /// This means that any call to a mocked method will "forget" about the method calls done prior to calling <see cref="Because"/>.
         /// </remarks>
         protected internal abstract void Because();
-
-        /// <summary>
-        ///   Allows configuration of the test fixture. It is called before  <see cref="InstantiateMocks"/>.
-        /// </summary>
-        [DebuggerNonUserCode]
-        protected virtual void BeforeEstablishContext()
-        {
-        }
 
         /// <summary>
         ///   Called to dispose all unmanaged resources used by the test.

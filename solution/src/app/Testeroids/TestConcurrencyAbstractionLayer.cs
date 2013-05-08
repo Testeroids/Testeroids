@@ -10,8 +10,6 @@ namespace Testeroids
 
     using Testeroids.Rx;
 
-    using TestScheduler = Microsoft.Reactive.Testing.TestScheduler;
-
     /// <summary>
     /// Test version of the <see cref="IConcurrencyAbstractionLayer"/> service, which relies on virtual time rather than on real timers and <see cref="System.Threading.Thread.Sleep(int)"/>.
     /// It leverages the <see cref="Microsoft.Reactive.Testing.TestScheduler"/> used in a test fixture in order to schedule all events in the same container.
@@ -62,7 +60,7 @@ namespace Testeroids
         /// <summary>
         /// Gets or sets the function which can return the <see cref="Microsoft.Reactive.Testing.TestScheduler"/> instance used in the tests.
         /// </summary>
-        internal Func<TestScheduler> GetTestScheduler { get; set; }
+        internal Func<Microsoft.Reactive.Testing.TestScheduler> GetTestScheduler { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether the default scheduler will be used.
