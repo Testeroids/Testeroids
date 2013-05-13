@@ -7,6 +7,8 @@ namespace Testeroids.Tests.TesteroidsAddins
 {
     using System;
 
+	using JetBrains.Annotations;
+
     using NUnit.Core;
     using NUnit.Core.Extensibility;
 
@@ -25,7 +27,7 @@ namespace Testeroids.Tests.TesteroidsAddins
             return new TriangulatedTestSuiteBuilder(type);
         }
 
-        public bool CanBuildFrom(Type type)
+        public bool CanBuildFrom([NotNull]Type type)
         {
             bool isOk;
 
@@ -39,7 +41,11 @@ namespace Testeroids.Tests.TesteroidsAddins
                 while (type.BaseType != typeof(object) && !isOk)
                 {
                     isOk = NUnit.Core.Reflect.HasAttribute(type, "Testeroids.Tests.TesteroidsAddins.TriangulatedFixture", true);
-                    type = type.BaseType;
+                    var baseType = type.BaseType;
+                    if (baseType != null)
+                    {
+                        type = baseType;
+                    }
                 }
             }
 
