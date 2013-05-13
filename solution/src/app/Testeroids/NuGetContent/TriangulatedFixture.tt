@@ -27,6 +27,8 @@ namespace <#=namespaceName#>
 {
     using System;
 
+	using JetBrains.Annotations;
+
     using NUnit.Core;
     using NUnit.Core.Extensibility;
 
@@ -45,7 +47,7 @@ namespace <#=namespaceName#>
             return new TriangulatedTestSuiteBuilder(type);
         }
 
-        public bool CanBuildFrom(Type type)
+        public bool CanBuildFrom([NotNull]Type type)
         {
             bool isOk;
 
@@ -59,7 +61,11 @@ namespace <#=namespaceName#>
                 while (type.BaseType != typeof(object) && !isOk)
                 {
                     isOk = NUnit.Core.Reflect.HasAttribute(type, "<#=namespaceName#>.TriangulatedFixture", true);
-                    type = type.BaseType;
+                    var baseType = type.BaseType;
+                    if (baseType != null)
+                    {
+                        type = baseType;
+                    }
                 }
             }
 
