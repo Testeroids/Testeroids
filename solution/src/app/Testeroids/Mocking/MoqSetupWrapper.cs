@@ -3,7 +3,6 @@
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Testeroids.Mocking
 {
     using System;
@@ -283,13 +282,13 @@ namespace Testeroids.Mocking
     {
         #region Fields
 
-        private readonly Moq.Language.Flow.ISetup<T, TResult> wrappedSetup;
+        private readonly ISetup<T, TResult> wrappedSetup;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public MoqSetupWrapper(Moq.Language.Flow.ISetup<T, TResult> setup, 
+        public MoqSetupWrapper(ISetup<T, TResult> setup, 
                                Expression<Func<T, TResult>> expression, 
                                TesteroidsMock<T> testeroidsMock)
         {
@@ -310,88 +309,88 @@ namespace Testeroids.Mocking
 
         #region Public Methods and Operators
 
-        public Moq.Language.Flow.IReturnsThrows<T, TResult> Callback(Action action)
+        public IReturnsThrows<T, TResult> Callback(Action action)
         {
             var returnsThrows = this.wrappedSetup.Callback(action);
             return new MoqReturnsThrowsWrapper<T, TResult>(returnsThrows);
         }
 
-        public Moq.Language.Flow.IReturnsThrows<T, TResult> Callback<T1>(Action<T1> action)
+        public IReturnsThrows<T, TResult> Callback<T1>(Action<T1> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
-        public Moq.Language.Flow.IReturnsThrows<T, TResult> Callback<T1, T2>(Action<T1, T2> action)
+        public IReturnsThrows<T, TResult> Callback<T1, T2>(Action<T1, T2> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
-        public Moq.Language.Flow.IReturnsThrows<T, TResult> Callback<T1, T2, T3>(Action<T1, T2, T3> action)
+        public IReturnsThrows<T, TResult> Callback<T1, T2, T3>(Action<T1, T2, T3> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
-        public Moq.Language.Flow.IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4>(Action<T1, T2, T3, T4> action)
+        public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4>(Action<T1, T2, T3, T4> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
-        public Moq.Language.Flow.IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5>(Action<T1, T2, T3, T4, T5> action)
+        public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5>(Action<T1, T2, T3, T4, T5> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
-        public Moq.Language.Flow.IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6>(Action<T1, T2, T3, T4, T5, T6> action)
+        public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6>(Action<T1, T2, T3, T4, T5, T6> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
-        public Moq.Language.Flow.IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7>(Action<T1, T2, T3, T4, T5, T6, T7> action)
+        public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7>(Action<T1, T2, T3, T4, T5, T6, T7> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
-        public Moq.Language.Flow.IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8>(Action<T1, T2, T3, T4, T5, T6, T7, T8> action)
+        public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8>(Action<T1, T2, T3, T4, T5, T6, T7, T8> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
-        public Moq.Language.Flow.IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> action)
+        public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
-        public Moq.Language.Flow.IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> action)
+        public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
-        public Moq.Language.Flow.IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> action)
+        public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
-        public Moq.Language.Flow.IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> action)
+        public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
-        public Moq.Language.Flow.IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> action)
+        public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
-        public Moq.Language.Flow.IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> action)
+        public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
-        public Moq.Language.Flow.IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> action)
+        public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
-        public Moq.Language.Flow.IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> action)
+        public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> action)
         {
             return this.wrappedSetup.Callback(action);
         }

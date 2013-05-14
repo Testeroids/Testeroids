@@ -45,15 +45,15 @@ namespace Testeroids.Tests
 
         #region Public Methods and Operators
 
+        public void Clear()
+        {
+            this.Calculator.Clear();
+        }
+
         public int Sum(int a, 
                        int b)
         {
             return this.Calculator.Sum(a, b);
-        }
-
-        public void Clear()
-        {
-            this.Calculator.Clear();
         }
 
         #endregion

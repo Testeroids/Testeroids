@@ -29,7 +29,6 @@ namespace Testeroids.Tests
 
     public abstract class TestSpecs
     {
-        [TestFixture]
         public sealed class after_instantiating_Sut : SubjectInstantiationContextSpecification<Test>
         {
             #region Context
@@ -92,13 +91,14 @@ namespace Testeroids.Tests
                     this.InjectedCalculatorMock
                         .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
                         .Returns(0);
-                        //.DontEnforceSetupVerification()
-                        //.EnforceUsage();
 
+                    //// .DontEnforceSetupVerification()
+                    // .EnforceUsage();
                     this.InjectedCalculatorMock
                         .Setup(o => o.Clear());
-                    //.DontEnforceSetupVerification()
-                    //.EnforceUsage();
+
+                    //// .DontEnforceSetupVerification()
+                    // .EnforceUsage();
                 }
 
                 protected override void Because()
@@ -108,7 +108,6 @@ namespace Testeroids.Tests
 
                 #endregion
 
-                [TestFixture]
                 public class with_CheckAllSetupsVerified_turned_on : with_CheckAllSetupsVerified_setting_Base
                 {
                     #region Context
@@ -141,7 +140,6 @@ namespace Testeroids.Tests
                     }
                 }
 
-                [TestFixture]
                 public class with_CheckAllSetupsVerified_turned_off : with_CheckAllSetupsVerified_setting_Base
                 {
                     #region Context
@@ -205,7 +203,6 @@ namespace Testeroids.Tests
 
                 #endregion
 
-                [TestFixture]
                 public class with_AutoVerifyMocks_turned_on : with_AutoVerifyMocks_setting_Base
                 {
                     #region Context
@@ -245,7 +242,6 @@ namespace Testeroids.Tests
                     }
                 }
 
-                [TestFixture]
                 public class with_AutoVerifyMocks_turned_off : with_AutoVerifyMocks_setting_Base
                 {
                     #region Context
@@ -278,7 +274,7 @@ namespace Testeroids.Tests
                 }
             }
 
-            public class when_Clear_is_called : given_instantiated_Sut
+            public abstract class when_Clear_is_called : given_instantiated_Sut
             {
                 #region Context
 
@@ -289,7 +285,6 @@ namespace Testeroids.Tests
 
                 #endregion
 
-                [TestFixture]
                 public class with_Clear_on_InjectedCalculatorMock_throwing_TestException : when_Clear_is_called
                 {
                     #region Context
@@ -325,8 +320,7 @@ namespace Testeroids.Tests
                     }
                 }
             }
-			
-            [TestFixture]
+
             public sealed class with_ProhibitGetOnNotSetPropertyAspectAttribute : given_instantiated_Sut
             {
                 #region Context
@@ -349,20 +343,17 @@ namespace Testeroids.Tests
                 public void then_PropertyNotSetException_is_thrown()
                 {
                 }
-
             }
-            
 
-            [AbstractTestFixture]
             public abstract class when_Sum_is_called : given_instantiated_Sut
             {
                 #region Context
 
+                private int Result { get; set; }
+
                 private int SpecifiedOperand1 { get; set; }
 
                 private int SpecifiedOperand2 { get; set; }
-
-                private int Result { get; set; }
 
                 protected abstract int EstablishSpecifiedOperand1();
 
@@ -382,20 +373,20 @@ namespace Testeroids.Tests
                 {
                     this.Result = this.Sut.Sum(this.SpecifiedOperand1, this.SpecifiedOperand2);
                 }
-                
+
                 #endregion
 
-                [AbstractTestFixture]
                 public abstract class with_returned_result : when_Sum_is_called
                 {
                     #region Context
 
+                    private int ReturnedSum { get; set; }
+
                     protected abstract int EstablishReturnedSum();
 
-                    private int ReturnedSum { get; set; }
                     protected override void EstablishContext()
                     {
- 	                    base.EstablishContext();
+                        base.EstablishContext();
                         this.ReturnedSum = this.EstablishReturnedSum();
                         this.InjectedCalculatorMock
                             .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
@@ -403,9 +394,9 @@ namespace Testeroids.Tests
                             .DontEnforceSetupVerification()
                             .EnforceUsage();
                     }
+
                     #endregion
 
-                    [TestFixture]
                     public class with_SpecifiedOperand1_equal_to_10_and_SpecifiedOperand2_equal_to_7 : with_returned_result
                     {
                         #region Context
@@ -420,7 +411,7 @@ namespace Testeroids.Tests
                             return 7;
                         }
 
-                        override protected sealed int EstablishReturnedSum()
+                        protected override sealed int EstablishReturnedSum()
                         {
                             // Return an erroneous value, just to certify that we are returning the value which is handed out by the mock
                             return int.MaxValue;
@@ -429,7 +420,6 @@ namespace Testeroids.Tests
                         #endregion
                     }
 
-                    [TestFixture]
                     public class with_SpecifiedOperand1_equal_to_10_and_SpecifiedOperand2_equal_to_minus_7 : with_returned_result
                     {
                         #region Context
@@ -477,7 +467,6 @@ namespace Testeroids.Tests
                     }
                 }
 
-                [TestFixture]
                 public class with_thrown_TestException : when_Sum_is_called
                 {
                     #region Context

@@ -5,6 +5,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids
 {
+    using System;
+
     /// <summary>
     ///   Implements the base class to define a Context/Specification style test fixture to test a class method.
     /// </summary>
@@ -35,6 +37,8 @@ namespace Testeroids
         protected override void InitializeSubjectUnderTest()
         {
             this.Sut = this.CreateSubjectUnderTest();
+
+            GC.SuppressFinalize(this.Sut);
         }
 
         #endregion

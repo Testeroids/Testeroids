@@ -5,6 +5,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids
 {
+    using System;
+
     using Testeroids.Aspects;
 
     /// <summary>
@@ -30,7 +32,7 @@ namespace Testeroids
         /// </summary>
         protected internal override void Because()
         {
-            this.Sut = this.BecauseSutIsCreated();
+            this.InstantiateSut();
         }
 
         /// <summary>
@@ -40,10 +42,19 @@ namespace Testeroids
         protected abstract TSubjectUnderTest BecauseSutIsCreated();
 
         /// <summary>
-        ///   Performs additional initialization after the subject under test has been created. Not used in this scenario.
+        ///   Performs additional initialization after the subject under test has been created.
         /// </summary>
         protected override sealed void InitializeSubjectUnderTest()
         {
+        }
+
+        /// <summary>
+        /// Instantiates the Subject Under Test.
+        /// </summary>
+        private void InstantiateSut()
+        {
+            this.Sut = this.BecauseSutIsCreated();
+            GC.SuppressFinalize(this.Sut);
         }
 
         #endregion

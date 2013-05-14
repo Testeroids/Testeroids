@@ -3,7 +3,6 @@
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Testeroids
 {
     using System;
@@ -128,7 +127,6 @@ namespace Testeroids
 
             this.PreTestSetUp();
             this.InstantiateMocks();
-            this.BeforeEstablishContext();
             this.EstablishContext();
             this.InitializeSubjectUnderTest();
         }
@@ -186,28 +184,13 @@ namespace Testeroids
 
         /// <summary>
         /// The because method as overridable by the user of Testeroids. Will be called by <see cref="OnBecauseRequested"/>.
-        /// </summary>
-        /// <remarks>Internaly, <see cref="OnBecauseRequested"/> does make sure any verified mock created by the <see cref="MockRepository"/> has its recorded calls reset.
+        /// </summary>        
+        /// <remarks>
+        /// <see cref="Because"/> will be injected through AOP on entering a test method.
+        /// Internally, <see cref="OnBecauseRequested"/> does make sure any verified mock created by the <see cref="MockRepository"/> has its recorded calls reset.
         /// This means that any call to a mocked method will "forget" about the method calls done prior to calling <see cref="Because"/>.
         /// </remarks>
         protected internal abstract void Because();
-
-        /// <summary>
-        /// This test is meant for internal library use only.
-        /// </summary>
-        [DebuggerNonUserCode]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected virtual void PreTestSetUp()
-        {
-        }
-
-        /// <summary>
-        ///   Allows configuration of the test fixture. It is called before  <see cref="InstantiateMocks"/>.
-        /// </summary>
-        [DebuggerNonUserCode]
-        protected virtual void BeforeEstablishContext()
-        {
-        }
 
         /// <summary>
         ///   Called to dispose all unmanaged resources used by the test.
@@ -229,6 +212,14 @@ namespace Testeroids
         ///   Performs additional initialization after the subject under test has been created.
         /// </summary>
         protected abstract void InitializeSubjectUnderTest();
+
+        /// <summary>
+        ///   Allows instantiation of mocks before the call to <see cref="EstablishContext"/>, so that all mock instances are available for use, even if they are not yet configured.
+        /// </summary>
+        [DebuggerNonUserCode]
+        protected virtual void InstantiateMocks()
+        {
+        }
 
         /// <summary>
         ///   This will be called by the <see cref="ArrangeActAssertAspectAttribute"/> aspect. Performs the "Act" part, or the logic which is to be tested.
@@ -287,10 +278,11 @@ namespace Testeroids
         }
 
         /// <summary>
-        ///   Allows instantiation of mocks before the call to <see cref="EstablishContext"/>, so that all mock instances are available for use, even if they are not yet configured.
+        /// This test is meant for internal library use only.
         /// </summary>
         [DebuggerNonUserCode]
-        protected virtual void InstantiateMocks()
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected virtual void PreTestSetUp()
         {
         }
 
@@ -310,10 +302,10 @@ namespace Testeroids
                 foreach (var prerequisiteTest in prerequisiteTestsToRun)
                 {
                     prerequisiteTest.Invoke(
-                        this,
-                        BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic,
-                        null,
-                        null,
+                        this, 
+                        BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic, 
+                        null, 
+                        null, 
                         CultureInfo.InvariantCulture);
                 }
             }

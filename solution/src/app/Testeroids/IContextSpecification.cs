@@ -8,6 +8,10 @@ namespace Testeroids
     using System;
     using System.Collections.Generic;
 
+    using System.ComponentModel;
+
+    using NUnit.Framework;
+
     /// <summary>
     ///   Base class for implementing the AAA pattern.
     /// </summary>
@@ -21,6 +25,17 @@ namespace Testeroids
         bool ArePrerequisiteTestsRunning { get; }
 
         IList<Exception> UnhandledExceptions { get; }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        ///   Sets up the test (calls <see cref="Testeroids.ContextSpecificationBase.EstablishContext"/> followed by Testeroids.ContextSpecificationBase.InitializeSubjectUnderTest()).
+        /// </summary>
+        [SetUp]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        void BaseSetUp();
 
         #endregion
     }

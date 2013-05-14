@@ -3,7 +3,6 @@
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Testeroids.Aspects
 {
     using System;
@@ -42,7 +41,7 @@ namespace Testeroids.Aspects
         ///   Field bound at runtime to a delegate of the method <c>Because</c> .
         /// </summary>
         [NotNull]
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate",
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", 
             Justification = "Reviewed. PostSharp requires this to be public.")]
         [ImportMember("OnBecauseRequested", IsRequired = true)]
         [UsedImplicitly]
@@ -52,7 +51,7 @@ namespace Testeroids.Aspects
         ///   Field bound at runtime to a delegate of the method <c>RunPrerequisiteTests</c> .
         /// </summary>
         [NotNull]
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate",
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", 
             Justification = "Reviewed. PostSharp requires this to be public.")]
         [ImportMember("RunPrerequisiteTests", IsRequired = true)]
         [UsedImplicitly]
@@ -82,22 +81,7 @@ namespace Testeroids.Aspects
         /// <returns><c>true</c> if the attribute needs to be applied to the type; <c>false</c> otherwise.</returns>
         public override bool CompileTimeValidate(Type type)
         {
-            var isTestFixture =
-                type.GetCustomAttributes(false)
-                    .Any(x => x is TestFixtureAttribute || x is AbstractTestFixtureAttribute);
-
-            bool isValid;
-
-            if (!isTestFixture || !typeof(IContextSpecification).IsAssignableFrom(type))
-            {
-                isValid = false;
-            }
-            else
-            {
-                isValid = base.CompileTimeValidate(type);
-            }
-
-            return isValid;
+            return typeof(IContextSpecification).IsAssignableFrom(type) && base.CompileTimeValidate(type);
         }
 
         /// <summary>
@@ -142,8 +126,8 @@ namespace Testeroids.Aspects
             try
             {
                 this.OnTestMethodEntry(
-                    (IContextSpecification)args.Instance,
-                    args.Method,
+                    (IContextSpecification)args.Instance, 
+                    args.Method, 
                     this.OnBecauseRequestedMethod);
             }
             catch (Exception e)
@@ -225,12 +209,12 @@ namespace Testeroids.Aspects
         /// <summary>
         ///   Method executed when entering a test method.
         /// </summary>
-        /// <param name="instance"> The instance of the testFixture. </param>
+        /// <param name="instance"> The instance of the context specification. </param>
         /// <param name="methodInfo"> The test method. </param>
         /// <param name="onBecauseRequestedAction"> The because method. </param>
         private void OnTestMethodEntry(
-            IContextSpecification instance,
-            MethodBase methodInfo,
+            IContextSpecification instance, 
+            MethodBase methodInfo, 
             Action onBecauseRequestedAction)
         {
             var isRunningInTheContextOfAnotherTest = instance.ArePrerequisiteTestsRunning;

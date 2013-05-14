@@ -16,12 +16,16 @@
         <copyright>Copyright Testeroids 2012-2013</copyright>
         <tags>Aspects Unit Tests</tags>
         <dependencies>
-            <dependency id="JetBrains.Annotations" version="7.0" />
+            <dependency id="JetBrains.Annotations.Redist" version="7.1" />
             <dependency id="Moq.Testeroids" version="4.0.10818" />
             <dependency id="NUnit" version="2.6.2" />
             <dependency id="PostSharp" version="2.1.7.22" />
             <dependency id="RxSchedulers.Switch" version="1.0.2" />
             <dependency id="Rx-Testing" version="2.1.30214.0" />
+			<dependency id="NUnit.AddinsDependencies" version="1.0.0" />
         </dependencies>
     </metadata>
+	<files>
+		<file src="solution\src\app\Testeroids\NuGetContent\TriangulatedFixture.tt" target="content/TesteroidsAddins/TriangulatedFixture.tt"/>
+	</files>
 </package>
