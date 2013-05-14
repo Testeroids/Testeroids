@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TriangulatedFixture1.g.cs" company="Testeroids">
+// <copyright file="TriangulatedFixture.g.cs" company="Testeroids">
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -7,7 +7,7 @@ namespace Testeroids.Tests.TesteroidsAddins
 {
     using System;
 
-	using JetBrains.Annotations;
+    using JetBrains.Annotations;
 
     using NUnit.Core;
     using NUnit.Core.Extensibility;
@@ -27,7 +27,7 @@ namespace Testeroids.Tests.TesteroidsAddins
             return new TriangulatedTestSuiteBuilder(type);
         }
 
-        public bool CanBuildFrom([NotNull]Type type)
+        public bool CanBuildFrom([NotNull] Type type)
         {
             bool isOk;
 
