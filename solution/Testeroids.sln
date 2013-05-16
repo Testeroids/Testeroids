@@ -7,16 +7,26 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testeroids.Tests", "src\tes
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{78BE9C59-3148-41F1-B1D0-9D51FA1F0B03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78BE9C59-3148-41F1-B1D0-9D51FA1F0B03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78BE9C59-3148-41F1-B1D0-9D51FA1F0B03}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{78BE9C59-3148-41F1-B1D0-9D51FA1F0B03}.Debug|x86.Build.0 = Debug|Any CPU
+		{78BE9C59-3148-41F1-B1D0-9D51FA1F0B03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78BE9C59-3148-41F1-B1D0-9D51FA1F0B03}.Release|Any CPU.Build.0 = Release|Any CPU
 		{78BE9C59-3148-41F1-B1D0-9D51FA1F0B03}.Release|x86.ActiveCfg = Release|Any CPU
 		{78BE9C59-3148-41F1-B1D0-9D51FA1F0B03}.Release|x86.Build.0 = Release|Any CPU
+		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Debug|x86.Build.0 = Debug|Any CPU
+		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Release|x86.ActiveCfg = Release|Any CPU
 		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
