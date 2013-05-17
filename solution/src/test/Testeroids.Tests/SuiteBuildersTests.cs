@@ -115,6 +115,42 @@ namespace Testeroids.Tests
             }
 
             [TriangulatedFixture]
+            public class when_Clear_is_called_with_triangulation_on_arrays : SubjectInstantiationContextSpecification<Test>
+            {
+                #region Context
+
+                /// <summary>
+                /// This is supposed to create at least 2 tests.
+                /// </summary>
+                [TriangulationValues(new[] { 1, 2 }, new[] { 3, 4, 5 })]
+                private int[] TriangulatedArray { get; set; }
+
+                protected override void EstablishContext()
+                {
+                    base.EstablishContext();
+
+                    this.CheckSetupsAreMatchedWithVerifyCalls = true;
+                }
+
+                #endregion
+
+                /// <summary>
+                ///   The method being tested. It instantiates the <see cref="Sut"/>.
+                /// </summary>
+                /// <returns> The instance of TSubjectUnderTest. </returns>
+                protected override Test BecauseSutIsCreated()
+                {
+                    return new Test(this.MockRepository.CreateMock<ICalculator>().Object);
+                }
+
+                [Test]
+                public void then_TriangulatedArray_is_not_empty()
+                {
+                    CollectionAssert.IsNotEmpty(this.TriangulatedArray);
+                }
+            }
+
+            [TriangulatedFixture]
             public abstract class when_Sum_is_called_with_triangulation_on_abstract_Context : given_instantiated_Sut
             {
                 #region Context
@@ -259,8 +295,6 @@ namespace Testeroids.Tests
                     protected override void EstablishContext()
                     {
                         base.EstablishContext();
-
-                        this.SpecifiedOperand1 = 1;
 
                         this.ReturnedSum = this.EstablishReturnedSum();
                         this.InjectedCalculatorMock
