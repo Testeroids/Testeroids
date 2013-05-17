@@ -37,8 +37,7 @@ namespace Testeroids.TriangulationEngine
         /// <param name="triangulationValues">
         /// A list of the properties on which triangulation should be applied, along with their possible values.
         /// </param>
-        public TriangulatedTestMethod(MethodInfo methodInfo, 
-                                      IList<Tuple<PropertyInfo, object>> triangulationValues)
+        public TriangulatedTestMethod(MethodInfo methodInfo, IList<Tuple<PropertyInfo, object>> triangulationValues)
             : base(methodInfo)
         {
             this.triangulationValues = triangulationValues;
@@ -73,7 +72,7 @@ namespace Testeroids.TriangulationEngine
                 setMethod.Invoke(this.Fixture, new[] { triangulationValue.Item2 });
             }
 
-            var contextSpecificationBase = this.Fixture as IContextSpecification;
+            var contextSpecificationBase = (IContextSpecification)this.Fixture;
             contextSpecificationBase.BaseSetUp();
             return base.RunTest();
         }
