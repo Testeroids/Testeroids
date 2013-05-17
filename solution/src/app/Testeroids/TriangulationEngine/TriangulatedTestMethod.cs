@@ -6,7 +6,6 @@
 namespace Testeroids.TriangulationEngine
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
@@ -44,28 +43,12 @@ namespace Testeroids.TriangulationEngine
         {
             this.triangulationValues = triangulationValues;
 
-            var triangulatedName = this.triangulationValues.Aggregate(this.TestName.Name + " - Triangulated : ", (s, 
-                                                                                                                  tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, ToStringRepresentation(tuple)));
+            var triangulatedName = this.triangulationValues.Aggregate(this.TestName.Name + " - Triangulated : ", (s, tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, ToStringRepresentation(tuple)));
             this.TestName.Name = triangulatedName;
-            this.TestName.FullName = this.triangulationValues.Aggregate(this.TestName.FullName + "_Triangulated", (s,
-                                                                                                                  tuple) => string.Format("{0}_{1}_Is_{2}", s, tuple.Item1.Name, ToStringRepresentation(tuple)));
-        }
+            this.TestName.FullName = this.triangulationValues.Aggregate(this.TestName.FullName + "_Triangulated", (s, tuple) => string.Format("{0}_{1}_Is_{2}", s, tuple.Item1.Name, ToStringRepresentation(tuple)));
 
-        private static string ToStringRepresentation(Tuple<PropertyInfo, object> triangulatedValue)
-        {
-            string representation = string.Empty;
-            if (!triangulatedValue.Item1.PropertyType.IsArray)
-            {
-                representation = triangulatedValue.Item2.ToString();                
-            }
-            else
-            {
-                var propertyValue = (triangulatedValue.Item2 as Array).Cast<object>();
 
-                representation = propertyValue.Aggregate(representation, (s, o) => string.Format("{0}_{1}", s, o));               
-            }
 
-            return representation;
         }
 
         #endregion
@@ -89,6 +72,29 @@ namespace Testeroids.TriangulationEngine
             var contextSpecificationBase = this.Fixture as IContextSpecification;
             contextSpecificationBase.BaseSetUp();
             return base.RunTest();
+        }
+
+        #endregion
+        #region Methods
+
+        private static string ToStringRepresentation(Tuple<PropertyInfo, object> triangulatedValue)
+        {
+            string representation;
+            if (!triangulatedValue.Item1.PropertyType.IsArray)
+            {
+                representation = triangulatedValue.Item2.ToString();
+            }
+            else
+            {
+                var propertyValue = (triangulatedValue.Item2 as Array).Cast<object>();
+                
+                representation = string.Empty;
+
+                // HACK: [salfab 17.05.13 14:36] using a TrimEnd(',') is very naive : let's try something more elegant
+                representation = propertyValue.Aggregate(representation, (s, o) => string.Format("{0} {1},", s, o), final => "{" + final.TrimEnd(',') + " }");
+            }
+
+            return representation;
         }
 
         #endregion
