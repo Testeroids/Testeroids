@@ -19,6 +19,41 @@ namespace Testeroids
     {
         #region Public Methods and Operators
 
+        public static TaskScheduler GetDefaultScheduler()
+        {
+            var taskSchedulerType = typeof(TaskScheduler);
+            var defaultTaskSchedulerField = taskSchedulerType.GetField("s_defaultTaskScheduler", BindingFlags.GetField | BindingFlags.Static | BindingFlags.NonPublic);
+            Debug.Assert(defaultTaskSchedulerField != null, "Could not find the TaskScheduler.s_defaultTaskScheduler field. We are assuming this implementation aspect of the .NET Framework to be able to unit test TPL.");
+            return (TaskScheduler)defaultTaskSchedulerField.GetValue(null);
+        }
+
+        public static bool IsFaultedTaskHandled(Task task)
+        {
+            // task.m_contingentProperties.m_exceptionsHolder.m_isHandled
+            // HACK: we should be able to dramatically improve performances: When finalized, TaskExceptionHolder (a private member down the chain of a Task) throws the static event TaskScheduler.UnobservedTaskException. Unfortunately, for some reason I could not get this event to get fired. therefore, I had to resort to reflection in order to fail only unobserved tasks. :(
+            // Note : this resource helped. Read the comments around m_contingentProperties and AddException(): http://www.dotnetframework.org/default.aspx/4@0/4@0/untmp/DEVDIV_TFS/Dev10/Releases/RTMRel/ndp/clr/src/BCL/System/Threading/Tasks/Task@cs/1305376/Task@cs
+            var contingentProperties = task.GetType().GetField("m_contingentProperties", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(task);
+            var isHandled = false;
+            if (contingentProperties != null)
+            {
+                var contingentPropertiesType = contingentProperties.GetType();
+
+// in .net 4.0, the m_exceptionsHolder field is public and requires the BindingFlags.Public flag ! (public volatile TaskExceptionHolder m_exceptionsHolder;) but not on .net 4.5 (internal volatile TaskExceptionHolder m_exceptionsHolder;)
+                var exceptionsHolderFieldInfo = contingentPropertiesType.GetField("m_exceptionsHolder", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+
+                if (exceptionsHolderFieldInfo != null)
+                {
+                    var exceptionsHolder = exceptionsHolderFieldInfo.GetValue(contingentProperties);
+                    if (exceptionsHolder != null)
+                    {
+                        isHandled = (bool)exceptionsHolder.GetType().GetField("m_isHandled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(exceptionsHolder);
+                    }
+                }
+            }
+
+            return isHandled;
+        }
+
         /// <summary>
         /// Uses reflection to set the default scheduler to use for any newly started task.
         /// </summary>

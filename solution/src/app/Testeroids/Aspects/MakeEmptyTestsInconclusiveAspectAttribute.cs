@@ -101,7 +101,8 @@ namespace Testeroids.Aspects
                 type.GetMethods(BindingFlags)
                     .Where(info => (!info.IsAbstract &&
                                     info.IsDefined(typeof(TestAttribute), false) &&
-                                    !info.IsDefined(typeof(ExpectedExceptionAttribute), true) &&
+                                   !info.IsDefined(typeof(ExpectedExceptionAttribute), true) &&
+                                   !info.IsDefined(typeof(FaultedTaskExpectedExceptionAttribute), true) &&
                                     GetIntermediateLanguageFromMethodInfoBase(info).Count() <= 2));
 
             return selectEmptyTestMethods;

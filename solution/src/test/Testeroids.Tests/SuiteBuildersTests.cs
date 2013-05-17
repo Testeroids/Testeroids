@@ -5,6 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids.Tests
 {
+    using System;
     using System.Threading.Tasks;
 
     using Moq;
@@ -111,6 +112,42 @@ namespace Testeroids.Tests
                 public void then_Result_matches_ReturnedSum()
                 {
                     Assert.AreEqual(this.ReturnedSum, this.Result);
+                }
+            }
+
+            [TriangulatedFixture]
+            public class when_Clear_is_called_with_triangulation_on_arrays : SubjectInstantiationContextSpecification<Test>
+            {
+                #region Context
+
+                /// <summary>
+                /// This is supposed to create at least 2 tests.
+                /// </summary>
+                [TriangulationValues(new[] { 1, 2 }, new[] { 3, 4, 5 })]
+                private int[] TriangulatedArray { get; set; }
+
+                protected override void EstablishContext()
+                {
+                    base.EstablishContext();
+
+                    this.CheckSetupsAreMatchedWithVerifyCalls = true;
+                }
+
+                #endregion
+
+                /// <summary>
+                ///   The method being tested. It instantiates the <see cref="Sut"/>.
+                /// </summary>
+                /// <returns> The instance of TSubjectUnderTest. </returns>
+                protected override Test BecauseSutIsCreated()
+                {
+                    return new Test(this.MockRepository.CreateMock<ICalculator>().Object);
+                }
+
+                [Test]
+                public void then_TriangulatedArray_is_not_empty()
+                {
+                    CollectionAssert.IsNotEmpty(this.TriangulatedArray);
                 }
             }
 
@@ -258,9 +295,7 @@ namespace Testeroids.Tests
 
                     protected override void EstablishContext()
                     {
-                        base.EstablishContext();
-
-                        this.SpecifiedOperand1 = 1;
+                        base.EstablishContext();                        
 
                         this.ReturnedSum = this.EstablishReturnedSum();
                         this.InjectedCalculatorMock

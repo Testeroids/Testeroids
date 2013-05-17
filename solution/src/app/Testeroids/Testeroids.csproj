@@ -37,7 +37,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\..\Testeroids.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>Testeroids.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="JetBrains.Annotations, Version=7.1.0.0, Culture=neutral, PublicKeyToken=db26512813023263, processorArchitecture=MSIL">
@@ -101,10 +101,14 @@
     <Compile Include="Aspects\FailNotCalledBaseEstablishContextAspectAttribute.cs" />
     <Compile Include="Aspects\FailPrivateFieldCalledInNestedClassAspectAttribute.cs" />
     <Compile Include="Aspects\FailTestFixtureWithoutTestAspectAttribute.cs" />
+    <Compile Include="Aspects\FaultedTaskExceptionAttribute.cs" />
+    <Compile Include="Aspects\FaultedTaskExceptionResilientAttribute.cs" />
+    <Compile Include="Aspects\FaultedTaskExpectedExceptionAttribute.cs" />
     <Compile Include="Aspects\MakeEmptyTestsInconclusiveAspectAttribute.cs" />
     <Compile Include="Aspects\ProhibitGetOnNotInitializedPropertyAspectAttribute.cs" />
     <Compile Include="Aspects\ProhibitSetOnInitializedPropertyAspectAttribute.cs" />
     <Compile Include="Aspects\TypeInvestigationService.cs" />
+    <Compile Include="UnexpectedUnhandledException.cs" />
     <Compile Include="Assert.cs" />
     <Compile Include="ContextSpecification.cs" />
     <Compile Include="ContextSpecificationBase.cs" />
@@ -162,12 +166,10 @@
     <Compile Include="TriangulationEngine\TriangulationValuesAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\Testeroids.pfx">
-      <Link>Testeroids.pfx</Link>
-    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Testeroids.pfx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

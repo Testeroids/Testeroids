@@ -5,6 +5,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids
 {
+    using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
 
     using NUnit.Framework;
@@ -20,6 +22,8 @@ namespace Testeroids
         ///   Gets a value indicating whether there are prerequisite tests running.
         /// </summary>
         bool ArePrerequisiteTestsRunning { get; }
+
+        IList<Exception> UnhandledExceptions { get; }
 
         #endregion
 

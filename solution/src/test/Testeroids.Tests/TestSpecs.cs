@@ -6,13 +6,22 @@
 namespace Testeroids.Tests
 {
     using System;
+    using System.Threading.Tasks;
+
+    using JetBrains.Annotations;
+
+    using Microsoft.Reactive.Testing;
 
     using Moq;
 
     using NUnit.Framework;
 
+    using Testeroids.Aspects;
     using Testeroids.Aspects.Attributes;
     using Testeroids.Mocking;
+    using Testeroids.Rx.Aspects;
+
+    using TestScheduler = Testeroids.Rx.TestScheduler;
 
     public abstract class TestSpecs
     {
@@ -496,6 +505,144 @@ namespace Testeroids.Tests
                     {
                         this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
                     }
+                }
+            }
+
+            [RxTestSchedulerAspect]
+            [TestFixture]
+            [TplContextAspect(ExecuteTplTasks = true)]
+            public class when_ReturnObserver_is_called : given_instantiated_Sut
+            {
+                #region Context
+
+                public ITestableObserver<int> Result { get; private set; }
+
+                [UsedImplicitly]
+                protected TestScheduler TestScheduler { get; private set; }
+
+                protected override sealed void Because()
+                {
+                    this.Result = this.TestScheduler.Consume(() => this.Sut.ReturnObserver());
+                }
+
+                #endregion
+
+                /// <summary>
+                /// Test that the <see cref="given_instantiated_Sut.when_ReturnObserver_is_called.Because"/> method throws a <see cref="TestException"/>.
+                /// </summary>
+                [Test]
+                [ExpectedException(typeof(TestException))]
+                public void then_TestException_is_thrown()
+                {
+                    Assert.IsTrue(true);
+                }
+            }
+
+            [RxTestSchedulerAspect]
+            [TestFixture]
+            public class when_ReturnObserver_is_called_without_TplContextAspect : given_instantiated_Sut
+            {
+                #region Context
+
+                public ITestableObserver<int> Result { get; private set; }
+
+                [UsedImplicitly]
+                protected TestScheduler TestScheduler { get; private set; }
+
+                protected override sealed void Because()
+                {
+                    this.Result = this.TestScheduler.Consume(() => this.Sut.ReturnObserver());
+                }
+
+                #endregion
+
+                /// <summary>
+                /// Test that the <see cref="Because"/> method throws a <see cref="InvalidOperationException"/> because there is a missing attribute.
+                /// </summary>
+                [Test]
+                [ExpectedException(typeof(InvalidOperationException))]
+                public void then_InvalidOperationException_is_thrown()
+                {
+                    Assert.IsTrue(true);
+                }
+            }
+
+            [TestFixture]
+            [TplContextAspect(ExecuteTplTasks = true)]
+            public class when_FailingSumAsync_is_called : given_instantiated_Sut
+            {
+                #region Context
+
+                private Task<int> Result { get; set; }
+
+                protected override void Because()
+                {
+                    this.Result = this.Sut.FailingSumAsync();
+                }
+
+                #endregion
+
+                [Test]
+                [FaultedTaskExpectedException(typeof(NotImplementedException))]
+                public void then_UnhandledExceptions_contains_NotImplementedException()
+                {
+                    // Todo : extending CollectionAssert to add a ContainsAnyOfType<T> might be a good idea.
+                    // Assert.IsTrue(this.UnhandledExceptions.AnyOfType<NotImplementedException>());                    
+                }
+            }
+
+            [TestFixture]
+            [TplContextAspect(ExecuteTplTasks = true)]
+            public class when_FireAndForgetFailingTask_is_called : given_instantiated_Sut
+            {
+                #region Context                                
+
+                protected override void Because()
+                {
+                    this.Sut.FireAndForgetFailingTask();
+                }
+
+                #endregion
+
+                [Test]
+                [FaultedTaskExpectedException(typeof(NotImplementedException))]
+                public void then_UnhandledExceptions_contains_NotImplementedException()
+                {
+                }
+
+                [Test]
+                [FaultedTaskExceptionResilient(typeof(NotImplementedException))]
+                public void then_using_FaultedTaskExceptionResilient_doesnt_fail_the_test()
+                {
+                    Assert.IsTrue(true);
+                }
+
+                [Test]
+                [ExpectedException(typeof(UnexpectedUnhandledException))]
+                public void then_UnexpectedUnhandledException_is_thrown_if_test_is_not_decorated_with_any_FaultedtaskExceptionAttribute()
+                {
+                    // we test something unrelated.
+                    Assert.IsTrue(true);
+                }
+            }
+
+            [TestFixture]
+            [TplContextAspect(ExecuteTplTasks = true)]
+            public class when_FireForgetAndSwallowFailingTask_is_called : given_instantiated_Sut
+            {
+                #region Context
+
+                protected override void Because()
+                {
+                    this.Sut.FireForgetAndSwallowFailingTask();
+                }
+
+                #endregion
+
+                [Test]
+                public void then_no_exception_is_thrown()
+                {
+                    Assert.IsTrue(true);
                 }
             }
         }
