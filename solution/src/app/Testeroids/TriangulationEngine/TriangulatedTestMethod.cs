@@ -86,12 +86,9 @@ namespace Testeroids.TriangulationEngine
             }
             else
             {
-                var propertyValue = (triangulatedValue.Item2 as Array).Cast<object>();
+                var propertyValues = ((Array)triangulatedValue.Item2).Cast<object>().ToArray();
 
-                representation = string.Empty;
-
-                // HACK: [salfab 17.05.13 14:36] using a TrimEnd(',') is very naive : let's try something more elegant. The idea is to get rid of the last coma in order to have array elements shownlike this : { 1, 2, 3 }
-                representation = propertyValue.Aggregate(representation, (s, o) => string.Format("{0} {1},", s, o), final => string.Format("{{{0} }}", final.TrimEnd(',')));
+                representation = string.Format("{{ {0} }}", string.Join(", ", propertyValues));
             }
 
             return representation;
