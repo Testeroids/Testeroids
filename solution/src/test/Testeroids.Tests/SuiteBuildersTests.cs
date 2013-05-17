@@ -5,7 +5,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids.Tests
 {
-    using System;
     using System.Threading.Tasks;
 
     using Moq;
@@ -135,7 +134,6 @@ namespace Testeroids.Tests
 
                 #endregion
 
-
                 /// <summary>
                 ///   The method being tested. It instantiates the <see cref="Sut"/>.
                 /// </summary>
@@ -144,6 +142,7 @@ namespace Testeroids.Tests
                 {
                     return new Test(this.MockRepository.CreateMock<ICalculator>().Object);
                 }
+
                 [Test]
                 public void then_TriangulatedArray_is_not_empty()
                 {
@@ -296,7 +295,6 @@ namespace Testeroids.Tests
                     protected override void EstablishContext()
                     {
                         base.EstablishContext();
-
 
                         this.ReturnedSum = this.EstablishReturnedSum();
                         this.InjectedCalculatorMock

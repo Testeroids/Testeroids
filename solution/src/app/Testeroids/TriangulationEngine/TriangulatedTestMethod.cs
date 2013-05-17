@@ -43,12 +43,11 @@ namespace Testeroids.TriangulationEngine
         {
             this.triangulationValues = triangulationValues;
 
-            var triangulatedName = this.triangulationValues.Aggregate(this.TestName.Name + " - Triangulated : ", (s, tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, ToStringRepresentation(tuple)));
+            var triangulatedName = this.triangulationValues.Aggregate(this.TestName.Name + " - Triangulated : ", (s, 
+                                                                                                                  tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, ToStringRepresentation(tuple)));
             this.TestName.Name = triangulatedName;
-            this.TestName.FullName = this.triangulationValues.Aggregate(this.TestName.FullName + "_Triangulated", (s, tuple) => string.Format("{0}_{1}_Is_{2}", s, tuple.Item1.Name, ToStringRepresentation(tuple)));
-
-
-
+            this.TestName.FullName = this.triangulationValues.Aggregate(this.TestName.FullName + "_Triangulated", (s, 
+                                                                                                                   tuple) => string.Format("{0}_{1}_Is_{2}", s, tuple.Item1.Name, ToStringRepresentation(tuple)));
         }
 
         #endregion
@@ -75,6 +74,7 @@ namespace Testeroids.TriangulationEngine
         }
 
         #endregion
+
         #region Methods
 
         private static string ToStringRepresentation(Tuple<PropertyInfo, object> triangulatedValue)
@@ -87,11 +87,11 @@ namespace Testeroids.TriangulationEngine
             else
             {
                 var propertyValue = (triangulatedValue.Item2 as Array).Cast<object>();
-                
+
                 representation = string.Empty;
 
-                // HACK: [salfab 17.05.13 14:36] using a TrimEnd(',') is very naive : let's try something more elegant
-                representation = propertyValue.Aggregate(representation, (s, o) => string.Format("{0} {1},", s, o), final => "{" + final.TrimEnd(',') + " }");
+                // HACK: [salfab 17.05.13 14:36] using a TrimEnd(',') is very naive : let's try something more elegant. The idea is to get rid of the last coma in order to have array elements shownlike this : { 1, 2, 3 }
+                representation = propertyValue.Aggregate(representation, (s, o) => string.Format("{0} {1},", s, o), final => string.Format("{{{0} }}", final.TrimEnd(',')));
             }
 
             return representation;
