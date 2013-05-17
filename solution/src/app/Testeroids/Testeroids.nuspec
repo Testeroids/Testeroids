@@ -26,6 +26,6 @@
         </dependencies>
     </metadata>
 	<files>
-		<file src="solution\src\app\Testeroids\NuGetContent\TriangulatedFixture.tt" target="content/TesteroidsAddins/TriangulatedFixture.tt"/>
+		<file src="solution\src\app\Testeroids\NuGetContent\TriangulatedFixture.tt" target="content/CodeTemplates/TesteroidsAddins/TriangulatedFixture.tt"/>
 	</files>
 </package>
