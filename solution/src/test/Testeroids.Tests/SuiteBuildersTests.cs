@@ -123,7 +123,7 @@ namespace Testeroids.Tests
                 /// <summary>
                 /// This is supposed to create at least 2 tests.
                 /// </summary>
-                [TriangulationValues(new[] { 1, 2 }, new[] { 3, 4 })]
+                [TriangulationValues(new[] { 1, 2 }, new[] { 3, 4, 5 })]
                 private int[] TriangulatedArray { get; set; }
 
                 protected override void EstablishContext()

@@ -77,7 +77,7 @@ namespace Testeroids.TriangulationEngine
 
         private static string ToStringRepresentation(Tuple<PropertyInfo, object> triangulatedValue)
         {
-            var representation = string.Empty;
+            string representation;
             if (!triangulatedValue.Item1.PropertyType.IsArray)
             {
                 representation = triangulatedValue.Item2.ToString();
@@ -85,9 +85,11 @@ namespace Testeroids.TriangulationEngine
             else
             {
                 var propertyValue = (triangulatedValue.Item2 as Array).Cast<object>();
+                
+                representation = string.Empty;
 
-                representation = propertyValue.Aggregate(representation, (s, 
-                                                                          o) => string.Format("{0}_{1}", s, o));
+                // HACK: [salfab 17.05.13 14:36] using a TrimEnd(',') is very naive : let's try something more elegant
+                representation = propertyValue.Aggregate(representation, (s, o) => string.Format("{0} {1},", s, o), final => "{" + final.TrimEnd(',') + " }");
             }
 
             return representation;
