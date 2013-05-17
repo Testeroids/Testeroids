@@ -43,11 +43,9 @@ namespace Testeroids.TriangulationEngine
         {
             this.triangulationValues = triangulationValues;
 
-            var triangulatedName = this.triangulationValues.Aggregate(this.TestName.Name + " - Triangulated : ", (s, 
-                                                                                                                  tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, ToStringRepresentation(tuple)));
+            var triangulatedName = this.triangulationValues.Aggregate(this.TestName.Name + " - Triangulated : ", (s, tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, ToStringRepresentation(tuple)));
             this.TestName.Name = triangulatedName;
-            this.TestName.FullName = this.triangulationValues.Aggregate(this.TestName.FullName + "_Triangulated", (s, 
-                                                                                                                   tuple) => string.Format("{0}_{1}_Is_{2}", s, tuple.Item1.Name, ToStringRepresentation(tuple)));
+            this.TestName.FullName = this.triangulationValues.Aggregate(this.TestName.FullName + "_Triangulated", (s, tuple) => string.Format("{0}_{1}_Is_{2}", s, tuple.Item1.Name, ToStringRepresentation(tuple)));
         }
 
         #endregion
