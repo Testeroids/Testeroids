@@ -5,6 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids.Tests
 {
+    using System;
     using System.Threading.Tasks;
 
     using Moq;
@@ -122,7 +123,7 @@ namespace Testeroids.Tests
                 /// <summary>
                 /// This is supposed to create at least 2 tests.
                 /// </summary>
-                [TriangulationValues(new[] { 1, 2 }, new[] { 3, 4 })]                
+                [TriangulationValues(new[] { 1, 2 }, new[] { 3, 4 })]
                 private int[] TriangulatedArray { get; set; }
 
                 protected override void EstablishContext()
@@ -134,12 +135,6 @@ namespace Testeroids.Tests
 
                 #endregion
 
-                [Test]
-                public void then_TriangulatedArray_is_not_empty()
-                {
-                    CollectionAssert.IsNotEmpty(this.TriangulatedArray);
-                }
-
                 /// <summary>
                 ///   The method being tested. It instantiates the <see cref="Sut"/>.
                 /// </summary>
@@ -147,6 +142,12 @@ namespace Testeroids.Tests
                 protected override Test BecauseSutIsCreated()
                 {
                     return new Test(this.MockRepository.CreateMock<ICalculator>().Object);
+                }
+
+                [Test]
+                public void then_TriangulatedArray_is_not_empty()
+                {
+                    CollectionAssert.IsNotEmpty(this.TriangulatedArray);
                 }
             }
 
@@ -294,9 +295,7 @@ namespace Testeroids.Tests
 
                     protected override void EstablishContext()
                     {
-                        base.EstablishContext();
-
-                        this.SpecifiedOperand1 = 1;
+                        base.EstablishContext();                        
 
                         this.ReturnedSum = this.EstablishReturnedSum();
                         this.InjectedCalculatorMock

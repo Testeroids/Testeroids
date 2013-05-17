@@ -6,9 +6,6 @@
 namespace Testeroids.Tests
 {
     using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
@@ -23,7 +20,6 @@ namespace Testeroids.Tests
     using Testeroids.Aspects.Attributes;
     using Testeroids.Mocking;
     using Testeroids.Rx.Aspects;
-    using Testeroids.Rx;
 
     using TestScheduler = Testeroids.Rx.TestScheduler;
 
@@ -519,12 +515,12 @@ namespace Testeroids.Tests
             {
                 #region Context
 
+                public ITestableObserver<int> Result { get; private set; }
+
                 [UsedImplicitly]
                 protected TestScheduler TestScheduler { get; private set; }
 
-                public ITestableObserver<int> Result { get; private set; }
-
-                protected sealed override void Because()
+                protected override sealed void Because()
                 {
                     this.Result = this.TestScheduler.Consume(() => this.Sut.ReturnObserver());
                 }
@@ -548,12 +544,12 @@ namespace Testeroids.Tests
             {
                 #region Context
 
+                public ITestableObserver<int> Result { get; private set; }
+
                 [UsedImplicitly]
                 protected TestScheduler TestScheduler { get; private set; }
 
-                public ITestableObserver<int> Result { get; private set; }
-
-                protected sealed override void Because()
+                protected override sealed void Because()
                 {
                     this.Result = this.TestScheduler.Consume(() => this.Sut.ReturnObserver());
                 }

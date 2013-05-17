@@ -6,13 +6,8 @@
 namespace Testeroids.Tests
 {
     using System;
-    using System.Reactive;
     using System.Reactive.Linq;
     using System.Threading.Tasks;
-
-    using Microsoft.Reactive.Testing;
-
-    using Moq;
 
     public class Test
     {
@@ -50,51 +45,13 @@ namespace Testeroids.Tests
             this.Calculator.Clear();
         }
 
-        public int Sum(int a, 
-                       int b)
-        {
-            return this.Calculator.Sum(a, b);
-        }
-
-        #endregion
-
-        public IObservable<int> ReturnObserver()
-        {
-            return Observable.Create<int>((observer,
-                                           token) =>
-                                          Task<IDisposable>.Factory.StartNew(() => { throw new TestException(); }));
-        }
-
-        public Task<int> SumAsync(int a, int b)
-        {
-            return new TaskFactory<int>().StartNew(() => a + b);
-        }
-
         public Task<int> FailingSumAsync()
         {
             var failingSumAsync = this.SumAsync(4, 5).ContinueWith(task =>
-                {
-                    throw new NotImplementedException(string.Format("If everything went fine, the result should have been {0}, but it didn't and an exception was thrown. Therefore, you should see it in the runner :)", task.Result));
-                    return 0;
-                });
-            return failingSumAsync;
-        }
-
-        public Task<int> SwallowedFailingSumAsync()
-        {
-            var failingSumAsync = this.SumAsync(4, 5).ContinueWith(task =>
-            {
-                throw new NotImplementedException(string.Format("If everything went fine, the result should have been {0}, but it didn't and an exception was thrown. Therefore, you should see it in the runner :)", task.Result));
-                return 0;
-            });
-            try
-            {
-                failingSumAsync.Wait();
-            }
-            catch (Exception)
-            {
-                // Swallow
-            }
+                                                                       {
+                                                                           throw new NotImplementedException(string.Format("If everything went fine, the result should have been {0}, but it didn't and an exception was thrown. Therefore, you should see it in the runner :)", task.Result));
+                                                                           return 0;
+                                                                       });
             return failingSumAsync;
         }
 
@@ -107,5 +64,45 @@ namespace Testeroids.Tests
         {
             this.SwallowedFailingSumAsync();
         }
+
+        public IObservable<int> ReturnObserver()
+        {
+            return Observable.Create<int>((observer, 
+                                           token) =>
+                                          Task<IDisposable>.Factory.StartNew(() => { throw new TestException(); }));
+        }
+
+        public int Sum(int a, 
+                       int b)
+        {
+            return this.Calculator.Sum(a, b);
+        }
+
+        public Task<int> SumAsync(int a, 
+                                  int b)
+        {
+            return new TaskFactory<int>().StartNew(() => a + b);
+        }
+
+        public Task<int> SwallowedFailingSumAsync()
+        {
+            var failingSumAsync = this.SumAsync(4, 5).ContinueWith(task =>
+                                                                       {
+                                                                           throw new NotImplementedException(string.Format("If everything went fine, the result should have been {0}, but it didn't and an exception was thrown. Therefore, you should see it in the runner :)", task.Result));
+                                                                           return 0;
+                                                                       });
+            try
+            {
+                failingSumAsync.Wait();
+            }
+            catch (Exception)
+            {
+                // Swallow
+            }
+
+            return failingSumAsync;
+        }
+
+        #endregion
     }
 }

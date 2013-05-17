@@ -6,17 +6,13 @@
 namespace Testeroids.Aspects
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
-    using System.Threading.Tasks;
 
     using JetBrains.Annotations;
-
-    using Microsoft.Reactive.Testing;
 
     using NUnit.Framework;
 
@@ -262,7 +258,7 @@ namespace Testeroids.Aspects
                         throw new UnexpectedUnhandledException(unhandledException);
                     }
                 }
-            }           
+            }
         }
 
         #endregion

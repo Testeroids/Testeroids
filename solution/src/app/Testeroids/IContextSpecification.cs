@@ -7,7 +7,6 @@ namespace Testeroids
 {
     using System;
     using System.Collections.Generic;
-
     using System.ComponentModel;
 
     using NUnit.Framework;

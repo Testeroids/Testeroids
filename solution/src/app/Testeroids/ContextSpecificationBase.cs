@@ -82,8 +82,6 @@ namespace Testeroids
         [EditorBrowsable(EditorBrowsableState.Never)]
         public bool ArePrerequisiteTestsRunning { get; private set; }
 
-        public IList<Exception> UnhandledExceptions { get; private set; }
-
         /// <summary>
         /// Gets the mock repository which allows the derived classes centralized mock creation and tracking.
         /// </summary>
@@ -95,6 +93,8 @@ namespace Testeroids
                 return this.mockRepository;
             }
         }
+
+        public IList<Exception> UnhandledExceptions { get; private set; }
 
         #endregion
 
@@ -178,6 +178,11 @@ namespace Testeroids
             }
         }
 
+        [UsedImplicitly]
+        public virtual void OnExitingBecause()
+        {
+        }
+
         #endregion
 
         #region Methods
@@ -191,6 +196,18 @@ namespace Testeroids
         /// This means that any call to a mocked method will "forget" about the method calls done prior to calling <see cref="Because"/>.
         /// </remarks>
         protected internal abstract void Because();
+
+        /// <summary>
+        ///   This will be called by the <see cref="ArrangeActAssertAspectAttribute"/> aspect. Performs the "Act" part, or the logic which is to be tested.
+        /// </summary>      
+        [UsedImplicitly]
+        protected internal void OnBecauseRequested()
+        {
+            this.MockRepository.ResetAllCalls();
+            this.Because();
+            this.RethrowPiggybackedExceptionsForTestableObserver();
+            this.OnExitingBecause();
+        }
 
         /// <summary>
         ///   Called to dispose all unmanaged resources used by the test.
@@ -219,62 +236,6 @@ namespace Testeroids
         [DebuggerNonUserCode]
         protected virtual void InstantiateMocks()
         {
-        }
-
-        /// <summary>
-        ///   This will be called by the <see cref="ArrangeActAssertAspectAttribute"/> aspect. Performs the "Act" part, or the logic which is to be tested.
-        /// </summary>      
-        [UsedImplicitly]
-        internal protected void OnBecauseRequested()
-        {
-            this.MockRepository.ResetAllCalls();
-            this.Because();
-            this.RethrowPiggybackedExceptionsForTestableObserver();
-            this.OnExitingBecause();
-        }
-
-        [UsedImplicitly]
-        public virtual void OnExitingBecause()
-        {            
-        }
-
-        private void RethrowPiggybackedExceptionsForTestableObserver()
-        {
-            // TODO: Find a better way to access "Result". The problem here is that we can't import properties of a generic type with ImportMember            
-            var result = this.GetType().GetProperty("Result", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-
-            if (result != null)
-            {
-                var propertyType = result.PropertyType;
-                if (propertyType.IsGenericType)
-                {
-                    var propertyTypeMatchesTestableObserver = propertyType.GetGenericTypeDefinition() == typeof(ITestableObserver<>);
-                    if (propertyTypeMatchesTestableObserver)
-                    {
-                        var testableObserver = result.GetValue(this, null);
-                        var messages = testableObserver.GetType().GetProperty("Messages", BindingFlags.Instance | BindingFlags.Public).GetValue(testableObserver, null) as IList;
-                        if (messages != null)
-                        {
-                            foreach (var message in messages)
-                            {
-                                var value = message.GetType().GetProperty("Value", BindingFlags.Instance | BindingFlags.Public).GetValue(message, null);
-                                var exception = value.GetType().GetProperty("Exception", BindingFlags.Instance | BindingFlags.Public).GetValue(value, null) as Exception;
-                                if (exception != null)
-                                {
-                                    // throw new Exception(exception.GetType().ToString());
-                                    if (exception is TaskSchedulerException)
-                                    {
-                                        exception = exception as TaskSchedulerException;
-                                        exception = exception.InnerException;
-                                    }
-
-                                    throw exception;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
 
         /// <summary>
@@ -330,6 +291,45 @@ namespace Testeroids
             return this.GetType()
                        .GetMethods(BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public)
                        .Count(x => x.IsDefined(typeof(TestAttribute), true));
+        }
+
+        private void RethrowPiggybackedExceptionsForTestableObserver()
+        {
+            // TODO: Find a better way to access "Result". The problem here is that we can't import properties of a generic type with ImportMember            
+            var result = this.GetType().GetProperty("Result", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+
+            if (result != null)
+            {
+                var propertyType = result.PropertyType;
+                if (propertyType.IsGenericType)
+                {
+                    var propertyTypeMatchesTestableObserver = propertyType.GetGenericTypeDefinition() == typeof(ITestableObserver<>);
+                    if (propertyTypeMatchesTestableObserver)
+                    {
+                        var testableObserver = result.GetValue(this, null);
+                        var messages = testableObserver.GetType().GetProperty("Messages", BindingFlags.Instance | BindingFlags.Public).GetValue(testableObserver, null) as IList;
+                        if (messages != null)
+                        {
+                            foreach (var message in messages)
+                            {
+                                var value = message.GetType().GetProperty("Value", BindingFlags.Instance | BindingFlags.Public).GetValue(message, null);
+                                var exception = value.GetType().GetProperty("Exception", BindingFlags.Instance | BindingFlags.Public).GetValue(value, null) as Exception;
+                                if (exception != null)
+                                {
+                                    // throw new Exception(exception.GetType().ToString());
+                                    if (exception is TaskSchedulerException)
+                                    {
+                                        exception = exception as TaskSchedulerException;
+                                        exception = exception.InnerException;
+                                    }
+
+                                    throw exception;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         #endregion
