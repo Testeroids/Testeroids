@@ -6,6 +6,7 @@
 namespace Testeroids.TriangulationEngine
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
@@ -37,21 +38,24 @@ namespace Testeroids.TriangulationEngine
         /// <param name="triangulationValues">
         /// A list of the properties on which triangulation should be applied, along with their possible values.
         /// </param>
-        public TriangulatedTestMethod(MethodInfo methodInfo, IList<Tuple<PropertyInfo, object>> triangulationValues)
+        public TriangulatedTestMethod(MethodInfo methodInfo, 
+                                      IList<Tuple<PropertyInfo, object>> triangulationValues)
             : base(methodInfo)
         {
             this.triangulationValues = triangulationValues;
 
             var triangulatedName = this.triangulationValues
-                .Aggregate(
-                string.Format("{0} - Triangulated : ", this.TestName.Name),
-                (s, tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, ToStringRepresentation(tuple)));
+                                       .Aggregate(
+                                           string.Format("{0} - Triangulated : ", this.TestName.Name), 
+                                           (s, 
+                                            tuple) => string.Format("{0} {1} = {2}", s, tuple.Item1.Name, ToStringRepresentation(tuple)));
 
             this.TestName.Name = triangulatedName;
             this.TestName.FullName = this.triangulationValues
-                .Aggregate(
-                string.Format("{0}_Triangulated", this.TestName.FullName),
-                (s, tuple) => string.Format("{0}_{1}_Is_{2}", s, tuple.Item1.Name, ToStringRepresentation(tuple)));
+                                         .Aggregate(
+                                             string.Format("{0}_Triangulated", this.TestName.FullName), 
+                                             (s, 
+                                              tuple) => string.Format("{0}_{1}_Is_{2}", s, tuple.Item1.Name, ToStringRepresentation(tuple)));
         }
 
         #endregion
@@ -84,7 +88,7 @@ namespace Testeroids.TriangulationEngine
         private static string ToStringRepresentation(Tuple<PropertyInfo, object> triangulatedValue)
         {
             string representation;
-            if (!triangulatedValue.Item1.PropertyType.IsArray)
+            if (!triangulatedValue.Item1.PropertyType.FindInterfaces((type, criteria) => type == typeof(IEnumerable), null).Any())
             {
                 representation = triangulatedValue.Item2.ToString();
             }
