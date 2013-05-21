@@ -6,6 +6,7 @@
 namespace Testeroids.TriangulationEngine
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
@@ -87,7 +88,7 @@ namespace Testeroids.TriangulationEngine
         private static string ToStringRepresentation(Tuple<PropertyInfo, object> triangulatedValue)
         {
             string representation;
-            if (!triangulatedValue.Item1.PropertyType.IsArray)
+            if (!triangulatedValue.Item1.PropertyType.FindInterfaces((type, criteria) => type == typeof(IEnumerable), null).Any())
             {
                 representation = triangulatedValue.Item2.ToString();
             }

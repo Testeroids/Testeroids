@@ -5,6 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids.Tests
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using Moq;
@@ -147,6 +148,45 @@ namespace Testeroids.Tests
                 public void then_TriangulatedArray_is_not_empty()
                 {
                     CollectionAssert.IsNotEmpty(this.TriangulatedArray);
+                }
+            }
+
+            [TriangulatedFixture]
+            public class when_Clear_is_called_with_triangulation_on_enumerables : SubjectInstantiationContextSpecification<Test>
+            {
+                #region Context
+
+                /// <summary>
+                /// This is supposed to create at least 2 tests.
+                /// </summary>
+                [TriangulationValues(new[] { 1, 2 }, new[] { 3, 4, 5 })]
+                private IEnumerable<int> TriangulatedEnumerable { get; set; }
+
+                protected override void EstablishContext()
+                {
+                    base.EstablishContext();
+
+                    this.CheckSetupsAreMatchedWithVerifyCalls = true;
+                }
+
+                #endregion
+
+                /// <summary>
+                ///   The method being tested. It instantiates the <see cref="Sut"/>.
+                /// </summary>
+                /// <returns> The instance of TSubjectUnderTest. </returns>
+                protected override Test BecauseSutIsCreated()
+                {
+                    return new Test(this.MockRepository.CreateMock<ICalculator>().Object);
+                }
+
+                /// <summary>
+                /// there should be 2 tests with that name !
+                /// </summary>
+                [Test]
+                public void then_TriangulatedEnumerable_is_not_empty()
+                {
+                    CollectionAssert.IsNotEmpty(this.TriangulatedEnumerable);
                 }
             }
 
