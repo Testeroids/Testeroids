@@ -85,16 +85,28 @@ namespace Testeroids.TriangulationEngine
 
         #region Methods
 
+        /// <summary>
+        /// Checks if the provided type is not a special case of IEnumerable which should not be considered as an enumerable. eg. <see cref="string"/>
+        /// </summary>
+        /// <param name="propertyType"></param>
+        /// <returns></returns>
+        private static bool IsSpecialEnumerable(Type propertyType)
+        {
+            return propertyType == typeof(string);
+        }
+
         private static string ToStringRepresentation(Tuple<PropertyInfo, object> triangulatedValue)
         {
             string representation;
-            if (!triangulatedValue.Item1.PropertyType.FindInterfaces((type, criteria) => type == typeof(IEnumerable), null).Any())
+            var propertyType = triangulatedValue.Item1.PropertyType;
+            if (!IsSpecialEnumerable(propertyType) && !propertyType.FindInterfaces((type, 
+                                                                                    criteria) => type == typeof(IEnumerable), null).Any())
             {
                 representation = triangulatedValue.Item2.ToString();
             }
             else
             {
-                var propertyValues = ((Array)triangulatedValue.Item2).Cast<object>().ToArray();
+                var propertyValues = ((IEnumerable)triangulatedValue.Item2).Cast<object>();
 
                 representation = string.Format("{{ {0} }}", string.Join(", ", propertyValues));
             }
