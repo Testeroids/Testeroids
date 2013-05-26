@@ -19,7 +19,7 @@ Testeroids is built on the following stack:
 
 ### Recommended
 - [ReSharper](http://www.jetbrains.com/resharper/) (for productivity features);
-- [NCrunch](http://www.ncrunch.net) for an optimal runner supporting the Triangulation features
+- [NCrunch](http://www.ncrunch.net)  for an optimal runner supporting the Triangulation features
 
 Areas covered by guidelines
 ---------------------------
