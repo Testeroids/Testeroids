@@ -27,4 +27,3 @@ Areas covered by guidelines
 - Nomenclature standardization;
 - Unit testing of asynchronous [Rx](http://msdn.microsoft.com/en-us/data/gg577609.aspx) and [TPL](http://msdn.microsoft.com/en-us/library/dd460717.aspx) queries;
 - ...DOC IN PROGRESS...
-- 
