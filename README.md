@@ -19,6 +19,7 @@ Testeroids is built on the following stack:
 
 ### Recommended
 - [ReSharper](http://www.jetbrains.com/resharper/) (for productivity features);
+- [NCrunch](http://www.ncrunch.net) for an optimal runner supporting Testeroid's Triangulation features
 
 Areas covered by guidelines
 ---------------------------
@@ -26,4 +27,3 @@ Areas covered by guidelines
 - Nomenclature standardization;
 - Unit testing of asynchronous [Rx](http://msdn.microsoft.com/en-us/data/gg577609.aspx) and [TPL](http://msdn.microsoft.com/en-us/library/dd460717.aspx) queries;
 - ...DOC IN PROGRESS...
-
