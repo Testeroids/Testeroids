@@ -113,6 +113,7 @@
     <Compile Include="IMock.cs" />
     <Compile Include="IMockRepository.cs" />
     <Compile Include="IssueAttribute.cs" />
+    <Compile Include="MessageDispatchMethod.cs" />
     <Compile Include="Mocking\IMockInternals.cs" />
     <Compile Include="Mocking\IVerifiedMock.cs" />
     <Compile Include="Mocking\IVerifiesInternals.cs" />
@@ -147,11 +148,14 @@
     <Compile Include="Rx\TimeSpanExtensions.cs" />
     <Compile Include="SequenceExtensions.cs" />
     <Compile Include="SubjectInstantiationContextSpecification.cs" />
+    <Compile Include="SynchronizationContextMessage.cs" />
     <Compile Include="TestCategories.cs" />
     <Compile Include="TestComparers.cs" />
     <Compile Include="TestConcurrencyAbstractionLayer.cs" />
     <Compile Include="TestException.cs" />
     <Compile Include="TestPlatformEnlightenmentProvider.cs" />
+    <Compile Include="TestSynchronizationContext.cs" />
+    <Compile Include="ThreadSafeTestSynchronizationContextGateway.cs" />
     <Compile Include="TplContextAspectAttribute.cs" />
     <Compile Include="TplTestHelper.cs" />
     <Compile Include="TplTestPlatformHelper.cs" />
