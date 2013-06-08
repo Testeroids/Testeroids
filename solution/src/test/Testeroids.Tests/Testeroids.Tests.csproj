@@ -64,6 +64,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TriangulatedFixture.tt</DependentUpon>
     </Compile>
+    <Compile Include="..\..\app\Testeroids\NuGetContent\TriangulatedFixture.Generated.cs">
+      <Link>TesteroidsAddins\TriangulatedFixture.Generated.cs</Link>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TriangulatedFixture.tt</DependentUpon>
+    </Compile>
     <Compile Include="..\GlobalUnitTestAspectsAssemblyInfo.cs">
       <Link>Properties\GlobalUnitTestAspectsAssemblyInfo.cs</Link>
     </Compile>
@@ -89,7 +95,7 @@
     <None Include="..\..\app\Testeroids\NuGetContent\TriangulatedFixture.tt">
       <Link>TesteroidsAddins\TriangulatedFixture.tt</Link>
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TriangulatedFixture.g.cs</LastGenOutput>
+      <LastGenOutput>TriangulatedFixture.Generated.cs</LastGenOutput>
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>

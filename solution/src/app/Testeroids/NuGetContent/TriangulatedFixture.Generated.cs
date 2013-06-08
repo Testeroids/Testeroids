@@ -3,27 +3,7 @@
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-<#@ 
-template debug="true" hostspecific="true" language="C#" #><#@ 
-assembly name="System.Core" #><#@ 
-import namespace="System.Linq" #><#@
-import namespace="System.Text" #><#@ 
-import namespace="System.Collections.Generic" #><#@ 
-import namespace="System.Reflection" #><#@ 
-import namespace="System.Collections.Generic" #><#@ 
-import namespace="System.IO" #><#@ 
-import namespace="System.Linq" #><#@
-import namespace="System.Xml" #><#@ 
-import namespace="System.Xml.Linq" #><#@
-import namespace="System.Linq" #><#@ 
-assembly name="System.Collections" #><#@ 
-assembly name="System.Core" #><#@ 
-output extension=".Generated.cs" #><#@
-include file="EF.Utility.CS.ttinclude"#><#
-CodeGenerationTools code = new CodeGenerationTools(this);
-string namespaceName = code.VsNamespaceSuggestion();
-#>
-namespace <#=namespaceName#>
+namespace Testeroids.Tests.TesteroidsAddins
 {
     using System;
 
@@ -60,7 +40,7 @@ namespace <#=namespaceName#>
                 isOk = false;
                 while (type.BaseType != typeof(object) && !isOk)
                 {
-                    isOk = NUnit.Core.Reflect.HasAttribute(type, "<#=namespaceName#>.TriangulatedFixture", true);
+                    isOk = NUnit.Core.Reflect.HasAttribute(type, "Testeroids.Tests.TesteroidsAddins.TriangulatedFixture", true);
                     var baseType = type.BaseType;
                     if (baseType != null)
                     {
