@@ -8,14 +8,12 @@ namespace Testeroids.Tests
 // ReSharper disable AccessToStaticMemberViaDerivedType
 // ReSharper disable SealedMemberInSealedClass
 {
-    using System;
     using System.Threading.Tasks;
 
     using Moq;
 
     using NUnit.Framework;
 
-    using Testeroids.Aspects.Attributes;
     using Testeroids.Mocking;
 
     public abstract class TplTestSpecs
