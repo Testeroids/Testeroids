@@ -271,15 +271,6 @@ namespace Testeroids
         }
 
         /// <summary>
-        /// Initialize the test synchronization context for the current test.
-        /// </summary>
-        private void InitializeTestSynchronizationContext()
-        {
-            var testSynchronizationContextGateway = (ThreadSafeTestSynchronizationContextGateway)SynchronizationContext.Current;
-            testSynchronizationContextGateway.Initialize();
-        }
-
-        /// <summary>
         /// Calculates the number of tests (marked with <see cref="TestAttribute"/>) in this test fixture.
         /// </summary>
         /// <returns>
@@ -290,6 +281,15 @@ namespace Testeroids
             return this.GetType()
                        .GetMethods(BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public)
                        .Count(x => x.IsDefined(typeof(TestAttribute), true));
+        }
+
+        /// <summary>
+        /// Initialize the test synchronization context for the current test.
+        /// </summary>
+        private void InitializeTestSynchronizationContext()
+        {
+            var testSynchronizationContextGateway = (ThreadSafeTestSynchronizationContextGateway)SynchronizationContext.Current;
+            testSynchronizationContextGateway.Initialize();
         }
 
         #endregion
