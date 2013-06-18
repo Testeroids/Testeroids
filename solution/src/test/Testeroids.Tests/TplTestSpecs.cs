@@ -15,8 +15,6 @@ namespace Testeroids.Tests
     using NUnit.Framework;
 
     using Testeroids.Mocking;
-    using Testeroids.Tests.TesteroidsAddins;
-    using Testeroids.TriangulationEngine;
 
     public abstract class TplTestSpecs
     {
@@ -41,18 +39,27 @@ namespace Testeroids.Tests
             #endregion
 
             [TplContextAspect(ExecuteTplTasks = true)]
-            [TriangulatedFixture]
             public abstract class when_Sum_is_called : given_instantiated_Sut
             {
                 #region Context
 
                 private Task<int> Result { get; set; }
 
-                [TriangulationValues(10, -1)]
                 private int SpecifiedOperand1 { get; set; }
 
-                [TriangulationValues(999, -100000)]
                 private int SpecifiedOperand2 { get; set; }
+
+                protected abstract int EstablishSpecifiedOperand1();
+
+                protected abstract int EstablishSpecifiedOperand2();
+
+                protected override void EstablishContext()
+                {
+                    base.EstablishContext();
+
+                    this.SpecifiedOperand1 = this.EstablishSpecifiedOperand1();
+                    this.SpecifiedOperand2 = this.EstablishSpecifiedOperand2();
+                }
 
                 protected override sealed void Because()
                 {
@@ -61,17 +68,18 @@ namespace Testeroids.Tests
 
                 #endregion
 
-                public class with_returned_result : when_Sum_is_called
+                public abstract class with_returned_result : when_Sum_is_called
                 {
                     #region Context
 
                     private int ReturnedSum { get; set; }
 
+                    protected abstract int EstablishReturnedSum();
+
                     protected override void EstablishContext()
                     {
                         base.EstablishContext();
-
-                        this.ReturnedSum = this.SpecifiedOperand1 + this.SpecifiedOperand2;
+                        this.ReturnedSum = this.EstablishReturnedSum();
                         this.InjectedCalculatorMock
                             .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
                             .Returns(this.ReturnedSum)
@@ -80,6 +88,51 @@ namespace Testeroids.Tests
                     }
 
                     #endregion
+
+                    public class with_SpecifiedOperand1_equal_to_10_and_SpecifiedOperand2_equal_to_7 : with_returned_result
+                    {
+                        #region Context
+
+                        protected override sealed int EstablishSpecifiedOperand1()
+                        {
+                            return 10;
+                        }
+
+                        protected override sealed int EstablishSpecifiedOperand2()
+                        {
+                            return 7;
+                        }
+
+                        protected override sealed int EstablishReturnedSum()
+                        {
+                            // Return an erroneous value, just to certify that we are returning the value which is handed out by the mock
+                            return int.MaxValue;
+                        }
+
+                        #endregion
+                    }
+
+                    public class with_SpecifiedOperand1_equal_to_10_and_SpecifiedOperand2_equal_to_minus_7 : with_returned_result
+                    {
+                        #region Context
+
+                        protected override sealed int EstablishSpecifiedOperand1()
+                        {
+                            return 10;
+                        }
+
+                        protected override sealed int EstablishSpecifiedOperand2()
+                        {
+                            return -7;
+                        }
+
+                        protected override sealed int EstablishReturnedSum()
+                        {
+                            return 3;
+                        }
+
+                        #endregion
+                    }
 
                     [Test]
                     public void then_Sum_is_called_once_on_InjectedTestMock()
@@ -115,6 +168,18 @@ namespace Testeroids.Tests
                 public class with_thrown_TestException : when_Sum_is_called
                 {
                     #region Context
+
+                    protected override sealed int EstablishSpecifiedOperand1()
+                    {
+                        // irrelevant
+                        return 0;
+                    }
+
+                    protected override sealed int EstablishSpecifiedOperand2()
+                    {
+                        // irrelevant
+                        return 0;
+                    }
 
                     protected override void EstablishContext()
                     {
