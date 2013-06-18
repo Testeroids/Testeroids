@@ -4,6 +4,9 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids.Tests
+// ReSharper disable InconsistentNaming
+// ReSharper disable AccessToStaticMemberViaDerivedType
+// ReSharper disable SealedMemberInSealedClass
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
