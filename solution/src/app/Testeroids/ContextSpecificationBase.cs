@@ -118,7 +118,9 @@ namespace Testeroids
         {
             Interlocked.Increment(ref this.numberOfTestsExecuted);
 
-            this.InitializeTestSynchronizationContext();
+            var testSynchronizationContextGateway = (ThreadSafeTestSynchronizationContextGateway)SynchronizationContext.Current;
+            testSynchronizationContextGateway.Initialize();
+
             this.PreTestSetUp();
             this.InstantiateMocks();
             this.EstablishContext();
@@ -268,15 +270,6 @@ namespace Testeroids
             {
                 this.ArePrerequisiteTestsRunning = false;
             }
-        }
-
-        /// <summary>
-        /// Initialize the test synchronization context for the current test.
-        /// </summary>
-        private void InitializeTestSynchronizationContext()
-        {
-            var testSynchronizationContextGateway = (ThreadSafeTestSynchronizationContextGateway)SynchronizationContext.Current;
-            testSynchronizationContextGateway.Initialize();
         }
 
         /// <summary>
