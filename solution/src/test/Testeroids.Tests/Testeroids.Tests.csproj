@@ -71,8 +71,6 @@
       <Link>Properties\GlobalUnitTestAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Calculator.cs" />
-    <Compile Include="TplTest.cs" />
-    <Compile Include="TplTestSpecs.cs" />
     <Compile Include="ICalculator.cs" />
     <Compile Include="SuiteBuildersTests.cs" />
     <Compile Include="Test.cs" />

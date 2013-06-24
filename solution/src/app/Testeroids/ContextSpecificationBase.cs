@@ -53,8 +53,6 @@ namespace Testeroids
                 testPlatformEnlightenmentProvider = new TestPlatformEnlightenmentProvider();
                 PlatformEnlightenmentProvider.Current = testPlatformEnlightenmentProvider;
             }
-
-            SynchronizationContext.SetSynchronizationContext(new ThreadSafeTestSynchronizationContextGateway());
         }
 
         /// <summary>
@@ -118,7 +116,6 @@ namespace Testeroids
         {
             Interlocked.Increment(ref this.numberOfTestsExecuted);
 
-            this.InitializeTestSynchronizationContext();
             this.PreTestSetUp();
             this.InstantiateMocks();
             this.EstablishContext();
@@ -145,15 +142,12 @@ namespace Testeroids
         }
 
         /// <summary>
-        ///   Called when the test fixture is torn down (invokes <see cref="IMockRepository.CheckAllSetupsVerified"/>).
+        ///   Called when the test fixture is tore down (invokes <see cref="IMockRepository.CheckAllSetupsVerified"/>).
         /// </summary>
         [TestFixtureTearDown]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual void BaseTestFixtureTearDown()
         {
-            var testSynchronizationContextGateway = (ThreadSafeTestSynchronizationContextGateway)SynchronizationContext.Current;
-            testSynchronizationContextGateway.Teardown();
-
             if (!this.AutoVerifyMocks && !this.CheckSetupsAreMatchedWithVerifyCalls)
             {
                 return;
