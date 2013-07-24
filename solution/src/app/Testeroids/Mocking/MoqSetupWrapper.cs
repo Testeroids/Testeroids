@@ -6,6 +6,7 @@
 namespace Testeroids.Mocking
 {
     using System;
+    using System.ComponentModel;
     using System.Linq.Expressions;
 
     using Moq.Language;
@@ -44,11 +45,15 @@ namespace Testeroids.Mocking
 
         #region Public Methods and Operators
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("To verify this condition, use the overload to Verify that receives Times.AtMost(callCount).")]
         public IVerifies AtMost(int callCount)
         {
             return this.wrappedSetup.AtMost(callCount);
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("To verify this condition, use the overload to Verify that receives Times.AtMostOnce().")]
         public IVerifies AtMostOnce()
         {
             return this.wrappedSetup.AtMostOnce();

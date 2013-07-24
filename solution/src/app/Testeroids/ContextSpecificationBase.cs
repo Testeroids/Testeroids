@@ -277,15 +277,6 @@ namespace Testeroids
                        .Count(x => x.IsDefined(typeof(TestAttribute), true));
         }
 
-        /// <summary>
-        /// Initialize the test synchronization context for the current test.
-        /// </summary>
-        private void InitializeTestSynchronizationContext()
-        {
-            var testSynchronizationContextGateway = (ThreadSafeTestSynchronizationContextGateway)SynchronizationContext.Current;
-            testSynchronizationContextGateway.Initialize();
-        }
-
         #endregion
     }
 }
