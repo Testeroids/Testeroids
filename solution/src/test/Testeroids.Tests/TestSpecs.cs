@@ -330,7 +330,7 @@ namespace Testeroids.Tests
                 /// </summary>
                 [Test]
                 [ExpectedException(typeof(PropertyNotInitializedException))]
-                public void then_PropertyNotSetException_is_thrown()
+                public void then_PropertyNotInitializedException_is_thrown()
                 {
                 }
             }
