@@ -480,6 +480,7 @@ namespace Testeroids.Tests
                         this.InjectedCalculatorMock
                             .SetupGet(o => o.Radix)
                             .Returns(10)
+                            .Callback((int a, int b) => { })
                             .DontEnforceSetupVerification();
 
                         this.InjectedCalculatorMock

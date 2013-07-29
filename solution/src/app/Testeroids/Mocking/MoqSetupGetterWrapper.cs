@@ -8,6 +8,7 @@ namespace Testeroids.Mocking
     using System;
     using System.Linq.Expressions;
 
+    using Moq.Language;
     using Moq.Language.Flow;
 
     internal class MoqSetupGetterWrapper<TMock, TProperty> : IVerifiesInternals, 
@@ -22,9 +23,10 @@ namespace Testeroids.Mocking
 
         #region Constructors and Destructors
 
-        public MoqSetupGetterWrapper(ISetupGetter<TMock, TProperty> wrappedSetupGetter, 
-                                     LambdaExpression expression, 
-                                     IVerifiedMock testeroidsMock)
+        public MoqSetupGetterWrapper(
+            ISetupGetter<TMock, TProperty> wrappedSetupGetter, 
+            LambdaExpression expression, 
+            IVerifiedMock testeroidsMock)
         {
             this.Expression = expression;
             this.TesteroidsMock = testeroidsMock;
@@ -35,55 +37,57 @@ namespace Testeroids.Mocking
 
         #region Public Properties
 
-        public LambdaExpression Expression { get; set; }
+        public LambdaExpression Expression { get; private set; }
 
-        public IVerifiedMock TesteroidsMock { get; set; }
+        public IVerifiedMock TesteroidsMock { get; private set; }
 
         #endregion
 
-        #region Public Methods and Operators
+        #region Explicit Interface Methods
 
         /// <inheritdoc/>
-        public IReturnsThrowsGetter<TMock, TProperty> Callback(Action action)
+        IReturnsThrowsGetter<TMock, TProperty> ICallbackGetter<TMock, TProperty>.Callback(Action action)
         {
-            return this.wrappedSetupGetter.Callback(action);
+            var returnsThrowsGetter = this.wrappedSetupGetter.Callback(action);
+            return new MoqReturnsThrowsGetterWrapper<TMock, TProperty>(this.Expression, returnsThrowsGetter, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
-        public IReturnsResult<TMock> Returns(TProperty value)
+        IReturnsResult<TMock> IReturnsGetter<TMock, TProperty>.Returns(TProperty value)
         {
             var returnsResult = this.wrappedSetupGetter.Returns(value);
             return new MoqReturnsResultWrapper<TMock>(this.Expression, returnsResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
-        public IReturnsResult<TMock> Returns(Func<TProperty> valueFunction)
+        IReturnsResult<TMock> IReturnsGetter<TMock, TProperty>.Returns(Func<TProperty> valueFunction)
         {
-            return this.wrappedSetupGetter.Returns(valueFunction);
+            var returnsResult = this.wrappedSetupGetter.Returns(valueFunction);
+            return new MoqReturnsResultWrapper<TMock>(this.Expression, returnsResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
-        public IThrowsResult Throws(Exception exception)
+        IThrowsResult IThrows.Throws(Exception exception)
         {
             var returnsThrows = this.wrappedSetupGetter.Throws(exception);
             return new MoqThrowsResult(this.Expression, returnsThrows, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
-        public IThrowsResult Throws<TException>() where TException : Exception, new()
+        IThrowsResult IThrows.Throws<TException>()
         {
             var returnsThrows = this.wrappedSetupGetter.Throws<TException>();
             return new MoqThrowsResult(this.Expression, returnsThrows, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
-        public void Verifiable()
+        void IVerifies.Verifiable()
         {
             this.wrappedSetupGetter.Verifiable();
         }
 
         /// <inheritdoc/>
-        public void Verifiable(string failMessage)
+        void IVerifies.Verifiable(string failMessage)
         {
             this.wrappedSetupGetter.Verifiable(failMessage);
         }

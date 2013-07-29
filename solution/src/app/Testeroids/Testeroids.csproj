@@ -123,7 +123,9 @@
     <Compile Include="Mocking\IVerifiesInternals.cs" />
     <Compile Include="Mocking\MockRepository.cs" />
     <Compile Include="Mocking\MockSetupMethodNeverUsedException.cs" />
+    <Compile Include="Mocking\MoqCallbackResultWrapper.cs" />
     <Compile Include="Mocking\MoqReturnsResultWrapper.cs" />
+    <Compile Include="Mocking\MoqReturnsThrowsGetterWrapper.cs" />
     <Compile Include="Mocking\MoqReturnsThrowsWrapper.cs" />
     <Compile Include="Mocking\MoqSetupGetterWrapper.cs" />
     <Compile Include="Mocking\MoqThrowsResult.cs" />

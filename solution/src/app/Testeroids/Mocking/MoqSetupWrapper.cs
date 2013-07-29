@@ -37,9 +37,9 @@ namespace Testeroids.Mocking
 
         #region Public Properties
 
-        public LambdaExpression Expression { get; set; }
+        public LambdaExpression Expression { get; private set; }
 
-        public IVerifiedMock TesteroidsMock { get; set; }
+        public IVerifiedMock TesteroidsMock { get; private set; }
 
         #endregion
 
@@ -62,109 +62,109 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public ICallbackResult Callback(Action action)
+        ICallbackResult ICallback.Callback(Action action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
         /// <inheritdoc/>
-        public ICallbackResult Callback<T1>(Action<T1> action)
+        ICallbackResult ICallback.Callback<T1>(Action<T1> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
         /// <inheritdoc/>
-        public ICallbackResult Callback<T1, T2>(Action<T1, T2> action)
+        ICallbackResult ICallback.Callback<T1, T2>(Action<T1, T2> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
         /// <inheritdoc/>
-        public ICallbackResult Callback<T1, T2, T3>(Action<T1, T2, T3> action)
+        ICallbackResult ICallback.Callback<T1, T2, T3>(Action<T1, T2, T3> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
         /// <inheritdoc/>
-        public ICallbackResult Callback<T1, T2, T3, T4>(Action<T1, T2, T3, T4> action)
+        ICallbackResult ICallback.Callback<T1, T2, T3, T4>(Action<T1, T2, T3, T4> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
         /// <inheritdoc/>
-        public ICallbackResult Callback<T1, T2, T3, T4, T5>(Action<T1, T2, T3, T4, T5> action)
+        ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5>(Action<T1, T2, T3, T4, T5> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
         /// <inheritdoc/>
-        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6>(Action<T1, T2, T3, T4, T5, T6> action)
+        ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6>(Action<T1, T2, T3, T4, T5, T6> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
         /// <inheritdoc/>
-        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6, T7>(Action<T1, T2, T3, T4, T5, T6, T7> action)
+        ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6, T7>(Action<T1, T2, T3, T4, T5, T6, T7> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
         /// <inheritdoc/>
-        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6, T7, T8>(Action<T1, T2, T3, T4, T5, T6, T7, T8> action)
+        ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6, T7, T8>(Action<T1, T2, T3, T4, T5, T6, T7, T8> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
         /// <inheritdoc/>
-        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> action)
+        ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
         /// <inheritdoc/>
-        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> action)
+        ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
         /// <inheritdoc/>
-        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> action)
+        ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
         /// <inheritdoc/>
-        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> action)
+        ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
         /// <inheritdoc/>
-        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> action)
+        ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
         /// <inheritdoc/>
-        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> action)
+        ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
         /// <inheritdoc/>
-        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> action)
+        ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
         /// <inheritdoc/>
-        public ICallbackResult Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> action)
+        ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> action)
         {
             return this.wrappedSetup.Callback(action);
         }
 
         /// <inheritdoc/>
-        public IVerifies Raises(
+        IVerifies IRaise<T>.Raises(
             Action<T> eventExpression, 
             EventArgs args)
         {
@@ -172,7 +172,7 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public IVerifies Raises(
+        IVerifies IRaise<T>.Raises(
             Action<T> eventExpression, 
             Func<EventArgs> func)
         {
@@ -180,7 +180,7 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public IVerifies Raises(
+        IVerifies IRaise<T>.Raises(
             Action<T> eventExpression, 
             params object[] args)
         {
@@ -188,7 +188,7 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public IVerifies Raises<T1>(
+        IVerifies IRaise<T>.Raises<T1>(
             Action<T> eventExpression, 
             Func<T1, EventArgs> func)
         {
@@ -196,7 +196,7 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public IVerifies Raises<T1, T2>(
+        IVerifies IRaise<T>.Raises<T1, T2>(
             Action<T> eventExpression, 
             Func<T1, T2, EventArgs> func)
         {
@@ -204,7 +204,7 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public IVerifies Raises<T1, T2, T3>(
+        IVerifies IRaise<T>.Raises<T1, T2, T3>(
             Action<T> eventExpression, 
             Func<T1, T2, T3, EventArgs> func)
         {
@@ -212,7 +212,7 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public IVerifies Raises<T1, T2, T3, T4>(
+        IVerifies IRaise<T>.Raises<T1, T2, T3, T4>(
             Action<T> eventExpression, 
             Func<T1, T2, T3, T4, EventArgs> func)
         {
@@ -220,7 +220,7 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public IVerifies Raises<T1, T2, T3, T4, T5>(
+        IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5>(
             Action<T> eventExpression, 
             Func<T1, T2, T3, T4, T5, EventArgs> func)
         {
@@ -228,7 +228,7 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public IVerifies Raises<T1, T2, T3, T4, T5, T6>(
+        IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6>(
             Action<T> eventExpression, 
             Func<T1, T2, T3, T4, T5, T6, EventArgs> func)
         {
@@ -236,7 +236,7 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public IVerifies Raises<T1, T2, T3, T4, T5, T6, T7>(
+        IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6, T7>(
             Action<T> eventExpression, 
             Func<T1, T2, T3, T4, T5, T6, T7, EventArgs> func)
         {
@@ -244,7 +244,7 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public IVerifies Raises<T1, T2, T3, T4, T5, T6, T7, T8>(
+        IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6, T7, T8>(
             Action<T> eventExpression, 
             Func<T1, T2, T3, T4, T5, T6, T7, T8, EventArgs> func)
         {
@@ -252,7 +252,7 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public IVerifies Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9>(
+        IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9>(
             Action<T> eventExpression, 
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, EventArgs> func)
         {
@@ -260,7 +260,7 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public IVerifies Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(
+        IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(
             Action<T> eventExpression, 
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, EventArgs> func)
         {
@@ -268,7 +268,7 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public IVerifies Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(
+        IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(
             Action<T> eventExpression, 
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, EventArgs> func)
         {
@@ -276,7 +276,7 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public IVerifies Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(
+        IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(
             Action<T> eventExpression, 
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, EventArgs> func)
         {
@@ -284,7 +284,7 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public IVerifies Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(
+        IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(
             Action<T> eventExpression, 
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, EventArgs> func)
         {
@@ -292,7 +292,7 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public IVerifies Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(
+        IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(
             Action<T> eventExpression, 
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, EventArgs> func)
         {
@@ -300,7 +300,7 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public IVerifies Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(
+        IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(
             Action<T> eventExpression, 
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, EventArgs> func)
         {
@@ -308,7 +308,7 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public IVerifies Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(
+        IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(
             Action<T> eventExpression, 
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, EventArgs> func)
         {
@@ -316,25 +316,25 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public IThrowsResult Throws(Exception exception)
+        IThrowsResult IThrows.Throws(Exception exception)
         {
             return this.wrappedSetup.Throws(exception);
         }
 
         /// <inheritdoc/>
-        public IThrowsResult Throws<TException>() where TException : Exception, new()
+        IThrowsResult IThrows.Throws<TException>()
         {
             return this.wrappedSetup.Throws(new TException());
         }
 
         /// <inheritdoc/>
-        public void Verifiable()
+        void IVerifies.Verifiable()
         {
             this.wrappedSetup.Verifiable();
         }
 
         /// <inheritdoc/>
-        public void Verifiable(string failMessage)
+        void IVerifies.Verifiable(string failMessage)
         {
             this.wrappedSetup.Verifiable(failMessage);
         }
@@ -354,9 +354,10 @@ namespace Testeroids.Mocking
 
         #region Constructors and Destructors
 
-        public MoqSetupWrapper(ISetup<T, TResult> setup, 
+        public MoqSetupWrapper(
+            ISetup<T, TResult> setup, 
                                Expression<Func<T, TResult>> expression, 
-                               TesteroidsMock<T> testeroidsMock)
+                               IVerifiedMock testeroidsMock)
         {
             this.wrappedSetup = setup;
             this.Expression = expression;
@@ -367,9 +368,9 @@ namespace Testeroids.Mocking
 
         #region Public Properties
 
-        public LambdaExpression Expression { get; set; }
+        public LambdaExpression Expression { get; private set; }
 
-        public IVerifiedMock TesteroidsMock { get; set; }
+        public IVerifiedMock TesteroidsMock { get; private set; }
 
         #endregion
 
@@ -605,27 +606,27 @@ namespace Testeroids.Mocking
         }
 
         /// <inheritdoc/>
-        public IThrowsResult Throws(Exception exception)
+        IThrowsResult IThrows.Throws(Exception exception)
         {
             var returnsThrows = this.wrappedSetup.Throws(exception);
             return new MoqThrowsResult(this.Expression, returnsThrows, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
-        public IThrowsResult Throws<TException>() where TException : Exception, new()
+        IThrowsResult IThrows.Throws<TException>()
         {
             var returnsThrows = this.wrappedSetup.Throws<TException>();
             return new MoqThrowsResult(this.Expression, returnsThrows, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
-        public void Verifiable()
+        void IVerifies.Verifiable()
         {
             this.wrappedSetup.Verifiable();
         }
 
         /// <inheritdoc/>
-        public void Verifiable(string failMessage)
+        void IVerifies.Verifiable(string failMessage)
         {
             this.wrappedSetup.Verifiable(failMessage);
         }

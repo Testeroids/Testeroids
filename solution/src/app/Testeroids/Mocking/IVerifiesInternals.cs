@@ -11,9 +11,9 @@ namespace Testeroids.Mocking
     {
         #region Public Properties
 
-        LambdaExpression Expression { get; set; }
+        LambdaExpression Expression { get; }
 
-        IVerifiedMock TesteroidsMock { get; set; }
+        IVerifiedMock TesteroidsMock { get; }
 
         #endregion
     }
