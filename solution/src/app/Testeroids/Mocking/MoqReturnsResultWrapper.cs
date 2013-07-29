@@ -12,8 +12,8 @@ namespace Testeroids.Mocking
     using Moq.Language;
     using Moq.Language.Flow;
 
-    internal class MoqReturnsResultWrapper<T, TResult> : Moq.Language.Flow.IReturnsResult<T>, 
-                                                         IVerifiesInternals
+    internal class MoqReturnsResultWrapper<T> : Moq.Language.Flow.IReturnsResult<T>, 
+                                                IVerifiesInternals
         where T : class
     {
         #region Constructors and Destructors

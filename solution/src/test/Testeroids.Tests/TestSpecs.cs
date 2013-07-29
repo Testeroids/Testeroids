@@ -478,8 +478,14 @@ namespace Testeroids.Tests
                         base.EstablishContext();
 
                         this.InjectedCalculatorMock
+                            .SetupGet(o => o.Radix)
+                            .Returns(10)
+                            .DontEnforceSetupVerification();
+
+                        this.InjectedCalculatorMock
                             .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
-                            .Throws<TestException>();
+                            .Throws<TestException>()
+                            .DontEnforceSetupVerification();
                     }
 
                     #endregion
