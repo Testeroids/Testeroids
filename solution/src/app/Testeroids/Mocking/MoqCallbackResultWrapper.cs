@@ -25,10 +25,10 @@ namespace Testeroids.Mocking
 
         public MoqCallbackResultWrapper(
             LambdaExpression expression, 
-            ICallbackResult wrappedCallbackResult, 
+            ICallbackResult callbackResult, 
             IVerifiedMock testeroidsMock)
         {
-            this.wrappedCallbackResult = wrappedCallbackResult;
+            this.wrappedCallbackResult = callbackResult;
             this.Expression = expression;
             this.TesteroidsMock = testeroidsMock;
         }
@@ -65,14 +65,14 @@ namespace Testeroids.Mocking
         IThrowsResult IThrows.Throws(Exception exception)
         {
             var throwsResult = this.wrappedCallbackResult.Throws(exception);
-            return new MoqThrowsResult(this.Expression, throwsResult, this.TesteroidsMock);
+            return new MoqThrowsResultWrapper(this.Expression, throwsResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         IThrowsResult IThrows.Throws<TException>()
         {
             var throwsResult = this.wrappedCallbackResult.Throws<TException>();
-            return new MoqThrowsResult(this.Expression, throwsResult, this.TesteroidsMock);
+            return new MoqThrowsResultWrapper(this.Expression, throwsResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>

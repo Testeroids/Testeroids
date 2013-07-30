@@ -20,7 +20,7 @@ namespace Testeroids.Mocking
 
         private readonly IVerifiedMock testeroidsMock;
 
-        private readonly IReturnsThrowsGetter<TMock, TResult> wrappedReturnsThrows;
+        private readonly IReturnsThrowsGetter<TMock, TResult> wrappedReturnsThrowsGetter;
 
         #endregion
 
@@ -28,11 +28,11 @@ namespace Testeroids.Mocking
 
         public MoqReturnsThrowsGetterWrapper(
             LambdaExpression expression, 
-            IReturnsThrowsGetter<TMock, TResult> wrappedReturnsThrows, 
+            IReturnsThrowsGetter<TMock, TResult> returnsThrowsGetter, 
             IVerifiedMock testeroidsMock)
         {
             this.expression = expression;
-            this.wrappedReturnsThrows = wrappedReturnsThrows;
+            this.wrappedReturnsThrowsGetter = returnsThrowsGetter;
             this.testeroidsMock = testeroidsMock;
         }
 
@@ -43,29 +43,29 @@ namespace Testeroids.Mocking
         /// <inheritdoc/>
         IReturnsResult<TMock> IReturnsGetter<TMock, TResult>.Returns(TResult value)
         {
-            var returnsResult = this.wrappedReturnsThrows.Returns(value);
+            var returnsResult = this.wrappedReturnsThrowsGetter.Returns(value);
             return new MoqReturnsResultWrapper<TMock>(this.expression, returnsResult, this.testeroidsMock);
         }
 
         /// <inheritdoc/>
         IReturnsResult<TMock> IReturnsGetter<TMock, TResult>.Returns(Func<TResult> valueFunction)
         {
-            var returnsResult = this.wrappedReturnsThrows.Returns(valueFunction);
+            var returnsResult = this.wrappedReturnsThrowsGetter.Returns(valueFunction);
             return new MoqReturnsResultWrapper<TMock>(this.expression, returnsResult, this.testeroidsMock);
         }
 
         /// <inheritdoc/>
         IThrowsResult IThrows.Throws(Exception exception)
         {
-            var returnsThrows = this.wrappedReturnsThrows.Throws(exception);
-            return new MoqThrowsResult(this.expression, returnsThrows, this.testeroidsMock);
+            var returnsThrows = this.wrappedReturnsThrowsGetter.Throws(exception);
+            return new MoqThrowsResultWrapper(this.expression, returnsThrows, this.testeroidsMock);
         }
 
         /// <inheritdoc/>
         IThrowsResult IThrows.Throws<TException>()
         {
-            var returnsThrows = this.wrappedReturnsThrows.Throws<TException>();
-            return new MoqThrowsResult(this.expression, returnsThrows, this.testeroidsMock);
+            var returnsThrows = this.wrappedReturnsThrowsGetter.Throws<TException>();
+            return new MoqThrowsResultWrapper(this.expression, returnsThrows, this.testeroidsMock);
         }
 
         #endregion

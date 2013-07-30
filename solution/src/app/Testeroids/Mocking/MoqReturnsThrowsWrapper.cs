@@ -28,11 +28,11 @@ namespace Testeroids.Mocking
 
         public MoqReturnsThrowsWrapper(
             LambdaExpression expression, 
-            IReturnsThrows<TMock, TResult> wrappedReturnsThrows, 
+            IReturnsThrows<TMock, TResult> returnsThrows, 
             IVerifiedMock testeroidsMock)
         {
             this.expression = expression;
-            this.wrappedReturnsThrows = wrappedReturnsThrows;
+            this.wrappedReturnsThrows = returnsThrows;
             this.testeroidsMock = testeroidsMock;
         }
 
@@ -170,14 +170,14 @@ namespace Testeroids.Mocking
         IThrowsResult IThrows.Throws(Exception exception)
         {
             var returnsThrows = this.wrappedReturnsThrows.Throws(exception);
-            return new MoqThrowsResult(this.expression, returnsThrows, this.testeroidsMock);
+            return new MoqThrowsResultWrapper(this.expression, returnsThrows, this.testeroidsMock);
         }
 
         /// <inheritdoc/>
         IThrowsResult IThrows.Throws<TException>()
         {
             var returnsThrows = this.wrappedReturnsThrows.Throws<TException>();
-            return new MoqThrowsResult(this.expression, returnsThrows, this.testeroidsMock);
+            return new MoqThrowsResultWrapper(this.expression, returnsThrows, this.testeroidsMock);
         }
 
         #endregion

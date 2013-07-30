@@ -24,13 +24,14 @@ namespace Testeroids.Mocking
 
         #region Constructors and Destructors
 
-        public MoqSetupWrapper(ISetup<T> wrappedSetup, 
-                               LambdaExpression expression, 
-                               IVerifiedMock testeroidsMock)
+        public MoqSetupWrapper(
+            ISetup<T> setup, 
+            LambdaExpression expression, 
+            IVerifiedMock testeroidsMock)
         {
             this.Expression = expression;
             this.TesteroidsMock = testeroidsMock;
-            this.wrappedSetup = wrappedSetup;
+            this.wrappedSetup = setup;
         }
 
         #endregion
@@ -68,103 +69,120 @@ namespace Testeroids.Mocking
         /// <inheritdoc/>
         ICallbackResult ICallback.Callback(Action action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqCallbackResultWrapper(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         ICallbackResult ICallback.Callback<T1>(Action<T1> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqCallbackResultWrapper(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         ICallbackResult ICallback.Callback<T1, T2>(Action<T1, T2> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqCallbackResultWrapper(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         ICallbackResult ICallback.Callback<T1, T2, T3>(Action<T1, T2, T3> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqCallbackResultWrapper(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         ICallbackResult ICallback.Callback<T1, T2, T3, T4>(Action<T1, T2, T3, T4> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqCallbackResultWrapper(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5>(Action<T1, T2, T3, T4, T5> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqCallbackResultWrapper(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6>(Action<T1, T2, T3, T4, T5, T6> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqCallbackResultWrapper(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6, T7>(Action<T1, T2, T3, T4, T5, T6, T7> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqCallbackResultWrapper(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6, T7, T8>(Action<T1, T2, T3, T4, T5, T6, T7, T8> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqCallbackResultWrapper(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqCallbackResultWrapper(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqCallbackResultWrapper(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqCallbackResultWrapper(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqCallbackResultWrapper(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqCallbackResultWrapper(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqCallbackResultWrapper(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqCallbackResultWrapper(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         ICallbackResult ICallback.Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqCallbackResultWrapper(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
@@ -390,97 +408,113 @@ namespace Testeroids.Mocking
         /// <inheritdoc/>
         public IReturnsThrows<T, TResult> Callback<T1>(Action<T1> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqReturnsThrowsWrapper<T, TResult>(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         public IReturnsThrows<T, TResult> Callback<T1, T2>(Action<T1, T2> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqReturnsThrowsWrapper<T, TResult>(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         public IReturnsThrows<T, TResult> Callback<T1, T2, T3>(Action<T1, T2, T3> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqReturnsThrowsWrapper<T, TResult>(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4>(Action<T1, T2, T3, T4> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqReturnsThrowsWrapper<T, TResult>(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5>(Action<T1, T2, T3, T4, T5> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqReturnsThrowsWrapper<T, TResult>(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6>(Action<T1, T2, T3, T4, T5, T6> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqReturnsThrowsWrapper<T, TResult>(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7>(Action<T1, T2, T3, T4, T5, T6, T7> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqReturnsThrowsWrapper<T, TResult>(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8>(Action<T1, T2, T3, T4, T5, T6, T7, T8> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqReturnsThrowsWrapper<T, TResult>(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqReturnsThrowsWrapper<T, TResult>(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqReturnsThrowsWrapper<T, TResult>(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqReturnsThrowsWrapper<T, TResult>(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqReturnsThrowsWrapper<T, TResult>(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqReturnsThrowsWrapper<T, TResult>(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqReturnsThrowsWrapper<T, TResult>(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqReturnsThrowsWrapper<T, TResult>(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         public IReturnsThrows<T, TResult> Callback<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> action)
         {
-            return this.wrappedSetup.Callback(action);
+            var callbackResult = this.wrappedSetup.Callback(action);
+            return new MoqReturnsThrowsWrapper<T, TResult>(this.Expression, callbackResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
@@ -617,14 +651,14 @@ namespace Testeroids.Mocking
         IThrowsResult IThrows.Throws(Exception exception)
         {
             var returnsThrows = this.wrappedSetup.Throws(exception);
-            return new MoqThrowsResult(this.Expression, returnsThrows, this.TesteroidsMock);
+            return new MoqThrowsResultWrapper(this.Expression, returnsThrows, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         IThrowsResult IThrows.Throws<TException>()
         {
             var returnsThrows = this.wrappedSetup.Throws<TException>();
-            return new MoqThrowsResult(this.Expression, returnsThrows, this.TesteroidsMock);
+            return new MoqThrowsResultWrapper(this.Expression, returnsThrows, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>

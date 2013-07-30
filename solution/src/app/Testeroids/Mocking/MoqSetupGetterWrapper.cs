@@ -24,13 +24,13 @@ namespace Testeroids.Mocking
         #region Constructors and Destructors
 
         public MoqSetupGetterWrapper(
-            ISetupGetter<TMock, TProperty> wrappedSetupGetter, 
+            ISetupGetter<TMock, TProperty> setupGetter, 
             LambdaExpression expression, 
             IVerifiedMock testeroidsMock)
         {
             this.Expression = expression;
             this.TesteroidsMock = testeroidsMock;
-            this.wrappedSetupGetter = wrappedSetupGetter;
+            this.wrappedSetupGetter = setupGetter;
         }
 
         #endregion
@@ -70,14 +70,14 @@ namespace Testeroids.Mocking
         IThrowsResult IThrows.Throws(Exception exception)
         {
             var returnsThrows = this.wrappedSetupGetter.Throws(exception);
-            return new MoqThrowsResult(this.Expression, returnsThrows, this.TesteroidsMock);
+            return new MoqThrowsResultWrapper(this.Expression, returnsThrows, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         IThrowsResult IThrows.Throws<TException>()
         {
             var returnsThrows = this.wrappedSetupGetter.Throws<TException>();
-            return new MoqThrowsResult(this.Expression, returnsThrows, this.TesteroidsMock);
+            return new MoqThrowsResultWrapper(this.Expression, returnsThrows, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>

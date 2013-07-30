@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MoqThrowsResult.cs" company="Testeroids">
+// <copyright file="MoqThrowsResultWrapper.cs" company="Testeroids">
 //   © 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -12,24 +12,24 @@ namespace Testeroids.Mocking
     using Moq.Language;
     using Moq.Language.Flow;
 
-    internal class MoqThrowsResult : IThrowsResult, 
-                                     IVerifiesInternals
+    internal class MoqThrowsResultWrapper : IThrowsResult, 
+                                            IVerifiesInternals
     {
         #region Fields
 
-        private readonly IThrowsResult throwsResult;
+        private readonly IThrowsResult wrappedThrowsResult;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public MoqThrowsResult(
+        public MoqThrowsResultWrapper(
             LambdaExpression expression, 
             IThrowsResult throwsResult, 
             IVerifiedMock testeroidsMock)
         {
             this.Expression = expression;
-            this.throwsResult = throwsResult;
+            this.wrappedThrowsResult = throwsResult;
             this.TesteroidsMock = testeroidsMock;
         }
 
@@ -50,7 +50,7 @@ namespace Testeroids.Mocking
         [EditorBrowsable(EditorBrowsableState.Never)]
         IVerifies IOccurrence.AtMost(int callCount)
         {
-            return this.throwsResult.AtMost(callCount);
+            return this.wrappedThrowsResult.AtMost(callCount);
         }
 
         /// <inheritdoc/>
@@ -58,19 +58,19 @@ namespace Testeroids.Mocking
         [Obsolete("To verify this condition, use the overload to Verify that receives Times.AtMostOnce().")]
         IVerifies IOccurrence.AtMostOnce()
         {
-            return this.throwsResult.AtMostOnce();
+            return this.wrappedThrowsResult.AtMostOnce();
         }
 
         /// <inheritdoc/>
         void IVerifies.Verifiable()
         {
-            this.throwsResult.Verifiable();
+            this.wrappedThrowsResult.Verifiable();
         }
 
         /// <inheritdoc/>
         void IVerifies.Verifiable(string failMessage)
         {
-            this.throwsResult.Verifiable(failMessage);
+            this.wrappedThrowsResult.Verifiable(failMessage);
         }
 
         #endregion

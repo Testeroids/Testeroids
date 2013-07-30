@@ -128,7 +128,7 @@
     <Compile Include="Mocking\MoqReturnsThrowsGetterWrapper.cs" />
     <Compile Include="Mocking\MoqReturnsThrowsWrapper.cs" />
     <Compile Include="Mocking\MoqSetupGetterWrapper.cs" />
-    <Compile Include="Mocking\MoqThrowsResult.cs" />
+    <Compile Include="Mocking\MoqThrowsResultWrapper.cs" />
     <Compile Include="Mocking\MoqVerifiesExtensions.cs" />
     <Compile Include="Mocking\MoqSetupWrapper.cs" />
     <Compile Include="Mocking\TesteroidsMock.cs" />
