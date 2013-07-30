@@ -64,13 +64,15 @@ namespace Testeroids.Mocking
         /// <inheritdoc/>
         IThrowsResult IThrows.Throws(Exception exception)
         {
-            return this.wrappedCallbackResult.Throws(exception);
+            var throwsResult = this.wrappedCallbackResult.Throws(exception);
+            return new MoqThrowsResult(this.Expression, throwsResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>
         IThrowsResult IThrows.Throws<TException>()
         {
-            return this.wrappedCallbackResult.Throws<TException>();
+            var throwsResult = this.wrappedCallbackResult.Throws<TException>();
+            return new MoqThrowsResult(this.Expression, throwsResult, this.TesteroidsMock);
         }
 
         /// <inheritdoc/>

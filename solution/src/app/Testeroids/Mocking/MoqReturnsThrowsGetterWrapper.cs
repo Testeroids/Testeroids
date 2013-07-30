@@ -38,7 +38,7 @@ namespace Testeroids.Mocking
 
         #endregion
 
-        #region Public Methods and Operators
+        #region Explicit Interface Methods
 
         /// <inheritdoc/>
         IReturnsResult<TMock> IReturnsGetter<TMock, TResult>.Returns(TResult value)

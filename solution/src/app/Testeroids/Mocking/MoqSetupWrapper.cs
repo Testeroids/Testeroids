@@ -61,6 +61,10 @@ namespace Testeroids.Mocking
             return this.wrappedSetup.AtMostOnce();
         }
 
+        #endregion
+
+        #region Explicit Interface Methods
+
         /// <inheritdoc/>
         ICallbackResult ICallback.Callback(Action action)
         {
@@ -356,8 +360,8 @@ namespace Testeroids.Mocking
 
         public MoqSetupWrapper(
             ISetup<T, TResult> setup, 
-                               Expression<Func<T, TResult>> expression, 
-                               IVerifiedMock testeroidsMock)
+            Expression<Func<T, TResult>> expression, 
+            IVerifiedMock testeroidsMock)
         {
             this.wrappedSetup = setup;
             this.Expression = expression;
@@ -604,6 +608,10 @@ namespace Testeroids.Mocking
             var returnsResult = this.wrappedSetup.Returns(valueFunction);
             return new MoqReturnsResultWrapper<T>(this.Expression, returnsResult, this.TesteroidsMock);
         }
+
+        #endregion
+
+        #region Explicit Interface Methods
 
         /// <inheritdoc/>
         IThrowsResult IThrows.Throws(Exception exception)
