@@ -214,19 +214,38 @@ namespace Testeroids.Mocking
 
         #region Public Methods and Operators
 
-        public void Raise(Action<T> eventExpression, 
-                          EventArgs args)
+        /// <summary>
+        /// Unregisters the specified expression in order to ignore it in the sanity check which makes sure there is a call verification unit test for each setup.
+        /// </summary>
+        /// <param name="expression"></param>
+        public void UnregisterSetupForVerification(LambdaExpression expression)
+        {
+            var memberInfo = GetMemberInfoFromExpression(expression);
+            this.registeredSetups.Remove(memberInfo);
+        }
+
+        #endregion
+
+        #region Explicit Interface Methods
+
+        /// <inheritdoc />
+        void IMock<T>.Raise(
+            Action<T> eventExpression, 
+            EventArgs args)
         {
             this.nakedTypedMock.Raise(eventExpression, args);
         }
 
-        public void Raise(Action<T> eventExpression, 
-                          params object[] args)
+        /// <inheritdoc />
+        void IMock<T>.Raise(
+            Action<T> eventExpression, 
+            params object[] args)
         {
             this.nakedTypedMock.Raise(eventExpression, args);
         }
 
-        public ISetup<T> Setup(Expression<Action<T>> expression)
+        /// <inheritdoc />
+        ISetup<T> IMock<T>.Setup(Expression<Action<T>> expression)
         {
             var setup = this.nakedTypedMock.Setup(expression);
 
@@ -238,7 +257,8 @@ namespace Testeroids.Mocking
             return moqWrappedSetup;
         }
 
-        public ISetup<T, TResult> Setup<TResult>(Expression<Func<T, TResult>> expression)
+        /// <inheritdoc />
+        ISetup<T, TResult> IMock<T>.Setup<TResult>(Expression<Func<T, TResult>> expression)
         {
             var setup = this.nakedTypedMock.Setup(expression);
 
@@ -250,7 +270,8 @@ namespace Testeroids.Mocking
             return moqWrappedSetup;
         }
 
-        public ISetupGetter<T, TProperty> SetupGet<TProperty>(Expression<Func<T, TProperty>> expression)
+        /// <inheritdoc />
+        ISetupGetter<T, TProperty> IMock<T>.SetupGet<TProperty>(Expression<Func<T, TProperty>> expression)
         {
             var setupGetter = this.nakedTypedMock.SetupGet(expression);
 
@@ -262,166 +283,189 @@ namespace Testeroids.Mocking
             return moqWrappedSetupGet;
         }
 
-        public IMock<T> SetupProperty<TProperty>(Expression<Func<T, TProperty>> property)
+        /// <inheritdoc />
+        IMock<T> IMock<T>.SetupProperty<TProperty>(Expression<Func<T, TProperty>> property)
         {
             this.nakedTypedMock.SetupProperty(property);
 
             return this;
         }
 
-        public IMock<T> SetupProperty<TProperty>(Expression<Func<T, TProperty>> property, 
-                                                 TProperty initialValue)
+        /// <inheritdoc />
+        IMock<T> IMock<T>.SetupProperty<TProperty>(
+            Expression<Func<T, TProperty>> property, 
+            TProperty initialValue)
         {
             this.nakedTypedMock.SetupProperty(property, initialValue);
 
             return this;
         }
 
-        public ISetupSetter<T, TProperty> SetupSet<TProperty>(Action<T> setterExpression)
-        {
-            var setupSetter = this.nakedTypedMock.SetupSet<TProperty>(setterExpression);
-
-            return setupSetter;
-        }
-
-        public ISetup<T> SetupSet(Action<T> setterExpression)
+        /// <inheritdoc />
+        ISetup<T> IMock<T>.SetupSet(Action<T> setterExpression)
         {
             var setupSet = this.nakedTypedMock.SetupSet(setterExpression);
 
             return setupSet;
         }
 
-        /// <summary>
-        /// Unregisters the specified expression in order to ignore it in the sanity check which makes sure there is a call verification unit test for each setup.
-        /// </summary>
-        /// <param name="expression"></param>
-        public void UnregisterSetupForVerification(LambdaExpression expression)
+        /// <inheritdoc />
+        ISetupSetter<T, TProperty> IMock<T>.SetupSet<TProperty>(Action<T> setterExpression)
         {
-            var memberInfo = GetMemberInfoFromExpression(expression);
-            this.registeredSetups.Remove(memberInfo);
+            var setupSetter = this.nakedTypedMock.SetupSet<TProperty>(setterExpression);
+
+            return setupSetter;
         }
 
-        public void Verify(Expression<Action<T>> expression)
-        {
-            this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
-
-            this.nakedTypedMock.Verify(expression);
-        }
-
-        public void Verify(Expression<Action<T>> expression, 
-                           Times times)
-        {
-            this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
-
-            this.nakedTypedMock.Verify(expression, times);
-        }
-
-        public void Verify(Expression<Action<T>> expression, 
-                           string failMessage)
-        {
-            this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
-
-            this.nakedTypedMock.Verify(expression, failMessage);
-        }
-
-        public void Verify(Expression<Action<T>> expression, 
-                           Times times, 
-                           string failMessage)
-        {
-            this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
-
-            this.nakedTypedMock.Verify(expression, times, failMessage);
-        }
-
-        public void Verify<TResult>(Expression<Func<T, TResult>> expression)
+        /// <inheritdoc />
+        void IMock<T>.Verify<TResult>(Expression<Func<T, TResult>> expression)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.Verify(expression);
         }
 
-        public void Verify<TResult>(Expression<Func<T, TResult>> expression, 
-                                    Times times)
+        /// <inheritdoc />
+        void IMock<T>.Verify<TResult>(
+            Expression<Func<T, TResult>> expression, 
+            Times times)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.Verify(expression, times);
         }
 
-        public void Verify<TResult>(Expression<Func<T, TResult>> expression, 
-                                    string failMessage)
+        /// <inheritdoc />
+        void IMock<T>.Verify<TResult>(
+            Expression<Func<T, TResult>> expression, 
+            string failMessage)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.Verify(expression, failMessage);
         }
 
-        public void Verify<TResult>(Expression<Func<T, TResult>> expression, 
-                                    Times times, 
-                                    string failMessage)
+        /// <inheritdoc />
+        void IMock<T>.Verify<TResult>(
+            Expression<Func<T, TResult>> expression, 
+            Times times, 
+            string failMessage)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.Verify(expression, times, failMessage);
         }
 
-        public void VerifyGet<TProperty>(Expression<Func<T, TProperty>> expression)
+        /// <inheritdoc />
+        void IMock<T>.Verify(Expression<Action<T>> expression)
+        {
+            this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
+
+            this.nakedTypedMock.Verify(expression);
+        }
+
+        /// <inheritdoc />
+        void IMock<T>.Verify(
+            Expression<Action<T>> expression, 
+            Times times)
+        {
+            this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
+
+            this.nakedTypedMock.Verify(expression, times);
+        }
+
+        /// <inheritdoc />
+        void IMock<T>.Verify(
+            Expression<Action<T>> expression, 
+            string failMessage)
+        {
+            this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
+
+            this.nakedTypedMock.Verify(expression, failMessage);
+        }
+
+        /// <inheritdoc />
+        void IMock<T>.Verify(
+            Expression<Action<T>> expression, 
+            Times times, 
+            string failMessage)
+        {
+            this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
+
+            this.nakedTypedMock.Verify(expression, times, failMessage);
+        }
+
+        /// <inheritdoc />
+        void IMock<T>.VerifyGet<TProperty>(Expression<Func<T, TProperty>> expression)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.VerifyGet(expression);
         }
 
-        public void VerifyGet<TProperty>(Expression<Func<T, TProperty>> expression, 
-                                         Times times)
+        /// <inheritdoc />
+        void IMock<T>.VerifyGet<TProperty>(
+            Expression<Func<T, TProperty>> expression, 
+            Times times)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.VerifyGet(expression, times);
         }
 
-        public void VerifyGet<TProperty>(Expression<Func<T, TProperty>> expression, 
-                                         string failMessage)
+        /// <inheritdoc />
+        void IMock<T>.VerifyGet<TProperty>(
+            Expression<Func<T, TProperty>> expression, 
+            string failMessage)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.VerifyGet(expression, failMessage);
         }
 
-        public void VerifyGet<TProperty>(Expression<Func<T, TProperty>> expression, 
-                                         Times times, 
-                                         string failMessage)
+        /// <inheritdoc />
+        void IMock<T>.VerifyGet<TProperty>(
+            Expression<Func<T, TProperty>> expression, 
+            Times times, 
+            string failMessage)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
 
             this.nakedTypedMock.VerifyGet(expression, times, failMessage);
         }
 
-        public void VerifySet(Action<T> setterExpression)
+        /// <inheritdoc />
+        void IMock<T>.VerifySet(Action<T> setterExpression)
         {
             this.nakedTypedMock.VerifySet(setterExpression);
         }
 
-        public void VerifySet(Action<T> setterExpression, 
-                              Times times)
+        /// <inheritdoc />
+        void IMock<T>.VerifySet(
+            Action<T> setterExpression, 
+            Times times)
         {
             this.nakedTypedMock.VerifySet(setterExpression, times);
         }
 
-        public void VerifySet(Action<T> setterExpression, 
-                              string failMessage)
+        void IMock<T>.VerifySet(
+            Action<T> setterExpression, 
+            string failMessage)
         {
             this.nakedTypedMock.VerifySet(setterExpression, failMessage);
         }
 
-        public void VerifySet(Action<T> setterExpression, 
-                              Times times, 
-                              string failMessage)
+        /// <inheritdoc />
+        void IMock<T>.VerifySet(
+            Action<T> setterExpression, 
+            Times times, 
+            string failMessage)
         {
             this.nakedTypedMock.VerifySet(setterExpression, times, failMessage);
         }
 
-        public ISetupConditionResult<T> When(Func<bool> condition)
+        /// <inheritdoc />
+        ISetupConditionResult<T> IMock<T>.When(Func<bool> condition)
         {
             return this.nakedTypedMock.When(condition);
         }
