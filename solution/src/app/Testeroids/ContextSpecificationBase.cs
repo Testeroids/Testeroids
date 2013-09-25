@@ -118,6 +118,9 @@ namespace Testeroids
         {
             Interlocked.Increment(ref this.numberOfTestsExecuted);
 
+            var testSynchronizationContextGateway = (ThreadSafeTestSynchronizationContextGateway)SynchronizationContext.Current;
+            testSynchronizationContextGateway.Initialize();
+
             this.PreTestSetUp();
             this.InstantiateMocks();
             this.EstablishContext();
@@ -141,9 +144,6 @@ namespace Testeroids
         public virtual void BaseTestFixtureSetUp()
         {
             TplTestPlatformHelper.SetDefaultScheduler(new TplTestPlatformHelper.InvalidTaskScheduler());
-
-            var testSynchronizationContextGateway = (ThreadSafeTestSynchronizationContextGateway)SynchronizationContext.Current;
-            testSynchronizationContextGateway.Initialize();
         }
 
         /// <summary>
