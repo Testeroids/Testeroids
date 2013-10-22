@@ -1,9 +1,4 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ErrorService.cs" company="Testeroids">
-//   © 2012-2013 Testeroids. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-namespace Testeroids.Aspects
+ï»¿namespace Testeroids.Aspects
 {
     using System;
     using System.Reflection;

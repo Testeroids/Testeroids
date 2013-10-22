@@ -1,9 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TestPlatformEnlightenmentProvider.cs" company="Testeroids">
-//   © 2012-2013 Testeroids. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-namespace Testeroids
+﻿namespace Testeroids
 {
     using System;
     using System.Reactive.Concurrency;

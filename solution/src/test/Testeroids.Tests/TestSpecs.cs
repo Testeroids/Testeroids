@@ -1,9 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TestSpecs.cs" company="Testeroids">
-//   © 2012-2013 Testeroids. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-namespace Testeroids.Tests
+﻿namespace Testeroids.Tests
 // ReSharper disable InconsistentNaming
 // ReSharper disable AccessToStaticMemberViaDerivedType
 // ReSharper disable SealedMemberInSealedClass

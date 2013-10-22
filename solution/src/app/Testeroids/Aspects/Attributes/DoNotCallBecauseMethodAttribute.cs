@@ -1,9 +1,4 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DoNotCallBecauseMethodAttribute.cs" company="Testeroids">
-//   © 2012-2013 Testeroids. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-namespace Testeroids.Aspects.Attributes
+ï»¿namespace Testeroids.Aspects.Attributes
 {
     using System;
 

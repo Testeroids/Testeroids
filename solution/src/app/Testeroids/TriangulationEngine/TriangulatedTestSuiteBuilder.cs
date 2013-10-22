@@ -1,9 +1,4 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TriangulatedTestSuiteBuilder.cs" company="Testeroids">
-//   © 2012-2013 Testeroids. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-namespace Testeroids.TriangulationEngine
+ï»¿namespace Testeroids.TriangulationEngine
 {
     using System;
     using System.Collections.Generic;

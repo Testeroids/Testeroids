@@ -1,9 +1,4 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CategorizeUnitTestFixturesAspectAttribute.cs" company="Testeroids">
-//   � 2012-2013 Testeroids. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-namespace Testeroids.Aspects
+﻿namespace Testeroids.Aspects
 {
     using System;
     using System.Collections.Generic;

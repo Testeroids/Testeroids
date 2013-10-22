@@ -1,9 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MoqThrowsResultWrapper.cs" company="Testeroids">
-//   © 2012-2013 Testeroids. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-namespace Testeroids.Mocking
+﻿namespace Testeroids.Mocking
 {
     using System;
     using System.ComponentModel;

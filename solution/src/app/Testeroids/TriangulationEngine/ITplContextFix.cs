@@ -1,9 +1,4 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ITplContextFix.cs" company="Testeroids">
-//   © 2012-2013 Testeroids. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-namespace Testeroids.TriangulationEngine
+ï»¿namespace Testeroids.TriangulationEngine
 {
     /// <summary>
     /// The contract for tests containers which support making up for <see cref="TplContextAspectAttribute"/> which would be applied to declared test fixtures, but eaten by applying add-ins and building new test suites out of those declared test fixtures.
