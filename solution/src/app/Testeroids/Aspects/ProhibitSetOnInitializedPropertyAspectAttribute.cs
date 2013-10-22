@@ -10,18 +10,18 @@ namespace Testeroids.Aspects
 
     using PostSharp.Aspects;
     using PostSharp.Aspects.Advices;
+    using PostSharp.Aspects.Dependencies;
     using PostSharp.Extensibility;
 
     /// <summary>
-    /// Aspect which is applied to the <see cref="ContextSpecificationBase"/> type to verify that no Get method is accessed before
-    /// the Set method has been called. This is to make sure that injected values are always established before they are used in a
-    /// child test class.
+    /// Aspect which is applied to the <see cref="ContextSpecificationBase"/> type to verify that no Set method is called a second time.
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    [AspectTypeDependency(AspectDependencyAction.Order, AspectDependencyPosition.After, typeof(ProhibitGetOnNotInitializedPropertyAspectAttribute))]
     [MulticastAttributeUsage(MulticastTargets.Class, 
         TargetTypeAttributes = MulticastAttributes.AnyScope | MulticastAttributes.AnyVisibility | MulticastAttributes.NonAbstract | MulticastAttributes.Managed, 
-        AllowMultiple = false, Inheritance = MulticastInheritance.Multicast)]
+        AllowMultiple = false, Inheritance = MulticastInheritance.Strict)]
     public class ProhibitSetOnInitializedPropertyAspectAttribute : InstanceLevelAspect
     {
         #region Fields
@@ -41,7 +41,7 @@ namespace Testeroids.Aspects
         /// If the property's set method has already been called the method will throw an <see cref="PropertyAlreadyInitializedException"/>.
         /// </summary>
         /// <param name="args">Advice arguments.</param>
-        /// <exception cref="PropertyNotInitializedException">
+        /// <exception cref="PropertyAlreadyInitializedException">
         /// When the property's set method has already been called before.
         /// </exception>
         [OnLocationSetValueAdvice]
@@ -49,6 +49,7 @@ namespace Testeroids.Aspects
         public void OnPropertySet(LocationInterceptionArgs args)
         {
             if (args.Location.PropertyInfo.GetSetMethod(true) != null &&
+                args.Location.PropertyInfo.DeclaringType != typeof(ContextSpecificationBase) &&
                 this.propertySetList.Contains(args.LocationName))
             {
                 throw new PropertyAlreadyInitializedException(args.LocationFullName);

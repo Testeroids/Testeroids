@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="MakeEmptyTestsInconclusiveAspectAttribute.cs" company="Testeroids">
-//   © 2012-2013 Testeroids. All rights reserved.
+//   ï¿½ 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids.Aspects
@@ -26,7 +26,7 @@ namespace Testeroids.Aspects
     [AspectTypeDependency(AspectDependencyAction.Order, AspectDependencyPosition.Before, typeof(ArrangeActAssertAspectAttribute))]
     [MulticastAttributeUsage(MulticastTargets.Class, 
         TargetTypeAttributes = MulticastAttributes.AnyScope | MulticastAttributes.AnyVisibility | MulticastAttributes.NonAbstract | MulticastAttributes.Managed, 
-        AllowMultiple = false, Inheritance = MulticastInheritance.None)]
+        AllowMultiple = false, Inheritance = MulticastInheritance.Strict)]
     public class MakeEmptyTestsInconclusiveAspectAttribute : InstanceLevelAspect
     {
         #region Public Methods and Operators

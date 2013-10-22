@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright company="Testeroids" file="ContextSpecificationBase.cs">
-//   © 2012-2013 Testeroids. All rights reserved.
+//   ï¿½ 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids
@@ -24,6 +24,13 @@ namespace Testeroids
     ///   Base class for implementing the AAA pattern.
     /// </summary>
     [ProhibitGetOnNotInitializedPropertyAspect]
+    [ArrangeActAssertAspect]
+    [CategorizeUnitTestFixturesAspect]
+    [FailNotCalledBaseEstablishContextAspect]
+//// [FailPrivateFieldCalledInNestedClassAspect]
+    [FailTestFixtureWithoutTestAspect]
+    [MakeEmptyTestsInconclusiveAspect]
+//// [ProhibitSetOnInitializedPropertyAspect]
     public abstract class ContextSpecificationBase : IContextSpecification
     {
         #region Fields
@@ -273,8 +280,8 @@ namespace Testeroids
         private int GetNumberOfTestsInTestFixture()
         {
             return this.GetType()
-                       .GetMethods(BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public)
-                       .Count(x => x.IsDefined(typeof(TestAttribute), true));
+                .GetMethods(BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public)
+                .Count(x => x.IsDefined(typeof(TestAttribute), true));
         }
 
         #endregion

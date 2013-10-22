@@ -285,7 +285,8 @@ namespace Testeroids.Tests
 
                         this.InjectedCalculatorMock
                             .Setup(o => o.Clear())
-                            .Throws<TestException>();
+                            .Throws<TestException>()
+                            .DontEnforceSetupVerification();
                     }
 
                     #endregion
@@ -297,16 +298,6 @@ namespace Testeroids.Tests
                     [ExpectedException(typeof(TestException))]
                     public void then_TestException_is_thrown()
                     {
-                    }
-
-                    /// <summary>
-                    /// We should be able to get rid of this test by supporting DontEnforceSetupVerification() on IThrows --> issue #13 ()
-                    /// </summary>
-                    [Test]
-                    [ExceptionResilient(typeof(TestException))]
-                    public void then_Clear_is_called_once_on_InjectedCalculatorMock_even_if_a_TestException_is_thrown_after()
-                    {
-                        this.InjectedCalculatorMock.Verify(o => o.Clear(), Times.Once());
                     }
                 }
             }
@@ -480,9 +471,7 @@ namespace Testeroids.Tests
                         this.InjectedCalculatorMock
                             .SetupGet(o => o.Radix)
                             .Returns(10)
-                            .Callback((int a, 
-                                       int b) =>
-                                          { })
+                            .Callback(() => { })
                             .DontEnforceSetupVerification();
 
                         this.InjectedCalculatorMock

@@ -64,9 +64,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TriangulatedFixture.tt</DependentUpon>
     </Compile>
-    <Compile Include="..\GlobalUnitTestAspectsAssemblyInfo.cs">
-      <Link>Properties\GlobalUnitTestAspectsAssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="..\GlobalUnitTestAssemblyInfo.cs">
       <Link>Properties\GlobalUnitTestAssemblyInfo.cs</Link>
     </Compile>

@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ArrangeActAssertAspectAttribute.cs" company="Testeroids">
-//   © 2012-2013 Testeroids. All rights reserved.
+//   ï¿½ 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids.Aspects
@@ -28,7 +28,10 @@ namespace Testeroids.Aspects
     ///   It also handles assert failures so that a failing test marked as <see cref="PrerequisiteAttribute"/> is flagged as such in the exception message.
     /// </summary>
     [Serializable]
-    [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    [MulticastAttributeUsage(MulticastTargets.Class,
+        TargetTypeAttributes = MulticastAttributes.AnyScope | MulticastAttributes.AnyVisibility | MulticastAttributes.NonAbstract | MulticastAttributes.Managed,
+        AllowMultiple = false, Inheritance = MulticastInheritance.Strict)]
     public class ArrangeActAssertAspectAttribute : InstanceLevelAspect
     {
         #region Fields

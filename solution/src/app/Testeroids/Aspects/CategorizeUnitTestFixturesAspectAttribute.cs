@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CategorizeUnitTestFixturesAspectAttribute.cs" company="Testeroids">
-//   © 2012-2013 Testeroids. All rights reserved.
+//   ï¿½ 2012-2013 Testeroids. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 namespace Testeroids.Aspects
@@ -21,7 +21,7 @@ namespace Testeroids.Aspects
     ///    cref="NUnit.Framework.DescriptionAttribute" /> attribute (to transform the test name into an English sentence) into all test fixtures in an assembly (categorized by top-level specification class).
     /// </summary>
     [Serializable]
-    [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     [MulticastAttributeUsage(MulticastTargets.Method, Inheritance = MulticastInheritance.Strict)]
     public class CategorizeUnitTestFixturesAspectAttribute : MethodLevelAspect, 
                                                              IAspectProvider

@@ -21,7 +21,7 @@ namespace Testeroids.Aspects
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     [MulticastAttributeUsage(MulticastTargets.Class, 
         TargetTypeAttributes = MulticastAttributes.AnyScope | MulticastAttributes.AnyVisibility | MulticastAttributes.NonAbstract | MulticastAttributes.Managed, 
-        AllowMultiple = false, Inheritance = MulticastInheritance.Multicast)]
+        AllowMultiple = false, Inheritance = MulticastInheritance.Strict)]
     public class ProhibitGetOnNotInitializedPropertyAspectAttribute : InstanceLevelAspect
     {
         #region Fields
