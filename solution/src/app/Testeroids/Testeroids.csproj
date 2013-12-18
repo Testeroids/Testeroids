@@ -67,9 +67,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\PostSharp.3.1.26\lib\net20\PostSharp.dll</HintPath>
     </Reference>
-    <Reference Include="RxSchedulers.Switch, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e4ac9b6316d2a5f7, processorArchitecture=MSIL">
+    <Reference Include="RxSchedulers.Switch, Version=2.2.2.0, Culture=neutral, PublicKeyToken=e4ac9b6316d2a5f7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\RxSchedulers.Switch.1.0.3\lib\net40\RxSchedulers.Switch.dll</HintPath>
+      <HintPath>..\..\..\packages\RxSchedulers.Switch.2.2.2\lib\net40\RxSchedulers.Switch.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
