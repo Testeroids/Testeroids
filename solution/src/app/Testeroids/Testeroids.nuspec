@@ -21,7 +21,7 @@
             <dependency id="NUnit" version="2.6.2" />
             <dependency id="PostSharp" version="3.0.38" />
             <dependency id="RxSchedulers.Switch" version="1.0.3" />
-            <dependency id="Rx-Testing" version="2.1.30214.0" />
+            <dependency id="Rx-Testing" version="2.2.2" />
             <dependency id="NUnit.AddinsDependencies" version="1.0.0" />
         </dependencies>
     </metadata>
