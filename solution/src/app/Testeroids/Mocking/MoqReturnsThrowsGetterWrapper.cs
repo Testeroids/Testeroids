@@ -49,6 +49,14 @@
             return new MoqReturnsResultWrapper<TMock>(this.expression, returnsResult, this.testeroidsMock);
         }
 
+
+        /// <inheritdoc/>
+        IReturnsResult<TMock> IReturnsGetter<TMock, TResult>.CallBase()
+        {
+            var returnsResult = this.wrappedReturnsThrowsGetter.CallBase();
+            return new MoqReturnsResultWrapper<TMock>(this.expression, returnsResult, this.testeroidsMock);
+        }
+
         /// <inheritdoc/>
         IThrowsResult IThrows.Throws(Exception exception)
         {

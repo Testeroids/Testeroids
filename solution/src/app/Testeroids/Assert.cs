@@ -22,9 +22,9 @@
         }
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
-        [Obsolete("Asserting the value of an IMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
+        [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
         public static void AreEqual(object expected, 
-                                    IMock actual, 
+                                    ITesteroidsMock actual, 
                                     string message, 
                                     params object[] args)
         {
@@ -32,8 +32,8 @@
         }
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
-        [Obsolete("Asserting the value of an IMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
-        public static void AreEqual(IMock expected, 
+        [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
+        public static void AreEqual(ITesteroidsMock expected, 
                                     object actual, 
                                     string message, 
                                     params object[] args)
@@ -42,17 +42,17 @@
         }
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
-        [Obsolete("Asserting the value of an IMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
+        [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
         public static void AreEqual(object expected, 
-                                    IMock actual, 
+                                    ITesteroidsMock actual, 
                                     string message)
         {
             throw new NotImplementedException();
         }
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
-        [Obsolete("Asserting the value of an IMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
-        public static void AreEqual(IMock expected, 
+        [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
+        public static void AreEqual(ITesteroidsMock expected, 
                                     object actual, 
                                     string message)
         {
@@ -60,16 +60,16 @@
         }
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
-        [Obsolete("Asserting the value of an IMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
+        [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
         public static void AreEqual(object expected, 
-                                    IMock actual)
+                                    ITesteroidsMock actual)
         {
             throw new NotImplementedException();
         }
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
-        [Obsolete("Asserting the value of an IMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
-        public static void AreEqual(IMock expected, 
+        [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
+        public static void AreEqual(ITesteroidsMock expected, 
                                     object actual)
         {
             throw new NotImplementedException();
@@ -86,9 +86,9 @@
         }
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
-        [Obsolete("Asserting the value of an IMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
+        [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
         public static void AreSame(object expected, 
-                                   IMock actual, 
+                                   ITesteroidsMock actual, 
                                    string message, 
                                    params object[] args)
         {
@@ -96,8 +96,8 @@
         }
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
-        [Obsolete("Asserting the value of an IMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
-        public static void AreSame(IMock expected, 
+        [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
+        public static void AreSame(ITesteroidsMock expected, 
                                    object actual, 
                                    string message, 
                                    params object[] args)
@@ -106,17 +106,17 @@
         }
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
-        [Obsolete("Asserting the value of an IMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
+        [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
         public static void AreSame(object expected, 
-                                   IMock actual, 
+                                   ITesteroidsMock actual, 
                                    string message)
         {
             throw new NotImplementedException();
         }
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
-        [Obsolete("Asserting the value of an IMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
-        public static void AreSame(IMock expected, 
+        [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
+        public static void AreSame(ITesteroidsMock expected, 
                                    object actual, 
                                    string message)
         {
@@ -124,16 +124,16 @@
         }
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
-        [Obsolete("Asserting the value of an IMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
+        [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
         public static void AreSame(object expected, 
-                                   IMock actual)
+                                   ITesteroidsMock actual)
         {
             throw new NotImplementedException();
         }
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
-        [Obsolete("Asserting the value of an IMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
-        public static void AreSame(IMock expected, 
+        [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
+        public static void AreSame(ITesteroidsMock expected, 
                                    object actual)
         {
             throw new NotImplementedException();

@@ -57,6 +57,13 @@
         }
 
         /// <inheritdoc/>
+        IReturnsResult<TMock> IReturns<TMock, TResult>.CallBase()
+        {
+            var returnsResult = this.wrappedReturnsThrows.CallBase();
+            return new MoqReturnsResultWrapper<TMock>(this.expression, returnsResult, this.testeroidsMock);
+        }
+
+        /// <inheritdoc/>
         IReturnsResult<TMock> IReturns<TMock, TResult>.Returns<T1, T2>(Func<T1, T2, TResult> valueFunction)
         {
             var returnsResult = this.wrappedReturnsThrows.Returns(valueFunction);

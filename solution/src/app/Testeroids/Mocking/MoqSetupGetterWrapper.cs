@@ -62,6 +62,13 @@
         }
 
         /// <inheritdoc/>
+        IReturnsResult<TMock> IReturnsGetter<TMock, TProperty>.CallBase()
+        {
+            var returnsResult = this.wrappedSetupGetter.CallBase();
+            return new MoqReturnsResultWrapper<TMock>(this.Expression, returnsResult, this.TesteroidsMock);
+        }
+
+        /// <inheritdoc/>
         IThrowsResult IThrows.Throws(Exception exception)
         {
             var returnsThrows = this.wrappedSetupGetter.Throws(exception);

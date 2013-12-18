@@ -12,21 +12,21 @@
         #region Fields
 
         /// <summary>
-        /// List of mocks which were delivered through <see cref="CreateMock{TMock}"/>. These mocks will be verified to check if a set up method was verified through <see cref="IMock.Verify"/>.
+        /// List of mocks which were delivered through <see cref="CreateMock{TMock}"/>. These mocks will be verified to check if a set up method was verified through <see cref="ITesteroidsMock.Verify"/>.
         /// </summary>
-        private readonly List<IMock> mocksTrackedForMatchingVerifyCallCheck = new List<IMock>();
+        private readonly List<ITesteroidsMock> mocksTrackedForMatchingVerifyCallCheck = new List<ITesteroidsMock>();
 
         /// <summary>
         /// List of mocks which were delivered through <see cref="CreateMock{TMock}"/>. These mocks will be verified on <see cref="VerifyMocks"/>.
         /// </summary>
-        private readonly List<IMock> mocksTrackedForUsageVerification = new List<IMock>();
+        private readonly List<ITesteroidsMock> mocksTrackedForUsageVerification = new List<ITesteroidsMock>();
 
         #endregion
 
         #region Public Methods and Operators
 
         /// <summary>
-        /// Checks that all methods mocked were verified at least once using <see cref="IMock.Verify"/>.
+        /// Checks that all methods mocked were verified at least once using <see cref="ITesteroidsMock.Verify"/>.
         /// </summary>
         /// <exception cref="MockNotVerifiedException">Thrown when a mock which was set up was not subsequently verified.</exception>
         public void CheckAllSetupsVerified()
@@ -62,7 +62,7 @@
         /// <returns>An instance of <typeparamref name="TMock"/> which can be passed to the Subject Under Test and verified afterwards.</returns>
         /// <remarks>The created mock is always "strict", meaning that every behavior has to be set up explicitly.</remarks>
         [NotNull]
-        public IMock<TMock> CreateMock<TMock>() where TMock : class
+        public ITesteroidsMock<TMock> CreateMock<TMock>() where TMock : class
         {
             var mock = new TesteroidsMock<TMock>().As<TMock>();
 
@@ -86,7 +86,7 @@
         }
 
         /// <summary>
-        /// Ensures that all the verifiable mock setups were actually used, by invoking <see cref="IMock.Verify"/> on all mocks.
+        /// Ensures that all the verifiable mock setups were actually used, by invoking <see cref="ITesteroidsMock.Verify"/> on all mocks.
         /// </summary>
         /// <exception cref="MockException">Thrown if not all mocks were actually used by the SUT.</exception>
         public void VerifyMocks()

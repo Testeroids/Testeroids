@@ -8,7 +8,7 @@
     using Moq;
 
     /// <summary>
-    /// Extensions to the <see cref="IMock{T}"/> type related to Testeroids.
+    /// Extensions to the <see cref="ITesteroidsMock{T}"/> type related to Testeroids.
     /// </summary>
     public static class MockExtensions
     {
@@ -20,7 +20,7 @@
         /// <typeparam name="T">The mocked object's type.</typeparam>
         /// <param name="mock">The mock to setup as <see cref="IEquatable{T}"/>.</param>
         /// <returns>Returns the <paramref name="mock"/> implementing an additional interface, <see cref="IEquatable{T}"/>.</returns>
-        public static IMock<T> AsEquatable<T>(this IMock<T> mock) where T : class
+        public static ITesteroidsMock<T> AsEquatable<T>(this ITesteroidsMock<T> mock) where T : class
         {
             mock.As<IEquatable<T>>()
                 .Setup(o => o.Equals(It.IsAny<T>()))
@@ -41,7 +41,7 @@
         [PublicAPI]
         [Obsolete("Testeroids now automatically resets the calls just before calling the Because() method.")]
         public static void VerifyCalledOnceDuringBecause<T>(
-            this IMock<T> mock, 
+            this ITesteroidsMock<T> mock, 
             ContextSpecificationBase contextSpecification, 
             Expression<Action<T>> verifyMethod) where T : class
         {
@@ -72,7 +72,7 @@
         [PublicAPI]
         [Obsolete("Testeroids now automatically resets the calls just before calling the Because() method.")]
         public static void VerifyNumberOfCallsDuringBecause<T>(
-            this IMock<T> mock, 
+            this ITesteroidsMock<T> mock, 
             ContextSpecificationBase contextSpecification, 
             Expression<Action<T>> expression, 
             Times numberBefore, 

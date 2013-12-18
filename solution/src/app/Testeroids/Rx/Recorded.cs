@@ -104,7 +104,7 @@
 
         /// <summary>
         /// Creates the a <see cref="Recorded{Notification}"/> with <see cref="NotificationKind.OnNext"/> kind
-        /// converting the passed <see cref="IMock{T}"/> to be <see cref="IEquatable{T}"/>.
+        /// converting the passed <see cref="ITesteroidsMock{T}"/> to be <see cref="IEquatable{T}"/>.
         /// </summary>
         /// <typeparam name="T">Type of the notifications.</typeparam>
         /// <param name="time">Virtual time the value was produced on.</param>
@@ -114,7 +114,7 @@
         /// </returns>
         public static Recorded<Notification<T>> OnNext<T>(
             long time, 
-            IMock<T> value)
+            ITesteroidsMock<T> value)
             where T : class
         {
             // We are using the Equals implementation of Recorded to test which calls Equals on the mocks
@@ -123,7 +123,7 @@
 
         /// <summary>
         /// Creates the a <see cref="Recorded{Notification}"/> with <see cref="NotificationKind.OnNext"/> kind
-        /// converting the passed <see cref="IMock{T}"/> to be <see cref="IEquatable{T}"/>.
+        /// converting the passed <see cref="ITesteroidsMock{T}"/> to be <see cref="IEquatable{T}"/>.
         /// </summary>
         /// <typeparam name="T">Type of the notifications.</typeparam>
         /// <param name="time">Virtual time the value was produced on.</param>
@@ -133,7 +133,7 @@
         /// </returns>
         public static Recorded<Notification<T>> OnNext<T>(
             TimeSpan time, 
-            IMock<T> value)
+            ITesteroidsMock<T> value)
             where T : class
         {
             return OnNext(time.Ticks, value);

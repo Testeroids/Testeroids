@@ -18,7 +18,7 @@
         {
             #region Context
 
-            private IMock<ICalculator> InjectedCalculatorMock { get; set; }
+            private ITesteroidsMock<ICalculator> InjectedCalculatorMock { get; set; }
 
             protected override void EstablishContext()
             {
@@ -45,7 +45,7 @@
         {
             #region Context
 
-            protected IMock<ICalculator> InjectedCalculatorMock { get; private set; }
+            protected ITesteroidsMock<ICalculator> InjectedCalculatorMock { get; private set; }
 
             protected override void EstablishContext()
             {

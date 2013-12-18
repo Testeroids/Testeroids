@@ -99,7 +99,7 @@ namespace Testeroids
         #region Properties
 
         /// <summary>
-        /// Gets or sets a value indicating whether mock setups will automatically be verified through <see cref="IMock.Verify"/> at test fixture teardown.
+        /// Gets or sets a value indicating whether mock setups will automatically be verified through <see cref="ITesteroidsMock.Verify"/> at test fixture teardown.
         /// </summary>
         [PublicAPI]
         protected bool AutoVerifyMocks { get; set; }
