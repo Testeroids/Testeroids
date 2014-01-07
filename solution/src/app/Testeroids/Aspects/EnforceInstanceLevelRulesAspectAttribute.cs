@@ -44,7 +44,7 @@
             this.instanceLevelRules = new List<IInstanceLevelRule>
                                       {
                                           new FailNotCalledBaseEstablishContextRule(), 
-                                          new FailPrivateFieldCalledInNestedClassRule(), 
+                                          ////new FailPrivateFieldCalledInNestedClassRule(), 
                                           new FailTestFixtureWithoutTestRule(),
                                           new ProhibitGetOnNotInitializedPropertyRule(),
  
@@ -77,8 +77,9 @@
             foreach (var rule in this.instanceLevelRules)
             {
                 // do not break as some validators raise errors.
-                validates = validates || rule.CompileTimeValidate(type);
+                validates = validates | rule.CompileTimeValidate(type);
             }
+
 
             return validates;
         }
