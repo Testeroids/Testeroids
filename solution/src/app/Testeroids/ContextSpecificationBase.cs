@@ -23,14 +23,10 @@ namespace Testeroids
     /// <summary>
     ///   Base class for implementing the AAA pattern.
     /// </summary>
-    [ProhibitGetOnNotInitializedPropertyAspect]
     [ArrangeActAssertAspect]
     [CategorizeUnitTestFixturesAspect]
-    [FailNotCalledBaseEstablishContextAspect]
-//// [FailPrivateFieldCalledInNestedClassAspect]
-    [FailTestFixtureWithoutTestAspect]
     [MakeEmptyTestsInconclusiveAspect]
-//// [ProhibitSetOnInitializedPropertyAspect]
+    [EnforceInstanceLevelRulesAspect]
     public abstract class ContextSpecificationBase : IContextSpecification
     {
         #region Fields

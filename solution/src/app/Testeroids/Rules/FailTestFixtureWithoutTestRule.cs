@@ -1,23 +1,17 @@
-﻿namespace Testeroids.Aspects
+﻿namespace Testeroids.Rules
 {
     using System;
     using System.Linq;
 
     using NUnit.Framework;
 
-    using PostSharp.Aspects;
-    using PostSharp.Aspects.Dependencies;
-    using PostSharp.Extensibility;
+    using Testeroids.Aspects;
 
     /// <summary>
     ///   Test that a class marked with <see cref="TestFixtureAttribute"/> contains methods marked with <see cref="TestAttribute"/>.
     /// </summary>
     [Serializable]
-    [AspectTypeDependency(AspectDependencyAction.Order, AspectDependencyPosition.Before, typeof(ArrangeActAssertAspectAttribute))]
-    [MulticastAttributeUsage(MulticastTargets.Class, 
-        TargetTypeAttributes = MulticastAttributes.AnyScope | MulticastAttributes.AnyVisibility | MulticastAttributes.NonAbstract | MulticastAttributes.Managed, 
-        AllowMultiple = false, Inheritance = MulticastInheritance.Strict)]
-    public class FailTestFixtureWithoutTestAspectAttribute : InstanceLevelAspect
+    public class FailTestFixtureWithoutTestRule : InstanceLevelRule
     {
         #region Public Methods and Operators
 
@@ -33,7 +27,7 @@
                 return ErrorService.RaiseError(this.GetType(), type, string.Format("{0} does not contain any tests. Concrete ContextSpecifications must contain tests", type.Name));
             }
 
-            return base.CompileTimeValidate(type);
+            return true;
         }
 
         #endregion
