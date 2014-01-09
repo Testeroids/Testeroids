@@ -1,4 +1,4 @@
-namespace Testeroids.Tests.TesteroidsAddins
+﻿namespace Testeroids.Tests.TesteroidsAddins
 {
     using System;
 
