@@ -22,7 +22,7 @@
             <dependency id="PostSharp" version="3.1.28" />
             <dependency id="RxSchedulers.Switch" version="2.2.2" />
             <dependency id="Rx-Testing" version="2.2.2" />
-            <dependency id="NUnit.AddinsDependencies" version="2.6.3" />
+            <dependency id="NUnit.AddinsDependencies" version="1.0.0" />
         </dependencies>
     </metadata>
     <files>
