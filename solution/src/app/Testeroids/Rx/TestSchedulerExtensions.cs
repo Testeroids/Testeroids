@@ -69,6 +69,29 @@
         }
 
         /// <summary>
+        ///     Helper method that runs a <seealso cref="TestScheduler" /> and waits on a task and tries to replicate the handling
+        ///     of exceptions that is achieved with the "await" keyword (not wrapping it in an AggregateException).
+        /// </summary>
+        /// <param name="testScheduler">The <seealso cref="TestScheduler" /> used in the <paramref name="contextSpecification" />.</param>
+        /// <param name="contextSpecification">The current test fixture.</param>
+        /// <param name="result">The task to wait on.</param>
+        public static void StartWaiting(
+            [NotNull] this TestScheduler testScheduler,
+            IContextSpecification contextSpecification,
+            Task result)
+        {
+            if (!TplTestHelper.WillExecuteTplTasksOn(contextSpecification))
+            {
+                return;
+            }
+
+            testScheduler.StartWaiting();
+
+            // Emulate the "await" exception handling behavior
+            result.Wait(contextSpecification);
+        }
+
+        /// <summary>
         /// Waits for Scheduler events until we are canceled or the <paramref name="absoluteEndTime"/> has been reached.
         /// </summary>
         /// <param name="scheduler">The target scheduler.</param>
