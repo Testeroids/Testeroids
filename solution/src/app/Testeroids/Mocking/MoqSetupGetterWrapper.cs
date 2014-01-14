@@ -6,7 +6,7 @@
     using Moq.Language;
     using Moq.Language.Flow;
 
-    internal class MoqSetupGetterWrapper<TMock, TProperty> : IVerifiesInternals, 
+    internal class MoqSetupGetterWrapper<TMock, TProperty> : IVerifiesInternals,
                                                              Moq.Language.Flow.ISetupGetter<TMock, TProperty>
         where TMock : class
     {
@@ -19,8 +19,8 @@
         #region Constructors and Destructors
 
         public MoqSetupGetterWrapper(
-            ISetupGetter<TMock, TProperty> setupGetter, 
-            LambdaExpression expression, 
+            ISetupGetter<TMock, TProperty> setupGetter,
+            LambdaExpression expression,
             IVerifiedMock testeroidsMock)
         {
             this.Expression = expression;
@@ -41,6 +41,13 @@
         #region Explicit Interface Methods
 
         /// <inheritdoc/>
+        IReturnsResult<TMock> IReturnsGetter<TMock, TProperty>.CallBase()
+        {
+            var returnsResult = this.wrappedSetupGetter.CallBase();
+            return new MoqReturnsResultWrapper<TMock>(this.Expression, returnsResult, this.TesteroidsMock);
+        }
+
+        /// <inheritdoc/>
         IReturnsThrowsGetter<TMock, TProperty> ICallbackGetter<TMock, TProperty>.Callback(Action action)
         {
             var returnsThrowsGetter = this.wrappedSetupGetter.Callback(action);
@@ -58,13 +65,6 @@
         IReturnsResult<TMock> IReturnsGetter<TMock, TProperty>.Returns(Func<TProperty> valueFunction)
         {
             var returnsResult = this.wrappedSetupGetter.Returns(valueFunction);
-            return new MoqReturnsResultWrapper<TMock>(this.Expression, returnsResult, this.TesteroidsMock);
-        }
-
-        /// <inheritdoc/>
-        IReturnsResult<TMock> IReturnsGetter<TMock, TProperty>.CallBase()
-        {
-            var returnsResult = this.wrappedSetupGetter.CallBase();
             return new MoqReturnsResultWrapper<TMock>(this.Expression, returnsResult, this.TesteroidsMock);
         }
 

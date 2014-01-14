@@ -36,7 +36,7 @@
             this.Calculator.Clear();
         }
 
-        public int Sum(int a, 
+        public int Sum(int a,
                        int b)
         {
             return this.Calculator.Sum(a, b);

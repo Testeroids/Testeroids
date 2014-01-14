@@ -7,7 +7,7 @@
     using Moq.Language;
     using Moq.Language.Flow;
 
-    internal class MoqCallbackResultWrapper : ICallbackResult, 
+    internal class MoqCallbackResultWrapper : ICallbackResult,
                                               IVerifiesInternals
     {
         #region Fields
@@ -19,8 +19,8 @@
         #region Constructors and Destructors
 
         public MoqCallbackResultWrapper(
-            LambdaExpression expression, 
-            ICallbackResult callbackResult, 
+            LambdaExpression expression,
+            ICallbackResult callbackResult,
             IVerifiedMock testeroidsMock)
         {
             this.wrappedCallbackResult = callbackResult;

@@ -24,7 +24,7 @@
             throw new System.NotImplementedException();
         }
 
-        public int Sum(int a, 
+        public int Sum(int a,
                        int b)
         {
             return a + b;

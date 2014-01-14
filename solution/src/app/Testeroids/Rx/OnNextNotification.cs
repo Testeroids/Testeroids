@@ -133,8 +133,8 @@
         /// <param name="onNext">Delegate to invoke for an OnNext notification.</param><param name="onError">Delegate to invoke for an OnError notification.</param>
         /// <param name="onCompleted">Delegate to invoke for an OnCompleted notification.</param>
         public override void Accept(
-            Action<T> onNext, 
-            Action<Exception> onError, 
+            Action<T> onNext,
+            Action<Exception> onError,
             Action onCompleted)
         {
             if (onNext == null)
@@ -163,8 +163,8 @@
         /// Result produced by the observation.
         /// </returns>
         public override TResult Accept<TResult>(
-            Func<T, TResult> onNext, 
-            Func<Exception, TResult> onError, 
+            Func<T, TResult> onNext,
+            Func<Exception, TResult> onError,
             Func<TResult> onCompleted)
         {
             if (onNext == null)
@@ -240,9 +240,9 @@
         public override string ToString()
         {
             return string.Format(
-                CultureInfo.CurrentCulture, 
-                "OnNext({0})", 
-                new[] { (object)this.Value });
+                                 CultureInfo.CurrentCulture,
+                                 "OnNext({0})",
+                                 new[] { (object)this.Value });
         }
 
         #endregion

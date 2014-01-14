@@ -1,9 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="Testeroids" file="ContextSpecificationBase.cs">
-//   © 2012-2014 Testeroids. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-namespace Testeroids
+﻿namespace Testeroids
 {
     using System.ComponentModel;
     using System.Diagnostics;
@@ -244,17 +239,17 @@ namespace Testeroids
             try
             {
                 var prerequisiteTestsToRun =
-                    this.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(
-                        m => m.IsDefined(typeof(PrerequisiteAttribute), true));
+                    from method in this.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public)
+                    where method.IsDefined(typeof(PrerequisiteAttribute), true)
+                    select method;
 
                 foreach (var prerequisiteTest in prerequisiteTestsToRun)
                 {
-                    prerequisiteTest.Invoke(
-                        this, 
-                        BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic, 
-                        null, 
-                        null, 
-                        CultureInfo.InvariantCulture);
+                    prerequisiteTest.Invoke(this,
+                                            BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic,
+                                            null,
+                                            null,
+                                            CultureInfo.InvariantCulture);
                 }
             }
             catch (TargetInvocationException ex)
@@ -276,8 +271,8 @@ namespace Testeroids
         private int GetNumberOfTestsInTestFixture()
         {
             return this.GetType()
-                .GetMethods(BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public)
-                .Count(x => x.IsDefined(typeof(TestAttribute), true));
+                       .GetMethods(BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public)
+                       .Count(x => x.IsDefined(typeof(TestAttribute), true));
         }
 
         #endregion

@@ -7,7 +7,7 @@
     using Moq.Language;
     using Moq.Language.Flow;
 
-    internal class MoqReturnsResultWrapper<TMock> : Moq.Language.Flow.IReturnsResult<TMock>, 
+    internal class MoqReturnsResultWrapper<TMock> : Moq.Language.Flow.IReturnsResult<TMock>,
                                                     IVerifiesInternals
         where TMock : class
     {
@@ -20,8 +20,8 @@
         #region Constructors and Destructors
 
         public MoqReturnsResultWrapper(
-            LambdaExpression expression, 
-            IReturnsResult<TMock> returnsResult, 
+            LambdaExpression expression,
+            IReturnsResult<TMock> returnsResult,
             IVerifiedMock testeroidsMock)
         {
             this.Expression = expression;
@@ -178,7 +178,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<TMock>.Raises(
-            Action<TMock> eventExpression, 
+            Action<TMock> eventExpression,
             EventArgs args)
         {
             return this.wrappedReturnsResult.Raises(eventExpression, args);
@@ -186,7 +186,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<TMock>.Raises(
-            Action<TMock> eventExpression, 
+            Action<TMock> eventExpression,
             Func<EventArgs> func)
         {
             return this.wrappedReturnsResult.Raises(eventExpression, func);
@@ -194,7 +194,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<TMock>.Raises(
-            Action<TMock> eventExpression, 
+            Action<TMock> eventExpression,
             params object[] args)
         {
             return this.wrappedReturnsResult.Raises(eventExpression, args);
@@ -202,7 +202,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<TMock>.Raises<T1>(
-            Action<TMock> eventExpression, 
+            Action<TMock> eventExpression,
             Func<T1, EventArgs> func)
         {
             return this.wrappedReturnsResult.Raises(eventExpression, func);
@@ -210,7 +210,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<TMock>.Raises<T1, T2>(
-            Action<TMock> eventExpression, 
+            Action<TMock> eventExpression,
             Func<T1, T2, EventArgs> func)
         {
             return this.wrappedReturnsResult.Raises(eventExpression, func);
@@ -218,7 +218,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<TMock>.Raises<T1, T2, T3>(
-            Action<TMock> eventExpression, 
+            Action<TMock> eventExpression,
             Func<T1, T2, T3, EventArgs> func)
         {
             return this.wrappedReturnsResult.Raises(eventExpression, func);
@@ -226,7 +226,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<TMock>.Raises<T1, T2, T3, T4>(
-            Action<TMock> eventExpression, 
+            Action<TMock> eventExpression,
             Func<T1, T2, T3, T4, EventArgs> func)
         {
             return this.wrappedReturnsResult.Raises(eventExpression, func);
@@ -234,7 +234,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<TMock>.Raises<T1, T2, T3, T4, T5>(
-            Action<TMock> eventExpression, 
+            Action<TMock> eventExpression,
             Func<T1, T2, T3, T4, T5, EventArgs> func)
         {
             return this.wrappedReturnsResult.Raises(eventExpression, func);
@@ -242,7 +242,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<TMock>.Raises<T1, T2, T3, T4, T5, T6>(
-            Action<TMock> eventExpression, 
+            Action<TMock> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, EventArgs> func)
         {
             return this.wrappedReturnsResult.Raises(eventExpression, func);
@@ -250,7 +250,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<TMock>.Raises<T1, T2, T3, T4, T5, T6, T7>(
-            Action<TMock> eventExpression, 
+            Action<TMock> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, T7, EventArgs> func)
         {
             return this.wrappedReturnsResult.Raises(eventExpression, func);
@@ -258,7 +258,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<TMock>.Raises<T1, T2, T3, T4, T5, T6, T7, T8>(
-            Action<TMock> eventExpression, 
+            Action<TMock> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, T7, T8, EventArgs> func)
         {
             return this.wrappedReturnsResult.Raises(eventExpression, func);
@@ -266,7 +266,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<TMock>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9>(
-            Action<TMock> eventExpression, 
+            Action<TMock> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, EventArgs> func)
         {
             return this.wrappedReturnsResult.Raises(eventExpression, func);
@@ -274,7 +274,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<TMock>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(
-            Action<TMock> eventExpression, 
+            Action<TMock> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, EventArgs> func)
         {
             return this.wrappedReturnsResult.Raises(eventExpression, func);
@@ -282,7 +282,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<TMock>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(
-            Action<TMock> eventExpression, 
+            Action<TMock> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, EventArgs> func)
         {
             return this.wrappedReturnsResult.Raises(eventExpression, func);
@@ -290,7 +290,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<TMock>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(
-            Action<TMock> eventExpression, 
+            Action<TMock> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, EventArgs> func)
         {
             return this.wrappedReturnsResult.Raises(eventExpression, func);
@@ -298,7 +298,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<TMock>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(
-            Action<TMock> eventExpression, 
+            Action<TMock> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, EventArgs> func)
         {
             return this.wrappedReturnsResult.Raises(eventExpression, func);
@@ -306,7 +306,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<TMock>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(
-            Action<TMock> eventExpression, 
+            Action<TMock> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, EventArgs> func)
         {
             return this.wrappedReturnsResult.Raises(eventExpression, func);
@@ -314,7 +314,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<TMock>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(
-            Action<TMock> eventExpression, 
+            Action<TMock> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, EventArgs> func)
         {
             return this.wrappedReturnsResult.Raises(eventExpression, func);
@@ -322,7 +322,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<TMock>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(
-            Action<TMock> eventExpression, 
+            Action<TMock> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, EventArgs> func)
         {
             return this.wrappedReturnsResult.Raises(eventExpression, func);

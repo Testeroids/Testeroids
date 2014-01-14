@@ -22,7 +22,7 @@
         /// The exception that caused the current exception.
         /// </param>
         public PrerequisiteFailureException(
-            string message, 
+            string message,
             Exception inner)
             : base(message, inner)
         {

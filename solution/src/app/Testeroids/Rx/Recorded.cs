@@ -48,7 +48,7 @@
         /// A new <see cref="Recorded{Notification}"/> instance with <see cref="NotificationKind.OnError"/> kind.
         /// </returns>
         public static Recorded<Notification<T>> OnError<T>(
-            long time, 
+            long time,
             Exception error)
         {
             return new Recorded<Notification<T>>(time, Notification.CreateOnError<T>(error));
@@ -64,7 +64,7 @@
         /// A new <see cref="Recorded{Notification}"/> instance with <see cref="NotificationKind.OnError"/> kind.
         /// </returns>
         public static Recorded<Notification<T>> OnError<T>(
-            TimeSpan time, 
+            TimeSpan time,
             Exception error)
         {
             return Recorded.OnError<T>(time.Ticks, error);
@@ -80,7 +80,7 @@
         /// A new <see cref="Recorded{Notification}"/> instance with <see cref="NotificationKind.OnNext"/> kind.
         /// </returns>
         public static Recorded<Notification<T>> OnNext<T>(
-            long time, 
+            long time,
             T value)
         {
             return new Recorded<Notification<T>>(time, new OnNextNotification<T>(value));
@@ -96,7 +96,7 @@
         /// A new <see cref="Recorded{Notification}"/> instance with <see cref="NotificationKind.OnNext"/> kind.
         /// </returns>
         public static Recorded<Notification<T>> OnNext<T>(
-            TimeSpan time, 
+            TimeSpan time,
             T value)
         {
             return Recorded.OnNext(time.Ticks, value);
@@ -113,7 +113,7 @@
         /// A new <see cref="Recorded{Notification}"/> instance with <see cref="NotificationKind.OnNext"/> kind.
         /// </returns>
         public static Recorded<Notification<T>> OnNext<T>(
-            long time, 
+            long time,
             ITesteroidsMock<T> value)
             where T : class
         {
@@ -132,7 +132,7 @@
         /// A new <see cref="Recorded{Notification}"/> instance with <see cref="NotificationKind.OnNext"/> kind.
         /// </returns>
         public static Recorded<Notification<T>> OnNext<T>(
-            TimeSpan time, 
+            TimeSpan time,
             ITesteroidsMock<T> value)
             where T : class
         {
@@ -184,7 +184,7 @@
         /// An instance of a <see cref="Microsoft.Reactive.Testing.Subscription"/> object, which can be used to compare with actual results on <see cref="ITestableObservable{T}"/>.
         /// </returns>
         public static Subscription Subscription(
-            TimeSpan subscribeTime, 
+            TimeSpan subscribeTime,
             TimeSpan unsubscribeTime)
         {
             return new Subscription(subscribeTime.Ticks, unsubscribeTime.Ticks);
@@ -199,7 +199,7 @@
         /// An instance of a <see cref="Microsoft.Reactive.Testing.Subscription"/> object, which can be used to compare with actual results on <see cref="ITestableObservable{T}"/>.
         /// </returns>
         public static Subscription Subscription(
-            long subscribeTimeAsTicks, 
+            long subscribeTimeAsTicks,
             long unsubscribeTimeAsTicks)
         {
             return new Subscription(subscribeTimeAsTicks, unsubscribeTimeAsTicks);

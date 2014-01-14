@@ -41,8 +41,8 @@
         [PublicAPI]
         [Obsolete("Testeroids now automatically resets the calls just before calling the Because() method.")]
         public static void VerifyCalledOnceDuringBecause<T>(
-            this ITesteroidsMock<T> mock, 
-            ContextSpecificationBase contextSpecification, 
+            this ITesteroidsMock<T> mock,
+            ContextSpecificationBase contextSpecification,
             Expression<Action<T>> verifyMethod) where T : class
         {
             mock.VerifyNumberOfCallsDuringBecause(contextSpecification, verifyMethod, Times.Never(), Times.Once());
@@ -72,10 +72,10 @@
         [PublicAPI]
         [Obsolete("Testeroids now automatically resets the calls just before calling the Because() method.")]
         public static void VerifyNumberOfCallsDuringBecause<T>(
-            this ITesteroidsMock<T> mock, 
-            ContextSpecificationBase contextSpecification, 
-            Expression<Action<T>> expression, 
-            Times numberBefore, 
+            this ITesteroidsMock<T> mock,
+            ContextSpecificationBase contextSpecification,
+            Expression<Action<T>> expression,
+            Times numberBefore,
             Times numberAfter) where T : class
         {
             mock.Verify(expression, numberBefore);

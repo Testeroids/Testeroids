@@ -2,6 +2,7 @@
 {
     using System;
     using System.Reactive.Concurrency;
+    using System.Threading.Tasks;
 
     using JetBrains.Annotations;
 
@@ -31,8 +32,8 @@
         /// The <see cref="ITestableObserver{T}"/> which has been used to consume the <see cref="IObservable{T}"/>.
         /// </returns>
         public static ITestableObserver<T> Consume<T>(
-            [NotNull] this TestScheduler scheduler, 
-            Func<IObservable<T>> create, 
+            [NotNull] this TestScheduler scheduler,
+            Func<IObservable<T>> create,
             TimeSpan absoluteEndTime)
         {
             return scheduler.Consume(create, absoluteEndTime.Ticks);
@@ -48,8 +49,8 @@
         /// </returns>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="scheduler"/> or <paramref name="action"/> is null.</exception>
         public static IDisposable ScheduleRelative(
-            [NotNull] this VirtualTimeScheduler<long, long> scheduler, 
-            TimeSpan dueTime, 
+            [NotNull] this VirtualTimeScheduler<long, long> scheduler,
+            TimeSpan dueTime,
             Action action)
         {
             return scheduler.ScheduleRelative(dueTime.Ticks, action);
@@ -62,7 +63,7 @@
         /// <param name="time">Relative time to advance the scheduler's clock by.</param>
         /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="time"/> is negative.</exception>
         public static void Sleep(
-            [NotNull] this VirtualTimeScheduler<long, long> scheduler, 
+            [NotNull] this VirtualTimeScheduler<long, long> scheduler,
             TimeSpan time)
         {
             scheduler.Sleep(time.Ticks);
@@ -101,7 +102,7 @@
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="absoluteEndTime"/> is negative.</exception>
         public static void StartWaitingUntil(
-            [NotNull] this TestScheduler scheduler, 
+            [NotNull] this TestScheduler scheduler,
             TimeSpan absoluteEndTime)
         {
             scheduler.StartWaitingUntil(absoluteEndTime.Ticks);

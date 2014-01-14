@@ -1,9 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="Testeroids" file="RxTestSchedulerAspectAttribute.cs">
-//   © 2012-2014 Testeroids. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-namespace Testeroids.Rx.Aspects
+﻿namespace Testeroids.Rx.Aspects
 {
     using System;
     using System.Diagnostics.CodeAnalysis;

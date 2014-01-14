@@ -16,7 +16,7 @@
         /// <summary>
         /// Return a sequence of values, once per call.
         /// </summary>
-        public static ISetupSequentialResult<TResult> SetupSequence<TMock, TResult>(this ITesteroidsMock<TMock> mock, 
+        public static ISetupSequentialResult<TResult> SetupSequence<TMock, TResult>(this ITesteroidsMock<TMock> mock,
                                                                                     Expression<Func<TMock, TResult>> expression) where TMock : class
         {
             return Mock.Get(mock.Object).SetupSequence(expression);

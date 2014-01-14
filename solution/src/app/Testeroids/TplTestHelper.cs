@@ -71,7 +71,7 @@
         /// <returns><c>true</c> if <paramref name="taskBefore"/> was queued and executed before <paramref name="taskAfter"/>.</returns>
         [PublicAPI]
         public static bool WasTaskExecutedFirstComparedTo(
-            Task taskBefore, 
+            Task taskBefore,
             Task taskAfter)
         {
             if (!WasTaskExecuted(taskBefore))

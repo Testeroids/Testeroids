@@ -152,8 +152,8 @@
         /// The method gotten from intermediate language out of the metadata token.
         /// </returns>
         private static MethodBase GetMethodBaseFromIntermediateLanguage(
-            int metadataToken, 
-            Type establishContextDeclaringType, 
+            int metadataToken,
+            Type establishContextDeclaringType,
             MemberInfo memberInfo)
         {
             try

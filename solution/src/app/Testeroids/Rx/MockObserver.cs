@@ -21,7 +21,7 @@
 
         #region Constructors and Destructors
 
-        public MockObserver(Microsoft.Reactive.Testing.TestScheduler scheduler, 
+        public MockObserver(Microsoft.Reactive.Testing.TestScheduler scheduler,
                             long absoluteEndTime)
         {
             if (scheduler == null)

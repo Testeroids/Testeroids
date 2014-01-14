@@ -194,7 +194,7 @@ namespace Testeroids
         [SuppressMessage("Microsoft.Usage", "CA2200:RethrowToPreserveStackDetails", Justification = "We want to reset the stack trace to avoid Moq noise in it.")]
         [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "Raises the event, rather than being one.")]
         void Raise(Action<T> eventExpression,
-            EventArgs args);
+                   EventArgs args);
 
         /// <summary>
         /// Raises the event referenced in <paramref name="eventExpression"/> using
@@ -216,7 +216,7 @@ namespace Testeroids
         [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "Raises the event, rather than being one.")]
         [SuppressMessage("Microsoft.Usage", "CA2200:RethrowToPreserveStackDetails", Justification = "We want to reset the stack trace to avoid Moq noise in it.")]
         void Raise(Action<T> eventExpression,
-            params object[] args);
+                   params object[] args);
 
         /// <summary>
         /// Specifies a setup on the mocked type for a call
@@ -345,7 +345,7 @@ namespace Testeroids
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", Justification = "We're setting up a property, so it's appropriate.", MessageId = "Property")]
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design")]
         ITesteroidsMock<T> SetupProperty<TProperty>(Expression<Func<T, TProperty>> property,
-            TProperty initialValue);
+                                                    TProperty initialValue);
 
         /// <summary>
         /// Specifies a setup on the mocked type for a call to
@@ -411,7 +411,7 @@ namespace Testeroids
         /// </exception><param name="expression">Expression to verify.</param><param name="times">The number of times a method is allowed to be called.</param>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design")]
         void Verify(Expression<Action<T>> expression,
-            Times times);
+                    Times times);
 
         /// <summary>
         /// Verifies that a specific invocation matching the given expression was performed on the mock,
@@ -432,7 +432,7 @@ namespace Testeroids
         /// <exception cref="T:Moq.MockException">The invocation was not performed on the mock.</exception><param name="expression">Expression to verify.</param><param name="failMessage">Message to show if verification fails.</param>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design")]
         void Verify(Expression<Action<T>> expression,
-            string failMessage);
+                    string failMessage);
 
         /// <summary>
         /// Verifies that a specific invocation matching the given expression was performed on the mock,
@@ -444,8 +444,8 @@ namespace Testeroids
         /// </exception><param name="expression">Expression to verify.</param><param name="times">The number of times a method is allowed to be called.</param><param name="failMessage">Message to show if verification fails.</param>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design")]
         void Verify(Expression<Action<T>> expression,
-            Times times,
-            string failMessage);
+                    Times times,
+                    string failMessage);
 
         /// <summary>
         /// Verifies that a specific invocation matching the given expression was performed on the mock. Use
@@ -476,7 +476,7 @@ namespace Testeroids
         /// </exception><param name="expression">Expression to verify.</param><param name="times">The number of times a method is allowed to be called.</param><typeparam name="TResult">Type of return value from the expression.</typeparam>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design")]
         void Verify<TResult>(Expression<Func<T, TResult>> expression,
-            Times times);
+                             Times times);
 
         /// <summary>
         /// Verifies that a specific invocation matching the given
@@ -498,7 +498,7 @@ namespace Testeroids
         /// <exception cref="T:Moq.MockException">The invocation was not performed on the mock.</exception><param name="expression">Expression to verify.</param><param name="failMessage">Message to show if verification fails.</param><typeparam name="TResult">Type of return value from the expression.</typeparam>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design")]
         void Verify<TResult>(Expression<Func<T, TResult>> expression,
-            string failMessage);
+                             string failMessage);
 
         /// <summary>
         /// Verifies that a specific invocation matching the given
@@ -510,8 +510,8 @@ namespace Testeroids
         /// </exception><param name="expression">Expression to verify.</param><param name="times">The number of times a method is allowed to be called.</param><param name="failMessage">Message to show if verification fails.</param><typeparam name="TResult">Type of return value from the expression.</typeparam>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design")]
         void Verify<TResult>(Expression<Func<T, TResult>> expression,
-            Times times,
-            string failMessage);
+                             Times times,
+                             string failMessage);
 
         /// <summary>
         /// Verifies that a property was read on the mock.
@@ -545,7 +545,7 @@ namespace Testeroids
         /// </typeparam>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design")]
         void VerifyGet<TProperty>(Expression<Func<T, TProperty>> expression,
-            Times times);
+                                  Times times);
 
         /// <summary>
         /// Verifies that a property was read on the mock, specifying a failure
@@ -569,7 +569,7 @@ namespace Testeroids
         /// </typeparam>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design")]
         void VerifyGet<TProperty>(Expression<Func<T, TProperty>> expression,
-            string failMessage);
+                                  string failMessage);
 
         /// <summary>
         /// Verifies that a property was read on the mock, specifying a failure
@@ -582,8 +582,8 @@ namespace Testeroids
         /// </typeparam>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design")]
         void VerifyGet<TProperty>(Expression<Func<T, TProperty>> expression,
-            Times times,
-            string failMessage);
+                                  Times times,
+                                  string failMessage);
 
         /// <summary>
         /// Verifies that a property was set on the mock.
@@ -611,7 +611,7 @@ namespace Testeroids
         /// <paramref name="times"/>.
         /// </exception><param name="times">The number of times a method is allowed to be called.</param><param name="setterExpression">Expression to verify.</param>
         void VerifySet(Action<T> setterExpression,
-            Times times);
+                       Times times);
 
         /// <summary>
         /// Verifies that a property was set on the mock, specifying a failure message.
@@ -630,7 +630,7 @@ namespace Testeroids
         /// </example>
         /// <exception cref="T:Moq.MockException">The invocation was not performed on the mock.</exception><param name="setterExpression">Expression to verify.</param><param name="failMessage">Message to show if verification fails.</param>
         void VerifySet(Action<T> setterExpression,
-            string failMessage);
+                       string failMessage);
 
         /// <summary>
         /// Verifies that a property was set on the mock, specifying
@@ -640,8 +640,8 @@ namespace Testeroids
         ///             <paramref name="times"/>.
         /// </exception><param name="times">The number of times a method is allowed to be called.</param><param name="setterExpression">Expression to verify.</param><param name="failMessage">Message to show if verification fails.</param>
         void VerifySet(Action<T> setterExpression,
-            Times times,
-            string failMessage);
+                       Times times,
+                       string failMessage);
 
         ISetupConditionResult<T> When(Func<bool> condition);
 

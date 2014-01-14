@@ -18,7 +18,7 @@
     [Serializable]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     [MulticastAttributeUsage(MulticastTargets.Method, Inheritance = MulticastInheritance.Strict)]
-    public class CategorizeUnitTestFixturesAspectAttribute : MethodLevelAspect, 
+    public class CategorizeUnitTestFixturesAspectAttribute : MethodLevelAspect,
                                                              IAspectProvider
     {
         #region Constructors and Destructors

@@ -19,8 +19,8 @@
     /// </summary>
     [Serializable]
     [AspectTypeDependency(AspectDependencyAction.Order, AspectDependencyPosition.Before, typeof(ArrangeActAssertAspectAttribute))]
-    [MulticastAttributeUsage(MulticastTargets.Class, 
-        TargetTypeAttributes = MulticastAttributes.AnyScope | MulticastAttributes.AnyVisibility | MulticastAttributes.NonAbstract | MulticastAttributes.Managed, 
+    [MulticastAttributeUsage(MulticastTargets.Class,
+        TargetTypeAttributes = MulticastAttributes.AnyScope | MulticastAttributes.AnyVisibility | MulticastAttributes.NonAbstract | MulticastAttributes.Managed,
         AllowMultiple = false, Inheritance = MulticastInheritance.Strict)]
     public class MakeEmptyTestsInconclusiveAspectAttribute : InstanceLevelAspect
     {

@@ -1,9 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="Testeroids" file="TesteroidsMock.cs">
-//   © 2012-2014 Testeroids. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-namespace Testeroids.Mocking
+﻿namespace Testeroids.Mocking
 {
     using System;
     using System.Collections.Generic;
@@ -19,7 +14,7 @@ namespace Testeroids.Mocking
     using Moq.Language.Flow;
 
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Will add documentation from base interface once that is finished.")]
-    internal class TesteroidsMock : ITesteroidsMock, 
+    internal class TesteroidsMock : ITesteroidsMock,
                                     IMockInternals
     {
         #region Fields
@@ -168,8 +163,8 @@ namespace Testeroids.Mocking
     }
 
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Will add documentation from base interface once that is finished.")]
-    internal class TesteroidsMock<T> : TesteroidsMock, 
-                                       ITesteroidsMock<T>, 
+    internal class TesteroidsMock<T> : TesteroidsMock,
+                                       ITesteroidsMock<T>,
                                        IVerifiedMock
         where T : class
     {
@@ -230,7 +225,7 @@ namespace Testeroids.Mocking
 
         /// <inheritdoc />
         void ITesteroidsMock<T>.Raise(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             EventArgs args)
         {
             this.nakedTypedMock.Raise(eventExpression, args);
@@ -238,7 +233,7 @@ namespace Testeroids.Mocking
 
         /// <inheritdoc />
         void ITesteroidsMock<T>.Raise(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             params object[] args)
         {
             this.nakedTypedMock.Raise(eventExpression, args);
@@ -293,7 +288,7 @@ namespace Testeroids.Mocking
 
         /// <inheritdoc />
         ITesteroidsMock<T> ITesteroidsMock<T>.SetupProperty<TProperty>(
-            Expression<Func<T, TProperty>> property, 
+            Expression<Func<T, TProperty>> property,
             TProperty initialValue)
         {
             this.nakedTypedMock.SetupProperty(property, initialValue);
@@ -327,7 +322,7 @@ namespace Testeroids.Mocking
 
         /// <inheritdoc />
         void ITesteroidsMock<T>.Verify<TResult>(
-            Expression<Func<T, TResult>> expression, 
+            Expression<Func<T, TResult>> expression,
             Times times)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
@@ -337,7 +332,7 @@ namespace Testeroids.Mocking
 
         /// <inheritdoc />
         void ITesteroidsMock<T>.Verify<TResult>(
-            Expression<Func<T, TResult>> expression, 
+            Expression<Func<T, TResult>> expression,
             string failMessage)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
@@ -347,8 +342,8 @@ namespace Testeroids.Mocking
 
         /// <inheritdoc />
         void ITesteroidsMock<T>.Verify<TResult>(
-            Expression<Func<T, TResult>> expression, 
-            Times times, 
+            Expression<Func<T, TResult>> expression,
+            Times times,
             string failMessage)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
@@ -366,7 +361,7 @@ namespace Testeroids.Mocking
 
         /// <inheritdoc />
         void ITesteroidsMock<T>.Verify(
-            Expression<Action<T>> expression, 
+            Expression<Action<T>> expression,
             Times times)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
@@ -376,7 +371,7 @@ namespace Testeroids.Mocking
 
         /// <inheritdoc />
         void ITesteroidsMock<T>.Verify(
-            Expression<Action<T>> expression, 
+            Expression<Action<T>> expression,
             string failMessage)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
@@ -386,8 +381,8 @@ namespace Testeroids.Mocking
 
         /// <inheritdoc />
         void ITesteroidsMock<T>.Verify(
-            Expression<Action<T>> expression, 
-            Times times, 
+            Expression<Action<T>> expression,
+            Times times,
             string failMessage)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
@@ -405,7 +400,7 @@ namespace Testeroids.Mocking
 
         /// <inheritdoc />
         void ITesteroidsMock<T>.VerifyGet<TProperty>(
-            Expression<Func<T, TProperty>> expression, 
+            Expression<Func<T, TProperty>> expression,
             Times times)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
@@ -415,7 +410,7 @@ namespace Testeroids.Mocking
 
         /// <inheritdoc />
         void ITesteroidsMock<T>.VerifyGet<TProperty>(
-            Expression<Func<T, TProperty>> expression, 
+            Expression<Func<T, TProperty>> expression,
             string failMessage)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
@@ -425,8 +420,8 @@ namespace Testeroids.Mocking
 
         /// <inheritdoc />
         void ITesteroidsMock<T>.VerifyGet<TProperty>(
-            Expression<Func<T, TProperty>> expression, 
-            Times times, 
+            Expression<Func<T, TProperty>> expression,
+            Times times,
             string failMessage)
         {
             this.MarkSetUpExpressionAsMatchedByVerifyCall(expression);
@@ -442,14 +437,14 @@ namespace Testeroids.Mocking
 
         /// <inheritdoc />
         void ITesteroidsMock<T>.VerifySet(
-            Action<T> setterExpression, 
+            Action<T> setterExpression,
             Times times)
         {
             this.nakedTypedMock.VerifySet(setterExpression, times);
         }
 
         void ITesteroidsMock<T>.VerifySet(
-            Action<T> setterExpression, 
+            Action<T> setterExpression,
             string failMessage)
         {
             this.nakedTypedMock.VerifySet(setterExpression, failMessage);
@@ -457,8 +452,8 @@ namespace Testeroids.Mocking
 
         /// <inheritdoc />
         void ITesteroidsMock<T>.VerifySet(
-            Action<T> setterExpression, 
-            Times times, 
+            Action<T> setterExpression,
+            Times times,
             string failMessage)
         {
             this.nakedTypedMock.VerifySet(setterExpression, times, failMessage);

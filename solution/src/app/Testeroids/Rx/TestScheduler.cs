@@ -41,7 +41,7 @@
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="absoluteEndTime"/> is negative.</exception>
         public ITestableObserver<T> Consume<T>(
-            Func<IObservable<T>> create, 
+            Func<IObservable<T>> create,
             long absoluteEndTime = long.MaxValue)
         {
             if (this.Comparer.Compare(absoluteEndTime, 0) < 0)
@@ -117,8 +117,8 @@
         /// Thrown when <paramref name="action"/> is null.
         /// </exception>
         public override IDisposable ScheduleAbsolute<TState>(
-            TState state, 
-            long dueTime, 
+            TState state,
+            long dueTime,
             Func<IScheduler, TState, IDisposable> action)
         {
             lock (this.schedulerQueueLockObject)

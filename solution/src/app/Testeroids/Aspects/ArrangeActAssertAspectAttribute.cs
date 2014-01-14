@@ -35,7 +35,7 @@
         ///   Field bound at runtime to a delegate of the method <c>Because</c> .
         /// </summary>
         [NotNull]
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", 
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate",
             Justification = "Reviewed. PostSharp requires this to be public.")]
         [ImportMember("OnBecauseRequested", IsRequired = true)]
         [UsedImplicitly]
@@ -45,7 +45,7 @@
         ///   Field bound at runtime to a delegate of the method <c>RunPrerequisiteTests</c> .
         /// </summary>
         [NotNull]
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", 
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate",
             Justification = "Reviewed. PostSharp requires this to be public.")]
         [ImportMember("RunPrerequisiteTests", IsRequired = true)]
         [UsedImplicitly]
@@ -119,10 +119,9 @@
         {
             try
             {
-                this.OnTestMethodEntry(
-                    (IContextSpecification)args.Instance, 
-                    args.Method, 
-                    this.OnBecauseRequestedMethod);
+                this.OnTestMethodEntry((IContextSpecification)args.Instance,
+                                       args.Method,
+                                       this.OnBecauseRequestedMethod);
             }
             catch (Exception e)
             {
@@ -174,10 +173,11 @@
         {
             const BindingFlags BindingFlags = BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public;
 
-            var selectTestMethods = from methodInfo in type.GetMethods(BindingFlags)
-                                    where methodInfo.IsDefined(typeof(TestAttribute), false) &&
-                                          methodInfo.IsDefined(typeof(ExceptionResilientAttribute), true)
-                                    select methodInfo;
+            var selectTestMethods =
+                from methodInfo in type.GetMethods(BindingFlags)
+                where methodInfo.IsDefined(typeof(TestAttribute), false) &&
+                      methodInfo.IsDefined(typeof(ExceptionResilientAttribute), true)
+                select methodInfo;
             return selectTestMethods;
         }
 
@@ -191,12 +191,13 @@
         {
             const BindingFlags BindingFlags = BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public;
 
-            var selectTestMethods = from methodInfo in type.GetMethods(BindingFlags)
-                                    where
-                                        methodInfo.IsDefined(typeof(TestAttribute), false) &&
-                                        !methodInfo.IsDefined(typeof(DoNotCallBecauseMethodAttribute), true) &&
-                                        !methodInfo.IsDefined(typeof(ExceptionResilientAttribute), true)
-                                    select methodInfo;
+            var selectTestMethods =
+                from methodInfo in type.GetMethods(BindingFlags)
+                where
+                    methodInfo.IsDefined(typeof(TestAttribute), false) &&
+                    !methodInfo.IsDefined(typeof(DoNotCallBecauseMethodAttribute), true) &&
+                    !methodInfo.IsDefined(typeof(ExceptionResilientAttribute), true)
+                select methodInfo;
             return selectTestMethods;
         }
 
@@ -207,8 +208,8 @@
         /// <param name="methodInfo"> The test method. </param>
         /// <param name="becauseAction"> The because method. </param>
         private void OnTestMethodEntry(
-            IContextSpecification instance, 
-            MethodBase methodInfo, 
+            IContextSpecification instance,
+            MethodBase methodInfo,
             Action becauseAction)
         {
             var isRunningInTheContextOfAnotherTest = instance.ArePrerequisiteTestsRunning;

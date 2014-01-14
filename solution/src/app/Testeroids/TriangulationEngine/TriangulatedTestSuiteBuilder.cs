@@ -13,7 +13,7 @@
     /// <summary>
     /// The test suite builder for triangulated tests. Will be responsible for the creation of the combinations of triangulated properties' values.
     /// </summary>
-    public class TriangulatedTestSuiteBuilder : TestSuite, 
+    public class TriangulatedTestSuiteBuilder : TestSuite,
                                                 ITplContextFix
     {
         #region Constructors and Destructors
@@ -43,11 +43,11 @@
                 {
                     triangulatedProperties = contextType
                         .FindMembers(
-                            MemberTypes.Property, 
-                            BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public, 
-                            (info, 
-                             criteria) => info.IsDefined(typeof(TriangulationValuesAttribute), false), 
-                            null)
+                                     MemberTypes.Property,
+                                     BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public,
+                                     (info,
+                                      criteria) => info.IsDefined(typeof(TriangulationValuesAttribute), false),
+                                     null)
                         .Cast<PropertyInfo>()
                         .Concat(triangulatedProperties);
                     contextType = contextType.BaseType;
@@ -108,9 +108,9 @@
         /// <param name="triangulatedProperties">The properties in need of triangulation</param>
         /// <param name="triangulatedSets">Serves as an accumulator and operation output for the outcome of the recursion.</param>
         private void BuildTriangulationSet(
-            IList<Tuple<PropertyInfo, object>> triangulationValues, 
-            Dictionary<PropertyInfo, object[]> possibleValuesForProperties, 
-            IList<PropertyInfo> triangulatedProperties, 
+            IList<Tuple<PropertyInfo, object>> triangulationValues,
+            Dictionary<PropertyInfo, object[]> possibleValuesForProperties,
+            IList<PropertyInfo> triangulatedProperties,
             ICollection<IList<Tuple<PropertyInfo, object>>> triangulatedSets)
         {
             // if the recursion is complete, add the just built set of tiangulated values - representing a complete list of values for all the triangulated properties - to the triangulatedSets.

@@ -13,7 +13,7 @@
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
         public static void AreEqual(
-            int expected, 
+            int expected,
             int? actual)
         {
             NUnit.Framework.Assert.IsNotNull(actual, "The test did not produce a value. Are you sure the Because method was executed?");
@@ -23,9 +23,9 @@
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
         [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
-        public static void AreEqual(object expected, 
-                                    ITesteroidsMock actual, 
-                                    string message, 
+        public static void AreEqual(object expected,
+                                    ITesteroidsMock actual,
+                                    string message,
                                     params object[] args)
         {
             throw new NotImplementedException();
@@ -33,9 +33,9 @@
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
         [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
-        public static void AreEqual(ITesteroidsMock expected, 
-                                    object actual, 
-                                    string message, 
+        public static void AreEqual(ITesteroidsMock expected,
+                                    object actual,
+                                    string message,
                                     params object[] args)
         {
             throw new NotImplementedException();
@@ -43,8 +43,8 @@
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
         [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
-        public static void AreEqual(object expected, 
-                                    ITesteroidsMock actual, 
+        public static void AreEqual(object expected,
+                                    ITesteroidsMock actual,
                                     string message)
         {
             throw new NotImplementedException();
@@ -52,8 +52,8 @@
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
         [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
-        public static void AreEqual(ITesteroidsMock expected, 
-                                    object actual, 
+        public static void AreEqual(ITesteroidsMock expected,
+                                    object actual,
                                     string message)
         {
             throw new NotImplementedException();
@@ -61,7 +61,7 @@
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
         [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
-        public static void AreEqual(object expected, 
+        public static void AreEqual(object expected,
                                     ITesteroidsMock actual)
         {
             throw new NotImplementedException();
@@ -69,7 +69,7 @@
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
         [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
-        public static void AreEqual(ITesteroidsMock expected, 
+        public static void AreEqual(ITesteroidsMock expected,
                                     object actual)
         {
             throw new NotImplementedException();
@@ -77,7 +77,7 @@
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
         public static void AreNotEqual(
-            int expected, 
+            int expected,
             int? actual)
         {
             NUnit.Framework.Assert.IsNotNull(actual, "The test did not produce a value. Are you sure the Because method was executed?");
@@ -87,9 +87,9 @@
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
         [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
-        public static void AreSame(object expected, 
-                                   ITesteroidsMock actual, 
-                                   string message, 
+        public static void AreSame(object expected,
+                                   ITesteroidsMock actual,
+                                   string message,
                                    params object[] args)
         {
             throw new NotImplementedException();
@@ -97,9 +97,9 @@
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
         [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
-        public static void AreSame(ITesteroidsMock expected, 
-                                   object actual, 
-                                   string message, 
+        public static void AreSame(ITesteroidsMock expected,
+                                   object actual,
+                                   string message,
                                    params object[] args)
         {
             throw new NotImplementedException();
@@ -107,8 +107,8 @@
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
         [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
-        public static void AreSame(object expected, 
-                                   ITesteroidsMock actual, 
+        public static void AreSame(object expected,
+                                   ITesteroidsMock actual,
                                    string message)
         {
             throw new NotImplementedException();
@@ -116,8 +116,8 @@
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
         [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
-        public static void AreSame(ITesteroidsMock expected, 
-                                   object actual, 
+        public static void AreSame(ITesteroidsMock expected,
+                                   object actual,
                                    string message)
         {
             throw new NotImplementedException();
@@ -125,7 +125,7 @@
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
         [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
-        public static void AreSame(object expected, 
+        public static void AreSame(object expected,
                                    ITesteroidsMock actual)
         {
             throw new NotImplementedException();
@@ -133,7 +133,7 @@
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
         [Obsolete("Asserting the value of an ITesteroidsMock does not make sense. Are you sure you didn't forget to use the Object property?", true)]
-        public static void AreSame(ITesteroidsMock expected, 
+        public static void AreSame(ITesteroidsMock expected,
                                    object actual)
         {
             throw new NotImplementedException();
@@ -141,7 +141,7 @@
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
         public static void Greater(
-            int expected, 
+            int expected,
             int? actual)
         {
             NUnit.Framework.Assert.IsNotNull(actual, "The test did not produce a value. Are you sure the Because method was executed?");
@@ -151,7 +151,7 @@
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
         public static void GreaterOrEqual(
-            int expected, 
+            int expected,
             int? actual)
         {
             NUnit.Framework.Assert.IsNotNull(actual, "The test did not produce a value. Are you sure the Because method was executed?");
@@ -185,7 +185,7 @@
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
         public static void Less(
-            int expected, 
+            int expected,
             int? actual)
         {
             NUnit.Framework.Assert.IsNotNull(actual, "The test did not produce a value. Are you sure the Because method was executed?");
@@ -195,7 +195,7 @@
 
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
         public static void LessOrEqual(
-            int expected, 
+            int expected,
             int? actual)
         {
             NUnit.Framework.Assert.IsNotNull(actual, "The test did not produce a value. Are you sure the Because method was executed?");
