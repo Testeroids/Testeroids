@@ -31,6 +31,15 @@
 
         #endregion
 
+        #region Constructors and Destructors
+
+        public TplContextAspectAttribute()
+        {
+            this.ExecuteTplTasks = true;
+        }
+
+        #endregion
+
         #region Public Properties
 
         /// <summary>
