@@ -13,19 +13,15 @@
         <description>Testeroids is a framework and a set of guidelines working in concert for great productivity in unit testing of .NET projects.</description>
         <summary>Contains the Context Specification base classes, aspects and unit test helpers used to build .NET unit testing projects based on the AAA (Act/Arrange/Assert) pattern.</summary>
         <releaseNotes />
-        <copyright>Copyright Testeroids 2012-2013</copyright>
+        <copyright>Copyright Testeroids 2012-2014</copyright>
         <tags>Aspects Unit Tests</tags>
         <dependencies>
             <dependency id="JetBrains.Annotations.Redist" version="7.1" />
             <dependency id="Moq" version="4.2.1312.1622" />
-            <dependency id="NUnit" version="2.6.2" />
+            <dependency id="NUnit" version="2.6.3" />
             <dependency id="PostSharp" version="3.1.28" />
             <dependency id="RxSchedulers.Switch" version="2.2.2" />
             <dependency id="Rx-Testing" version="2.2.2" />
-            <dependency id="NUnit.AddinsDependencies" version="1.0.0" />
         </dependencies>
     </metadata>
-    <files>
-        <file src="solution\src\app\Testeroids\NuGetContent\TriangulatedFixture.tt" target="content/CodeTemplates/TesteroidsAddins/TriangulatedFixture.tt"/>
-    </files>
 </package>
