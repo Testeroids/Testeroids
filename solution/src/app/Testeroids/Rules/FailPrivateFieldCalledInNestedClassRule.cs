@@ -1,27 +1,20 @@
-﻿namespace Testeroids.Aspects
+﻿namespace Testeroids.Rules
 {
     using System;
     using System.Linq;
     using System.Reflection;
 
-    using PostSharp.Aspects;
-    using PostSharp.Aspects.Dependencies;
-    using PostSharp.Extensibility;
+    using Testeroids.Aspects;
 
     /// <summary>
     ///   Test that private fields are not called in nested classes.
     /// </summary>
     [Serializable]
-    [AspectTypeDependency(AspectDependencyAction.Order, AspectDependencyPosition.Before, typeof(ArrangeActAssertAspectAttribute))]
-    [MulticastAttributeUsage(MulticastTargets.Class, 
-        TargetTypeAttributes = MulticastAttributes.AnyScope | MulticastAttributes.AnyVisibility | MulticastAttributes.NonAbstract | MulticastAttributes.Managed, 
-        AllowMultiple = false, Inheritance = MulticastInheritance.Strict)]
-    public class FailPrivateFieldCalledInNestedClassAspectAttribute : InstanceLevelAspect
+    public class FailPrivateFieldCalledInNestedClassRule : InstanceLevelRule
     {
         #region Public Methods and Operators
 
         /// <summary>
-        /// The compile time validate.
         /// Checks that there is no private field in given class if this is abstract.
         /// </summary>
         /// <param name="type"> The class to be checked.</param>
@@ -46,7 +39,7 @@
                 return ErrorService.RaiseError(this.GetType(), type, e.Message);
             }
 
-            return base.CompileTimeValidate(type);
+            return true;
         }
 
         #endregion

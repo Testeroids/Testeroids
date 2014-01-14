@@ -1,22 +1,16 @@
-﻿namespace Testeroids.Aspects
+﻿namespace Testeroids.Rules
 {
     using System;
     using System.Linq;
     using System.Reflection;
 
-    using PostSharp.Aspects;
-    using PostSharp.Aspects.Dependencies;
-    using PostSharp.Extensibility;
+    using Testeroids.Aspects;
 
     /// <summary>
     ///   Test if the EstablishContext Method always calls the base.EstablishContext.
     /// </summary>
     [Serializable]
-    [AspectTypeDependency(AspectDependencyAction.Order, AspectDependencyPosition.Before, typeof(ArrangeActAssertAspectAttribute))]
-    [MulticastAttributeUsage(MulticastTargets.Class, 
-        TargetTypeAttributes = MulticastAttributes.AnyScope | MulticastAttributes.AnyVisibility | MulticastAttributes.NonAbstract | MulticastAttributes.Managed, 
-        AllowMultiple = false, Inheritance = MulticastInheritance.Strict)]
-    public class FailNotCalledBaseEstablishContextAspectAttribute : InstanceLevelAspect
+    public class FailNotCalledBaseEstablishContextRule : InstanceLevelRule
     {
         #region Constants
 
@@ -30,12 +24,13 @@
         #region Public Methods and Operators
 
         /// <summary>
-        ///   The compile time validate.
+        ///   Verifies that base.EstablishContext is always called.
         /// </summary>
         /// <param name="type"> The class to be checked. </param>
         /// <returns> The System.Boolean. </returns>
         public override bool CompileTimeValidate(Type type)
         {
+// ReSharper disable once InvertIf
             if (TypeInvestigationService.GetAllTestMethods(type).Any())
             {
                 try
@@ -117,7 +112,7 @@
                 }
             }
 
-            return base.CompileTimeValidate(type);
+            return true;
         }
 
         #endregion

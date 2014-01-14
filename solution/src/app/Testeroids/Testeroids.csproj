@@ -101,13 +101,16 @@
     <Compile Include="Aspects\Attributes\DoNotCallBecauseMethodAttribute.cs" />
     <Compile Include="Aspects\Attributes\ExceptionResilientAttribute.cs" />
     <Compile Include="Aspects\CategorizeUnitTestFixturesAspectAttribute.cs" />
+    <Compile Include="Aspects\EnforceInstanceLevelRulesAspectAttribute.cs" />
     <Compile Include="Aspects\ErrorService.cs" />
-    <Compile Include="Aspects\FailNotCalledBaseEstablishContextAspectAttribute.cs" />
-    <Compile Include="Aspects\FailPrivateFieldCalledInNestedClassAspectAttribute.cs" />
-    <Compile Include="Aspects\FailTestFixtureWithoutTestAspectAttribute.cs" />
+    <Compile Include="Rules\FailNotCalledBaseEstablishContextRule.cs" />
+    <Compile Include="Rules\FailPrivateFieldCalledInNestedClassRule.cs" />
+    <Compile Include="Rules\FailTestFixtureWithoutTestRule.cs" />
     <Compile Include="Aspects\MakeEmptyTestsInconclusiveAspectAttribute.cs" />
-    <Compile Include="Aspects\ProhibitGetOnNotInitializedPropertyAspectAttribute.cs" />
-    <Compile Include="Aspects\ProhibitSetOnInitializedPropertyAspectAttribute.cs" />
+    <Compile Include="Rules\InstanceLevelRule.cs" />
+    <Compile Include="Rules\IRule.cs" />
+    <Compile Include="Rules\ProhibitGetOnNotInitializedPropertyRule.cs" />
+    <Compile Include="Rules\ProhibitSetOnInitializedPropertyRule.cs" />
     <Compile Include="Aspects\TypeInvestigationService.cs" />
     <Compile Include="Assert.cs" />
     <Compile Include="ContextSpecification.cs" />
@@ -143,6 +146,9 @@
     </Compile>
     <Compile Include="PropertyAlreadyInitializedException.cs" />
     <Compile Include="PropertyNotInitializedException.cs" />
+    <Compile Include="Rules\IInstanceLevelRule.cs" />
+    <Compile Include="Rules\IPropertyAccessRule.cs" />
+    <Compile Include="Rules\Rule.cs" />
     <Compile Include="Rx\Aspects\RxContextAspectAttribute.cs" />
     <Compile Include="Rx\Aspects\RxTestSchedulerAspectAttribute.cs" />
     <Compile Include="Rx\TestSchedulerExtensions.cs" />
@@ -190,6 +196,7 @@
   <ItemGroup>
     <None Include="Resources\PostSharpLicense.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <Import Project="..\..\..\packages\PostSharp.3.1.28\tools\PostSharp.targets" Condition="Exists('..\..\..\packages\PostSharp.3.1.28\tools\PostSharp.targets')" />
