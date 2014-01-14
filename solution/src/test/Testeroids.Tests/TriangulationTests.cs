@@ -12,7 +12,7 @@
 
     using Testeroids.Mocking;
 
-    public class SuiteBuildersTests
+    public class TriangulationTests
     {
         public abstract class given_instantiated_Sut : ContextSpecification<Test>
         {
