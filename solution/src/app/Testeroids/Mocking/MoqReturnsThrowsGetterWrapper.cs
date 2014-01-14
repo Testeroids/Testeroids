@@ -22,8 +22,8 @@
         #region Constructors and Destructors
 
         public MoqReturnsThrowsGetterWrapper(
-            LambdaExpression expression, 
-            IReturnsThrowsGetter<TMock, TResult> returnsThrowsGetter, 
+            LambdaExpression expression,
+            IReturnsThrowsGetter<TMock, TResult> returnsThrowsGetter,
             IVerifiedMock testeroidsMock)
         {
             this.expression = expression;
@@ -36,6 +36,13 @@
         #region Explicit Interface Methods
 
         /// <inheritdoc/>
+        IReturnsResult<TMock> IReturnsGetter<TMock, TResult>.CallBase()
+        {
+            var returnsResult = this.wrappedReturnsThrowsGetter.CallBase();
+            return new MoqReturnsResultWrapper<TMock>(this.expression, returnsResult, this.testeroidsMock);
+        }
+
+        /// <inheritdoc/>
         IReturnsResult<TMock> IReturnsGetter<TMock, TResult>.Returns(TResult value)
         {
             var returnsResult = this.wrappedReturnsThrowsGetter.Returns(value);
@@ -46,14 +53,6 @@
         IReturnsResult<TMock> IReturnsGetter<TMock, TResult>.Returns(Func<TResult> valueFunction)
         {
             var returnsResult = this.wrappedReturnsThrowsGetter.Returns(valueFunction);
-            return new MoqReturnsResultWrapper<TMock>(this.expression, returnsResult, this.testeroidsMock);
-        }
-
-
-        /// <inheritdoc/>
-        IReturnsResult<TMock> IReturnsGetter<TMock, TResult>.CallBase()
-        {
-            var returnsResult = this.wrappedReturnsThrowsGetter.CallBase();
             return new MoqReturnsResultWrapper<TMock>(this.expression, returnsResult, this.testeroidsMock);
         }
 

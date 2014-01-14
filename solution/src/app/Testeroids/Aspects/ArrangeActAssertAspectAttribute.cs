@@ -129,9 +129,9 @@
             try
             {
                 this.OnTestMethodEntry(
-                    (IContextSpecification)args.Instance,
-                    args.Method,
-                    this.OnBecauseRequestedMethod);
+                                       (IContextSpecification)args.Instance,
+                                       args.Method,
+                                       this.OnBecauseRequestedMethod);
             }
             catch (Exception e)
             {
@@ -139,10 +139,10 @@
                 var siblingTestMethods = GetTestMethods(args.Instance.GetType());
                 var expectedExceptions =
                     siblingTestMethods.SelectMany(testMethod => testMethod.GetCustomAttributes(typeof(ExpectedExceptionAttribute), false))
-                        .Cast<ExpectedExceptionAttribute>()
-                        .Select(attr => attr.ExpectedException)
-                        .Distinct()
-                        .ToArray();
+                                      .Cast<ExpectedExceptionAttribute>()
+                                      .Select(attr => attr.ExpectedException)
+                                      .Distinct()
+                                      .ToArray();
 
                 if (!expectedExceptions.Contains(null) && expectedExceptions.All(exceptionTypeToIgnore => !exceptionTypeToIgnore.IsInstanceOfType(e)))
                 {

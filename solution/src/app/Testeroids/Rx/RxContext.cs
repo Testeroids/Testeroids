@@ -50,27 +50,27 @@
             /// <summary>
             /// Used as an internal reference for the <see cref="System.Reactive.Concurrency.CurrentThreadScheduler"/> in the <see cref="testSchedulers"/> array.
             /// </summary>
-            CurrentThread, 
+            CurrentThread,
 
             /// <summary>
             /// Used as an internal reference for the <see cref="System.Reactive.Concurrency.DispatcherScheduler"/> in the <see cref="testSchedulers"/> array.
             /// </summary>
-            Dispatcher, 
+            Dispatcher,
 
             /// <summary>
             /// Used as an internal reference for the <see cref="System.Reactive.Concurrency.ImmediateScheduler"/> in the <see cref="testSchedulers"/> array.
             /// </summary>
-            Immediate, 
+            Immediate,
 
             /// <summary>
             /// Used as an internal reference for the <see cref="System.Reactive.Concurrency.NewThreadScheduler"/> in the <see cref="testSchedulers"/> array.
             /// </summary>
-            NewThread, 
+            NewThread,
 
             /// <summary>
             /// Used as an internal reference for the <see cref="System.Reactive.Concurrency.TaskPoolScheduler"/> in the <see cref="testSchedulers"/> array.
             /// </summary>
-            TaskPool, 
+            TaskPool,
 
             /// <summary>
             /// Used as an internal reference for the <see cref="ThreadPoolScheduler"/> in the <see cref="testSchedulers"/> array.

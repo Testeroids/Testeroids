@@ -10,8 +10,8 @@
     /// Currently not functional as EstablishContext method is called multiple times.
     /// </summary>
     [Serializable]
-    public class ProhibitSetOnInitializedPropertyRule : InstanceLevelRule, 
-        IPropertyAccessRule
+    public class ProhibitSetOnInitializedPropertyRule : InstanceLevelRule,
+                                                        IPropertyAccessRule
     {
         #region Fields
 

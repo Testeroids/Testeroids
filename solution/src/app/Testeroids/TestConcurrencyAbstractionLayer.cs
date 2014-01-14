@@ -82,7 +82,7 @@
         /// Disposable object that can be used to cancel the queued method.
         /// </returns>
         public IDisposable QueueUserWorkItem(
-            Action<object> action, 
+            Action<object> action,
             object state)
         {
             if (this.UseDefaultScheduler)
@@ -117,7 +117,7 @@
         /// </returns>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         public IDisposable StartPeriodicTimer(
-            Action action, 
+            Action action,
             TimeSpan period)
         {
             if (this.UseDefaultScheduler)
@@ -151,7 +151,7 @@
         /// <param name="action">Method to execute.</param><param name="state">State to pass to the method.</param>
         /// <exception cref="NotImplementedException">Not implemented.</exception>
         public void StartThread(
-            Action<object> action, 
+            Action<object> action,
             object state)
         {
             if (this.UseDefaultScheduler)
@@ -171,8 +171,8 @@
         /// Disposable object that can be used to stop the timer.
         /// </returns>
         public IDisposable StartTimer(
-            Action<object> action, 
-            object state, 
+            Action<object> action,
+            object state,
             TimeSpan dueTime)
         {
             if (this.UseDefaultScheduler)

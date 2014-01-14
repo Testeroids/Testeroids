@@ -7,7 +7,7 @@
     using Moq.Language;
     using Moq.Language.Flow;
 
-    internal class MoqThrowsResultWrapper : IThrowsResult, 
+    internal class MoqThrowsResultWrapper : IThrowsResult,
                                             IVerifiesInternals
     {
         #region Fields
@@ -19,8 +19,8 @@
         #region Constructors and Destructors
 
         public MoqThrowsResultWrapper(
-            LambdaExpression expression, 
-            IThrowsResult throwsResult, 
+            LambdaExpression expression,
+            IThrowsResult throwsResult,
             IVerifiedMock testeroidsMock)
         {
             this.Expression = expression;

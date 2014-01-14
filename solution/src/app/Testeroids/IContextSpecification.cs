@@ -1,9 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="Testeroids" file="IContextSpecification.cs">
-//   © 2012-2014 Testeroids. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-namespace Testeroids
+﻿namespace Testeroids
 {
     using System.ComponentModel;
 

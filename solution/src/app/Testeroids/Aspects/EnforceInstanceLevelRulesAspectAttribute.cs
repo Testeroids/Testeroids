@@ -15,8 +15,8 @@
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    [MulticastAttributeUsage(MulticastTargets.Class, 
-        TargetTypeAttributes = MulticastAttributes.AnyScope | MulticastAttributes.AnyVisibility | MulticastAttributes.NonAbstract | MulticastAttributes.Managed, 
+    [MulticastAttributeUsage(MulticastTargets.Class,
+        TargetTypeAttributes = MulticastAttributes.AnyScope | MulticastAttributes.AnyVisibility | MulticastAttributes.NonAbstract | MulticastAttributes.Managed,
         AllowMultiple = false, Inheritance = MulticastInheritance.Strict)]
     public class EnforceInstanceLevelRulesAspectAttribute : InstanceLevelAspect
     {
@@ -48,8 +48,8 @@
                                           new FailTestFixtureWithoutTestRule(),
                                           new ProhibitGetOnNotInitializedPropertyRule(),
  
-                                           // Currently not working as expected, EstablishContext is called multiple times.
-                                           // new ProhibitSetOnInitializedPropertyRule()
+                                          // Currently not working as expected, EstablishContext is called multiple times.
+                                          // new ProhibitSetOnInitializedPropertyRule()
                                       };
 
             this.propertyAccessRules = this.instanceLevelRules.OfType<IPropertyAccessRule>().ToArray();
@@ -79,7 +79,6 @@
                 // do not break as some validators raise errors.
                 validates = validates | rule.CompileTimeValidate(type);
             }
-
 
             return validates;
         }

@@ -11,8 +11,8 @@
     /// child test class.
     /// </summary>
     [Serializable]
-    public class ProhibitGetOnNotInitializedPropertyRule : InstanceLevelRule, 
-        IPropertyAccessRule
+    public class ProhibitGetOnNotInitializedPropertyRule : InstanceLevelRule,
+                                                           IPropertyAccessRule
     {
         #region Fields
 

@@ -39,7 +39,7 @@
             /// </returns>
             /// <param name="x">The first object to compare. </param><param name="y">The second object to compare. </param><exception cref="T:System.ArgumentException">Neither <paramref name="x"/> nor <paramref name="y"/> implements the <see cref="T:System.IComparable"/> interface.-or- <paramref name="x"/> and <paramref name="y"/> are of different types and neither one can handle comparisons with the other. </exception><filterpriority>2</filterpriority>
             public int Compare(
-                object x, 
+                object x,
                 object y)
             {
                 return object.ReferenceEquals(x, y)

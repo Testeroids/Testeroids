@@ -8,8 +8,11 @@
     /// Abstract rule that can be enforced by <see cref="EnforceInstanceLevelRulesAspectAttribute"/>.
     /// </summary>
     [Serializable]
-    public abstract class InstanceLevelRule : Rule, IInstanceLevelRule
+    public abstract class InstanceLevelRule : Rule,
+                                              IInstanceLevelRule
     {
+        #region Public Methods and Operators
+
         /// <summary>
         /// Validates if the <paramref name="type"/> conforms to the rule.
         /// Raises Errors if not.
@@ -24,5 +27,7 @@
         {
             return true;
         }
+
+        #endregion
     }
 }

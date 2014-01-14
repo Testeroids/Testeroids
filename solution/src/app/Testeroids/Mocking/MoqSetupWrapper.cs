@@ -7,7 +7,7 @@
     using Moq.Language;
     using Moq.Language.Flow;
 
-    internal class MoqSetupWrapper<T> : IVerifiesInternals, 
+    internal class MoqSetupWrapper<T> : IVerifiesInternals,
                                         Moq.Language.Flow.ISetup<T>
         where T : class
     {
@@ -20,8 +20,8 @@
         #region Constructors and Destructors
 
         public MoqSetupWrapper(
-            ISetup<T> setup, 
-            LambdaExpression expression, 
+            ISetup<T> setup,
+            LambdaExpression expression,
             IVerifiedMock testeroidsMock)
         {
             this.Expression = expression;
@@ -182,7 +182,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<T>.Raises(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             EventArgs args)
         {
             return this.wrappedSetup.Raises(eventExpression, args);
@@ -190,7 +190,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<T>.Raises(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             Func<EventArgs> func)
         {
             return this.wrappedSetup.Raises(eventExpression, func);
@@ -198,7 +198,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<T>.Raises(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             params object[] args)
         {
             return this.wrappedSetup.Raises(eventExpression, args);
@@ -206,7 +206,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<T>.Raises<T1>(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             Func<T1, EventArgs> func)
         {
             return this.wrappedSetup.Raises(eventExpression, func);
@@ -214,7 +214,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<T>.Raises<T1, T2>(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             Func<T1, T2, EventArgs> func)
         {
             return this.wrappedSetup.Raises(eventExpression, func);
@@ -222,7 +222,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<T>.Raises<T1, T2, T3>(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             Func<T1, T2, T3, EventArgs> func)
         {
             return this.wrappedSetup.Raises(eventExpression, func);
@@ -230,7 +230,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<T>.Raises<T1, T2, T3, T4>(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             Func<T1, T2, T3, T4, EventArgs> func)
         {
             return this.wrappedSetup.Raises(eventExpression, func);
@@ -238,7 +238,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5>(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             Func<T1, T2, T3, T4, T5, EventArgs> func)
         {
             return this.wrappedSetup.Raises(eventExpression, func);
@@ -246,7 +246,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6>(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, EventArgs> func)
         {
             return this.wrappedSetup.Raises(eventExpression, func);
@@ -254,7 +254,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6, T7>(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, T7, EventArgs> func)
         {
             return this.wrappedSetup.Raises(eventExpression, func);
@@ -262,7 +262,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6, T7, T8>(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, T7, T8, EventArgs> func)
         {
             return this.wrappedSetup.Raises(eventExpression, func);
@@ -270,7 +270,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9>(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, EventArgs> func)
         {
             return this.wrappedSetup.Raises(eventExpression, func);
@@ -278,7 +278,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, EventArgs> func)
         {
             return this.wrappedSetup.Raises(eventExpression, func);
@@ -286,7 +286,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, EventArgs> func)
         {
             return this.wrappedSetup.Raises(eventExpression, func);
@@ -294,7 +294,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, EventArgs> func)
         {
             return this.wrappedSetup.Raises(eventExpression, func);
@@ -302,7 +302,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, EventArgs> func)
         {
             return this.wrappedSetup.Raises(eventExpression, func);
@@ -310,7 +310,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, EventArgs> func)
         {
             return this.wrappedSetup.Raises(eventExpression, func);
@@ -318,7 +318,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, EventArgs> func)
         {
             return this.wrappedSetup.Raises(eventExpression, func);
@@ -326,7 +326,7 @@
 
         /// <inheritdoc/>
         IVerifies IRaise<T>.Raises<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(
-            Action<T> eventExpression, 
+            Action<T> eventExpression,
             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, EventArgs> func)
         {
             return this.wrappedSetup.Raises(eventExpression, func);
@@ -361,7 +361,7 @@
         #endregion
     }
 
-    internal class MoqSetupWrapper<T, TResult> : Moq.Language.Flow.ISetup<T, TResult>, 
+    internal class MoqSetupWrapper<T, TResult> : Moq.Language.Flow.ISetup<T, TResult>,
                                                  IVerifiesInternals
         where T : class
     {
@@ -374,8 +374,8 @@
         #region Constructors and Destructors
 
         public MoqSetupWrapper(
-            ISetup<T, TResult> setup, 
-            Expression<Func<T, TResult>> expression, 
+            ISetup<T, TResult> setup,
+            Expression<Func<T, TResult>> expression,
             IVerifiedMock testeroidsMock)
         {
             this.wrappedSetup = setup;
@@ -394,6 +394,13 @@
         #endregion
 
         #region Public Methods and Operators
+
+        /// <inheritdoc/>
+        public IReturnsResult<T> CallBase()
+        {
+            var returnsResult = this.wrappedSetup.CallBase();
+            return new MoqReturnsResultWrapper<T>(this.Expression, returnsResult, this.TesteroidsMock);
+        }
 
         /// <inheritdoc/>
         public IReturnsThrows<T, TResult> Callback(Action action)
@@ -532,13 +539,6 @@
         public IReturnsResult<T> Returns<T1>(Func<T1, TResult> valueFunction)
         {
             var returnsResult = this.wrappedSetup.Returns(valueFunction);
-            return new MoqReturnsResultWrapper<T>(this.Expression, returnsResult, this.TesteroidsMock);
-        }
-
-        /// <inheritdoc/>
-        public IReturnsResult<T> CallBase()
-        {
-            var returnsResult = this.wrappedSetup.CallBase();
             return new MoqReturnsResultWrapper<T>(this.Expression, returnsResult, this.TesteroidsMock);
         }
 

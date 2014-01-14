@@ -12,7 +12,7 @@
 
         void Clear();
 
-        int Sum(int a, 
+        int Sum(int a,
                 int b);
 
         #endregion

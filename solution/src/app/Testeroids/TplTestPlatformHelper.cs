@@ -70,7 +70,7 @@
             /// <param name="taskWasPreviouslyQueued">Whether the Task was previously queued to the scheduler.</param>
             /// <returns>True if the Task was successfully executed; otherwise, false.</returns>
             protected override bool TryExecuteTaskInline(
-                Task task, 
+                Task task,
                 bool taskWasPreviouslyQueued)
             {
                 this.QueueTask(task);
@@ -162,7 +162,7 @@
             /// <param name="taskWasPreviouslyQueued">Whether the Task was previously queued to the scheduler.</param>
             /// <returns>True if the Task was successfully executed; otherwise, false.</returns>
             protected override bool TryExecuteTaskInline(
-                Task task, 
+                Task task,
                 bool taskWasPreviouslyQueued)
             {
                 if (taskWasPreviouslyQueued)

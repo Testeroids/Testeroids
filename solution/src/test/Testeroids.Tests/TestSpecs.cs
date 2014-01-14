@@ -9,7 +9,6 @@
 
     using NUnit.Framework;
 
-    using Testeroids.Aspects.Attributes;
     using Testeroids.Mocking;
 
     public abstract class TestSpecs

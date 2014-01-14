@@ -8,11 +8,15 @@
     [Serializable]
     public abstract class Rule : IRule
     {
+        #region Public Methods and Operators
+
         /// <summary>
         /// Initializes the rule once per instance.
         /// </summary>
         public virtual void Initialize()
         {
         }
+
+        #endregion
     }
 }

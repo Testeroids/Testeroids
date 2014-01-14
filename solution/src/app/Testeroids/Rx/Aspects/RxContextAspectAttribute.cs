@@ -24,7 +24,7 @@
         /// The <see cref="TargetRxContext"/> property on the target class.
         /// </summary>
         [NotNull]
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", 
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate",
             Justification = "Reviewed. PostSharp requires this to be public.")]
         [ImportMember("RxContext", IsRequired = false, Order = ImportMemberOrder.AfterIntroductions)]
         [UsedImplicitly]

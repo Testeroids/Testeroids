@@ -31,7 +31,7 @@
         /// The resulting <see cref="TimeSpan"/>.
         /// </returns>
         public static TimeSpan After(
-            this TimeSpan value, 
+            this TimeSpan value,
             TimeSpan valueToAdd)
         {
             return value.Add(valueToAdd);
@@ -75,7 +75,7 @@
         /// The <see cref="TimeSpan"/> representing the moment just after the target <see cref="TimeSpan"/>.
         /// </returns>
         public static TimeSpan Times(
-            this TimeSpan value, 
+            this TimeSpan value,
             long factor)
         {
             return TimeSpan.FromTicks(value.Ticks * factor);

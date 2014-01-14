@@ -139,11 +139,6 @@
                     this.CheckSetupsAreMatchedWithVerifyCalls = true;
                 }
 
-                public when_Clear_is_called_with_triangulation_on_arrays(int[] array)
-                {
-                    this.TriangulatedArray = array;
-                }
-
                 /// <summary>
                 ///   The method being tested. It instantiates the <see cref="Sut"/>.
                 /// </summary>
@@ -151,6 +146,11 @@
                 protected override Test BecauseSutIsCreated()
                 {
                     return new Test(this.MockRepository.CreateMock<ICalculator>().Object);
+                }
+
+                public when_Clear_is_called_with_triangulation_on_arrays(int[] array)
+                {
+                    this.TriangulatedArray = array;
                 }
 
                 #endregion

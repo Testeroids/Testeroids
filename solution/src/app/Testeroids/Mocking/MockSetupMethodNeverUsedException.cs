@@ -21,7 +21,7 @@
         /// The inner exception.
         /// </param>
         public MockSetupMethodNeverUsedException(
-            string message, 
+            string message,
             Exception innerException)
             : base(message, innerException)
         {
