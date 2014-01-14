@@ -29,13 +29,22 @@
         AllowMultiple = false, Inheritance = MulticastInheritance.Strict)]
     public class ArrangeActAssertAspectAttribute : InstanceLevelAspect
     {
+        #region Constants
+
+        /// <summary>
+        /// The <see cref="BindingFlags"/> used to find test methods in a given <see cref="Type"/>.
+        /// </summary>
+        private const BindingFlags TestMethodBindingFlags = BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.FlattenHierarchy;
+
+        #endregion
+
         #region Fields
 
         /// <summary>
         ///   Field bound at runtime to a delegate of the method <c>Because</c> .
         /// </summary>
         [NotNull]
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", 
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate",
             Justification = "Reviewed. PostSharp requires this to be public.")]
         [ImportMember("OnBecauseRequested", IsRequired = true)]
         [UsedImplicitly]
@@ -45,7 +54,7 @@
         ///   Field bound at runtime to a delegate of the method <c>RunPrerequisiteTests</c> .
         /// </summary>
         [NotNull]
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", 
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate",
             Justification = "Reviewed. PostSharp requires this to be public.")]
         [ImportMember("RunPrerequisiteTests", IsRequired = true)]
         [UsedImplicitly]
@@ -120,20 +129,22 @@
             try
             {
                 this.OnTestMethodEntry(
-                    (IContextSpecification)args.Instance, 
-                    args.Method, 
+                    (IContextSpecification)args.Instance,
+                    args.Method,
                     this.OnBecauseRequestedMethod);
             }
             catch (Exception e)
             {
                 // we don't care about exceptions right now
-                var exceptionResilientAttribute =
-                    args.Method.GetCustomAttributes(typeof(ExceptionResilientAttribute), true)
-                        .Cast<ExceptionResilientAttribute>()
-                        .Single();
-                var exceptionTypeToIgnore = exceptionResilientAttribute.ExceptionTypeToIgnore;
+                var siblingTestMethods = GetTestMethods(args.Instance.GetType());
+                var expectedExceptions =
+                    siblingTestMethods.SelectMany(testMethod => testMethod.GetCustomAttributes(typeof(ExpectedExceptionAttribute), false))
+                        .Cast<ExpectedExceptionAttribute>()
+                        .Select(attr => attr.ExpectedException)
+                        .Distinct()
+                        .ToArray();
 
-                if (exceptionTypeToIgnore != null && !exceptionTypeToIgnore.IsInstanceOfType(e))
+                if (!expectedExceptions.Contains(null) && expectedExceptions.All(exceptionTypeToIgnore => !exceptionTypeToIgnore.IsInstanceOfType(e)))
                 {
                     throw;
                 }
@@ -165,6 +176,25 @@
         #region Methods
 
         /// <summary>
+        /// Selects all test methods in a given <paramref name="type"/>.
+        /// </summary>
+        /// <param name="type">
+        /// The type to inspect.
+        /// </param>
+        /// <returns>
+        /// A list of all the test methods in the specified <paramref name="type"/>.
+        /// </returns>
+        private static IEnumerable<MethodInfo> GetTestMethods(Type type)
+        {
+            var testMethods =
+                from method in type.GetMethods(TestMethodBindingFlags)
+                where method.IsDefined(typeof(TestAttribute), false) &&
+                      !method.IsDefined(typeof(DoNotCallBecauseMethodAttribute), false)
+                select method;
+            return testMethods;
+        }
+
+        /// <summary>
         ///   Select the test methods marked with <see cref="Testeroids.Aspects.Attributes.ExceptionResilientAttribute"/>.
         /// </summary>
         /// <param name="type"> The test fixture type to investigate. </param>
@@ -172,13 +202,25 @@
         [UsedImplicitly]
         private static IEnumerable<MethodBase> SelectExceptionResilientTestMethods(Type type)
         {
-            const BindingFlags BindingFlags = BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public;
+            var testMethods = GetTestMethods(type);
+            var nestedTestMethods = type.GetNestedTypes().SelectMany(t => t.GetMethods(TestMethodBindingFlags));
+            var expectedExceptionTestMethods =
+                from testMethod in GetTestMethods(type).Concat(nestedTestMethods).Distinct()
+                where testMethod.IsDefined(typeof(ExpectedExceptionAttribute), false)
+                select testMethod;
 
-            var selectTestMethods = from methodInfo in type.GetMethods(BindingFlags)
-                                    where methodInfo.IsDefined(typeof(TestAttribute), false) &&
-                                          methodInfo.IsDefined(typeof(ExceptionResilientAttribute), true)
-                                    select methodInfo;
-            return selectTestMethods;
+            // If there is any test method marked with ExpectedExceptionAttribute, then all other act as if marked with ExceptionResilientAttribute
+            if (expectedExceptionTestMethods.Any())
+            {
+                return testMethods.Except(expectedExceptionTestMethods);
+            }
+
+            // Otherwise, take only the ones actually marked with ExceptionResilientAttribute
+            var selectedTestMethods =
+                from testMethod in testMethods
+                where testMethod.IsDefined(typeof(ExceptionResilientAttribute), true)
+                select testMethod;
+            return selectedTestMethods;
         }
 
         /// <summary>
@@ -189,15 +231,9 @@
         [UsedImplicitly]
         private static IEnumerable<MethodBase> SelectTestMethods(Type type)
         {
-            const BindingFlags BindingFlags = BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public;
+            var testMethods = GetTestMethods(type);
 
-            var selectTestMethods = from methodInfo in type.GetMethods(BindingFlags)
-                                    where
-                                        methodInfo.IsDefined(typeof(TestAttribute), false) &&
-                                        !methodInfo.IsDefined(typeof(DoNotCallBecauseMethodAttribute), true) &&
-                                        !methodInfo.IsDefined(typeof(ExceptionResilientAttribute), true)
-                                    select methodInfo;
-            return selectTestMethods;
+            return testMethods.Except(SelectExceptionResilientTestMethods(type));
         }
 
         /// <summary>
@@ -207,8 +243,8 @@
         /// <param name="methodInfo"> The test method. </param>
         /// <param name="becauseAction"> The because method. </param>
         private void OnTestMethodEntry(
-            IContextSpecification instance, 
-            MethodBase methodInfo, 
+            IContextSpecification instance,
+            MethodBase methodInfo,
             Action becauseAction)
         {
             var isRunningInTheContextOfAnotherTest = instance.ArePrerequisiteTestsRunning;

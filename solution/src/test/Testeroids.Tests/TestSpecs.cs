@@ -466,7 +466,6 @@
                         this.InjectedCalculatorMock
                             .SetupGet(o => o.Radix)
                             .Returns(10)
-                            .Callback(() => { })
                             .DontEnforceSetupVerification();
 
                         this.InjectedCalculatorMock
@@ -477,21 +476,57 @@
 
                     #endregion
 
-                    /// <summary>
-                    /// Test that the <see cref="given_instantiated_Sut.when_Sum_is_called.with_thrown_TestException.Because"/> method throws a <see cref="TestException"/>.
-                    /// </summary>
                     [Test]
                     [ExpectedException(typeof(TestException))]
                     public void then_TestException_is_thrown()
                     {
                     }
+                }
+
+                public class with_thrown_InvalidOperationException : when_Sum_is_called
+                {
+                    #region Context
+
+                    protected override sealed int EstablishSpecifiedOperand1()
+                    {
+                        // irrelevant
+                        return 0;
+                    }
+
+                    protected override sealed int EstablishSpecifiedOperand2()
+                    {
+                        // irrelevant
+                        return 0;
+                    }
+
+                    protected override void EstablishContext()
+                    {
+                        base.EstablishContext();
+
+                        this.InjectedCalculatorMock
+                            .SetupGet(o => o.Radix)
+                            .Returns(10)
+                            .DontEnforceSetupVerification();
+
+                        this.InjectedCalculatorMock
+                            .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
+                            .Throws<InvalidOperationException>()
+                            .DontEnforceSetupVerification();
+                    }
+
+                    #endregion
 
                     [Test]
-                    [ExceptionResilient(typeof(TestException))]
-                    public void then_Sum_is_called_once_on_InjectedCalculatorMock()
+                    [ExpectedException(typeof(InvalidOperationException))]
+                    public void then_InvalidOperationException_is_thrown()
                     {
-                        this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
                     }
+                }
+
+                [Test]
+                public void then_Sum_is_called_once_on_InjectedCalculatorMock()
+                {
+                    this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
                 }
             }
         }
