@@ -35,18 +35,18 @@
         [PublicAPI]
         public static IEnumerable<Type> GetAbstractContextSpecificationTypes(Type classTypeToInvestigate)
         {
-            return classTypeToInvestigate.GetNestedTypes().Where(IsAbstractContextSpecification);
+            return GetAllNestedTypes(classTypeToInvestigate).Where(IsAbstractContextSpecification);
         }
 
         /// <summary>
         ///   Returns the list of nested types implementing <see cref="IContextSpecification"/> in passed type.
         /// </summary>
-        /// <param name="typeToInvestigate"> The type to investigate. </param>
+        /// <param name="classTypeToInvestigate"> The type to investigate. </param>
         /// <returns> the list of nested types implementing <see cref="IContextSpecification"/>. </returns>
         [PublicAPI]
-        public static IEnumerable<Type> GetAllContextSpecificationTypes(Type typeToInvestigate)
+        public static IEnumerable<Type> GetAllContextSpecificationTypes(Type classTypeToInvestigate)
         {
-            return typeToInvestigate.GetNestedTypes().Where(y => IsContextSpecification(y) || IsAbstractContextSpecification(y));
+            return GetAllNestedTypes(classTypeToInvestigate).Where(y => IsContextSpecification(y) || IsAbstractContextSpecification(y));
         }
 
         /// <summary>
@@ -57,7 +57,8 @@
         [PublicAPI]
         public static IEnumerable<Type> GetAllNestedTypes(Type classTypeToInvestigate)
         {
-            return classTypeToInvestigate.GetNestedTypes();
+            return classTypeToInvestigate.GetNestedTypes()
+                                         .SelectMany(nestedType => new[] { nestedType }.Concat(GetAllNestedTypes(nestedType)));
         }
 
         /// <summary>
@@ -113,6 +114,39 @@
         public static IEnumerable<MethodInfo> GetNonPrerequisiteTestMethods(Type classTypeToInvestigate)
         {
             return GetTestMethods(classTypeToInvestigate, false).Where(y => !IsPrerequisiteTestMethod(y));
+        }
+
+        /// <summary>
+        /// Selects all test methods in a given <paramref name="type"/>.
+        /// </summary>
+        /// <param name="type">
+        /// The type to inspect.
+        /// </param>
+        /// <param name="flattenHierarchy">
+        /// Specifies that tests from parent fixtures should be returned.
+        /// </param>
+        /// <returns>
+        /// A list of all the test methods in the specified <paramref name="type"/>.
+        /// </returns>
+        public static IEnumerable<MethodInfo> GetTestMethods(Type type,
+                                                             bool flattenHierarchy)
+        {
+            var testMethods =
+                from method in type.GetMethods(TestMethodBindingFlags | (flattenHierarchy
+                                                                             ? BindingFlags.FlattenHierarchy
+                                                                             : BindingFlags.Default))
+                where IsTestMethod(method) &&
+                      !method.IsDefined(typeof(DoNotCallBecauseMethodAttribute), false)
+                select method;
+
+            if (!flattenHierarchy)
+            {
+                return from testMethod in testMethods
+                       where testMethod.DeclaringType == type
+                       select testMethod;
+            }
+
+            return testMethods;
         }
 
         /// <summary>
@@ -190,43 +224,6 @@
         public static bool IsTestMethod(MethodBase method)
         {
             return method.IsDefined(typeof(TestAttribute), false);
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Selects all test methods in a given <paramref name="type"/>.
-        /// </summary>
-        /// <param name="type">
-        /// The type to inspect.
-        /// </param>
-        /// <param name="flattenHierarchy">
-        /// Specifies that tests from parent fixtures should be returned.
-        /// </param>
-        /// <returns>
-        /// A list of all the test methods in the specified <paramref name="type"/>.
-        /// </returns>
-        public static IEnumerable<MethodInfo> GetTestMethods(Type type,
-                                                               bool flattenHierarchy)
-        {
-            var testMethods =
-                from method in type.GetMethods(TestMethodBindingFlags | (flattenHierarchy
-                                                                             ? BindingFlags.FlattenHierarchy
-                                                                             : BindingFlags.Default))
-                where IsTestMethod(method) &&
-                      !method.IsDefined(typeof(DoNotCallBecauseMethodAttribute), false)
-                select method;
-
-            if (!flattenHierarchy)
-            {
-                return from testMethod in testMethods
-                       where testMethod.DeclaringType == type
-                       select testMethod;
-            }
-
-            return testMethods;
         }
 
         #endregion

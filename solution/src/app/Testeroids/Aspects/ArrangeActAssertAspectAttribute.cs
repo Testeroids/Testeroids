@@ -173,26 +173,22 @@
         [UsedImplicitly]
         private static IEnumerable<MethodBase> SelectExceptionResilientTestMethods(Type type)
         {
-            var testMethods = TypeInvestigationService.GetTestMethods(type, false).ToArray();
-            var nestedTestMethods = type.GetNestedTypes().SelectMany(nestedType => TypeInvestigationService.GetTestMethods(nestedType, false));
-            var expectedExceptionTestMethods =
-                (from testMethod in testMethods.Concat(nestedTestMethods)
-                 where TypeInvestigationService.IsExpectedExceptionTestMethod(testMethod)
-                 select testMethod)
-                    .ToArray();
+            var testMethodsInContext = TypeInvestigationService.GetAllContextSpecificationTypes(type)
+                                                               .SelectMany(nestedType => TypeInvestigationService.GetTestMethods(nestedType, true));
+            var expectedExceptionTestMethodsInContext = TypeInvestigationService.GetTestMethods(type, true)
+                                                                                .Concat(testMethodsInContext)
+                                                                                .Where(TypeInvestigationService.IsExpectedExceptionTestMethod)
+                                                                                .ToArray();
 
             // If there is any test method marked with ExpectedExceptionAttribute, then all other act as if marked with ExceptionResilientAttribute
-            if (expectedExceptionTestMethods.Any())
+            if (expectedExceptionTestMethodsInContext.Any())
             {
-                return testMethods.Except(expectedExceptionTestMethods);
+                var testMethods = TypeInvestigationService.GetTestMethods(type, false);
+                return testMethods.Except(expectedExceptionTestMethodsInContext).ToArray();
             }
 
             // Otherwise, take only the ones actually marked with ExceptionResilientAttribute
-            var selectedTestMethods =
-                from testMethod in testMethods
-                where TypeInvestigationService.IsExceptionResilientTestMethod(testMethod)
-                select testMethod;
-            return selectedTestMethods;
+            return TypeInvestigationService.GetExceptionResilientTestMethods(type);
         }
 
         /// <summary>
