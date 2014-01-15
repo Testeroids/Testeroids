@@ -1,5 +1,7 @@
 ﻿namespace Testeroids
 {
+    using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Globalization;
@@ -13,6 +15,7 @@
     using NUnit.Framework;
 
     using Testeroids.Aspects;
+    using Testeroids.Aspects.Attributes;
     using Testeroids.Mocking;
 
     /// <summary>
@@ -24,6 +27,10 @@
     [EnforceInstanceLevelRulesAspect]
     public abstract class ContextSpecificationBase : IContextSpecification
     {
+        #region Constants
+
+        #endregion
+
         #region Fields
 
         /// <summary>
@@ -270,9 +277,7 @@
         /// </returns>
         private int GetNumberOfTestsInTestFixture()
         {
-            return this.GetType()
-                       .GetMethods(BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public)
-                       .Count(x => x.IsDefined(typeof(TestAttribute), true));
+            return TypeInvestigationService.GetTestMethods(this.GetType(), true).Count();
         }
 
         #endregion

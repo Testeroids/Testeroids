@@ -88,16 +88,12 @@
         [UsedImplicitly]
         private static IEnumerable<MethodBase> SelectEmptyTestMethods(Type type)
         {
-            const BindingFlags BindingFlags =
-                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.DeclaredOnly |
-                System.Reflection.BindingFlags.Public;
-
             var selectEmptyTestMethods =
-                type.GetMethods(BindingFlags)
-                    .Where(info => (!info.IsAbstract &&
-                                    info.IsDefined(typeof(TestAttribute), false) &&
-                                    !info.IsDefined(typeof(ExpectedExceptionAttribute), true) &&
-                                    GetIntermediateLanguageFromMethodInfoBase(info).Count() <= 2));
+                from testMethod in TypeInvestigationService.GetTestMethods(type, false)
+                where !testMethod.IsAbstract &&
+                      !TypeInvestigationService.IsExpectedExceptionTestMethod(testMethod) &&
+                      GetIntermediateLanguageFromMethodInfoBase(testMethod).Count() <= 2
+                select testMethod;
 
             return selectEmptyTestMethods;
         }

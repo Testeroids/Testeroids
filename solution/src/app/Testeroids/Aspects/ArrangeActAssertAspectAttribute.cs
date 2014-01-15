@@ -29,15 +29,6 @@
         AllowMultiple = false, Inheritance = MulticastInheritance.Strict)]
     public class ArrangeActAssertAspectAttribute : InstanceLevelAspect
     {
-        #region Constants
-
-        /// <summary>
-        /// The <see cref="BindingFlags"/> used to find test methods in a given <see cref="Type"/>.
-        /// </summary>
-        private const BindingFlags TestMethodBindingFlags = BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.FlattenHierarchy;
-
-        #endregion
-
         #region Fields
 
         /// <summary>
@@ -128,21 +119,20 @@
         {
             try
             {
-                this.OnTestMethodEntry(
-                                       (IContextSpecification)args.Instance,
+                this.OnTestMethodEntry((IContextSpecification)args.Instance,
                                        args.Method,
                                        this.OnBecauseRequestedMethod);
             }
             catch (Exception e)
             {
                 // we don't care about exceptions right now
-                var siblingTestMethods = GetTestMethods(args.Instance.GetType());
+                var testMethodsInContext = TypeInvestigationService.GetTestMethods(args.Instance.GetType(), true);
                 var expectedExceptions =
-                    siblingTestMethods.SelectMany(testMethod => testMethod.GetCustomAttributes(typeof(ExpectedExceptionAttribute), false))
-                                      .Cast<ExpectedExceptionAttribute>()
-                                      .Select(attr => attr.ExpectedException)
-                                      .Distinct()
-                                      .ToArray();
+                    testMethodsInContext.SelectMany(testMethod => testMethod.GetCustomAttributes(typeof(ExpectedExceptionAttribute), false))
+                                        .Cast<ExpectedExceptionAttribute>()
+                                        .Select(attr => attr.ExpectedException)
+                                        .Distinct()
+                                        .ToArray();
 
                 if (!expectedExceptions.Contains(null) && expectedExceptions.All(exceptionTypeToIgnore => !exceptionTypeToIgnore.IsInstanceOfType(e)))
                 {
@@ -176,25 +166,6 @@
         #region Methods
 
         /// <summary>
-        /// Selects all test methods in a given <paramref name="type"/>.
-        /// </summary>
-        /// <param name="type">
-        /// The type to inspect.
-        /// </param>
-        /// <returns>
-        /// A list of all the test methods in the specified <paramref name="type"/>.
-        /// </returns>
-        private static IEnumerable<MethodInfo> GetTestMethods(Type type)
-        {
-            var testMethods =
-                from method in type.GetMethods(TestMethodBindingFlags)
-                where method.IsDefined(typeof(TestAttribute), false) &&
-                      !method.IsDefined(typeof(DoNotCallBecauseMethodAttribute), false)
-                select method;
-            return testMethods;
-        }
-
-        /// <summary>
         ///   Select the test methods marked with <see cref="Testeroids.Aspects.Attributes.ExceptionResilientAttribute"/>.
         /// </summary>
         /// <param name="type"> The test fixture type to investigate. </param>
@@ -202,12 +173,13 @@
         [UsedImplicitly]
         private static IEnumerable<MethodBase> SelectExceptionResilientTestMethods(Type type)
         {
-            var testMethods = GetTestMethods(type);
-            var nestedTestMethods = type.GetNestedTypes().SelectMany(t => t.GetMethods(TestMethodBindingFlags));
+            var testMethods = TypeInvestigationService.GetTestMethods(type, false).ToArray();
+            var nestedTestMethods = type.GetNestedTypes().SelectMany(nestedType => TypeInvestigationService.GetTestMethods(nestedType, false));
             var expectedExceptionTestMethods =
-                from testMethod in GetTestMethods(type).Concat(nestedTestMethods).Distinct()
-                where testMethod.IsDefined(typeof(ExpectedExceptionAttribute), false)
-                select testMethod;
+                (from testMethod in testMethods.Concat(nestedTestMethods)
+                 where TypeInvestigationService.IsExpectedExceptionTestMethod(testMethod)
+                 select testMethod)
+                    .ToArray();
 
             // If there is any test method marked with ExpectedExceptionAttribute, then all other act as if marked with ExceptionResilientAttribute
             if (expectedExceptionTestMethods.Any())
@@ -218,7 +190,7 @@
             // Otherwise, take only the ones actually marked with ExceptionResilientAttribute
             var selectedTestMethods =
                 from testMethod in testMethods
-                where testMethod.IsDefined(typeof(ExceptionResilientAttribute), true)
+                where TypeInvestigationService.IsExceptionResilientTestMethod(testMethod)
                 select testMethod;
             return selectedTestMethods;
         }
@@ -231,7 +203,7 @@
         [UsedImplicitly]
         private static IEnumerable<MethodBase> SelectTestMethods(Type type)
         {
-            var testMethods = GetTestMethods(type);
+            var testMethods = TypeInvestigationService.GetTestMethods(type, false);
 
             return testMethods.Except(SelectExceptionResilientTestMethods(type));
         }
@@ -242,10 +214,9 @@
         /// <param name="instance"> The instance of the context specification. </param>
         /// <param name="methodInfo"> The test method. </param>
         /// <param name="becauseAction"> The because method. </param>
-        private void OnTestMethodEntry(
-            IContextSpecification instance,
-            MethodBase methodInfo,
-            Action becauseAction)
+        private void OnTestMethodEntry(IContextSpecification instance,
+                                       MethodBase methodInfo,
+                                       Action becauseAction)
         {
             var isRunningInTheContextOfAnotherTest = instance.ArePrerequisiteTestsRunning;
 

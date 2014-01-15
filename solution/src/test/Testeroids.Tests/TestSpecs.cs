@@ -482,15 +482,9 @@
                     }
                 }
 
-                public class with_thrown_InvalidOperationException : when_Sum_is_called
+                public abstract class with_thrown_InvalidOperationException : when_Sum_is_called
                 {
                     #region Context
-
-                    protected override sealed int EstablishSpecifiedOperand1()
-                    {
-                        // irrelevant
-                        return 0;
-                    }
 
                     protected override sealed int EstablishSpecifiedOperand2()
                     {
@@ -514,6 +508,32 @@
                     }
 
                     #endregion
+
+                    public sealed class with_SpecifiedOperand1_set_to_0 : with_thrown_InvalidOperationException
+                    {
+                        #region Context
+
+                        protected override sealed int EstablishSpecifiedOperand1()
+                        {
+                            // irrelevant
+                            return 0;
+                        }
+
+                        #endregion
+                    }
+
+                    public sealed class with_SpecifiedOperand1_set_to_1 : with_thrown_InvalidOperationException
+                    {
+                        #region Context
+
+                        protected override sealed int EstablishSpecifiedOperand1()
+                        {
+                            // irrelevant
+                            return 1;
+                        }
+
+                        #endregion
+                    }
 
                     [Test]
                     [ExpectedException(typeof(InvalidOperationException))]
