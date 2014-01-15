@@ -1,7 +1,5 @@
 ﻿namespace Testeroids
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Globalization;
@@ -15,7 +13,6 @@
     using NUnit.Framework;
 
     using Testeroids.Aspects;
-    using Testeroids.Aspects.Attributes;
     using Testeroids.Mocking;
 
     /// <summary>
@@ -27,10 +24,6 @@
     [EnforceInstanceLevelRulesAspect]
     public abstract class ContextSpecificationBase : IContextSpecification
     {
-        #region Constants
-
-        #endregion
-
         #region Fields
 
         /// <summary>

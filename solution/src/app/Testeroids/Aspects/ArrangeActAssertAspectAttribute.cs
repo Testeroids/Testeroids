@@ -15,8 +15,6 @@
     using PostSharp.Aspects.Advices;
     using PostSharp.Extensibility;
 
-    using Testeroids.Aspects.Attributes;
-
     /// <summary>
     ///   <see cref="ArrangeActAssertAspectAttribute" /> provides behavior that is necessary for a better integration of AAA syntax with the unit testing framework.
     ///   Specifically, it injects calls to prerequisite tests (marked with <see cref="PrerequisiteAttribute"/>) and to the Because() method into each test in each test fixture.
