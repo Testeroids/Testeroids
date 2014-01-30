@@ -9,7 +9,6 @@
 
     using NUnit.Framework;
 
-    using Testeroids.Aspects.Attributes;
     using Testeroids.Mocking;
 
     public abstract class TestSpecs
@@ -443,55 +442,117 @@
                     }
                 }
 
-                public class with_thrown_TestException : when_Sum_is_called
+                public abstract class with_throw_Exception_Base : when_Sum_is_called
                 {
                     #region Context
 
-                    protected override sealed int EstablishSpecifiedOperand1()
-                    {
-                        // irrelevant
-                        return 0;
-                    }
-
-                    protected override sealed int EstablishSpecifiedOperand2()
-                    {
-                        // irrelevant
-                        return 0;
-                    }
-
-                    protected override void EstablishContext()
-                    {
-                        base.EstablishContext();
-
-                        this.InjectedCalculatorMock
-                            .SetupGet(o => o.Radix)
-                            .Returns(10)
-                            .Callback(() => { })
-                            .DontEnforceSetupVerification();
-
-                        this.InjectedCalculatorMock
-                            .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
-                            .Throws<TestException>()
-                            .DontEnforceSetupVerification();
-                    }
-
                     #endregion
 
-                    /// <summary>
-                    /// Test that the <see cref="given_instantiated_Sut.when_Sum_is_called.with_thrown_TestException.Because"/> method throws a <see cref="TestException"/>.
-                    /// </summary>
-                    [Test]
-                    [ExpectedException(typeof(TestException))]
-                    public void then_TestException_is_thrown()
+                    public class with_thrown_TestException : with_throw_Exception_Base
                     {
+                        #region Context
+
+                        protected override sealed int EstablishSpecifiedOperand1()
+                        {
+                            // irrelevant
+                            return 0;
+                        }
+
+                        protected override sealed int EstablishSpecifiedOperand2()
+                        {
+                            // irrelevant
+                            return 0;
+                        }
+
+                        protected override void EstablishContext()
+                        {
+                            base.EstablishContext();
+
+                            this.InjectedCalculatorMock
+                                .SetupGet(o => o.Radix)
+                                .Returns(10)
+                                .DontEnforceSetupVerification();
+
+                            this.InjectedCalculatorMock
+                                .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
+                                .Throws<TestException>()
+                                .DontEnforceSetupVerification();
+                        }
+
+                        #endregion
+
+                        [Test]
+                        [ExpectedException(typeof(TestException))]
+                        public void then_TestException_is_thrown()
+                        {
+                        }
                     }
 
-                    [Test]
-                    [ExceptionResilient(typeof(TestException))]
-                    public void then_Sum_is_called_once_on_InjectedCalculatorMock()
+                    public abstract class with_thrown_InvalidOperationException : with_throw_Exception_Base
                     {
-                        this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
+                        #region Context
+
+                        protected override sealed int EstablishSpecifiedOperand2()
+                        {
+                            // irrelevant
+                            return 0;
+                        }
+
+                        protected override void EstablishContext()
+                        {
+                            base.EstablishContext();
+
+                            this.InjectedCalculatorMock
+                                .SetupGet(o => o.Radix)
+                                .Returns(10)
+                                .DontEnforceSetupVerification();
+
+                            this.InjectedCalculatorMock
+                                .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
+                                .Throws<InvalidOperationException>()
+                                .DontEnforceSetupVerification();
+                        }
+
+                        #endregion
+
+                        public sealed class with_SpecifiedOperand1_set_to_0 : with_thrown_InvalidOperationException
+                        {
+                            #region Context
+
+                            protected override sealed int EstablishSpecifiedOperand1()
+                            {
+                                // irrelevant
+                                return 0;
+                            }
+
+                            #endregion
+                        }
+
+                        public sealed class with_SpecifiedOperand1_set_to_1 : with_thrown_InvalidOperationException
+                        {
+                            #region Context
+
+                            protected override sealed int EstablishSpecifiedOperand1()
+                            {
+                                // irrelevant
+                                return 1;
+                            }
+
+                            #endregion
+                        }
+
+                        [Test]
+                        [ExpectedException(typeof(InvalidOperationException))]
+                        public void then_InvalidOperationException_is_thrown()
+                        {
+                        }
                     }
+                }
+
+                [Test]
+                public void then_Sum_is_called_once_on_InjectedCalculatorMock()
+                {
+                    this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
                 }
             }
         }

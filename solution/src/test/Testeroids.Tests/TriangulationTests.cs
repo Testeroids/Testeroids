@@ -11,10 +11,8 @@
     using NUnit.Framework;
 
     using Testeroids.Mocking;
-    using Testeroids.Tests.TesteroidsAddins;
-    using Testeroids.TriangulationEngine;
 
-    public class SuiteBuildersTests
+    public class TriangulationTests
     {
         public abstract class given_instantiated_Sut : ContextSpecification<Test>
         {
@@ -36,28 +34,36 @@
 
             #endregion
 
-            /// <summary>
-            /// TODO: This class has 2 test fixtures which require a simpler triangulation mechanism.
-            /// </summary>
-            [TestFixture]
-            [TriangulatedFixture]
+            [TestFixture(0)]
+            [TestFixture(1)]
             public class when_Sum_is_called : given_instantiated_Sut
             {
                 #region Context
+
+                private int CurrentTestSet { get; set; }
 
                 private int Result { get; set; }
 
                 private int ReturnedSum { get; set; }
 
-                [TriangulationValues(10)]
                 private int SpecifiedOperand1 { get; set; }
 
-                [TriangulationValues(7, -7, 8)]
                 private int SpecifiedOperand2 { get; set; }
 
                 protected override void EstablishContext()
                 {
                     base.EstablishContext();
+
+                    var testSets = new[]
+                                   {
+                                       new { SpecifiedOperand1 = 10, SpecifiedOperand2 = 7 },
+                                       new { SpecifiedOperand1 = 10, SpecifiedOperand2 = -7 },
+                                       new { SpecifiedOperand1 = 10, SpecifiedOperand2 = 8 }
+                                   };
+                    var currentTestSet = testSets[this.CurrentTestSet];
+
+                    this.SpecifiedOperand1 = currentTestSet.SpecifiedOperand1;
+                    this.SpecifiedOperand2 = currentTestSet.SpecifiedOperand2;
 
                     this.ReturnedSum = int.MaxValue;
 
@@ -70,6 +76,11 @@
                 protected override sealed void Because()
                 {
                     this.Result = this.Sut.Sum(this.SpecifiedOperand1, this.SpecifiedOperand2);
+                }
+
+                public when_Sum_is_called(int testSet)
+                {
+                    this.CurrentTestSet = testSet;
                 }
 
                 #endregion
@@ -113,15 +124,12 @@
                 }
             }
 
-            [TriangulatedFixture]
+            [TestFixture(new[] { 1, 2 })]
+            [TestFixture(new[] { 3, 4, 5 })]
             public class when_Clear_is_called_with_triangulation_on_arrays : SubjectInstantiationContextSpecification<Test>
             {
                 #region Context
 
-                /// <summary>
-                /// This is supposed to create at least 2 tests.
-                /// </summary>
-                [TriangulationValues(new[] { 1, 2 }, new[] { 3, 4, 5 })]
                 private int[] TriangulatedArray { get; set; }
 
                 protected override void EstablishContext()
@@ -130,8 +138,6 @@
 
                     this.CheckSetupsAreMatchedWithVerifyCalls = true;
                 }
-
-                #endregion
 
                 /// <summary>
                 ///   The method being tested. It instantiates the <see cref="Sut"/>.
@@ -142,6 +148,13 @@
                     return new Test(this.MockRepository.CreateMock<ICalculator>().Object);
                 }
 
+                public when_Clear_is_called_with_triangulation_on_arrays(int[] array)
+                {
+                    this.TriangulatedArray = array;
+                }
+
+                #endregion
+
                 [Test]
                 public void then_TriangulatedArray_is_not_empty()
                 {
@@ -149,15 +162,12 @@
                 }
             }
 
-            [TriangulatedFixture]
+            [TestFixture(new[] { 1, 2 })]
+            [TestFixture(new[] { 3, 4, 5 })]
             public class when_Clear_is_called_with_triangulation_on_enumerables : SubjectInstantiationContextSpecification<Test>
             {
                 #region Context
 
-                /// <summary>
-                /// This is supposed to create at least 2 tests.
-                /// </summary>
-                [TriangulationValues(new[] { 1, 2 }, new[] { 3, 4, 5 })]
                 private IEnumerable<int> TriangulatedEnumerable { get; set; }
 
                 protected override void EstablishContext()
@@ -165,6 +175,11 @@
                     base.EstablishContext();
 
                     this.CheckSetupsAreMatchedWithVerifyCalls = true;
+                }
+
+                public when_Clear_is_called_with_triangulation_on_enumerables(int[] array)
+                {
+                    this.TriangulatedEnumerable = array;
                 }
 
                 #endregion
@@ -188,12 +203,12 @@
                 }
             }
 
-            [TriangulatedFixture]
+            [TestFixture(5)]
+            [TestFixture(6)]
             public abstract class when_Sum_is_called_with_triangulation_on_abstract_Context : given_instantiated_Sut
             {
                 #region Context
 
-                [TriangulationValues(5, 6)]
                 protected int SpecifiedOperand1 { get; private set; }
 
                 private int Result { get; set; }
@@ -220,6 +235,11 @@
                 {
                     this.SpecifiedOperand1 = 0;
                     base.DisposeContext();
+                }
+
+                protected when_Sum_is_called_with_triangulation_on_abstract_Context(int operand1)
+                {
+                    this.SpecifiedOperand1 = operand1;
                 }
 
                 #endregion
@@ -247,6 +267,11 @@
                             .EnforceUsage();
                     }
 
+                    protected with_returned_result(int operand1)
+                        : base(operand1)
+                    {
+                    }
+
                     #endregion
 
                     public class with_SpecifiedOperand2_equal_to_7 : with_returned_result
@@ -256,6 +281,11 @@
                         protected override sealed int EstablishSpecifiedOperand2()
                         {
                             return 7;
+                        }
+
+                        public with_SpecifiedOperand2_equal_to_7(int operand1)
+                            : base(operand1)
+                        {
                         }
 
                         #endregion
@@ -270,6 +300,11 @@
                             return -7;
                         }
 
+                        public with_SpecifiedOperand2_equal_to_minus_7(int operand1)
+                            : base(operand1)
+                        {
+                        }
+
                         #endregion
                     }
 
@@ -281,13 +316,13 @@
                 }
             }
 
-            [TriangulatedFixture]
+            [TestFixture(5)]
+            [TestFixture(6)]
             [TplContextAspect]
-            public abstract class when_Sum_is_called_with_triangulation_on_abstract_Context_and_TplContextAspect : TestSpecs.given_instantiated_Sut
+            public abstract class when_Sum_is_called_with_triangulation_on_abstract_Context_and_TplContextAspect : given_instantiated_Sut
             {
                 #region Context
 
-                [TriangulationValues(5, 6)]
                 protected int SpecifiedOperand1 { get; private set; }
 
                 private int Result { get; set; }
@@ -313,7 +348,13 @@
                 protected override void DisposeContext()
                 {
                     this.SpecifiedOperand1 = 0;
+
                     base.DisposeContext();
+                }
+
+                protected when_Sum_is_called_with_triangulation_on_abstract_Context_and_TplContextAspect(int operand1)
+                {
+                    this.SpecifiedOperand1 = operand1;
                 }
 
                 #endregion
@@ -342,6 +383,11 @@
                             .EnforceUsage();
                     }
 
+                    protected with_returned_result(int operand1)
+                        : base(operand1)
+                    {
+                    }
+
                     #endregion
 
                     public class with_SpecifiedOperand2_equal_to_7 : with_returned_result
@@ -351,6 +397,11 @@
                         protected override sealed int EstablishSpecifiedOperand2()
                         {
                             return 7;
+                        }
+
+                        public with_SpecifiedOperand2_equal_to_7(int operand1)
+                            : base(operand1)
+                        {
                         }
 
                         #endregion
@@ -364,6 +415,12 @@
                     {
                         Assert.AreEqual("TestTaskScheduler", TaskScheduler.Default.GetType().Name);
                     }
+                }
+
+                [Test]
+                public void then_Result_matches_SpecifiedOperand1_plus_SpecifiedOperand2()
+                {
+                    Assert.AreEqual(this.SpecifiedOperand1 + this.SpecifiedOperand2, this.Result);
                 }
             }
         }

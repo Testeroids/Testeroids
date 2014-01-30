@@ -270,9 +270,7 @@
         /// </returns>
         private int GetNumberOfTestsInTestFixture()
         {
-            return this.GetType()
-                       .GetMethods(BindingFlags.FlattenHierarchy | BindingFlags.Instance | BindingFlags.Public)
-                       .Count(x => x.IsDefined(typeof(TestAttribute), true));
+            return TypeInvestigationService.GetTestMethods(this.GetType(), true).Count();
         }
 
         #endregion

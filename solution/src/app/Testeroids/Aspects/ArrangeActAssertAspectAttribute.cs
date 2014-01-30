@@ -15,8 +15,6 @@
     using PostSharp.Aspects.Advices;
     using PostSharp.Extensibility;
 
-    using Testeroids.Aspects.Attributes;
-
     /// <summary>
     ///   <see cref="ArrangeActAssertAspectAttribute" /> provides behavior that is necessary for a better integration of AAA syntax with the unit testing framework.
     ///   Specifically, it injects calls to prerequisite tests (marked with <see cref="PrerequisiteAttribute"/>) and to the Because() method into each test in each test fixture.
@@ -126,13 +124,15 @@
             catch (Exception e)
             {
                 // we don't care about exceptions right now
-                var exceptionResilientAttribute =
-                    args.Method.GetCustomAttributes(typeof(ExceptionResilientAttribute), true)
-                        .Cast<ExceptionResilientAttribute>()
-                        .Single();
-                var exceptionTypeToIgnore = exceptionResilientAttribute.ExceptionTypeToIgnore;
+                var testMethodsInContext = TypeInvestigationService.GetTestMethods(args.Instance.GetType(), true);
+                var expectedExceptions =
+                    testMethodsInContext.SelectMany(testMethod => testMethod.GetCustomAttributes(typeof(ExpectedExceptionAttribute), false))
+                                        .Cast<ExpectedExceptionAttribute>()
+                                        .Select(attr => attr.ExpectedException)
+                                        .Distinct()
+                                        .ToArray();
 
-                if (exceptionTypeToIgnore != null && !exceptionTypeToIgnore.IsInstanceOfType(e))
+                if (!expectedExceptions.Contains(null) && expectedExceptions.All(exceptionTypeToIgnore => !exceptionTypeToIgnore.IsInstanceOfType(e)))
                 {
                     throw;
                 }
@@ -171,14 +171,22 @@
         [UsedImplicitly]
         private static IEnumerable<MethodBase> SelectExceptionResilientTestMethods(Type type)
         {
-            const BindingFlags BindingFlags = BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public;
+            var testMethodsInContext = TypeInvestigationService.GetAllContextSpecificationTypes(type)
+                                                               .SelectMany(nestedType => TypeInvestigationService.GetTestMethods(nestedType, true));
+            var expectedExceptionTestMethodsInContext = TypeInvestigationService.GetTestMethods(type, true)
+                                                                                .Concat(testMethodsInContext)
+                                                                                .Where(TypeInvestigationService.IsExpectedExceptionTestMethod)
+                                                                                .ToArray();
 
-            var selectTestMethods =
-                from methodInfo in type.GetMethods(BindingFlags)
-                where methodInfo.IsDefined(typeof(TestAttribute), false) &&
-                      methodInfo.IsDefined(typeof(ExceptionResilientAttribute), true)
-                select methodInfo;
-            return selectTestMethods;
+            // If there is any test method marked with ExpectedExceptionAttribute, then all other act as if marked with ExceptionResilientAttribute
+            if (expectedExceptionTestMethodsInContext.Any())
+            {
+                var testMethods = TypeInvestigationService.GetTestMethods(type, false);
+                return testMethods.Except(expectedExceptionTestMethodsInContext).ToArray();
+            }
+
+            // Otherwise, take only the ones actually marked with ExceptionResilientAttribute
+            return TypeInvestigationService.GetExceptionResilientTestMethods(type);
         }
 
         /// <summary>
@@ -189,16 +197,9 @@
         [UsedImplicitly]
         private static IEnumerable<MethodBase> SelectTestMethods(Type type)
         {
-            const BindingFlags BindingFlags = BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public;
+            var testMethods = TypeInvestigationService.GetTestMethods(type, false);
 
-            var selectTestMethods =
-                from methodInfo in type.GetMethods(BindingFlags)
-                where
-                    methodInfo.IsDefined(typeof(TestAttribute), false) &&
-                    !methodInfo.IsDefined(typeof(DoNotCallBecauseMethodAttribute), true) &&
-                    !methodInfo.IsDefined(typeof(ExceptionResilientAttribute), true)
-                select methodInfo;
-            return selectTestMethods;
+            return testMethods.Except(SelectExceptionResilientTestMethods(type));
         }
 
         /// <summary>
@@ -207,10 +208,9 @@
         /// <param name="instance"> The instance of the context specification. </param>
         /// <param name="methodInfo"> The test method. </param>
         /// <param name="becauseAction"> The because method. </param>
-        private void OnTestMethodEntry(
-            IContextSpecification instance,
-            MethodBase methodInfo,
-            Action becauseAction)
+        private void OnTestMethodEntry(IContextSpecification instance,
+                                       MethodBase methodInfo,
+                                       Action becauseAction)
         {
             var isRunningInTheContextOfAnotherTest = instance.ArePrerequisiteTestsRunning;
 
