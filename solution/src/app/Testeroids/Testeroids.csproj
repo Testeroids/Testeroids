@@ -143,7 +143,6 @@
     <Compile Include="Rules\IInstanceLevelRule.cs" />
     <Compile Include="Rules\IPropertyAccessRule.cs" />
     <Compile Include="Rules\Rule.cs" />
-    <Compile Include="Rx\Aspects\RxContextAspectAttribute.cs" />
     <Compile Include="Rx\Aspects\RxTestSchedulerAspectAttribute.cs" />
     <Compile Include="Rx\TestSchedulerExtensions.cs" />
     <Compile Include="Rx\MockObserver.cs" />
