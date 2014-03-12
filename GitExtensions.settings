@@ -10,6 +10,14 @@
   </item>
   <item>
     <key>
+      <string>BuildServer.TeamCity.BuildIdFilter</string>
+    </key>
+    <value>
+      <string />
+    </value>
+  </item>
+  <item>
+    <key>
       <string>BuildServer.TeamCity.BuildServerUrl</string>
     </key>
     <value>
