@@ -21,19 +21,6 @@
     public class CategorizeUnitTestFixturesAspectAttribute : MethodLevelAspect,
                                                              IAspectProvider
     {
-        #region Constructors and Destructors
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="CategorizeUnitTestFixturesAspectAttribute" /> class.
-        /// </summary>
-        public CategorizeUnitTestFixturesAspectAttribute()
-        {
-            this.AttributeTargetMemberAttributes = MulticastAttributes.Public | MulticastAttributes.Instance;
-            this.AttributeTargetElements = MulticastTargets.Class;
-        }
-
-        #endregion
-
         #region Public Methods and Operators
 
         /// <summary>

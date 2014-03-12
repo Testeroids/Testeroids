@@ -51,19 +51,6 @@
 
         #endregion
 
-        #region Constructors and Destructors
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="ArrangeActAssertAspectAttribute" /> class.
-        /// </summary>
-        public ArrangeActAssertAspectAttribute()
-        {
-            this.AttributeTargetMemberAttributes = MulticastAttributes.Public | MulticastAttributes.Instance;
-            this.AttributeTargetElements = MulticastTargets.Class;
-        }
-
-        #endregion
-
         #region Public Methods and Operators
 
         /// <summary>
