@@ -33,6 +33,9 @@
 
         #region Constructors and Destructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TplContextAspectAttribute"/> class.
+        /// </summary>
         public TplContextAspectAttribute()
         {
             this.ExecuteTplTasks = true;

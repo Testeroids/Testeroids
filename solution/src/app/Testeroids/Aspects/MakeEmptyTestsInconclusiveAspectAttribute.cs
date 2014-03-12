@@ -15,7 +15,7 @@
     using PostSharp.Extensibility;
 
     /// <summary>
-    ///   Test if a test do something or is empty.
+    ///   Tests whether an abstract test fixture contains child test fixtures (if not, then no tests are run and that constitutes a user error).
     /// </summary>
     [Serializable]
     [AspectTypeDependency(AspectDependencyAction.Order, AspectDependencyPosition.Before, typeof(ArrangeActAssertAspectAttribute))]
@@ -27,13 +27,13 @@
         #region Public Methods and Operators
 
         /// <summary>
-        /// Checks if the passed class contains any nested classes marked with <see cref="Testeroids.Aspects.Attributes.AbstractTestFixtureAttribute"/> or <see cref="TestFixtureAttribute"/>.
+        /// Checks if the passed class contains any nested test fixture classes.
         /// </summary>
         /// <param name="type">
         /// The type of the class to check.
         /// </param>
         /// <returns>
-        /// <c>true</c> if the passed class contains any any nested classes marked with <see cref="Testeroids.Aspects.Attributes.AbstractTestFixtureAttribute"/> or <see cref="TestFixtureAttribute"/>, <c>false</c> otherwise.
+        /// <c>true</c> if the passed class contains any any nested test fixture classes, <c>false</c> otherwise.
         /// </returns>
         public override bool CompileTimeValidate(Type type)
         {
@@ -43,10 +43,10 @@
         }
 
         /// <summary>
-        /// The on success.
+        /// Marks the test as inconclusive.
         /// </summary>
         /// <param name="args">
-        /// The args.
+        /// The advice arguments.
         /// </param>
         [OnMethodSuccessAdvice]
         [MethodPointcut(@"SelectEmptyTestMethods")]
