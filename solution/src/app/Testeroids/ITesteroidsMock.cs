@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="Testeroids" file="ITesteroidsMock.cs">
-//   © 2012-2014 Testeroids. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Testeroids
+﻿namespace Testeroids
 {
     using System;
     using System.Diagnostics.CodeAnalysis;

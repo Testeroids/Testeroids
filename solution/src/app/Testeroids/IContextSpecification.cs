@@ -21,7 +21,7 @@
         #region Public Methods and Operators
 
         /// <summary>
-        ///   Sets up the test (calls <see cref="Testeroids.ContextSpecificationBase.EstablishContext"/> followed by Testeroids.ContextSpecificationBase.InitializeSubjectUnderTest()).
+        ///   Sets up the test (calls <see cref="Testeroids.ContextSpecificationBase.EstablishContext"/> followed by <see cref="Testeroids.ContextSpecificationBase.InitializeSubjectUnderTest" />).
         /// </summary>
         [SetUp]
         [EditorBrowsable(EditorBrowsableState.Never)]

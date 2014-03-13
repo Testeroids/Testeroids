@@ -55,11 +55,11 @@
                     base.EstablishContext();
 
                     var testSets = new[]
-                                   {
-                                       new { SpecifiedOperand1 = 10, SpecifiedOperand2 = 7 },
-                                       new { SpecifiedOperand1 = 10, SpecifiedOperand2 = -7 },
-                                       new { SpecifiedOperand1 = 10, SpecifiedOperand2 = 8 }
-                                   };
+                                       {
+                                           new { SpecifiedOperand1 = 10, SpecifiedOperand2 = 7 },
+                                           new { SpecifiedOperand1 = 10, SpecifiedOperand2 = -7 },
+                                           new { SpecifiedOperand1 = 10, SpecifiedOperand2 = 8 }
+                                       };
                     var currentTestSet = testSets[this.CurrentTestSet];
 
                     this.SpecifiedOperand1 = currentTestSet.SpecifiedOperand1;

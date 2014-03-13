@@ -10,7 +10,6 @@
 
     using PostSharp.Aspects;
     using PostSharp.Aspects.Advices;
-    using PostSharp.Extensibility;
     using PostSharp.Reflection;
 
     using RxSchedulers.Switch;

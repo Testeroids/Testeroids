@@ -74,7 +74,7 @@
         public bool ArePrerequisiteTestsRunning { get; private set; }
 
         /// <summary>
-        /// Gets the mock repository which allows the derived classes centralized mock creation and tracking.
+        ///   Gets the mock repository which allows the derived classes centralized mock creation and tracking.
         /// </summary>
         [PublicAPI]
         public IMockRepository MockRepository
@@ -90,13 +90,13 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets a value indicating whether mock setups will automatically be verified through <see cref="ITesteroidsMock.Verify"/> at test fixture teardown.
+        ///   Gets or sets a value indicating whether mock setups will automatically be verified through <see cref="ITesteroidsMock.Verify"/> at test fixture teardown.
         /// </summary>
         [PublicAPI]
         protected bool AutoVerifyMocks { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether mocks will be checked to ensure that all setups were verified in a test.
+        ///   Gets or sets a value indicating whether mocks will be checked to ensure that all setups were verified in a test.
         /// </summary>
         [PublicAPI]
         protected bool CheckSetupsAreMatchedWithVerifyCalls { get; set; }
