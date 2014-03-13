@@ -8,7 +8,6 @@
     using NUnit.Framework;
 
     using PostSharp.Aspects;
-    using PostSharp.Extensibility;
     using PostSharp.Reflection;
 
     /// <summary>
@@ -17,21 +16,10 @@
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    [MulticastAttributeUsage(MulticastTargets.Method, Inheritance = MulticastInheritance.Strict)]
-    public class CategorizeUnitTestFixturesAspectAttribute : MethodLevelAspect,
+    public class CategorizeUnitTestFixturesAspectAttribute : TypeLevelAspect,
                                                              IAspectProvider
     {
         #region Public Methods and Operators
-
-        /// <summary>
-        ///   The compile time validate.
-        /// </summary>
-        /// <param name="method"> The method. </param>
-        /// <returns> The System.Boolean. </returns>
-        public override bool CompileTimeValidate(MethodBase method)
-        {
-            return TypeInvestigationService.IsTestMethod(method) && typeof(IContextSpecification).IsAssignableFrom(method.DeclaringType);
-        }
 
         /// <summary>
         ///   The provide aspects.
@@ -43,33 +31,36 @@
         /// </remarks>
         public IEnumerable<AspectInstance> ProvideAspects(object targetElement)
         {
-            var targetMethod = (MethodBase)targetElement;
+            var targetType = (Type)targetElement;
 
-            var categoryAttributes = targetMethod.GetCustomAttributes(typeof(CategoryAttribute), false).Cast<CategoryAttribute>().ToArray();
-            var categoryName = string.Format("Specifications for {0}", GetTestedClassTypeName(targetMethod.DeclaringType));
-
-            if (!categoryAttributes.Any() || categoryAttributes.All(x => x.Name != categoryName))
+            foreach (var targetMethod in targetType.GetMethods(TypeInvestigationService.TestMethodBindingFlags))
             {
-                var categoryAttributeConstructorInfo = typeof(CategoryAttribute).GetConstructor(new[] { typeof(string) });
-                var introduceCategoryAspect = new CustomAttributeIntroductionAspect(new ObjectConstruction(categoryAttributeConstructorInfo, categoryName));
+                var categoryAttributes = targetMethod.GetCustomAttributes(typeof(CategoryAttribute), false).Cast<CategoryAttribute>().ToArray();
+                var categoryName = string.Format("Specifications for {0}", GetTestedClassTypeName(targetMethod.DeclaringType));
 
-                // Add the Category attribute to the type. 
-                yield return new AspectInstance(targetMethod, introduceCategoryAspect);
-            }
+                if (!categoryAttributes.Any() || categoryAttributes.All(x => x.Name != categoryName))
+                {
+                    var categoryAttributeConstructorInfo = typeof(CategoryAttribute).GetConstructor(new[] { typeof(string) });
+                    var introduceCategoryAspect = new CustomAttributeIntroductionAspect(new ObjectConstruction(categoryAttributeConstructorInfo, categoryName));
 
-            if (targetMethod.IsDefined(typeof(DescriptionAttribute), false))
-            {
-                yield break;
-            }
+                    // Add the Category attribute to the type. 
+                    yield return new AspectInstance(targetMethod, introduceCategoryAspect);
+                }
 
-            var description = GetDescription(targetMethod);
-            if (!string.IsNullOrEmpty(description))
-            {
-                var descriptionAttributeConstructorInfo = typeof(DescriptionAttribute).GetConstructor(new[] { typeof(string) });
-                var introduceDescriptionAspect = new CustomAttributeIntroductionAspect(new ObjectConstruction(descriptionAttributeConstructorInfo, description));
+                if (targetMethod.IsDefined(typeof(DescriptionAttribute), false))
+                {
+                    yield break;
+                }
 
-                // Add the Description attribute to the type. 
-                yield return new AspectInstance(targetMethod, introduceDescriptionAspect);
+                var description = GetDescription(targetMethod);
+                if (!string.IsNullOrEmpty(description))
+                {
+                    var descriptionAttributeConstructorInfo = typeof(DescriptionAttribute).GetConstructor(new[] { typeof(string) });
+                    var introduceDescriptionAspect = new CustomAttributeIntroductionAspect(new ObjectConstruction(descriptionAttributeConstructorInfo, description));
+
+                    // Add the Description attribute to the type. 
+                    yield return new AspectInstance(targetMethod, introduceDescriptionAspect);
+                }
             }
         }
 

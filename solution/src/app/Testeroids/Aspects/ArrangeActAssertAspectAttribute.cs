@@ -13,7 +13,6 @@
 
     using PostSharp.Aspects;
     using PostSharp.Aspects.Advices;
-    using PostSharp.Extensibility;
 
     /// <summary>
     ///   <see cref="ArrangeActAssertAspectAttribute" /> provides behavior that is necessary for a better integration of AAA syntax with the unit testing framework.
@@ -22,9 +21,6 @@
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    [MulticastAttributeUsage(MulticastTargets.Class,
-        TargetTypeAttributes = MulticastAttributes.AnyScope | MulticastAttributes.AnyVisibility | MulticastAttributes.NonAbstract | MulticastAttributes.Managed,
-        AllowMultiple = false, Inheritance = MulticastInheritance.Strict)]
     public class ArrangeActAssertAspectAttribute : InstanceLevelAspect
     {
         #region Fields
