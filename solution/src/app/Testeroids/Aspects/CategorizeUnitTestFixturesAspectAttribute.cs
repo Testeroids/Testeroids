@@ -47,19 +47,17 @@
                     yield return new AspectInstance(targetMethod, introduceCategoryAspect);
                 }
 
-                if (targetMethod.IsDefined(typeof(DescriptionAttribute), false))
+                if (!targetMethod.IsDefined(typeof(DescriptionAttribute), false))
                 {
-                    yield break;
-                }
+                    var description = GetDescription(targetMethod);
+                    if (!string.IsNullOrEmpty(description))
+                    {
+                        var descriptionAttributeConstructorInfo = typeof(DescriptionAttribute).GetConstructor(new[] { typeof(string) });
+                        var introduceDescriptionAspect = new CustomAttributeIntroductionAspect(new ObjectConstruction(descriptionAttributeConstructorInfo, description));
 
-                var description = GetDescription(targetMethod);
-                if (!string.IsNullOrEmpty(description))
-                {
-                    var descriptionAttributeConstructorInfo = typeof(DescriptionAttribute).GetConstructor(new[] { typeof(string) });
-                    var introduceDescriptionAspect = new CustomAttributeIntroductionAspect(new ObjectConstruction(descriptionAttributeConstructorInfo, description));
-
-                    // Add the Description attribute to the type. 
-                    yield return new AspectInstance(targetMethod, introduceDescriptionAspect);
+                        // Add the Description attribute to the type. 
+                        yield return new AspectInstance(targetMethod, introduceDescriptionAspect);
+                    }
                 }
             }
         }
