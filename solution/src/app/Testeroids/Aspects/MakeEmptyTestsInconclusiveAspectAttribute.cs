@@ -12,12 +12,14 @@
     using PostSharp.Aspects;
     using PostSharp.Aspects.Advices;
     using PostSharp.Aspects.Dependencies;
+    using PostSharp.Extensibility;
 
     /// <summary>
     ///   Tests whether an abstract test fixture contains child test fixtures (if not, then no tests are run and that constitutes a user error).
     /// </summary>
     [Serializable]
     [AspectTypeDependency(AspectDependencyAction.Order, AspectDependencyPosition.Before, typeof(ArrangeActAssertAspectAttribute))]
+    [MulticastAttributeUsage(Inheritance = MulticastInheritance.Strict)]
     public class MakeEmptyTestsInconclusiveAspectAttribute : InstanceLevelAspect
     {
         #region Public Methods and Operators

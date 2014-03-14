@@ -15,6 +15,7 @@
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    [MulticastAttributeUsage(Inheritance = MulticastInheritance.Strict)]
     public class EnforceInstanceLevelRulesAspectAttribute : InstanceLevelAspect
     {
         #region Fields

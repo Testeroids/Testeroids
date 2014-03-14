@@ -8,6 +8,7 @@
     using NUnit.Framework;
 
     using PostSharp.Aspects;
+    using PostSharp.Extensibility;
     using PostSharp.Reflection;
 
     /// <summary>
@@ -16,6 +17,7 @@
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    [MulticastAttributeUsage(Inheritance = MulticastInheritance.Strict)]
     public class CategorizeUnitTestFixturesAspectAttribute : TypeLevelAspect,
                                                              IAspectProvider
     {
