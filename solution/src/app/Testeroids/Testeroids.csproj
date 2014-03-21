@@ -37,7 +37,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\..\Testeroids.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\..\Testeroids.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="JetBrains.Annotations, Version=7.1.0.0, Culture=neutral, PublicKeyToken=db26512813023263, processorArchitecture=MSIL">
@@ -165,8 +165,8 @@
     <Compile Include="TplTestPlatformHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\Testeroids.pfx">
-      <Link>Testeroids.pfx</Link>
+    <None Include="..\..\..\Testeroids.snk">
+      <Link>Testeroids.snk</Link>
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
