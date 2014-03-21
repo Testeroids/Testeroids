@@ -7,6 +7,7 @@
 
     using PostSharp.Aspects;
     using PostSharp.Aspects.Advices;
+    using PostSharp.Extensibility;
     using PostSharp.Reflection;
 
     /// <summary>
@@ -14,6 +15,7 @@
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    [MulticastAttributeUsage(MulticastTargets.Class, Inheritance = MulticastInheritance.Multicast, PersistMetaData = true)]
     public class TplContextAspectAttribute : InstanceLevelAspect
     {
         #region Fields
