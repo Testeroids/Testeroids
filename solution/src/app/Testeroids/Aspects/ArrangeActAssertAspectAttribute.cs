@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
 
@@ -16,39 +15,13 @@
     using PostSharp.Extensibility;
 
     /// <summary>
-    ///   <see cref="ArrangeActAssertAspectAttribute" /> provides behavior that is necessary for a better integration of AAA syntax with the unit testing framework.
-    ///   Specifically, it injects calls to prerequisite tests (marked with <see cref="PrerequisiteAttribute"/>) and to the Because() method into each test in each test fixture.
-    ///   It also handles assert failures so that a failing test marked as <see cref="PrerequisiteAttribute"/> is flagged as such in the exception message.
+    ///   <see cref="InvokeTestsAspect" /> provides behavior that is necessary for a better integration of AAA syntax with the unit testing framework.
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     [MulticastAttributeUsage(Inheritance = MulticastInheritance.Strict)]
-    public class ArrangeActAssertAspectAttribute : InstanceLevelAspect
+    public class InvokeTestsAspect : InstanceLevelAspect
     {
-        #region Fields
-
-        /// <summary>
-        ///   Field bound at runtime to a delegate of the method <c>Because</c> .
-        /// </summary>
-        [NotNull]
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate",
-            Justification = "Reviewed. PostSharp requires this to be public.")]
-        [ImportMember("OnBecauseRequested", IsRequired = true)]
-        [UsedImplicitly]
-        public Action OnBecauseRequestedMethod;
-
-        /// <summary>
-        ///   Field bound at runtime to a delegate of the method <c>RunPrerequisiteTests</c> .
-        /// </summary>
-        [NotNull]
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate",
-            Justification = "Reviewed. PostSharp requires this to be public.")]
-        [ImportMember("RunPrerequisiteTests", IsRequired = true)]
-        [UsedImplicitly]
-        public Action RunPrerequisiteTestsMethod;
-
-        #endregion
-
         #region Public Methods and Operators
 
         /// <summary>
@@ -62,37 +35,6 @@
         }
 
         /// <summary>
-        ///   The method executed when exception occurred in standard test execution.
-        /// </summary>
-        /// <param name="args"> The Method Execution Args. </param>
-        [OnMethodExceptionAdvice(Master = @"OnStandardTestMethodEntry")]
-        public void OnException(MethodExecutionArgs args)
-        {
-            if (!(args.Exception is AssertionException))
-            {
-                return;
-            }
-
-            if (!args.Exception.Message.TrimStart().StartsWith("Expected"))
-            {
-                return;
-            }
-
-            var message = string.Format("{0}.{1}\r\n{2}", args.Instance.GetType().Name, args.Method.Name, args.Exception.Message);
-
-            if (args.Method.IsDefined(typeof(PrerequisiteAttribute), false))
-            {
-                message = string.Format("Prerequisite failed: {0}", message);
-                args.Exception = new PrerequisiteFailureException(message, args.Exception);
-                args.FlowBehavior = FlowBehavior.ThrowException;
-            }
-            else
-            {
-                args.FlowBehavior = FlowBehavior.RethrowException;
-            }
-        }
-
-        /// <summary>
         ///   Executed when <see cref="Testeroids.Aspects.Attributes.ExceptionResilientAttribute"/> is set on a test method.
         /// </summary>
         /// <param name="args"> The Method interception args. </param>
@@ -100,36 +42,7 @@
         [MethodPointcut(@"SelectExceptionResilientTestMethods")]
         public void OnExceptionResilientTestMethodEntry(MethodInterceptionArgs args)
         {
-            try
-            {
-                this.OnTestMethodEntry((IContextSpecification)args.Instance,
-                                       args.Method,
-                                       this.OnBecauseRequestedMethod);
-            }
-            catch (Exception e)
-            {
-                // we don't care about exceptions right now
-                var testMethodsInContext = TypeInvestigationService.GetTestMethods(args.Instance.GetType(), true);
-                var expectedExceptions =
-                    testMethodsInContext.SelectMany(testMethod => testMethod.GetCustomAttributes(typeof(ExpectedExceptionAttribute), false))
-                                        .Cast<ExpectedExceptionAttribute>()
-                                        .Select(attr => attr.ExpectedException)
-                                        .Distinct()
-                                        .ToArray();
-
-                if (!expectedExceptions.Contains(null) && expectedExceptions.All(exceptionTypeToIgnore => !exceptionTypeToIgnore.IsInstanceOfType(e)))
-                {
-                    throw;
-                }
-            }
-            finally
-            {
-                // Actual assertion.
-                args.Proceed();
-
-                // a test method has a void return type, but the documentation states that the Returnvalue must be set
-                args.ReturnValue = null;
-            }
+            ((IContextSpecification)args.Instance).Act(args.Method, true);
         }
 
         /// <summary>
@@ -141,7 +54,7 @@
         [DebuggerNonUserCode]
         public void OnStandardTestMethodEntry(MethodExecutionArgs args)
         {
-            this.OnTestMethodEntry((IContextSpecification)args.Instance, args.Method, this.OnBecauseRequestedMethod);
+            ((IContextSpecification)args.Instance).Act(args.Method, false);
         }
 
         #endregion
@@ -185,33 +98,6 @@
             var testMethods = TypeInvestigationService.GetTestMethods(type, false);
 
             return testMethods.Except(SelectExceptionResilientTestMethods(type));
-        }
-
-        /// <summary>
-        ///   Method executed when entering a test method.
-        /// </summary>
-        /// <param name="instance"> The instance of the context specification. </param>
-        /// <param name="methodInfo"> The test method. </param>
-        /// <param name="becauseAction"> The because method. </param>
-        private void OnTestMethodEntry(IContextSpecification instance,
-                                       MethodBase methodInfo,
-                                       Action becauseAction)
-        {
-            var isRunningInTheContextOfAnotherTest = instance.ArePrerequisiteTestsRunning;
-
-            if (isRunningInTheContextOfAnotherTest)
-            {
-                return;
-            }
-
-            var isRunningPrerequisite = methodInfo.IsDefined(typeof(PrerequisiteAttribute), true);
-
-            becauseAction();
-
-            if (!isRunningPrerequisite)
-            {
-                this.RunPrerequisiteTestsMethod();
-            }
         }
 
         #endregion

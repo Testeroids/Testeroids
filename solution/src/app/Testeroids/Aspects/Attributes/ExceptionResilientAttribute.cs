@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    ///   Meant for advanced scenarios. This attribute works with the <see cref="ArrangeActAssertAspectAttribute" /> aspect to define tests which we do not want to fail because an exception has been thrown.
+    ///   Meant for advanced scenarios. This attribute works with the <see cref="InvokeTestsAspect" /> aspect to define tests which we do not want to fail because an exception has been thrown.
     /// </summary>
     /// <remarks>
     ///   Use carefully, since throwing an exception within the Because() would jump directly to the assertion./>

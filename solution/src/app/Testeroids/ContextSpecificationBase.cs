@@ -1,5 +1,6 @@
 ﻿namespace Testeroids
 {
+    using System;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Globalization;
@@ -18,7 +19,7 @@
     /// <summary>
     ///   Base class for implementing the AAA pattern.
     /// </summary>
-    [ArrangeActAssertAspect]
+    [InvokeTestsAspect]
     [CategorizeUnitTestFixturesAspect]
     [MakeEmptyTestsInconclusiveAspect]
     [EnforceInstanceLevelRulesAspect]
@@ -68,12 +69,6 @@
         #region Public Properties
 
         /// <summary>
-        ///   Gets a value indicating whether there are prerequisite tests running.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool ArePrerequisiteTestsRunning { get; private set; }
-
-        /// <summary>
         ///   Gets the mock repository which allows the derived classes centralized mock creation and tracking.
         /// </summary>
         [PublicAPI]
@@ -100,6 +95,11 @@
         /// </summary>
         [PublicAPI]
         protected bool CheckSetupsAreMatchedWithVerifyCalls { get; set; }
+
+        /// <summary>
+        ///   Gets or sets a value indicating whether there are prerequisite tests running.
+        /// </summary>
+        private bool ArePrerequisiteTestsRunning { get; set; }
 
         #endregion
 
@@ -169,14 +169,90 @@
 
         #endregion
 
+        #region Explicit Interface Methods
+
+        /// <summary>
+        ///   This will be called by the <see cref="InvokeTestsAspect"/> aspect. Performs the "Act" part, or the logic which is to be tested.
+        /// </summary>
+        /// <param name="testMethodInfo">
+        ///   The <see cref="MethodBase"/> instance that describes the executing test.
+        /// </param>
+        /// <param name="isExceptionResilient">
+        ///   <c>true</c> if the test is set to ignore some exception. <c>false</c> otherwise.
+        /// </param>
+        void IContextSpecification.Act(MethodBase testMethodInfo,
+                                       bool isExceptionResilient)
+        {
+            this.MockRepository.ResetAllCalls();
+
+            var isRunningInTheContextOfAnotherTest = this.ArePrerequisiteTestsRunning;
+
+            if (isRunningInTheContextOfAnotherTest)
+            {
+                return;
+            }
+
+            var isRunningPrerequisite = testMethodInfo.IsDefined(typeof(PrerequisiteAttribute), true);
+
+            try
+            {
+                if (!isRunningPrerequisite)
+                {
+                    this.RunPrerequisiteTests();
+                }
+
+                this.Because();
+            }
+            catch (AssertionException e)
+            {
+                if (!e.Message.TrimStart().StartsWith("Expected"))
+                {
+                    return;
+                }
+
+                var message = string.Format("{0}.{1}\r\n{2}", this.GetType().Name, testMethodInfo.Name, e.Message);
+
+                if (isRunningPrerequisite)
+                {
+                    message = string.Format("Prerequisite failed: {0}", message);
+                    throw new PrerequisiteFailureException(message, e);
+                }
+
+                throw;
+            }
+            catch (Exception e)
+            {
+                if (!isExceptionResilient)
+                {
+                    throw;
+                }
+
+                // we don't care about exceptions right now
+                var testMethodsInContext = TypeInvestigationService.GetTestMethods(this.GetType(), true);
+                var expectedExceptions =
+                    testMethodsInContext.SelectMany(testMethod => testMethod.GetCustomAttributes(typeof(ExpectedExceptionAttribute), false))
+                                        .Cast<ExpectedExceptionAttribute>()
+                                        .Select(attr => attr.ExpectedException)
+                                        .Distinct()
+                                        .ToArray();
+
+                if (!expectedExceptions.Contains(null) && expectedExceptions.All(exceptionTypeToIgnore => !exceptionTypeToIgnore.IsInstanceOfType(e)))
+                {
+                    throw;
+                }
+            }
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>
-        /// The because method as overridable by the user of Testeroids. Will be called by <see cref="OnBecauseRequested"/>.
-        /// </summary>        
+        /// The because method as overridable by the user of Testeroids. Will be called by <see cref="Act"/>.
+        /// </summary>
         /// <remarks>
         /// <see cref="Because"/> will be injected through AOP on entering a test method.
-        /// Internally, <see cref="OnBecauseRequested"/> does make sure any verified mock created by the <see cref="MockRepository"/> has its recorded calls reset.
+        /// Internally, <see cref="Act"/> does make sure any verified mock created by the <see cref="MockRepository"/> has its recorded calls reset.
         /// This means that any call to a mocked method will "forget" about the method calls done prior to calling <see cref="Because"/>.
         /// </remarks>
         protected internal abstract void Because();
@@ -211,16 +287,6 @@
         }
 
         /// <summary>
-        ///   This will be called by the <see cref="ArrangeActAssertAspectAttribute"/> aspect. Performs the "Act" part, or the logic which is to be tested.
-        /// </summary>      
-        [UsedImplicitly]
-        protected void OnBecauseRequested()
-        {
-            this.MockRepository.ResetAllCalls();
-            this.Because();
-        }
-
-        /// <summary>
         /// This test is meant for internal library use only.
         /// </summary>
         [DebuggerNonUserCode]
@@ -230,7 +296,7 @@
         }
 
         /// <summary>
-        ///   This will be called by the ArrangeActAssertAspectAttribute aspect. Executes all tests in the context marked with the <see cref="PrerequisiteAttribute"/>.
+        ///   This will be called by the InvokeTestsAspect aspect. Executes all tests in the context marked with the <see cref="PrerequisiteAttribute"/>.
         /// </summary>
         protected void RunPrerequisiteTests()
         {
@@ -239,7 +305,7 @@
             try
             {
                 var prerequisiteTestsToRun =
-                    from method in this.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public)
+                    from method in TypeInvestigationService.GetTestMethods(this.GetType(), true)
                     where method.IsDefined(typeof(PrerequisiteAttribute), true)
                     select method;
 

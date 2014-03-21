@@ -23,7 +23,7 @@
         #region Methods
 
         /// <summary>
-        ///   This will be called by the <see cref="ArrangeActAssertAspectAttribute"/> aspect. Performs the "Act" part, or the logic which is to be tested (in this case, executing the constructor of the <typeparamref name="TSubjectUnderTest"/>.
+        ///   This will be called by the <see cref="InvokeTestsAspect"/> aspect. Performs the "Act" part, or the logic which is to be tested (in this case, executing the constructor of the <typeparamref name="TSubjectUnderTest"/>.
         /// </summary>
         protected internal override void Because()
         {

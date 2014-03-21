@@ -1,30 +1,31 @@
 ﻿namespace Testeroids
 {
-    using System.ComponentModel;
+    using System.Reflection;
 
-    using NUnit.Framework;
+    using Testeroids.Aspects;
 
     /// <summary>
     ///   Base class for implementing the AAA pattern.
     /// </summary>
     public interface IContextSpecification
     {
-        #region Public Properties
+        #region Public Methods and Operators
 
         /// <summary>
-        ///   Gets a value indicating whether there are prerequisite tests running.
+        /// This will be called by the <see cref="InvokeTestsAspect"/> aspect. Performs the "Act" part, or the logic which is to be tested.
         /// </summary>
-        bool ArePrerequisiteTestsRunning { get; }
-
-        #endregion
-
-        #region Public Methods and Operators
+        /// <param name="testMethodInfo">
+        /// The <see cref="MethodBase"/> instance that describes the executing test.
+        /// </param>
+        /// <param name="isExceptionResilient">
+        /// <c>true</c> if the test is set to ignore some exception. <c>false</c> otherwise.
+        /// </param>
+        void Act(MethodBase testMethodInfo,
+                 bool isExceptionResilient);
 
         /// <summary>
         ///   Sets up the test (calls <see cref="Testeroids.ContextSpecificationBase.EstablishContext"/> followed by <see cref="Testeroids.ContextSpecificationBase.InitializeSubjectUnderTest" />).
         /// </summary>
-        [SetUp]
-        [EditorBrowsable(EditorBrowsableState.Never)]
         void BaseSetUp();
 
         #endregion

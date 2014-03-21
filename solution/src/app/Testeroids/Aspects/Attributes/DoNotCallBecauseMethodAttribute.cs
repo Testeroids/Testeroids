@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    ///   Meant for advanced scenarios. This attribute works with the <see cref="ArrangeActAssertAspectAttribute" /> aspect to define tests in which we do not want the aspect to inject Because() calls automatically.
+    ///   Meant for advanced scenarios. This attribute works with the <see cref="InvokeTestsAspect" /> aspect to define tests in which we do not want the aspect to inject Because() calls automatically.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public class DoNotCallBecauseMethodAttribute : Attribute

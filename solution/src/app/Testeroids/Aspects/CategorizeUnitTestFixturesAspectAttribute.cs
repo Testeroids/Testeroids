@@ -68,6 +68,11 @@
 
         #region Methods
 
+        /// <summary>
+        ///   Get the natural language name of the test out of the test method name.
+        /// </summary>
+        /// <param name="targetMethod"> The target test method. </param>
+        /// <returns> The natural language test name. </returns>
         private static string GetConditionName(MethodBase targetMethod)
         {
             var conditionParts = from type in GetTestFixtureChain(targetMethod.DeclaringType).Reverse()
@@ -79,10 +84,10 @@
         }
 
         /// <summary>
-        ///   Get the description of the test out of the test class name.
+        ///   Get the description of the test out of the test method name.
         /// </summary>
         /// <param name="targetMethod"> The target test method. </param>
-        /// <returns> The literal description out of the test class name. </returns>
+        /// <returns> The literal description of the test. </returns>
         private static string GetDescription(MethodBase targetMethod)
         {
             if (targetMethod != null)
@@ -99,6 +104,15 @@
             return string.Empty;
         }
 
+        /// <summary>
+        /// Gets the enumeration of the base classes of <paramref name="testFixtureType"/>, including itself.
+        /// </summary>
+        /// <param name="testFixtureType">
+        /// The test fixture type to examine.
+        /// </param>
+        /// <returns>
+        /// The enumeration of the base classes of <paramref name="testFixtureType"/>, including itself.
+        /// </returns>
         private static IEnumerable<Type> GetTestFixtureChain(Type testFixtureType)
         {
             while (testFixtureType != null && testFixtureType != typeof(ContextSpecificationBase))
