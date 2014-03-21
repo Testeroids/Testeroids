@@ -18,8 +18,8 @@
     [Serializable]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     [MulticastAttributeUsage(Inheritance = MulticastInheritance.Strict)]
-    public class CategorizeUnitTestFixturesAspectAttribute : TypeLevelAspect,
-                                                             IAspectProvider
+    public class CategorizeUnitTestFixturesAspect : TypeLevelAspect,
+                                                    IAspectProvider
     {
         #region Public Methods and Operators
 

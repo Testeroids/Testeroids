@@ -20,7 +20,7 @@
     [Serializable]
     [AspectTypeDependency(AspectDependencyAction.Order, AspectDependencyPosition.Before, typeof(InvokeTestsAspect))]
     [MulticastAttributeUsage(Inheritance = MulticastInheritance.Strict)]
-    public class MakeEmptyTestsInconclusiveAspectAttribute : InstanceLevelAspect
+    public class MakeEmptyTestsInconclusiveAspect : InstanceLevelAspect
     {
         #region Public Methods and Operators
 

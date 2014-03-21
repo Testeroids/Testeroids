@@ -62,7 +62,7 @@
             /// <param name="task">The task to be executed.</param>
             protected override void QueueTask(Task task)
             {
-                throw new InvalidOperationException(string.Format("A TPL task was queued even though the test fixture does not have the {0} applied. Please apply the aspect to the test fixture.", typeof(TplContextAspectAttribute).Name));
+                throw new InvalidOperationException(string.Format("A TPL task was queued even though the test fixture does not have the {0} applied. Please apply the aspect to the test fixture.", typeof(TplContextAspect).Name));
             }
 
             /// <summary>Runs the provided Task synchronously on the current thread.</summary>

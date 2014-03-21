@@ -19,7 +19,7 @@
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     [Serializable]
-    public class RxTestSchedulerAspectAttribute : InstanceLevelAspect
+    public class RxTestSchedulerAspect : InstanceLevelAspect
     {
         #region Fields
 

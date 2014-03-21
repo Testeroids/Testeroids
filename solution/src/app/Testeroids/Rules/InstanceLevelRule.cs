@@ -5,7 +5,7 @@
     using Testeroids.Aspects;
 
     /// <summary>
-    /// Abstract rule that can be enforced by <see cref="EnforceInstanceLevelRulesAspectAttribute"/>.
+    /// Abstract rule that can be enforced by <see cref="EnforceInstanceLevelRulesAspect"/>.
     /// </summary>
     [Serializable]
     public abstract class InstanceLevelRule : Rule,

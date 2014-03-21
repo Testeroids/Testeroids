@@ -16,7 +16,7 @@
     [Serializable]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     [MulticastAttributeUsage(MulticastTargets.Class, Inheritance = MulticastInheritance.Multicast, PersistMetaData = true)]
-    public class TplContextAspectAttribute : InstanceLevelAspect
+    public class TplContextAspect : InstanceLevelAspect
     {
         #region Fields
 
@@ -34,9 +34,9 @@
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TplContextAspectAttribute"/> class.
+        /// Initializes a new instance of the <see cref="TplContextAspect"/> class.
         /// </summary>
-        public TplContextAspectAttribute()
+        public TplContextAspect()
         {
             this.ExecuteTplTasks = true;
         }

@@ -88,21 +88,21 @@
         }
 
         /// <summary>
-        /// Determines whether TPL tasks will be run on a given <see cref="IContextSpecification"/>. The <paramref name="contextSpecification"/> instance needs to have the <see cref="TplContextAspectAttribute"/> aspect applied to it.
+        /// Determines whether TPL tasks will be run on a given <see cref="IContextSpecification"/>. The <paramref name="contextSpecification"/> instance needs to have the <see cref="TplContextAspect"/> aspect applied to it.
         /// </summary>
         /// <param name="contextSpecification">
         /// The context specification to inspect.
         /// </param>
         /// <returns>
-        /// The value defined in <see cref="TplContextAspectAttribute.ExecuteTplTasks"/>.
+        /// The value defined in <see cref="TplContextAspect.ExecuteTplTasks"/>.
         /// </returns>
-        /// <exception cref="InvalidOperationException">The <paramref name="contextSpecification"/> instance does not have <see cref="TplContextAspectAttribute"/> applied to it.</exception>
+        /// <exception cref="InvalidOperationException">The <paramref name="contextSpecification"/> instance does not have <see cref="TplContextAspect"/> applied to it.</exception>
         public static bool WillExecuteTplTasksOn(IContextSpecification contextSpecification)
         {
             var tplContextAspectAttribute =
                 contextSpecification.GetType()
-                                    .GetCustomAttributes(typeof(TplContextAspectAttribute), true)
-                                    .Cast<TplContextAspectAttribute>()
+                                    .GetCustomAttributes(typeof(TplContextAspect), true)
+                                    .Cast<TplContextAspect>()
                                     .Single();
 
             return tplContextAspectAttribute.ExecuteTplTasks;
