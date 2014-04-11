@@ -5,6 +5,8 @@
     using System.Linq;
     using System.Reflection;
 
+    using Humanizer;
+
     using NUnit.Framework;
 
     using PostSharp.Aspects;
@@ -77,7 +79,7 @@
         {
             var conditionParts = from type in GetTestFixtureChain(targetMethod.DeclaringType).Reverse()
                                  where !type.Name.EndsWith("_Base")
-                                 select type.Name.Replace('_', ' ');
+                                 select type.Name.Humanize();
             var conditionName = string.Join(", ", conditionParts);
 
             return conditionName;
@@ -90,18 +92,15 @@
         /// <returns> The literal description of the test. </returns>
         private static string GetDescription(MethodBase targetMethod)
         {
-            if (targetMethod != null)
+            if (targetMethod == null || targetMethod.DeclaringType == null)
             {
-                if (targetMethod.DeclaringType != null)
-                {
-                    var naturalLanguageConditionName = GetConditionName(targetMethod);
-                    var naturalLanguageAssertName = targetMethod.Name.Replace('_', ' ');
-
-                    return string.Format("Test case for {0}:\n\t{1},\n\t\t{2}.", GetTestedClassTypeName(targetMethod.DeclaringType), naturalLanguageConditionName, naturalLanguageAssertName);
-                }
+                return string.Empty;
             }
 
-            return string.Empty;
+            var naturalLanguageConditionName = GetConditionName(targetMethod);
+            var naturalLanguageAssertName = targetMethod.Name.Humanize();
+
+            return string.Format("Test case for {0}:\n\t{1},\n\t\t{2}.\n\n", GetTestedClassTypeName(targetMethod.DeclaringType), naturalLanguageConditionName, naturalLanguageAssertName);
         }
 
         /// <summary>
