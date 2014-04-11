@@ -52,7 +52,7 @@
             }
 
             Debug.Assert(propertyInfo.DeclaringType != null, "propertyInfo.DeclaringType != null");
-            throw new PropertyNotInitializedException(propertyInfo.DeclaringType.FullName + "." + propertyInfo.Name);
+            throw new PropertyNotInitializedException(string.Format("{0}.{1}", propertyInfo.DeclaringType.FullName, propertyInfo.Name));
         }
 
         /// <summary>

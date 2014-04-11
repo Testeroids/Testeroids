@@ -30,7 +30,7 @@
                     if (fields.Any())
                     {
                         var field = fields.First();
-                        return ErrorService.RaiseError(this.GetType(), type, field.Name + " should be a protected property.\r\n");
+                        return ErrorService.RaiseError(this.GetType(), type, string.Format("{0} should be a protected property.\r\n", field.Name));
                     }
                 }
             }
