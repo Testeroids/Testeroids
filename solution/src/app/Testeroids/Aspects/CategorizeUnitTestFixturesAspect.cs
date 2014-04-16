@@ -37,7 +37,7 @@
         {
             var targetType = (Type)targetElement;
 
-            foreach (var targetMethod in targetType.GetMethods(TypeInvestigationService.TestMethodBindingFlags))
+            foreach (var targetMethod in targetType.GetMethods(TypeInvestigationService.TestMethodBindingFlags).Where(method => !method.IsGenericMethod))
             {
                 var categoryAttributes = targetMethod.GetCustomAttributes(typeof(CategoryAttribute), false).Cast<CategoryAttribute>().ToArray();
                 var categoryName = string.Format("Specifications for {0}", GetTestedClassTypeName(targetMethod.DeclaringType));
