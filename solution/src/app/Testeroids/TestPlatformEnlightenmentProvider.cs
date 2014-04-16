@@ -21,7 +21,7 @@
         /// <summary>
         /// The concurrency abstraction layer specializer for testing purposes.
         /// </summary>
-        private readonly TestConcurrencyAbstractionLayer testConcurrencyAbstractionLayer;
+        private readonly Lazy<TestConcurrencyAbstractionLayer> testConcurrencyAbstractionLayer;
 
         #endregion
 
@@ -32,7 +32,7 @@
         /// </summary>
         public TestPlatformEnlightenmentProvider()
         {
-            this.testConcurrencyAbstractionLayer = new TestConcurrencyAbstractionLayer(this.currentPlatformEnlightenmentProvider.GetService<IConcurrencyAbstractionLayer>(new object[0]));
+            this.testConcurrencyAbstractionLayer = new Lazy<TestConcurrencyAbstractionLayer>(() => new TestConcurrencyAbstractionLayer(this.currentPlatformEnlightenmentProvider.GetService<IConcurrencyAbstractionLayer>(new object[0])));
         }
 
         #endregion
@@ -46,12 +46,12 @@
         {
             get
             {
-                return this.testConcurrencyAbstractionLayer.GetTestScheduler;
+                return this.testConcurrencyAbstractionLayer.Value.GetTestScheduler;
             }
 
             set
             {
-                this.testConcurrencyAbstractionLayer.GetTestScheduler = value;
+                this.testConcurrencyAbstractionLayer.Value.GetTestScheduler = value;
             }
         }
 
@@ -73,7 +73,7 @@
 
             if (type == typeof(IConcurrencyAbstractionLayer))
             {
-                return (T)(object)this.testConcurrencyAbstractionLayer;
+                return (T)(object)this.testConcurrencyAbstractionLayer.Value;
             }
 
             if (type == typeof(IScheduler) && args != null)
@@ -81,15 +81,15 @@
                 switch ((string)args[0])
                 {
                     case "ThreadPool":
-                        return (T)(this.testConcurrencyAbstractionLayer.UseDefaultScheduler
+                        return (T)(this.testConcurrencyAbstractionLayer.Value.UseDefaultScheduler
                                        ? (IScheduler)ThreadPoolScheduler.Instance
                                        : this.GetTestScheduler());
                     case "TaskPool":
-                        return (T)(this.testConcurrencyAbstractionLayer.UseDefaultScheduler
+                        return (T)(this.testConcurrencyAbstractionLayer.Value.UseDefaultScheduler
                                        ? (IScheduler)TaskPoolScheduler.Default
                                        : this.GetTestScheduler());
                     case "NewThread":
-                        return (T)(this.testConcurrencyAbstractionLayer.UseDefaultScheduler
+                        return (T)(this.testConcurrencyAbstractionLayer.Value.UseDefaultScheduler
                                        ? (IScheduler)NewThreadScheduler.Default
                                        : this.GetTestScheduler());
                 }
