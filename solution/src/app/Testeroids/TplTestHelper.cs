@@ -103,7 +103,12 @@
                 contextSpecification.GetType()
                                     .GetCustomAttributes(typeof(TplContextAspect), true)
                                     .Cast<TplContextAspect>()
-                                    .Single();
+                                    .SingleOrDefault();
+
+            if (tplContextAspectAttribute == null)
+            {
+                throw new InvalidOperationException(string.Format("The {0} test fixture is missing a {1} attribute!", contextSpecification.GetType().FullName, typeof(TplContextAspect).Name));
+            }
 
             return tplContextAspectAttribute.ExecuteTplTasks;
         }
