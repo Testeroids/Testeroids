@@ -60,7 +60,6 @@
         /// </summary>
         protected ContextSpecificationBase()
         {
-            this.MockRepository = new MockRepository();
             this.CheckSetupsAreMatchedWithVerifyCalls = true;
             this.AutoVerifyMocks = true;
 
@@ -279,6 +278,8 @@
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected virtual void PreTestFixtureSetUp()
         {
+            this.ThrownException = null;
+
             TplTestPlatformHelper.SetDefaultScheduler(new TplTestPlatformHelper.InvalidTaskScheduler());
         }
 

@@ -449,6 +449,12 @@
                     {
                         Assert.AreEqual(this.ReturnedSum, this.Result);
                     }
+
+                    [Test]
+                    public void then_ThrownException_is_null()
+                    {
+                        Assert.IsNull(this.ThrownException);
+                    }
                 }
 
                 public abstract class with_throw_Exception_Base : when_Sum_is_called
@@ -501,6 +507,8 @@
                     {
                         #region Context
 
+                        private Exception ExceptionThrownBySum { get; set; }
+
                         protected override sealed int EstablishSpecifiedOperand2()
                         {
                             // irrelevant
@@ -511,6 +519,8 @@
                         {
                             base.EstablishContext();
 
+                            this.ExceptionThrownBySum = new InvalidOperationException();
+
                             this.InjectedCalculatorMock
                                 .SetupGet(o => o.Radix)
                                 .Returns(10)
@@ -518,7 +528,7 @@
 
                             this.InjectedCalculatorMock
                                 .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
-                                .Throws<InvalidOperationException>()
+                                .Throws(ExceptionThrownBySum)
                                 .DontEnforceSetupVerification();
                         }
 
@@ -554,6 +564,12 @@
                         [ExpectedException(typeof(InvalidOperationException))]
                         public void then_InvalidOperationException_is_thrown()
                         {
+                        }
+
+                        [Test]
+                        public void then_ThrownException_is_ExceptionThrownBySum()
+                        {
+                            Assert.AreSame(this.ExceptionThrownBySum, this.ThrownException);
                         }
                     }
                 }
