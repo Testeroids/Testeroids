@@ -42,7 +42,9 @@
                 yield break;
             }
 
-            foreach (var targetMethod in TypeInvestigationService.GetAllTestMethods(targetType))
+            var localTestMethods = TypeInvestigationService.GetAllTestMethods(targetType)
+                                                           .Where(m => m.DeclaringType == targetType);
+            foreach (var targetMethod in localTestMethods)
             {
                 var categoryAttributes = targetMethod.GetCustomAttributes(typeof(CategoryAttribute), false).Cast<CategoryAttribute>().ToArray();
                 var categoryName = string.Format("Specifications for {0}", GetTestedClassTypeName(targetMethod.DeclaringType));
