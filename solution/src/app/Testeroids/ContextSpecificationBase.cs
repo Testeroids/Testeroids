@@ -38,11 +38,6 @@
         /// </summary>
         private int numberOfTestsExecuted;
 
-        /// <summary>
-        /// The first exception raised during the <see cref="Act()"/> method. This will be rethrown during each test that is not resilient to this exception type.
-        /// </summary>
-        private Exception raisedException;
-
         #endregion
 
         #region Constructors and Destructors
@@ -65,6 +60,7 @@
         /// </summary>
         protected ContextSpecificationBase()
         {
+            this.MockRepository = new MockRepository();
             this.CheckSetupsAreMatchedWithVerifyCalls = true;
             this.AutoVerifyMocks = true;
 
@@ -89,12 +85,17 @@
         }
 
         /// <summary>
-        ///     Gets the list of tasks to be executed during context setup.
+        ///   Gets the first exception raised during the <see cref="Act()"/> method. It will be rethrown during each test that is not resilient to this exception type.
+        /// </summary>
+        public Exception ThrownException { get; private set; }
+
+        /// <summary>
+        ///   Gets the list of tasks to be executed during context setup.
         /// </summary>
         public IList<Action<IContextSpecification>> SetupTasks { get; private set; }
 
         /// <summary>
-        ///     Gets the list of tasks to be executed during context teardown.
+        ///   Gets the list of tasks to be executed during context teardown.
         /// </summary>
         public IList<Action<IContextSpecification>> TeardownTasks { get; private set; }
 
@@ -199,7 +200,7 @@
         void IContextSpecification.OnTestMethodCalled(MethodBase testMethodInfo,
                                                       bool isExceptionResilient)
         {
-            if (this.raisedException == null)
+            if (this.ThrownException == null)
             {
                 return;
             }
@@ -218,14 +219,14 @@
                                         .Distinct()
                                         .ToArray();
 
-                if (expectedExceptions.Contains(null) || expectedExceptions.Any(exceptionTypeToIgnore => exceptionTypeToIgnore.IsInstanceOfType(this.raisedException)))
+                if (expectedExceptions.Contains(null) || expectedExceptions.Any(exceptionTypeToIgnore => exceptionTypeToIgnore.IsInstanceOfType(this.ThrownException)))
                 {
                     // Exception is ignored
                     return;
                 }
             }
 
-            throw this.raisedException;
+            throw this.ThrownException;
         }
 
         #endregion
@@ -340,11 +341,11 @@
                     return;
                 }
 
-                this.raisedException = e;
+                this.ThrownException = e;
             }
             catch (Exception ex)
             {
-                this.raisedException = ex;
+                this.ThrownException = ex;
             }
         }
 

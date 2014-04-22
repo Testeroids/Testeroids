@@ -23,6 +23,11 @@
         /// </summary>
         IList<Action<IContextSpecification>> TeardownTasks { get; }
 
+        /// <summary>
+        ///     Gets the first exception raised during the "Act" part of the test. It will be rethrown during each test that is not resilient to this exception type.
+        /// </summary>
+        Exception ThrownException { get; }
+
         #endregion
 
         #region Public Methods and Operators
