@@ -18,7 +18,7 @@
     ///   Tests whether an abstract test fixture contains child test fixtures (if not, then no tests are run and that constitutes a user error).
     /// </summary>
     [Serializable]
-    [AspectTypeDependency(AspectDependencyAction.Order, AspectDependencyPosition.Before, typeof(InvokeTestsAspect))]
+    [AspectTypeDependency(AspectDependencyAction.Order, AspectDependencyPosition.Before, typeof(InstrumentTestsAspect))]
     [MulticastAttributeUsage(Inheritance = MulticastInheritance.Strict)]
     public class MakeEmptyTestsInconclusiveAspect : InstanceLevelAspect
     {

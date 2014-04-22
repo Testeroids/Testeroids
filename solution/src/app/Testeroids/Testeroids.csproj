@@ -93,9 +93,7 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Aspects\InvokeTestsAspect.cs" />
-    <Compile Include="Aspects\Attributes\DoNotCallBecauseMethodAttribute.cs" />
-    <Compile Include="Aspects\Attributes\ExceptionResilientAttribute.cs" />
+    <Compile Include="Aspects\InstrumentTestsAspect.cs" />
     <Compile Include="Aspects\CategorizeUnitTestFixturesAspect.cs" />
     <Compile Include="Aspects\EnforceInstanceLevelRulesAspect.cs" />
     <Compile Include="Aspects\ErrorService.cs" />
@@ -161,6 +159,7 @@
     <Compile Include="TestComparers.cs" />
     <Compile Include="TestConcurrencyAbstractionLayer.cs" />
     <Compile Include="TestException.cs" />
+    <Compile Include="TestFixtureSetupAttributeBase.cs" />
     <Compile Include="TestPlatformEnlightenmentProvider.cs" />
     <Compile Include="TplContextAspect.cs" />
     <Compile Include="TplTestHelper.cs" />

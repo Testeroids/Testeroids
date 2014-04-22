@@ -1,36 +1,14 @@
 ﻿namespace Testeroids
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
-
-    using JetBrains.Annotations;
-
-    using PostSharp.Aspects;
-    using PostSharp.Aspects.Advices;
-    using PostSharp.Extensibility;
-    using PostSharp.Reflection;
 
     /// <summary>
     /// Aspect which adds support for TPL testing.
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    [MulticastAttributeUsage(MulticastTargets.Class, Inheritance = MulticastInheritance.Multicast, PersistMetaData = true)]
-    public class TplContextAspect : InstanceLevelAspect
+    public class TplContextAspect : TestFixtureSetupAttributeBase
     {
-        #region Fields
-
-        /// <summary>
-        /// The <see cref="ContextSpecificationBase.BaseTestFixtureSetUp"/> method on the target class.
-        /// </summary>
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Postsharp needs it to public")]
-        [UsedImplicitly]
-        [NotNull]
-        [ImportMember("BaseTestFixtureSetUp", IsRequired = true, Order = ImportMemberOrder.BeforeIntroductions)]
-        public Action BaseTestFixtureSetUpMethod;
-
-        #endregion
-
         #region Constructors and Destructors
 
         /// <summary>
@@ -59,13 +37,28 @@
         #region Public Methods and Operators
 
         /// <summary>
-        /// Replaces the <see cref="ContextSpecificationBase.PreTestSetUp"/> method to set the <see cref="TplTestPlatformHelper.TestTaskScheduler"/> as the default scheduler.
+        /// Called by the framework to register the attribute with the context for setup/teardown notifications.
         /// </summary>
-        [IntroduceMember(OverrideAction = MemberOverrideAction.OverrideOrFail, IsVirtual = true, Visibility = Visibility.Public)]
-        public void BaseTestFixtureSetUp()
+        /// <param name="contextSpecification">
+        /// The target context specification instance.
+        /// </param>
+        public override void Register(IContextSpecification contextSpecification)
         {
-            this.BaseTestFixtureSetUpMethod();
+            contextSpecification.SetupTasks.Add(this.SetupTestTaskScheduler);
+        }
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Replaces the <see cref="ContextSpecificationBase.PreTestFixtureSetUp"/> method to set the <see cref="TplTestPlatformHelper.TestTaskScheduler"/> as the default scheduler.
+        /// </summary>
+        /// <param name="contextSpecification">
+        /// The target context specification instance.
+        /// </param>
+        private void SetupTestTaskScheduler(IContextSpecification contextSpecification)
+        {
             var testTaskScheduler = new TplTestPlatformHelper.TestTaskScheduler(this.ExecuteTplTasks);
 
             TplTestPlatformHelper.SetDefaultScheduler(testTaskScheduler);

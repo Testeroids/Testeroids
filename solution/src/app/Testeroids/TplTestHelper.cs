@@ -6,6 +6,8 @@
 
     using JetBrains.Annotations;
 
+    using PostSharp;
+
     /// <summary>
     /// Allows access to the test <see cref="TaskScheduler"/> associated with the current test fixture.
     /// </summary>
@@ -99,18 +101,18 @@
         /// <exception cref="InvalidOperationException">The <paramref name="contextSpecification"/> instance does not have <see cref="TplContextAspect"/> applied to it.</exception>
         public static bool WillExecuteTplTasksOn(IContextSpecification contextSpecification)
         {
-            var tplContextAspectAttribute =
+            var tplContextAspect =
                 contextSpecification.GetType()
                                     .GetCustomAttributes(typeof(TplContextAspect), true)
                                     .Cast<TplContextAspect>()
                                     .SingleOrDefault();
 
-            if (tplContextAspectAttribute == null)
+            if (tplContextAspect == null)
             {
                 throw new InvalidOperationException(string.Format("The {0} test fixture is missing a {1} attribute!", contextSpecification.GetType().FullName, typeof(TplContextAspect).Name));
             }
 
-            return tplContextAspectAttribute.ExecuteTplTasks;
+            return tplContextAspect.ExecuteTplTasks;
         }
 
         #endregion

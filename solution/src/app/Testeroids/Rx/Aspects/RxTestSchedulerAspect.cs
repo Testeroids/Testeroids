@@ -1,16 +1,12 @@
 ﻿namespace Testeroids.Rx.Aspects
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Reactive.Concurrency;
     using System.Reactive.PlatformServices;
+    using System.Reflection;
     using System.Threading;
 
     using JetBrains.Annotations;
-
-    using PostSharp.Aspects;
-    using PostSharp.Aspects.Advices;
-    using PostSharp.Reflection;
 
     using RxSchedulers.Switch;
 
@@ -19,71 +15,57 @@
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     [Serializable]
-    public class RxTestSchedulerAspect : InstanceLevelAspect
+    public class RxTestSchedulerAspect : TestFixtureSetupAttributeBase
     {
-        #region Fields
-
-        /// <summary>
-        /// The <see cref="ContextSpecificationBase.PreTestSetUp"/> method on the target class.
-        /// </summary>
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Postsharp needs it to public")]
-        [UsedImplicitly]
-        [NotNull]
-        [ImportMember("PreTestSetUp", IsRequired = true, Order = ImportMemberOrder.BeforeIntroductions)]
-        public Action BasePreTestSetUpMethod;
-
-        /// <summary>
-        /// The <see cref="ContextSpecificationBase.BaseTearDown"/> method on the target class.
-        /// </summary>
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Postsharp needs it to public")]
-        [UsedImplicitly]
-        [NotNull]
-        [ImportMember("BaseTearDown", IsRequired = true, Order = ImportMemberOrder.BeforeIntroductions)]
-        public Action BaseTearDownMethod;
-
-        /// <summary>
-        /// The <see cref="TestScheduler"/> property on the target class.
-        /// </summary>
-        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Postsharp needs it to public")]
-        [NotNull]
-        [ImportMember("TestScheduler", IsRequired = true, Order = ImportMemberOrder.BeforeIntroductions)]
-        [UsedImplicitly]
-        public Property<TestScheduler> TestSchedulerProperty;
-
-        #endregion
-
         #region Public Methods and Operators
 
         /// <summary>
-        /// Clear the <see cref="TestSchedulerProperty"/> and all schedulers in <see cref="SchedulerSwitch"/>.
+        /// Called by the framework to register the attribute with the context for setup/teardown notifications.
         /// </summary>
-        [IntroduceMember(IsVirtual = true, OverrideAction = MemberOverrideAction.OverrideOrFail, Visibility = Visibility.Public)]
-        public void BaseTearDown()
+        /// <param name="contextSpecification">
+        /// The target context specification instance.
+        /// </param>
+        public override void Register(IContextSpecification contextSpecification)
         {
-            this.BaseTearDownMethod();
+            contextSpecification.SetupTasks.Add(this.SetupTestScheduler);
+            contextSpecification.TeardownTasks.Add(this.TeardownTestScheduler);
+        }
 
-            this.TestSchedulerProperty.Set(null);
+        #endregion
 
-            SchedulerSwitch.GetCurrentThreadScheduler = null;
-            SchedulerSwitch.GetDispatcherScheduler = null;
-            SchedulerSwitch.GetImmediateScheduler = null;
-            SchedulerSwitch.GetNewThreadScheduler = null;
-            SchedulerSwitch.GetTaskPoolScheduler = null;
-            SchedulerSwitch.GetThreadPoolScheduler = null;
+        #region Methods
 
-            var testPlatformEnlightenmentProvider = (TestPlatformEnlightenmentProvider)PlatformEnlightenmentProvider.Current;
-            testPlatformEnlightenmentProvider.GetTestScheduler = null;
+        /// <summary>
+        /// Sets the TestScheduler property on the target <paramref name="contextSpecification"/>.
+        /// </summary>
+        /// <param name="contextSpecification">
+        /// The target context specification instance.
+        /// </param>
+        /// <param name="testScheduler">
+        /// The test scheduler to apply to <paramref name="contextSpecification"/>.
+        /// </param>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when this aspect is applied to a test fixture not defining a TestScheduler property.
+        /// </exception>
+        private static void SetTestScheduler(IContextSpecification contextSpecification,
+                                             [CanBeNull] TestScheduler testScheduler)
+        {
+            var testSchedulerPropertyInfo = contextSpecification.GetType().GetProperty("TestScheduler", BindingFlags.Instance | BindingFlags.NonPublic);
+
+            if (testSchedulerPropertyInfo == null)
+            {
+                throw new InvalidOperationException("RxTestSchedulerAspect was applied but the target test fixture does not contain a TestScheduler property.");
+            }
+
+            Helper.SetPrivateProperty(contextSpecification, "TestScheduler", testScheduler);
         }
 
         /// <summary>
-        /// Replaces the <see cref="ContextSpecificationBase.PreTestSetUp"/> method to instantiate the <see cref="TestScheduler"/>
+        /// Replaces the <see cref="ContextSpecificationBase.PreTestFixtureSetUp"/> method to instantiate the <see cref="TestScheduler"/>
         /// and configure the <see cref="RxSchedulers.Switch.SchedulerSwitch"/>.
         /// </summary>
-        [IntroduceMember(IsVirtual = true, OverrideAction = MemberOverrideAction.OverrideOrFail, Visibility = Visibility.Family)]
-        public void PreTestSetUp()
+        private void SetupTestScheduler(IContextSpecification contextSpecification)
         {
-            this.BasePreTestSetUpMethod();
-
             Func<IScheduler> unassignedGuardScheduler = () => { throw new InvalidOperationException("Please assign a scheduler to the respective SchedulerSwitch property. No scheduler is currently assigned."); };
 
             SchedulerSwitch.GetCurrentThreadScheduler = unassignedGuardScheduler;
@@ -99,7 +81,25 @@
             var testScheduler = new ThreadLocal<TestScheduler>(() => new TestScheduler());
             testPlatformEnlightenmentProvider.GetTestScheduler = () => testScheduler.Value;
 
-            this.TestSchedulerProperty.Set(testScheduler.Value);
+            SetTestScheduler(contextSpecification, testScheduler.Value);
+        }
+
+        /// <summary>
+        /// Clear the TestScheduler property and all schedulers in <see cref="SchedulerSwitch"/>.
+        /// </summary>
+        private void TeardownTestScheduler(IContextSpecification contextSpecification)
+        {
+            SetTestScheduler(contextSpecification, null);
+
+            SchedulerSwitch.GetCurrentThreadScheduler = null;
+            SchedulerSwitch.GetDispatcherScheduler = null;
+            SchedulerSwitch.GetImmediateScheduler = null;
+            SchedulerSwitch.GetNewThreadScheduler = null;
+            SchedulerSwitch.GetTaskPoolScheduler = null;
+            SchedulerSwitch.GetThreadPoolScheduler = null;
+
+            var testPlatformEnlightenmentProvider = (TestPlatformEnlightenmentProvider)PlatformEnlightenmentProvider.Current;
+            testPlatformEnlightenmentProvider.GetTestScheduler = null;
         }
 
         #endregion

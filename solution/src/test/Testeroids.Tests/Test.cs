@@ -1,5 +1,7 @@
 ﻿namespace Testeroids.Tests
 {
+    using System.Threading.Tasks;
+
     public class Test
     {
         #region Fields
@@ -40,6 +42,12 @@
                        int b)
         {
             return this.Calculator.Sum(a, b);
+        }
+
+        public Task<int> SumAsync(int a,
+                                  int b)
+        {
+            return this.Calculator.SumAsync(a, b);
         }
 
         #endregion

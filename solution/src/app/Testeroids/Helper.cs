@@ -136,10 +136,16 @@
             try
             {
                 var type = target.GetType();
-                var propertyInfo = type.GetProperty(propertyName);
+                var propertyInfo = type.GetProperty(propertyName, BindingFlags.NonPublic | BindingFlags.Instance);
                 if (propertyInfo == null)
                 {
                     throw new ArgumentException(string.Format(@"Property with name '{0}' not found on {1}", propertyName, type.Name), @"propertyName");
+                }
+
+                // If the property does not belong directly to type, fetch again the property from the declaring type (otherwise we won't have the permission to set it).
+                if (propertyInfo.DeclaringType != null && propertyInfo.DeclaringType != type)
+                {
+                    propertyInfo = propertyInfo.DeclaringType.GetProperty(propertyName, BindingFlags.NonPublic | BindingFlags.Instance);
                 }
 
                 propertyInfo.SetValue(target,

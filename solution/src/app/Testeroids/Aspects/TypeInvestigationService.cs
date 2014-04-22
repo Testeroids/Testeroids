@@ -9,8 +9,6 @@
 
     using NUnit.Framework;
 
-    using Testeroids.Aspects.Attributes;
-
     /// <summary>
     ///   Responsible for checking the nature of a type.
     /// </summary>
@@ -84,17 +82,6 @@
         }
 
         /// <summary>
-        ///   Returns all methods of the type having a Test and a ExceptionResilient Attributes.
-        /// </summary>
-        /// <param name="classTypeToInvestigate"> The type to investigate. </param>
-        /// <returns> The list of methods having Test and ExceptionResilient Attribute. </returns>
-        [PublicAPI]
-        public static IEnumerable<MethodInfo> GetExceptionResilientTestMethods(Type classTypeToInvestigate)
-        {
-            return GetTestMethods(classTypeToInvestigate, false).Where(IsExceptionResilientTestMethod);
-        }
-
-        /// <summary>
         ///   Returns all methods of the type having a <see cref="TestAttribute"/> and a <see cref="ExpectedExceptionAttribute"/>s.
         /// </summary>
         /// <param name="classTypeToInvestigate"> The type to investigate. </param>
@@ -106,14 +93,29 @@
         }
 
         /// <summary>
-        ///   Returns the list of test non marked with Prerequisite Attribute.
+        ///   Returns the list of test methods non marked with the <see cref="PrerequisiteAttribute"/>.
         /// </summary>
-        /// <param name="classTypeToInvestigate"> The type to check </param>
-        /// <returns> the list of test non marked with Prerequisite Attribute. </returns>
+        /// <param name="classTypeToInvestigate"> The type to check. </param>
+        /// <returns> The list of test methods not marked <see cref="PrerequisiteAttribute"/>. </returns>
         [PublicAPI]
         public static IEnumerable<MethodInfo> GetNonPrerequisiteTestMethods(Type classTypeToInvestigate)
         {
             return GetTestMethods(classTypeToInvestigate, false).Where(y => !IsPrerequisiteTestMethod(y));
+        }
+
+        /// <summary>
+        ///   Returns the list of methods marked with the <see cref="PrerequisiteAttribute"/>.
+        /// </summary>
+        /// <param name="classTypeToInvestigate"> The type to check </param>
+        /// <returns> The list of methods marked with <see cref="PrerequisiteAttribute"/>. </returns>
+        [PublicAPI]
+        public static IEnumerable<MethodInfo> GetPrerequisiteTestMethods(Type classTypeToInvestigate)
+        {
+            var testMethods = from method in classTypeToInvestigate.GetMethods(TestMethodBindingFlags | BindingFlags.FlattenHierarchy)
+                              where IsPrerequisiteTestMethod(method)
+                              select method;
+
+            return testMethods;
         }
 
         /// <summary>
@@ -135,8 +137,7 @@
                 from method in type.GetMethods(TestMethodBindingFlags | (flattenHierarchy
                                                                              ? BindingFlags.FlattenHierarchy
                                                                              : BindingFlags.Default))
-                where IsTestMethod(method) &&
-                      !method.IsDefined(typeof(DoNotCallBecauseMethodAttribute), false)
+                where IsTestMethod(method)
                 select method;
 
             if (!flattenHierarchy)
@@ -180,17 +181,6 @@
         public static bool IsContextSpecification(Type classTypeToInvestigate)
         {
             return IsAbstractContextSpecification(classTypeToInvestigate) || IsConcreteContextSpecification(classTypeToInvestigate);
-        }
-
-        /// <summary>
-        ///   Checks if a test method has the ExceptionResilient attribute.
-        /// </summary>
-        /// <param name="method"> The method to check. </param>
-        /// <returns> <c>true</c> if the test method has the ExceptionResilient attribute, <c>false</c> otherwise. </returns>
-        [PublicAPI]
-        public static bool IsExceptionResilientTestMethod(MethodBase method)
-        {
-            return method.IsDefined(typeof(ExceptionResilientAttribute), false);
         }
 
         /// <summary>

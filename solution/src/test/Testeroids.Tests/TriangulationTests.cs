@@ -4,7 +4,6 @@
 // ReSharper disable SealedMemberInSealedClass
 {
     using System.Collections.Generic;
-    using System.Threading.Tasks;
 
     using Moq;
 
@@ -55,11 +54,11 @@
                     base.EstablishContext();
 
                     var testSets = new[]
-                                       {
-                                           new { SpecifiedOperand1 = 10, SpecifiedOperand2 = 7 },
-                                           new { SpecifiedOperand1 = 10, SpecifiedOperand2 = -7 },
-                                           new { SpecifiedOperand1 = 10, SpecifiedOperand2 = 8 }
-                                       };
+                                   {
+                                       new { SpecifiedOperand1 = 10, SpecifiedOperand2 = 7 },
+                                       new { SpecifiedOperand1 = 10, SpecifiedOperand2 = -7 },
+                                       new { SpecifiedOperand1 = 10, SpecifiedOperand2 = 8 }
+                                   };
                     var currentTestSet = testSets[this.CurrentTestSet];
 
                     this.SpecifiedOperand1 = currentTestSet.SpecifiedOperand1;
@@ -313,114 +312,6 @@
                     {
                         Assert.AreEqual(this.ReturnedSum, this.Result);
                     }
-                }
-            }
-
-            [TestFixture(5)]
-            [TestFixture(6)]
-            [TplContextAspect]
-            public abstract class when_Sum_is_called_with_triangulation_on_abstract_Context_and_TplContextAspect : given_instantiated_Sut
-            {
-                #region Context
-
-                protected int SpecifiedOperand1 { get; private set; }
-
-                private int Result { get; set; }
-
-                private int SpecifiedOperand2 { get; set; }
-
-                protected abstract int EstablishSpecifiedOperand2();
-
-                protected override void EstablishContext()
-                {
-                    base.EstablishContext();
-
-                    this.SpecifiedOperand2 = this.EstablishSpecifiedOperand2();
-
-                    this.CheckSetupsAreMatchedWithVerifyCalls = true;
-                }
-
-                protected override sealed void Because()
-                {
-                    this.Result = this.Sut.Sum(this.SpecifiedOperand1, this.SpecifiedOperand2);
-                }
-
-                protected override void DisposeContext()
-                {
-                    this.SpecifiedOperand1 = 0;
-
-                    base.DisposeContext();
-                }
-
-                protected when_Sum_is_called_with_triangulation_on_abstract_Context_and_TplContextAspect(int operand1)
-                {
-                    this.SpecifiedOperand1 = operand1;
-                }
-
-                #endregion
-
-                public abstract class with_returned_result : when_Sum_is_called_with_triangulation_on_abstract_Context_and_TplContextAspect
-                {
-                    #region Context
-
-                    private int ReturnedSum { get; set; }
-
-                    private int EstablishReturnedSum()
-                    {
-                        // Return an erroneous value, just to certify that we are returning the value which is handed out by the mock
-                        return this.SpecifiedOperand1 + this.SpecifiedOperand2;
-                    }
-
-                    protected override void EstablishContext()
-                    {
-                        base.EstablishContext();
-
-                        this.ReturnedSum = this.EstablishReturnedSum();
-                        this.InjectedCalculatorMock
-                            .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
-                            .Returns(this.ReturnedSum)
-                            .DontEnforceSetupVerification()
-                            .EnforceUsage();
-                    }
-
-                    protected with_returned_result(int operand1)
-                        : base(operand1)
-                    {
-                    }
-
-                    #endregion
-
-                    public class with_SpecifiedOperand2_equal_to_7 : with_returned_result
-                    {
-                        #region Context
-
-                        protected override sealed int EstablishSpecifiedOperand2()
-                        {
-                            return 7;
-                        }
-
-                        public with_SpecifiedOperand2_equal_to_7(int operand1)
-                            : base(operand1)
-                        {
-                        }
-
-                        #endregion
-                    }
-
-                    /// <remarks>
-                    ///  HACK : we use the type's name in string representation because TestTaskScheduler is internal to Testeroids.
-                    /// </remarks>
-                    [Test]
-                    public void then_Default_TaskScheduler_is_of_type_TestTaskScheduler()
-                    {
-                        Assert.AreEqual("TestTaskScheduler", TaskScheduler.Default.GetType().Name);
-                    }
-                }
-
-                [Test]
-                public void then_Result_matches_SpecifiedOperand1_plus_SpecifiedOperand2()
-                {
-                    Assert.AreEqual(this.SpecifiedOperand1 + this.SpecifiedOperand2, this.Result);
                 }
             }
         }

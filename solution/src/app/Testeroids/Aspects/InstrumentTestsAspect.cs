@@ -15,12 +15,12 @@
     using PostSharp.Extensibility;
 
     /// <summary>
-    ///   <see cref="InvokeTestsAspect" /> provides behavior that is necessary for a better integration of AAA syntax with the unit testing framework.
+    ///   <see cref="InstrumentTestsAspect" /> provides behavior that is necessary for a better integration of AAA syntax with the unit testing framework.
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     [MulticastAttributeUsage(Inheritance = MulticastInheritance.Strict)]
-    public class InvokeTestsAspect : InstanceLevelAspect
+    public class InstrumentTestsAspect : InstanceLevelAspect
     {
         #region Public Methods and Operators
 
@@ -35,14 +35,15 @@
         }
 
         /// <summary>
-        ///   Executed when <see cref="Testeroids.Aspects.Attributes.ExceptionResilientAttribute"/> is set on a test method.
+        ///   Executed for methods which are not marked with <see cref="ExpectedExceptionAttribute"/>, but are in the context of a test marked with <see cref="ExpectedExceptionAttribute"/>.
         /// </summary>
         /// <param name="args"> The Method interception args. </param>
-        [OnMethodInvokeAdvice]
+        [OnMethodEntryAdvice]
         [MethodPointcut(@"SelectExceptionResilientTestMethods")]
-        public void OnExceptionResilientTestMethodEntry(MethodInterceptionArgs args)
+        [DebuggerNonUserCode]
+        public void OnExceptionResilientTestMethodEntry(MethodExecutionArgs args)
         {
-            ((IContextSpecification)args.Instance).Act(args.Method, true);
+            ((IContextSpecification)args.Instance).OnTestMethodCalled(args.Method, true);
         }
 
         /// <summary>
@@ -54,7 +55,7 @@
         [DebuggerNonUserCode]
         public void OnStandardTestMethodEntry(MethodExecutionArgs args)
         {
-            ((IContextSpecification)args.Instance).Act(args.Method, false);
+            ((IContextSpecification)args.Instance).OnTestMethodCalled(args.Method, false);
         }
 
         #endregion
@@ -62,10 +63,10 @@
         #region Methods
 
         /// <summary>
-        ///   Select the test methods marked with <see cref="Testeroids.Aspects.Attributes.ExceptionResilientAttribute"/>.
+        ///   Select the remaining test methods contained in a fixture where one test method is marked <see cref="ExpectedExceptionAttribute"/>.
         /// </summary>
         /// <param name="type"> The test fixture type to investigate. </param>
-        /// <returns> The list of test method marked with <see cref="Testeroids.Aspects.Attributes.ExceptionResilientAttribute"/>. </returns>
+        /// <returns> The list of remaining test methods contained in a fixture where one test method is marked <see cref="ExpectedExceptionAttribute"/>. </returns>
         [UsedImplicitly]
         private static IEnumerable<MethodBase> SelectExceptionResilientTestMethods(Type type)
         {
@@ -83,12 +84,11 @@
                 return testMethods.Except(expectedExceptionTestMethodsInContext).ToArray();
             }
 
-            // Otherwise, take only the ones actually marked with ExceptionResilientAttribute
-            return TypeInvestigationService.GetExceptionResilientTestMethods(type);
+            return Enumerable.Empty<MethodBase>();
         }
 
         /// <summary>
-        ///   Select the test methods marked with <see cref="TestAttribute"/>, but not marked with <see cref="Testeroids.Aspects.Attributes.DoNotCallBecauseMethodAttribute"/> or <see cref="Testeroids.Aspects.Attributes.ExceptionResilientAttribute"/>.
+        ///   Select the test methods marked with <see cref="TestAttribute"/>, but not considered exception-resilient.
         /// </summary>
         /// <param name="type"> The test fixture type to investigate. </param>
         /// <returns> The list of test methods which match the prerequisites. </returns>

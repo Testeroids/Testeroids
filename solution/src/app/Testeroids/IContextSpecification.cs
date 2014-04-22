@@ -1,5 +1,7 @@
 ﻿namespace Testeroids
 {
+    using System;
+    using System.Collections.Generic;
     using System.Reflection;
 
     using Testeroids.Aspects;
@@ -9,10 +11,24 @@
     /// </summary>
     public interface IContextSpecification
     {
+        #region Public Properties
+
+        /// <summary>
+        ///     Gets the list of tasks to be executed during context setup.
+        /// </summary>
+        IList<Action<IContextSpecification>> SetupTasks { get; }
+
+        /// <summary>
+        ///     Gets the list of tasks to be executed during context teardown.
+        /// </summary>
+        IList<Action<IContextSpecification>> TeardownTasks { get; }
+
+        #endregion
+
         #region Public Methods and Operators
 
         /// <summary>
-        /// This will be called by the <see cref="InvokeTestsAspect"/> aspect. Performs the "Act" part, or the logic which is to be tested.
+        /// This will be called by the <see cref="InstrumentTestsAspect"/> aspect. Performs the "OnTestMethodCalled" part, responsible for reporting the behavior found during the Act part.
         /// </summary>
         /// <param name="testMethodInfo">
         /// The <see cref="MethodBase"/> instance that describes the executing test.
@@ -20,13 +36,8 @@
         /// <param name="isExceptionResilient">
         /// <c>true</c> if the test is set to ignore some exception. <c>false</c> otherwise.
         /// </param>
-        void Act(MethodBase testMethodInfo,
-                 bool isExceptionResilient);
-
-        /// <summary>
-        ///   Sets up the test (calls <see cref="Testeroids.ContextSpecificationBase.EstablishContext"/> followed by <see cref="Testeroids.ContextSpecificationBase.InitializeSubjectUnderTest" />).
-        /// </summary>
-        void BaseSetUp();
+        void OnTestMethodCalled(MethodBase testMethodInfo,
+                                bool isExceptionResilient);
 
         #endregion
     }

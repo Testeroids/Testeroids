@@ -1,6 +1,7 @@
 ﻿namespace Testeroids
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Globalization;
@@ -19,7 +20,7 @@
     /// <summary>
     ///   Base class for implementing the AAA pattern.
     /// </summary>
-    [InvokeTestsAspect]
+    [InstrumentTestsAspect]
     [CategorizeUnitTestFixturesAspect]
     [MakeEmptyTestsInconclusiveAspect]
     [EnforceInstanceLevelRulesAspect]
@@ -36,6 +37,11 @@
         /// Keeps a count of the number of tests executed in the current run of this test fixture.
         /// </summary>
         private int numberOfTestsExecuted;
+
+        /// <summary>
+        /// The first exception raised during the <see cref="Act()"/> method. This will be rethrown during each test that is not resilient to this exception type.
+        /// </summary>
+        private Exception raisedException;
 
         #endregion
 
@@ -61,7 +67,9 @@
         {
             this.CheckSetupsAreMatchedWithVerifyCalls = true;
             this.AutoVerifyMocks = true;
-            this.ArePrerequisiteTestsRunning = false;
+
+            this.SetupTasks = new List<Action<IContextSpecification>>();
+            this.TeardownTasks = new List<Action<IContextSpecification>>();
         }
 
         #endregion
@@ -80,6 +88,16 @@
             }
         }
 
+        /// <summary>
+        ///     Gets the list of tasks to be executed during context setup.
+        /// </summary>
+        public IList<Action<IContextSpecification>> SetupTasks { get; private set; }
+
+        /// <summary>
+        ///     Gets the list of tasks to be executed during context teardown.
+        /// </summary>
+        public IList<Action<IContextSpecification>> TeardownTasks { get; private set; }
+
         #endregion
 
         #region Properties
@@ -96,11 +114,6 @@
         [PublicAPI]
         protected bool CheckSetupsAreMatchedWithVerifyCalls { get; set; }
 
-        /// <summary>
-        ///   Gets or sets a value indicating whether there are prerequisite tests running.
-        /// </summary>
-        private bool ArePrerequisiteTestsRunning { get; set; }
-
         #endregion
 
         #region Public Methods and Operators
@@ -113,30 +126,28 @@
         public virtual void BaseSetUp()
         {
             Interlocked.Increment(ref this.numberOfTestsExecuted);
-
-            this.PreTestSetUp();
-            this.InstantiateMocks();
-            this.EstablishContext();
-            this.InitializeSubjectUnderTest();
-        }
-
-        /// <summary>
-        ///   Called when the test is tore down (invokes <see cref="DisposeContext"/>).
-        /// </summary>
-        [TearDown]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual void BaseTearDown()
-        {
-            this.DisposeContext();
         }
 
         /// <summary>
         ///   Called when the test fixture is set up.
         /// </summary>
         [TestFixtureSetUp]
-        public virtual void BaseTestFixtureSetUp()
+        public void BaseTestFixtureSetUp()
         {
-            TplTestPlatformHelper.SetDefaultScheduler(new TplTestPlatformHelper.InvalidTaskScheduler());
+            this.PreTestFixtureSetUp();
+
+            this.RegisterTestFixtureWithAspects();
+
+            foreach (var setupTask in this.SetupTasks)
+            {
+                setupTask(this);
+            }
+
+            this.InstantiateMocks();
+            this.EstablishContext();
+            this.InitializeSubjectUnderTest();
+
+            this.Act();
         }
 
         /// <summary>
@@ -146,23 +157,28 @@
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual void BaseTestFixtureTearDown()
         {
-            if (!this.AutoVerifyMocks && !this.CheckSetupsAreMatchedWithVerifyCalls)
+            this.DisposeContext();
+
+            foreach (var teardownTask in this.TeardownTasks)
             {
-                return;
+                teardownTask(this);
             }
 
-            var allTestsInFixtureWereExecuted = this.numberOfTestsExecuted == this.GetNumberOfTestsInTestFixture();
-
-            if (allTestsInFixtureWereExecuted)
+            if (this.AutoVerifyMocks || this.CheckSetupsAreMatchedWithVerifyCalls)
             {
-                if (this.AutoVerifyMocks)
-                {
-                    this.MockRepository.VerifyMocks();
-                }
+                var allTestsInFixtureWereExecuted = this.numberOfTestsExecuted == this.GetNumberOfTestsInTestFixture();
 
-                if (this.CheckSetupsAreMatchedWithVerifyCalls)
+                if (allTestsInFixtureWereExecuted)
                 {
-                    this.MockRepository.CheckAllSetupsVerified();
+                    if (this.AutoVerifyMocks)
+                    {
+                        this.MockRepository.VerifyMocks();
+                    }
+
+                    if (this.CheckSetupsAreMatchedWithVerifyCalls)
+                    {
+                        this.MockRepository.CheckAllSetupsVerified();
+                    }
                 }
             }
         }
@@ -172,7 +188,7 @@
         #region Explicit Interface Methods
 
         /// <summary>
-        ///   This will be called by the <see cref="InvokeTestsAspect"/> aspect. Performs the "Act" part, or the logic which is to be tested.
+        ///   This will be called by the <see cref="InstrumentTestsAspect"/> aspect. Rethrows any exception logged during the test run.
         /// </summary>
         /// <param name="testMethodInfo">
         ///   The <see cref="MethodBase"/> instance that describes the executing test.
@@ -180,55 +196,21 @@
         /// <param name="isExceptionResilient">
         ///   <c>true</c> if the test is set to ignore some exception. <c>false</c> otherwise.
         /// </param>
-        void IContextSpecification.Act(MethodBase testMethodInfo,
-                                       bool isExceptionResilient)
+        void IContextSpecification.OnTestMethodCalled(MethodBase testMethodInfo,
+                                                      bool isExceptionResilient)
         {
-            this.MockRepository.ResetAllCalls();
-
-            var isRunningInTheContextOfAnotherTest = this.ArePrerequisiteTestsRunning;
-
-            if (isRunningInTheContextOfAnotherTest)
+            if (this.raisedException == null)
             {
                 return;
             }
 
-            var isRunningPrerequisite = testMethodInfo.IsDefined(typeof(PrerequisiteAttribute), true);
-
-            try
+            if (isExceptionResilient)
             {
-                if (!isRunningPrerequisite)
-                {
-                    this.RunPrerequisiteTests();
-                }
-
-                this.Because();
-            }
-            catch (AssertionException e)
-            {
-                if (!e.Message.TrimStart().StartsWith("Expected"))
-                {
-                    return;
-                }
-
-                var message = string.Format("{0}.{1}\r\n{2}", this.GetType().Name, testMethodInfo.Name, e.Message);
-
-                if (isRunningPrerequisite)
-                {
-                    message = string.Format("Prerequisite failed: {0}", message);
-                    throw new PrerequisiteFailureException(message, e);
-                }
-
-                throw;
-            }
-            catch (Exception e)
-            {
-                if (!isExceptionResilient)
-                {
-                    throw;
-                }
-
                 // we don't care about exceptions right now
-                var testMethodsInContext = TypeInvestigationService.GetTestMethods(this.GetType(), true);
+                var type = this.GetType();
+                var testMethodsInContext = TypeInvestigationService.GetTestMethods(type, true)
+                                                                   .Concat(TypeInvestigationService.GetAllContextSpecificationTypes(type)
+                                                                                                   .SelectMany(nestedType => TypeInvestigationService.GetTestMethods(nestedType, true)));
                 var expectedExceptions =
                     testMethodsInContext.SelectMany(testMethod => testMethod.GetCustomAttributes(typeof(ExpectedExceptionAttribute), false))
                                         .Cast<ExpectedExceptionAttribute>()
@@ -236,11 +218,14 @@
                                         .Distinct()
                                         .ToArray();
 
-                if (!expectedExceptions.Contains(null) && expectedExceptions.All(exceptionTypeToIgnore => !exceptionTypeToIgnore.IsInstanceOfType(e)))
+                if (expectedExceptions.Contains(null) || expectedExceptions.Any(exceptionTypeToIgnore => exceptionTypeToIgnore.IsInstanceOfType(this.raisedException)))
                 {
-                    throw;
+                    // Exception is ignored
+                    return;
                 }
             }
+
+            throw this.raisedException;
         }
 
         #endregion
@@ -291,25 +276,21 @@
         /// </summary>
         [DebuggerNonUserCode]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        protected virtual void PreTestSetUp()
+        protected virtual void PreTestFixtureSetUp()
         {
+            TplTestPlatformHelper.SetDefaultScheduler(new TplTestPlatformHelper.InvalidTaskScheduler());
         }
 
         /// <summary>
-        ///   This will be called by the InvokeTestsAspect aspect. Executes all tests in the context marked with the <see cref="PrerequisiteAttribute"/>.
+        ///   This will be called before the actual assert method. Executes all methods in the context marked with the <see cref="PrerequisiteAttribute"/>.
         /// </summary>
-        protected void RunPrerequisiteTests()
+        protected void RunPrerequisites()
         {
-            this.ArePrerequisiteTestsRunning = true;
+            var prerequisiteTestsToRun = TypeInvestigationService.GetPrerequisiteTestMethods(this.GetType());
 
-            try
+            foreach (var prerequisiteTest in prerequisiteTestsToRun)
             {
-                var prerequisiteTestsToRun =
-                    from method in TypeInvestigationService.GetTestMethods(this.GetType(), true)
-                    where method.IsDefined(typeof(PrerequisiteAttribute), true)
-                    select method;
-
-                foreach (var prerequisiteTest in prerequisiteTestsToRun)
+                try
                 {
                     prerequisiteTest.Invoke(this,
                                             BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic,
@@ -317,14 +298,53 @@
                                             null,
                                             CultureInfo.InvariantCulture);
                 }
+                catch (TargetInvocationException ex)
+                {
+                    var exception = ex.InnerException;
+
+                    if (exception is AssertionException)
+                    {
+                        if (!exception.Message.TrimStart().StartsWith("Expected"))
+                        {
+                            return;
+                        }
+
+                        var message = string.Format("{0}.{1}\r\n{2}", this.GetType().Name, prerequisiteTest.Name, exception.Message);
+
+                        message = string.Format("Prerequisite failed: {0}", message);
+                        exception = new PrerequisiteFailureException(message, exception);
+                    }
+
+                    throw exception;
+                }
             }
-            catch (TargetInvocationException ex)
+        }
+
+        /// <summary>
+        ///   This will be called by the <see cref="InstrumentTestsAspect"/> aspect. Performs the "Act" part, or the logic which is to be tested.
+        /// </summary>
+        private void Act()
+        {
+            this.MockRepository.ResetAllCalls();
+
+            try
             {
-                throw ex.InnerException;
+                this.Because();
+
+                this.RunPrerequisites();
             }
-            finally
+            catch (AssertionException e)
             {
-                this.ArePrerequisiteTestsRunning = false;
+                if (!e.Message.TrimStart().StartsWith("Expected"))
+                {
+                    return;
+                }
+
+                this.raisedException = e;
+            }
+            catch (Exception ex)
+            {
+                this.raisedException = ex;
             }
         }
 
@@ -337,6 +357,20 @@
         private int GetNumberOfTestsInTestFixture()
         {
             return TypeInvestigationService.GetTestMethods(this.GetType(), true).Count();
+        }
+
+        /// <summary>
+        /// Registers this context with each attribute derived from <see cref="TestFixtureSetupAttributeBase"/>. Those attributes will get invoked for setup and teardown notifications.
+        /// </summary>
+        private void RegisterTestFixtureWithAspects()
+        {
+            var aspects = this.GetType()
+                              .GetCustomAttributes(typeof(TestFixtureSetupAttributeBase), true)
+                              .Cast<TestFixtureSetupAttributeBase>();
+            foreach (var aspect in aspects)
+            {
+                aspect.Register(this);
+            }
         }
 
         #endregion
