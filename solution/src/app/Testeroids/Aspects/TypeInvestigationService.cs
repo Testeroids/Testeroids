@@ -217,5 +217,36 @@
         }
 
         #endregion
+
+        /// <summary>
+        ///   Get the tested class type name.
+        /// </summary>
+        /// <param name="targetType"> The test class from which the tested class must be found. </param>
+        /// <returns> The tested class name. </returns>
+        public static string GetTestedClassTypeName(Type targetType)
+        {
+            var contextSpecificationType = typeof(ContextSpecification<>);
+            var subjectInstantiationContextSpecificationType = typeof(SubjectInstantiationContextSpecification<>);
+
+            while (targetType != null)
+            {
+                if (targetType.IsGenericType)
+                {
+                    var targetGenericTypeDefinition = targetType.GetGenericTypeDefinition();
+
+                    if (targetGenericTypeDefinition == contextSpecificationType ||
+                        targetGenericTypeDefinition == subjectInstantiationContextSpecificationType)
+                    {
+                        var typeTested = targetType.GetGenericArguments().Single();
+
+                        return typeTested.Name;
+                    }
+                }
+
+                targetType = targetType.BaseType;
+            }
+
+            return "Unknown";
+        }
     }
 }

@@ -10,12 +10,16 @@
     using System.Reflection;
     using System.Threading;
 
+    using Humanizer;
+
     using JetBrains.Annotations;
 
     using NUnit.Framework;
 
     using Testeroids.Aspects;
     using Testeroids.Mocking;
+
+    using DescriptionAttribute = NUnit.Framework.DescriptionAttribute;
 
     /// <summary>
     ///   Base class for implementing the AAA pattern.
@@ -27,6 +31,8 @@
     public abstract class ContextSpecificationBase : IContextSpecification
     {
         #region Fields
+
+        private readonly Type contextType;
 
         /// <summary>
         /// The mock repository which will allow the derived classes centralized mock creation and tracking.
@@ -60,6 +66,8 @@
         /// </summary>
         protected ContextSpecificationBase()
         {
+            this.contextType = this.GetType();
+
             this.CheckSetupsAreMatchedWithVerifyCalls = true;
             this.AutoVerifyMocks = true;
 
@@ -84,11 +92,6 @@
         }
 
         /// <summary>
-        ///   Gets the first exception raised during the <see cref="Act()"/> method. It will be rethrown during each test that is not resilient to this exception type.
-        /// </summary>
-        public Exception ThrownException { get; private set; }
-
-        /// <summary>
         ///   Gets the list of tasks to be executed during context setup.
         /// </summary>
         public IList<Action<IContextSpecification>> SetupTasks { get; private set; }
@@ -97,6 +100,11 @@
         ///   Gets the list of tasks to be executed during context teardown.
         /// </summary>
         public IList<Action<IContextSpecification>> TeardownTasks { get; private set; }
+
+        /// <summary>
+        ///   Gets the first exception raised during the <see cref="Act()"/> method. It will be rethrown during each test that is not resilient to this exception type.
+        /// </summary>
+        public Exception ThrownException { get; private set; }
 
         #endregion
 
@@ -134,6 +142,12 @@
         [TestFixtureSetUp]
         public void BaseTestFixtureSetUp()
         {
+            var contextType = this.GetType();
+            Console.WriteLine(@"Test case for {0}:", TypeInvestigationService.GetTestedClassTypeName(contextType));
+            Console.WriteLine("\t{0}.", contextType.GetCustomAttributes(typeof(NUnit.Framework.DescriptionAttribute), false).Cast<NUnit.Framework.DescriptionAttribute>().Single().Description);
+            Console.WriteLine();
+            OutputContextTypeName(contextType);
+
             this.PreTestFixtureSetUp();
 
             this.RegisterTestFixtureWithAspects();
@@ -199,6 +213,9 @@
         void IContextSpecification.OnTestMethodCalled(MethodBase testMethodInfo,
                                                       bool isExceptionResilient)
         {
+            Console.WriteLine(testMethodInfo.GetCustomAttributes(typeof(DescriptionAttribute), false).Cast<DescriptionAttribute>().Single().Description);
+            OutputContextTypeName(this.contextType);
+
             if (this.ThrownException == null)
             {
                 return;
@@ -207,9 +224,8 @@
             if (isExceptionResilient)
             {
                 // we don't care about exceptions right now
-                var type = this.GetType();
-                var testMethodsInContext = TypeInvestigationService.GetTestMethods(type, true)
-                                                                   .Concat(TypeInvestigationService.GetAllContextSpecificationTypes(type)
+                var testMethodsInContext = TypeInvestigationService.GetTestMethods(this.contextType, true)
+                                                                   .Concat(TypeInvestigationService.GetAllContextSpecificationTypes(this.contextType)
                                                                                                    .SelectMany(nestedType => TypeInvestigationService.GetTestMethods(nestedType, true)));
                 var expectedExceptions =
                     testMethodsInContext.SelectMany(testMethod => testMethod.GetCustomAttributes(typeof(ExpectedExceptionAttribute), false))
@@ -288,7 +304,7 @@
         /// </summary>
         protected void RunPrerequisites()
         {
-            var prerequisiteTestsToRun = TypeInvestigationService.GetPrerequisiteTestMethods(this.GetType());
+            var prerequisiteTestsToRun = TypeInvestigationService.GetPrerequisiteTestMethods(this.contextType);
 
             foreach (var prerequisiteTest in prerequisiteTestsToRun)
             {
@@ -311,7 +327,7 @@
                             return;
                         }
 
-                        var message = string.Format("{0}.{1}\r\n{2}", this.GetType().Name, prerequisiteTest.Name, exception.Message);
+                        var message = string.Format("{0}.{1}\r\n{2}", this.contextType.Name, prerequisiteTest.Name, exception.Message);
 
                         message = string.Format("Prerequisite failed: {0}", message);
                         exception = new PrerequisiteFailureException(message, exception);
@@ -320,6 +336,12 @@
                     throw exception;
                 }
             }
+        }
+
+        private static void OutputContextTypeName(Type contextType)
+        {
+            Console.WriteLine("Type name: {0}", contextType.FullName.Truncate(120, Truncator.FixedLength, TruncateFrom.Left));
+            Console.WriteLine(new string('-', 131));
         }
 
         /// <summary>
@@ -358,7 +380,7 @@
         /// </returns>
         private int GetNumberOfTestsInTestFixture()
         {
-            return TypeInvestigationService.GetTestMethods(this.GetType(), true).Count();
+            return TypeInvestigationService.GetTestMethods(this.contextType, true).Count();
         }
 
         /// <summary>
@@ -366,7 +388,7 @@
         /// </summary>
         private void RegisterTestFixtureWithAspects()
         {
-            var aspects = this.GetType()
+            var aspects = this.contextType
                               .GetCustomAttributes(typeof(TestFixtureSetupAttributeBase), true)
                               .Cast<TestFixtureSetupAttributeBase>();
             foreach (var aspect in aspects)
