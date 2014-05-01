@@ -144,7 +144,10 @@
         {
             var contextType = this.GetType();
             Console.WriteLine(@"Test case for {0}:", TypeInvestigationService.GetTestedClassTypeName(contextType));
-            Console.WriteLine("\t{0}.", contextType.GetCustomAttributes(typeof(NUnit.Framework.DescriptionAttribute), false).Cast<NUnit.Framework.DescriptionAttribute>().Single().Description);
+            var descriptionAttribute = contextType.GetCustomAttributes(typeof(NUnit.Framework.DescriptionAttribute), false).Cast<NUnit.Framework.DescriptionAttribute>().SingleOrDefault();
+            Console.WriteLine("\t{0}.", descriptionAttribute != null
+                                            ? descriptionAttribute.Description
+                                            : "N/A");
             Console.WriteLine();
             OutputContextTypeName(contextType);
 
@@ -213,7 +216,10 @@
         void IContextSpecification.OnTestMethodCalled(MethodBase testMethodInfo,
                                                       bool isExceptionResilient)
         {
-            Console.WriteLine(testMethodInfo.GetCustomAttributes(typeof(DescriptionAttribute), false).Cast<DescriptionAttribute>().Single().Description);
+            var descriptionAttribute = testMethodInfo.GetCustomAttributes(typeof(NUnit.Framework.DescriptionAttribute), false).Cast<NUnit.Framework.DescriptionAttribute>().SingleOrDefault();
+            Console.WriteLine(descriptionAttribute != null
+                                  ? descriptionAttribute.Description
+                                  : "N/A");
             OutputContextTypeName(this.contextType);
 
             if (this.ThrownException == null)
@@ -340,7 +346,18 @@
 
         private static void OutputContextTypeName(Type contextType)
         {
-            Console.WriteLine("Type name: {0}", contextType.FullName.Truncate(120, Truncator.FixedLength, TruncateFrom.Left));
+            var contextName = contextType.FullName.Split('`').First();
+            if (contextType.IsGenericType)
+            {
+                var genericArguments = contextType.GetGenericArguments();
+
+                if (genericArguments.Any())
+                {
+                    contextName += string.Format("<{0}>", string.Join(", ", genericArguments.Select(a => a.Name)));
+                }
+            }
+
+            Console.WriteLine("Type name: {0}", contextName.Truncate(120, Truncator.FixedLength, TruncateFrom.Left));
             Console.WriteLine(new string('-', 131));
         }
 

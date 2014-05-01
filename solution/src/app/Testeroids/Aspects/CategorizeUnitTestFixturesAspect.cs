@@ -39,6 +39,7 @@
 
             if (targetType.IsGenericType)
             {
+                // PostSharp doesn't manage to inject on generic types (generic type definitions?), so for now we ignore it.
                 yield break;
             }
 
