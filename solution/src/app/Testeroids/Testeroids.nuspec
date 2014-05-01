@@ -25,8 +25,8 @@
       <dependency id="Moq" version="4.2.1402.2112" />
       <dependency id="NUnit" version="2.6.3" />
       <dependency id="PostSharp" version="3.1.28" />
-      <dependency id="RxSchedulers.Switch" version="2.2.2" />
-      <dependency id="Rx-Testing" version="2.2.2" />
+      <dependency id="RxSchedulers.Switch" version="2.2.4" />
+      <dependency id="Rx-Testing" version="2.2.4" />
     </dependencies>
   </metadata>
 </package>
