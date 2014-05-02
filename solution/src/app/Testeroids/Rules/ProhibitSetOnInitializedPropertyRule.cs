@@ -58,7 +58,7 @@
                 this.propertySetList.Contains(propertyInfo.Name))
             {
                 Debug.Assert(propertyInfo.DeclaringType != null, "propertyInfo.DeclaringType != null");
-                throw new PropertyAlreadyInitializedException(propertyInfo.DeclaringType.FullName + "." + propertyInfo.Name);
+                throw new PropertyAlreadyInitializedException(string.Format("{0}.{1}", propertyInfo.DeclaringType.FullName, propertyInfo.Name));
             }
 
             this.propertySetList.Add(propertyInfo.Name);

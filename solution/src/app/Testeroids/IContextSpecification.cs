@@ -1,8 +1,10 @@
 ﻿namespace Testeroids
 {
-    using System.ComponentModel;
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
 
-    using NUnit.Framework;
+    using Testeroids.Aspects;
 
     /// <summary>
     ///   Base class for implementing the AAA pattern.
@@ -12,20 +14,35 @@
         #region Public Properties
 
         /// <summary>
-        ///   Gets a value indicating whether there are prerequisite tests running.
+        ///     Gets the list of tasks to be executed during context setup.
         /// </summary>
-        bool ArePrerequisiteTestsRunning { get; }
+        IList<Action<IContextSpecification>> SetupTasks { get; }
+
+        /// <summary>
+        ///     Gets the list of tasks to be executed during context teardown.
+        /// </summary>
+        IList<Action<IContextSpecification>> TeardownTasks { get; }
+
+        /// <summary>
+        ///     Gets the first exception raised during the "Act" part of the test. It will be rethrown during each test that is not resilient to this exception type.
+        /// </summary>
+        Exception ThrownException { get; }
 
         #endregion
 
         #region Public Methods and Operators
 
         /// <summary>
-        ///   Sets up the test (calls <see cref="Testeroids.ContextSpecificationBase.EstablishContext"/> followed by <see cref="Testeroids.ContextSpecificationBase.InitializeSubjectUnderTest" />).
+        /// This will be called by the <see cref="InstrumentTestsAspect"/> aspect. Performs the "OnTestMethodCalled" part, responsible for reporting the behavior found during the Act part.
         /// </summary>
-        [SetUp]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        void BaseSetUp();
+        /// <param name="testMethodInfo">
+        /// The <see cref="MethodBase"/> instance that describes the executing test.
+        /// </param>
+        /// <param name="isExceptionResilient">
+        /// <c>true</c> if the test is set to ignore some exception. <c>false</c> otherwise.
+        /// </param>
+        void OnTestMethodCalled(MethodBase testMethodInfo,
+                                bool isExceptionResilient);
 
         #endregion
     }

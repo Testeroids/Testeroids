@@ -5,7 +5,7 @@
     using Testeroids.Aspects;
 
     /// <summary>
-    ///   Defines the contract for a rule that can be enforced by <see cref="EnforceInstanceLevelRulesAspectAttribute"/>.
+    ///   Defines the contract for a rule that can be enforced by <see cref="EnforceInstanceLevelRulesAspect"/>.
     /// </summary>
     public interface IInstanceLevelRule : IRule
     {

@@ -16,7 +16,7 @@
     [Serializable]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     [MulticastAttributeUsage(Inheritance = MulticastInheritance.Strict)]
-    public class EnforceInstanceLevelRulesAspectAttribute : InstanceLevelAspect
+    public class EnforceInstanceLevelRulesAspect : InstanceLevelAspect
     {
         #region Fields
 
@@ -35,9 +35,9 @@
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnforceInstanceLevelRulesAspectAttribute"/> class.
+        /// Initializes a new instance of the <see cref="EnforceInstanceLevelRulesAspect"/> class.
         /// </summary>
-        public EnforceInstanceLevelRulesAspectAttribute()
+        public EnforceInstanceLevelRulesAspect()
         {
             this.instanceLevelRules = new List<IInstanceLevelRule>
                                       {

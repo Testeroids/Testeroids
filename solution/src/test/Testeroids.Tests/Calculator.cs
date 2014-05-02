@@ -1,5 +1,7 @@
 ﻿namespace Testeroids.Tests
 {
+    using System.Threading.Tasks;
+
     internal class Calculator : ICalculator
     {
         #region Constructors and Destructors
@@ -28,6 +30,14 @@
                        int b)
         {
             return a + b;
+        }
+
+        public Task<int> SumAsync(int a,
+                                  int b)
+        {
+            var taskCompletionSource = new TaskCompletionSource<int>();
+            taskCompletionSource.SetResult(a + b);
+            return taskCompletionSource.Task;
         }
 
         #endregion

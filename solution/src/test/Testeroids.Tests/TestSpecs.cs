@@ -4,12 +4,15 @@
 // ReSharper disable SealedMemberInSealedClass
 {
     using System;
+    using System.Threading.Tasks;
 
     using Moq;
 
     using NUnit.Framework;
 
     using Testeroids.Mocking;
+
+    using Assert = Testeroids.Assert;
 
     public abstract class TestSpecs
     {
@@ -18,6 +21,12 @@
             #region Context
 
             private ITesteroidsMock<ICalculator> InjectedCalculatorMock { get; set; }
+
+            [Prerequisite]
+            public void TestPrerequisite()
+            {
+                Assert.IsNotNull(this.Sut);
+            }
 
             protected override void EstablishContext()
             {
@@ -440,6 +449,12 @@
                     {
                         Assert.AreEqual(this.ReturnedSum, this.Result);
                     }
+
+                    [Test]
+                    public void then_ThrownException_is_null()
+                    {
+                        Assert.IsNull(this.ThrownException);
+                    }
                 }
 
                 public abstract class with_throw_Exception_Base : when_Sum_is_called
@@ -492,6 +507,8 @@
                     {
                         #region Context
 
+                        private Exception ExceptionThrownBySum { get; set; }
+
                         protected override sealed int EstablishSpecifiedOperand2()
                         {
                             // irrelevant
@@ -502,6 +519,8 @@
                         {
                             base.EstablishContext();
 
+                            this.ExceptionThrownBySum = new InvalidOperationException();
+
                             this.InjectedCalculatorMock
                                 .SetupGet(o => o.Radix)
                                 .Returns(10)
@@ -509,7 +528,7 @@
 
                             this.InjectedCalculatorMock
                                 .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
-                                .Throws<InvalidOperationException>()
+                                .Throws(ExceptionThrownBySum)
                                 .DontEnforceSetupVerification();
                         }
 
@@ -546,6 +565,12 @@
                         public void then_InvalidOperationException_is_thrown()
                         {
                         }
+
+                        [Test]
+                        public void then_ThrownException_is_ExceptionThrownBySum()
+                        {
+                            Assert.AreSame(this.ExceptionThrownBySum, this.ThrownException);
+                        }
                     }
                 }
 
@@ -553,6 +578,142 @@
                 public void then_Sum_is_called_once_on_InjectedCalculatorMock()
                 {
                     this.InjectedCalculatorMock.Verify(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
+                }
+            }
+
+            [TplContextAspect]
+            public abstract class when_SumAsync_is_called_with_triangulation_on_abstract_Context_and_TplContextAspect : given_instantiated_Sut
+            {
+                #region Context
+
+                protected int SpecifiedOperand1 { get; private set; }
+
+                protected int SpecifiedOperand2 { get; private set; }
+
+                private Task<int> Result { get; set; }
+
+                protected abstract int EstablishSpecifiedOperand1();
+
+                protected abstract int EstablishSpecifiedOperand2();
+
+                protected override void EstablishContext()
+                {
+                    base.EstablishContext();
+
+                    this.SpecifiedOperand1 = this.EstablishSpecifiedOperand1();
+                    this.SpecifiedOperand2 = this.EstablishSpecifiedOperand2();
+                }
+
+                protected override sealed void Because()
+                {
+                    this.Result = this.Sut.SumAsync(this.SpecifiedOperand1, this.SpecifiedOperand2);
+                }
+
+                #endregion
+
+                [Prerequisite]
+                public void WaitForTaskCompletion()
+                {
+                    this.Result.Wait(this);
+                }
+
+                public class with_Sum_throwing_OverflowException : when_SumAsync_is_called_with_triangulation_on_abstract_Context_and_TplContextAspect
+                {
+                    #region Context
+
+                    protected override sealed int EstablishSpecifiedOperand1()
+                    {
+                        return int.MaxValue;
+                    }
+
+                    protected override sealed int EstablishSpecifiedOperand2()
+                    {
+                        return int.MaxValue;
+                    }
+
+                    protected override void EstablishContext()
+                    {
+                        base.EstablishContext();
+
+                        this.InjectedCalculatorMock
+                            .Setup(o => o.SumAsync(It.IsAny<int>(), It.IsAny<int>()))
+                            .ThrowsAsync(new OverflowException())
+                            .DontEnforceSetupVerification()
+                            .EnforceUsage();
+                    }
+
+                    #endregion
+
+                    [Test]
+                    [ExpectedException(typeof(OverflowException))]
+                    public void then_OverflowException_is_thrown()
+                    {
+                    }
+                }
+
+                public abstract class with_returned_result : when_SumAsync_is_called_with_triangulation_on_abstract_Context_and_TplContextAspect
+                {
+                    #region Context
+
+                    private int ReturnedSum { get; set; }
+
+                    private int EstablishReturnedSum()
+                    {
+                        // Return an erroneous value, just to certify that we are returning the value which is handed out by the mock
+                        return this.SpecifiedOperand1 + this.SpecifiedOperand2;
+                    }
+
+                    protected override void EstablishContext()
+                    {
+                        base.EstablishContext();
+
+                        this.ReturnedSum = this.EstablishReturnedSum();
+                        this.InjectedCalculatorMock
+                            .Setup(o => o.SumAsync(It.IsAny<int>(), It.IsAny<int>()))
+                            .ReturnsAsync(this.ReturnedSum)
+                            .DontEnforceSetupVerification()
+                            .EnforceUsage();
+                    }
+
+                    #endregion
+
+                    public class with_SpecifiedOperand1_equal_to_1000_and_SpecifiedOperand2_equal_to_7 : with_returned_result
+                    {
+                        #region Context
+
+                        protected override sealed int EstablishSpecifiedOperand1()
+                        {
+                            return 1000;
+                        }
+
+                        protected override sealed int EstablishSpecifiedOperand2()
+                        {
+                            return 7;
+                        }
+
+                        #endregion
+                    }
+
+                    /// <remarks>
+                    ///  HACK : we use the type's name in string representation because TestTaskScheduler is internal to Testeroids.
+                    /// </remarks>
+                    [Test]
+                    public void then_Default_TaskScheduler_is_of_type_TestTaskScheduler()
+                    {
+                        Assert.AreEqual("TestTaskScheduler", TaskScheduler.Default.GetType().Name);
+                    }
+
+                    [Test]
+                    public void then_Result_matches_SpecifiedOperand1_plus_SpecifiedOperand2()
+                    {
+                        Assert.AreEqual(this.SpecifiedOperand1 + this.SpecifiedOperand2, this.Result.Result);
+                    }
+                }
+
+                [Test]
+                public void then_SumAsync_is_called_once_on_InjectedCalculatorMock()
+                {
+                    this.InjectedCalculatorMock.Verify(o => o.SumAsync(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
                 }
             }
         }
