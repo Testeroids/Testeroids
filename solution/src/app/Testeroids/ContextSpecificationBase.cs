@@ -223,9 +223,11 @@
         void IContextSpecification.OnTestMethodCalled(MethodBase testMethodInfo,
                                                       bool isExceptionResilient)
         {
-            var descriptionAttribute = testMethodInfo.GetCustomAttributes(typeof(NUnit.Framework.DescriptionAttribute), false)
-                                                     .Cast<NUnit.Framework.DescriptionAttribute>()
-                                                     .SingleOrDefault();
+            var descriptionAttribute = testMethodInfo != null
+                                           ? testMethodInfo.GetCustomAttributes(typeof(NUnit.Framework.DescriptionAttribute), false)
+                                                           .Cast<NUnit.Framework.DescriptionAttribute>()
+                                                           .SingleOrDefault()
+                                           : null;
             var description = descriptionAttribute != null
                                   ? descriptionAttribute.Description
                                   : "N/A";
