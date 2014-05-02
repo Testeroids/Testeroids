@@ -19,8 +19,6 @@
     using Testeroids.Aspects;
     using Testeroids.Mocking;
 
-    using DescriptionAttribute = NUnit.Framework.DescriptionAttribute;
-
     /// <summary>
     ///   Base class for implementing the AAA pattern.
     /// </summary>
@@ -30,6 +28,12 @@
     [EnforceInstanceLevelRulesAspect]
     public abstract class ContextSpecificationBase : IContextSpecification
     {
+        #region Static Fields
+
+        private static readonly string headerFooter = new string('*', 131);
+
+        #endregion
+
         #region Fields
 
         private readonly Type contextType;
@@ -142,14 +146,17 @@
         [TestFixtureSetUp]
         public void BaseTestFixtureSetUp()
         {
-            var contextType = this.GetType();
-            Console.WriteLine(@"Test case for {0}:", TypeInvestigationService.GetTestedClassTypeName(contextType));
-            var descriptionAttribute = contextType.GetCustomAttributes(typeof(NUnit.Framework.DescriptionAttribute), false).Cast<NUnit.Framework.DescriptionAttribute>().SingleOrDefault();
-            Console.WriteLine("\t{0}.", descriptionAttribute != null
-                                            ? descriptionAttribute.Description
-                                            : "N/A");
-            Console.WriteLine();
-            OutputContextTypeName(contextType);
+            var descriptionAttribute = this.contextType.GetCustomAttributes(typeof(NUnit.Framework.DescriptionAttribute), false)
+                                           .Cast<NUnit.Framework.DescriptionAttribute>()
+                                           .SingleOrDefault();
+            var description = descriptionAttribute != null
+                                  ? descriptionAttribute.Description
+                                  : "N/A";
+            Trace.WriteLine(headerFooter);
+            Trace.WriteLine(@"** Test case for {0}:".FormatWith(TypeInvestigationService.GetTestedClassTypeName(this.contextType)));
+            Trace.WriteLine("** \t{0}.".FormatWith(description));
+            Trace.WriteLine("**");
+            OutputContextTypeName(this.contextType);
 
             this.PreTestFixtureSetUp();
 
@@ -216,10 +223,15 @@
         void IContextSpecification.OnTestMethodCalled(MethodBase testMethodInfo,
                                                       bool isExceptionResilient)
         {
-            var descriptionAttribute = testMethodInfo.GetCustomAttributes(typeof(NUnit.Framework.DescriptionAttribute), false).Cast<NUnit.Framework.DescriptionAttribute>().SingleOrDefault();
-            Console.WriteLine(descriptionAttribute != null
+            var descriptionAttribute = testMethodInfo.GetCustomAttributes(typeof(NUnit.Framework.DescriptionAttribute), false)
+                                                     .Cast<NUnit.Framework.DescriptionAttribute>()
+                                                     .SingleOrDefault();
+            var description = descriptionAttribute != null
                                   ? descriptionAttribute.Description
-                                  : "N/A");
+                                  : "N/A";
+            Trace.WriteLine(headerFooter);
+            Trace.Write("** ");
+            Trace.WriteLine(description.Replace("\n", "\n** "));
             OutputContextTypeName(this.contextType);
 
             if (this.ThrownException == null)
@@ -353,12 +365,12 @@
 
                 if (genericArguments.Any())
                 {
-                    contextName += string.Format("<{0}>", string.Join(", ", genericArguments.Select(a => a.Name)));
+                    contextName += "<{0}>".FormatWith(string.Join(", ", genericArguments.Select(a => a.Name)));
                 }
             }
 
-            Console.WriteLine("Type name: {0}", contextName.Truncate(120, Truncator.FixedLength, TruncateFrom.Left));
-            Console.WriteLine(new string('-', 131));
+            Trace.WriteLine("** Type name: {0}".FormatWith(contextName.Truncate(120, Truncator.FixedLength, TruncateFrom.Left)));
+            Trace.WriteLine(headerFooter);
         }
 
         /// <summary>
