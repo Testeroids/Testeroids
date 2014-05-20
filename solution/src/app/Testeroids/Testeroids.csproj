@@ -98,6 +98,7 @@
     <Compile Include="Aspects\CategorizeUnitTestFixturesAspect.cs" />
     <Compile Include="Aspects\EnforceInstanceLevelRulesAspect.cs" />
     <Compile Include="Aspects\ErrorService.cs" />
+    <Compile Include="ExceptionEnlightenment.cs" />
     <Compile Include="Rules\FailNotCalledBaseEstablishContextRule.cs" />
     <Compile Include="Rules\FailPrivateFieldCalledInNestedClassRule.cs" />
     <Compile Include="Rules\FailTestFixtureWithoutTestRule.cs" />
