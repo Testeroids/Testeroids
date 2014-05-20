@@ -29,9 +29,8 @@
         /// <exception cref="Exception">
         /// Returns any exception thrown by <see cref="Activator.CreateInstance(System.Type,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)"/>. Unwraps <see cref="TargetInvocationException"/>.
         /// </exception>
-        public static T InstancePrivateObject<T>(
-            this IContextSpecification specification,
-            params object[] args)
+        public static T InstancePrivateObject<T>(this IContextSpecification specification,
+                                                 params object[] args)
         {
             try
             {
@@ -43,12 +42,7 @@
             }
             catch (TargetInvocationException exception)
             {
-                if (exception.InnerException != null)
-                {
-                    throw exception.InnerException;
-                }
-
-                throw;
+                throw ExceptionEnlightenment.PrepareForRethrow(exception.InnerException);
             }
         }
 
@@ -58,10 +52,9 @@
         /// <param name="target"> The target object which we want to invoke. </param>
         /// <param name="methodName"> The method Name. </param>
         /// <param name="args"> The args to pass to the method. </param>
-        public static void InvokePrivate(
-            object target,
-            string methodName,
-            object[] args = null)
+        public static void InvokePrivate(object target,
+                                         string methodName,
+                                         object[] args = null)
         {
             try
             {
@@ -73,12 +66,7 @@
             }
             catch (TargetInvocationException exception)
             {
-                if (exception.InnerException != null)
-                {
-                    throw exception.InnerException;
-                }
-
-                throw;
+                throw ExceptionEnlightenment.PrepareForRethrow(exception.InnerException);
             }
         }
 
@@ -88,10 +76,9 @@
         /// <param name="target"> The target object. </param>
         /// <param name="fieldName"> The name of the field to set. </param>
         /// <param name="newValue"> The new value for the field. </param>
-        public static void SetPrivateField(
-            object target,
-            string fieldName,
-            object newValue)
+        public static void SetPrivateField(object target,
+                                           string fieldName,
+                                           object newValue)
         {
             try
             {
@@ -112,12 +99,7 @@
             }
             catch (TargetInvocationException exception)
             {
-                if (exception.InnerException != null)
-                {
-                    throw exception.InnerException;
-                }
-
-                throw;
+                throw ExceptionEnlightenment.PrepareForRethrow(exception.InnerException);
             }
         }
 
@@ -128,10 +110,9 @@
         /// <param name="propertyName"> The name of the property to set. </param>
         /// <param name="newValue"> The new value for the property. </param>
         /// <exception cref="Exception">An exception, in case the property setter throws one.</exception>
-        public static void SetPrivateProperty(
-            object target,
-            string propertyName,
-            object newValue)
+        public static void SetPrivateProperty(object target,
+                                              string propertyName,
+                                              object newValue)
         {
             try
             {
@@ -157,12 +138,7 @@
             }
             catch (TargetInvocationException exception)
             {
-                if (exception.InnerException != null)
-                {
-                    throw exception.InnerException;
-                }
-
-                throw;
+                throw ExceptionEnlightenment.PrepareForRethrow(exception.InnerException);
             }
         }
 

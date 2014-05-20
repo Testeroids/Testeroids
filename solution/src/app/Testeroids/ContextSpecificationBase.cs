@@ -261,7 +261,7 @@
                 }
             }
 
-            throw this.ThrownException;
+            throw ExceptionEnlightenment.PrepareForRethrow(this.ThrownException);
         }
 
         #endregion
@@ -353,7 +353,7 @@
                         exception = new PrerequisiteFailureException(message, exception);
                     }
 
-                    throw exception;
+                    throw ExceptionEnlightenment.PrepareForRethrow(exception);
                 }
             }
         }

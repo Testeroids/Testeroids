@@ -371,7 +371,9 @@
                     protected override void EstablishContext()
                     {
                         base.EstablishContext();
+
                         this.ReturnedSum = this.EstablishReturnedSum();
+
                         this.InjectedCalculatorMock
                             .Setup(o => o.Sum(It.IsAny<int>(), It.IsAny<int>()))
                             .Returns(this.ReturnedSum)
