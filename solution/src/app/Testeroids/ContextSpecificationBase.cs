@@ -340,17 +340,13 @@
                 {
                     var exception = ex.InnerException;
 
-                    if (exception is AssertionException)
+                    if (exception is AssertionException && exception.Message.TrimStart().StartsWith("Expected"))
                     {
-                        if (!exception.Message.TrimStart().StartsWith("Expected"))
-                        {
-                            return;
-                        }
-
                         var message = string.Format("{0}.{1}\r\n{2}", this.contextType.Name, prerequisiteTest.Name, exception.Message);
 
-                        message = string.Format("Prerequisite failed: {0}", message);
-                        exception = new PrerequisiteFailureException(message, exception);
+                        exception = new PrerequisiteFailureException(message);
+
+                        throw exception;
                     }
 
                     throw ExceptionEnlightenment.PrepareForRethrow(exception);
@@ -388,18 +384,9 @@
 
                 this.RunPrerequisites();
             }
-            catch (AssertionException e)
+            catch (Exception e)
             {
-                if (!e.Message.TrimStart().StartsWith("Expected"))
-                {
-                    return;
-                }
-
                 this.ThrownException = e;
-            }
-            catch (Exception ex)
-            {
-                this.ThrownException = ex;
             }
         }
 

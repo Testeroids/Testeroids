@@ -10,6 +10,12 @@
     [Serializable]
     public class PrerequisiteFailureException : AssertionException
     {
+        #region Fields
+
+        private readonly string message;
+
+        #endregion
+
         #region Constructors and Destructors
 
         /// <summary>
@@ -18,14 +24,28 @@
         /// <param name="message">
         /// The error message that explains the reason for the exception.
         /// </param>
-        /// <param name="inner">
-        /// The exception that caused the current exception.
-        /// </param>
-        public PrerequisiteFailureException(
-            string message,
-            Exception inner)
-            : base(message, inner)
+        public PrerequisiteFailureException(string message)
+            : base(message)
         {
+            this.message = message;
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets a message that describes the current exception.
+        /// </summary>
+        /// <returns>
+        /// The error message that explains the reason for the exception, or an empty string("").
+        /// </returns>
+        public override string Message
+        {
+            get
+            {
+                return this.message;
+            }
         }
 
         #endregion
