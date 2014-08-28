@@ -24,7 +24,7 @@
       <dependency id="JetBrains.Annotations.Redist" version="7.1" />
       <dependency id="Moq" version="4.2.1408.0717" />
       <dependency id="NUnit" version="2.6.3" />
-      <dependency id="PostSharp" version="3.1.48" />
+      <dependency id="PostSharp" version="3.1.42" />
       <dependency id="RxSchedulers.Switch" version="2.2.4" />
       <dependency id="Rx-Testing" version="2.2.4" />
     </dependencies>
