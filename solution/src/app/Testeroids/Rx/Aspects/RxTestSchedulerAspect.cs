@@ -17,6 +17,15 @@
     [Serializable]
     public class RxTestSchedulerAspect : TestFixtureSetupAttributeBase
     {
+        #region Constructors and Destructors
+
+        public RxTestSchedulerAspect()
+        {
+            this.Order = 20;
+        }
+
+        #endregion
+
         #region Public Methods and Operators
 
         /// <summary>

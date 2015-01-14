@@ -408,7 +408,9 @@
         {
             var aspects = this.contextType
                               .GetCustomAttributes(typeof(TestFixtureSetupAttributeBase), true)
-                              .Cast<TestFixtureSetupAttributeBase>();
+                              .Cast<TestFixtureSetupAttributeBase>()
+                              .OrderBy(attr => attr.Order);
+
             foreach (var aspect in aspects)
             {
                 aspect.Register(this);
