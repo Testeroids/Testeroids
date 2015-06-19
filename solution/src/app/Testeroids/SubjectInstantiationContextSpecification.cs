@@ -2,8 +2,6 @@
 {
     using System;
 
-    using Testeroids.Aspects;
-
     /// <summary>
     ///   Implements the base class to define a Context/Specification style test fixture to test a class constructor.
     /// </summary>
