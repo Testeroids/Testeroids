@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Testeroids</id>
@@ -25,7 +25,7 @@
         <dependency id="JetBrains.Annotations.Redist" version="7.1" />
         <dependency id="Moq" version="4.2.1502.0911" />
         <dependency id="NUnit" version="2.6.4" />
-        <dependency id="PostSharp" version="3.1.66" />
+        <dependency id="PostSharp" version="3.1.48" />
         <dependency id="RxSchedulers.Switch" version="2.2.5" />
         <dependency id="Rx-Testing" version="2.2.5" />
       </group>
@@ -34,7 +34,7 @@
         <dependency id="JetBrains.Annotations.Redist" version="7.1" />
         <dependency id="Moq" version="4.2.1502.0911" />
         <dependency id="NUnit" version="2.6.4" />
-        <dependency id="PostSharp" version="3.1.66" />
+        <dependency id="PostSharp" version="3.1.48" />
         <dependency id="RxSchedulers.Switch" version="2.2.5" />
         <dependency id="Rx-Testing" version="2.2.5" />
       </group>
