@@ -1,16 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{78BE9C59-3148-41F1-B1D0-9D51FA1F0B03}</ProjectGuid>
+    <ProjectGuid>{DDA1E5C5-900C-427D-A016-9ED0EBC31432}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Testeroids</RootNamespace>
     <AssemblyName>Testeroids</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -40,84 +39,85 @@
     <AssemblyOriginatorKeyFile>..\..\..\Testeroids.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Humanizer">
-      <HintPath>..\..\..\packages\Humanizer.1.29.0\lib\portable-win+net40+sl50+wp8+wpa81\Humanizer.dll</HintPath>
-    </Reference>
-    <Reference Include="JetBrains.Annotations, Version=7.1.0.0, Culture=neutral, PublicKeyToken=db26512813023263, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\JetBrains.Annotations.Redist.7.1\lib\net40\JetBrains.Annotations.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Reactive.Testing, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Rx-Testing.2.2.4\lib\net40\Microsoft.Reactive.Testing.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="Moq">
-      <HintPath>..\..\..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="PostSharp, Version=3.1.52.9, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\PostSharp.3.1.52\lib\net20\PostSharp.dll</HintPath>
+    <Reference Include="Humanizer, Version=1.36.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Humanizer.1.36.0\lib\portable-win+net40+sl50+wp8+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Humanizer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="RxSchedulers.Switch, Version=2.2.4.0, Culture=neutral, PublicKeyToken=e4ac9b6316d2a5f7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\RxSchedulers.Switch.2.2.4\lib\net40\RxSchedulers.Switch.dll</HintPath>
+    <Reference Include="JetBrains.Annotations, Version=7.1.0.0, Culture=neutral, PublicKeyToken=db26512813023263, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\JetBrains.Annotations.Redist.7.1\lib\net40\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Reactive.Testing, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Rx-Testing.2.2.5\lib\net45\Microsoft.Reactive.Testing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Moq, Version=4.2.1502.911, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PostSharp, Version=3.1.48.9, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\PostSharp.3.1.48\lib\net20\PostSharp.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RxSchedulers.Switch, Version=2.2.4.0, Culture=neutral, PublicKeyToken=0c13295e2103ff99, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\RxSchedulers.Switch.2.2.5\lib\net40\RxSchedulers.Switch.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Reactive.Core, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Rx-Core.2.2.4\lib\net40\System.Reactive.Core.dll</HintPath>
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Reactive.Interfaces, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Rx-Interfaces.2.2.4\lib\net40\System.Reactive.Interfaces.dll</HintPath>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Reactive.Linq, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Rx-Linq.2.2.4\lib\net40\System.Reactive.Linq.dll</HintPath>
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Reactive.PlatformServices, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Rx-PlatformServices.2.2.4\lib\net40\System.Reactive.PlatformServices.dll</HintPath>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Reactive.Windows.Threading, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Rx-XAML.2.2.4\lib\net40\System.Reactive.Windows.Threading.dll</HintPath>
+    <Reference Include="System.Reactive.Windows.Threading, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Rx-Xaml.2.2.5\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
+      <Private>True</Private>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Aspects\InstrumentTestsAspect.cs" />
     <Compile Include="Aspects\CategorizeUnitTestFixturesAspect.cs" />
     <Compile Include="Aspects\EnforceInstanceLevelRulesAspect.cs" />
     <Compile Include="Aspects\ErrorService.cs" />
-    <Compile Include="ExceptionEnlightenment.cs" />
-    <Compile Include="Rules\FailNotCalledBaseEstablishContextRule.cs" />
-    <Compile Include="Rules\FailPrivateFieldCalledInNestedClassRule.cs" />
-    <Compile Include="Rules\FailTestFixtureWithoutTestRule.cs" />
+    <Compile Include="Aspects\InstrumentTestsAspect.cs" />
     <Compile Include="Aspects\MakeEmptyTestsInconclusiveAspect.cs" />
-    <Compile Include="Rules\InstanceLevelRule.cs" />
-    <Compile Include="Rules\IRule.cs" />
-    <Compile Include="Rules\ProhibitGetOnNotInitializedPropertyRule.cs" />
-    <Compile Include="Rules\ProhibitSetOnInitializedPropertyRule.cs" />
     <Compile Include="Aspects\TypeInvestigationService.cs" />
     <Compile Include="Assert.cs" />
     <Compile Include="ContextSpecification.cs" />
     <Compile Include="ContextSpecificationBase.cs" />
+    <Compile Include="ExceptionEnlightenment.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="IContextSpecification.cs" />
-    <Compile Include="ITesteroidsMock.cs" />
     <Compile Include="IMockRepository.cs" />
     <Compile Include="IssueAttribute.cs" />
+    <Compile Include="ITesteroidsMock.cs" />
+    <Compile Include="MockExtensions.cs" />
     <Compile Include="Mocking\IMockInternals.cs" />
     <Compile Include="Mocking\IVerifiedMock.cs" />
     <Compile Include="Mocking\IVerifiesInternals.cs" />
@@ -128,12 +128,11 @@
     <Compile Include="Mocking\MoqReturnsThrowsGetterWrapper.cs" />
     <Compile Include="Mocking\MoqReturnsThrowsWrapper.cs" />
     <Compile Include="Mocking\MoqSetupGetterWrapper.cs" />
+    <Compile Include="Mocking\MoqSetupWrapper.cs" />
     <Compile Include="Mocking\MoqThrowsResultWrapper.cs" />
     <Compile Include="Mocking\MoqVerifiesExtensions.cs" />
-    <Compile Include="Mocking\MoqSetupWrapper.cs" />
     <Compile Include="Mocking\TesteroidsMock.cs" />
     <Compile Include="MockNotVerifiedException.cs" />
-    <Compile Include="MockExtensions.cs" />
     <Compile Include="PrerequisiteAttribute.cs" />
     <Compile Include="PrerequisiteFailureException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -144,17 +143,24 @@
     </Compile>
     <Compile Include="PropertyAlreadyInitializedException.cs" />
     <Compile Include="PropertyNotInitializedException.cs" />
+    <Compile Include="Rules\FailNotCalledBaseEstablishContextRule.cs" />
+    <Compile Include="Rules\FailPrivateFieldCalledInNestedClassRule.cs" />
+    <Compile Include="Rules\FailTestFixtureWithoutTestRule.cs" />
     <Compile Include="Rules\IInstanceLevelRule.cs" />
+    <Compile Include="Rules\InstanceLevelRule.cs" />
     <Compile Include="Rules\IPropertyAccessRule.cs" />
+    <Compile Include="Rules\IRule.cs" />
+    <Compile Include="Rules\ProhibitGetOnNotInitializedPropertyRule.cs" />
+    <Compile Include="Rules\ProhibitSetOnInitializedPropertyRule.cs" />
     <Compile Include="Rules\Rule.cs" />
     <Compile Include="Rx\Aspects\RxTestSchedulerAspect.cs" />
-    <Compile Include="Rx\TestSchedulerExtensions.cs" />
     <Compile Include="Rx\MockObserver.cs" />
     <Compile Include="Rx\OnNextNotification.cs" />
     <Compile Include="Rx\Recorded.cs" />
     <Compile Include="Rx\RxContext.cs" />
     <Compile Include="Rx\TestableObserverExtensions.cs" />
     <Compile Include="Rx\TestScheduler.cs" />
+    <Compile Include="Rx\TestSchedulerExtensions.cs" />
     <Compile Include="Rx\TimeSpanExtensions.cs" />
     <Compile Include="SequenceExtensions.cs" />
     <Compile Include="SubjectInstantiationContextSpecification.cs" />
@@ -170,30 +176,30 @@
     <Compile Include="TplTestPlatformHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\Testeroids.snk">
-      <Link>Testeroids.snk</Link>
-    </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Testeroids.nuspec">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="..\..\..\Testeroids.snk">
+      <Link>Testeroids.snk</Link>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <Import Project="..\..\..\packages\PostSharp.3.1.52\tools\PostSharp.targets" Condition="Exists('..\..\..\packages\PostSharp.3.1.52\tools\PostSharp.targets')" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <Import Project="..\..\..\packages\PostSharp.3.1.48\tools\PostSharp.targets" Condition="Exists('..\..\..\packages\PostSharp.3.1.48\tools\PostSharp.targets')" />
   <Target Name="EnsurePostSharpImported" BeforeTargets="BeforeBuild" Condition="'$(PostSharp30Imported)' == ''">
-    <Error Condition="!Exists('..\..\..\packages\PostSharp.3.1.52\tools\PostSharp.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://www.postsharp.net/links/nuget-restore." />
-    <Error Condition="Exists('..\..\..\packages\PostSharp.3.1.52\tools\PostSharp.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://www.postsharp.net/links/nuget-restore." />
+    <Error Condition="!Exists('..\..\..\packages\PostSharp.3.1.48\tools\PostSharp.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://www.postsharp.net/links/nuget-restore." />
+    <Error Condition="Exists('..\..\..\packages\PostSharp.3.1.48\tools\PostSharp.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://www.postsharp.net/links/nuget-restore." />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

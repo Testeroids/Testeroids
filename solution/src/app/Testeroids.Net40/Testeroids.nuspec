@@ -20,13 +20,13 @@
     <copyright>Copyright Testeroids 2012-2014</copyright>
     <tags>Aspects Unit Tests</tags>
     <dependencies>
-      <dependency id="Humanizer" version="1.29.0" />
+      <dependency id="Humanizer" version="1.36.0" />
       <dependency id="JetBrains.Annotations.Redist" version="7.1" />
-      <dependency id="Moq" version="4.2.1409.1722" />
+      <dependency id="Moq" version="4.2.1502.0911" />
       <dependency id="NUnit" version="2.6.3" />
-      <dependency id="PostSharp" version="3.1.52" />
-      <dependency id="RxSchedulers.Switch" version="2.2.4" />
-      <dependency id="Rx-Testing" version="2.2.4" />
+      <dependency id="PostSharp" version="3.1.48" />
+      <dependency id="RxSchedulers.Switch" version="2.2.5" />
+      <dependency id="Rx-Testing" version="2.2.5" />
     </dependencies>
   </metadata>
 </package>

@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testeroids", "src\app\Testeroids\Testeroids.csproj", "{78BE9C59-3148-41F1-B1D0-9D51FA1F0B03}"
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testeroids.Net40", "src\app\Testeroids.Net40\Testeroids.Net40.csproj", "{78BE9C59-3148-41F1-B1D0-9D51FA1F0B03}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testeroids.Tests", "src\test\Testeroids.Tests\Testeroids.Tests.csproj", "{BF1AB69F-1098-4019-AD34-A09CDA1116B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testeroids", "src\app\Testeroids\Testeroids.csproj", "{DDA1E5C5-900C-427D-A016-9ED0EBC31432}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +33,12 @@ Global
 		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Release|x86.ActiveCfg = Release|Any CPU
 		{BF1AB69F-1098-4019-AD34-A09CDA1116B2}.Release|x86.Build.0 = Release|Any CPU
+		{DDA1E5C5-900C-427D-A016-9ED0EBC31432}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDA1E5C5-900C-427D-A016-9ED0EBC31432}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDA1E5C5-900C-427D-A016-9ED0EBC31432}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DDA1E5C5-900C-427D-A016-9ED0EBC31432}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDA1E5C5-900C-427D-A016-9ED0EBC31432}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDA1E5C5-900C-427D-A016-9ED0EBC31432}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

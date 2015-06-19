@@ -21,7 +21,7 @@
       <string>BuildServer.TeamCity.BuildServerUrl</string>
     </key>
     <value>
-      <string>teamcity.codebetter.com</string>
+      <string>teamcity</string>
     </value>
   </item>
   <item>
