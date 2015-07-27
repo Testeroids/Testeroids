@@ -17,6 +17,7 @@
         public TplContextAspect()
         {
             this.ExecuteTplTasks = true;
+            this.Order = 10;
         }
 
         #endregion

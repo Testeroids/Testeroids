@@ -28,6 +28,11 @@
         /// </summary>
         /// <param name="type"> The class to be checked. </param>
         /// <returns> The System.Boolean. </returns>
+        /// <remarks>
+        ///     Intermediate language interpretation is very limited in this method. 
+        ///     WARN: Could produce false positive/negative due to intermediate byte array analysis.
+        ///           Could detect more calls to EstablishContext than exists.
+        /// </remarks>
         public override bool CompileTimeValidate(Type type)
         {
 // ReSharper disable once InvertIf
@@ -57,25 +62,37 @@
                             {
                                 case CallInstructionCode:
                                 {
-                                    var metadataToken = ((intermediateLanguage[position++] |
-                                                          (intermediateLanguage[position++] << 8)) |
-                                                         (intermediateLanguage[position++] << 0x10)) |
-                                                        (intermediateLanguage[position++] << 0x18);
-                                    var calledMethod = GetMethodBaseFromIntermediateLanguage(metadataToken, establishContextDeclaringType, methodInfo);
-                                    if (calledMethod != null && calledMethod.Name == "EstablishContext")
+                                    if (position + 3 < intermediateLanguage.Length)
                                     {
-                                        var establishContextCalledClassType = calledMethod.DeclaringType;
-                                        if (establishContextCalledClassType != null &&
-                                            establishContextDeclaringType.IsSubclassOf(establishContextCalledClassType))
+                                        var metadataToken = ((intermediateLanguage[position] |
+                                                              (intermediateLanguage[position + 1] << 8)) |
+                                                             (intermediateLanguage[position + 2] << 0x10)) |
+                                                            (intermediateLanguage[position + 3] << 0x18);
+                                        var calledMethod = GetMethodBaseFromIntermediateLanguage(metadataToken, establishContextDeclaringType, methodInfo);
+                                        if (calledMethod != null && calledMethod.Name == "EstablishContext")
                                         {
-                                            baseEstablishContextCalls++;
+                                            var establishContextCalledClassType = calledMethod.DeclaringType;
+                                            if (establishContextCalledClassType != null &&
+                                                establishContextDeclaringType.IsSubclassOf(establishContextCalledClassType))
+                                            {
+                                                baseEstablishContextCalls++;
+                                            }
+                                            else
+                                            {
+                                                anotherEstablishContextCalls++;
+                                            }
+
+                                            position += 4;
                                         }
                                         else
                                         {
-                                            anotherEstablishContextCalls++;
+                                            position++;
                                         }
                                     }
-
+                                    else
+                                    {
+                                        position++;
+                                    }
                                     break;
                                 }
                             }
@@ -108,7 +125,7 @@
                 }
                 catch (Exception e)
                 {
-                    return ErrorService.RaiseError(this.GetType(), type, e.Message);
+                    return ErrorService.RaiseError(this.GetType(), type, string.Format("Error occurs while processing type {{0}}: {0}", e.Message));
                 }
             }
 

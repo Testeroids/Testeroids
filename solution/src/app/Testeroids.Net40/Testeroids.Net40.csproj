@@ -1,0 +1,325 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{78BE9C59-3148-41F1-B1D0-9D51FA1F0B03}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Testeroids</RootNamespace>
+    <AssemblyName>Testeroids.Net40</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <DontImportPostSharp>True</DontImportPostSharp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\build\app\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\build\app\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\..\..\Testeroids.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Humanizer, Version=1.36.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Humanizer.1.36.0\lib\portable-win+net40+sl50+wp8+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Humanizer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JetBrains.Annotations, Version=7.1.0.0, Culture=neutral, PublicKeyToken=db26512813023263, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\JetBrains.Annotations.Redist.7.1\lib\net40\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Reactive.Testing">
+      <HintPath>..\..\..\packages\Rx-Testing.2.2.5\lib\net40\Microsoft.Reactive.Testing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Moq, Version=4.2.1502.911, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PostSharp, Version=3.1.48.9, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\PostSharp.3.1.48\lib\net20\PostSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RxSchedulers.Switch">
+      <HintPath>..\..\..\packages\RxSchedulers.Switch.2.2.5\lib\net40\RxSchedulers.Switch.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\..\..\packages\Rx-Core.2.2.5\lib\net40\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\..\..\packages\Rx-Interfaces.2.2.5\lib\net40\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\..\..\packages\Rx-Linq.2.2.5\lib\net40\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\..\..\packages\Rx-PlatformServices.2.2.5\lib\net40\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Windows.Threading">
+      <HintPath>..\..\..\packages\Rx-Xaml.2.2.5\lib\net40\System.Reactive.Windows.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Testeroids\Aspects\CategorizeUnitTestFixturesAspect.cs">
+      <Link>Aspects\CategorizeUnitTestFixturesAspect.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Aspects\EnforceInstanceLevelRulesAspect.cs">
+      <Link>Aspects\EnforceInstanceLevelRulesAspect.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Aspects\ErrorService.cs">
+      <Link>Aspects\ErrorService.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Aspects\InstrumentTestsAspect.cs">
+      <Link>Aspects\InstrumentTestsAspect.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Aspects\MakeEmptyTestsInconclusiveAspect.cs">
+      <Link>Aspects\MakeEmptyTestsInconclusiveAspect.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Aspects\TypeInvestigationService.cs">
+      <Link>Aspects\TypeInvestigationService.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Assert.cs">
+      <Link>Assert.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\ContextSpecification.cs">
+      <Link>ContextSpecification.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\ContextSpecificationBase.cs">
+      <Link>ContextSpecificationBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\ExceptionEnlightenment.cs">
+      <Link>ExceptionEnlightenment.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Helper.cs">
+      <Link>Helper.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\IContextSpecification.cs">
+      <Link>IContextSpecification.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\IMockRepository.cs">
+      <Link>IMockRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\IssueAttribute.cs">
+      <Link>IssueAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\ITesteroidsMock.cs">
+      <Link>ITesteroidsMock.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\MockExtensions.cs">
+      <Link>MockExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Mocking\IMockInternals.cs">
+      <Link>Mocking\IMockInternals.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Mocking\IVerifiedMock.cs">
+      <Link>Mocking\IVerifiedMock.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Mocking\IVerifiesInternals.cs">
+      <Link>Mocking\IVerifiesInternals.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Mocking\MockRepository.cs">
+      <Link>Mocking\MockRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Mocking\MockSetupMethodNeverUsedException.cs">
+      <Link>Mocking\MockSetupMethodNeverUsedException.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Mocking\MoqCallbackResultWrapper.cs">
+      <Link>Mocking\MoqCallbackResultWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Mocking\MoqReturnsResultWrapper.cs">
+      <Link>Mocking\MoqReturnsResultWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Mocking\MoqReturnsThrowsGetterWrapper.cs">
+      <Link>Mocking\MoqReturnsThrowsGetterWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Mocking\MoqReturnsThrowsWrapper.cs">
+      <Link>Mocking\MoqReturnsThrowsWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Mocking\MoqSetupGetterWrapper.cs">
+      <Link>Mocking\MoqSetupGetterWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Mocking\MoqSetupWrapper.cs">
+      <Link>Mocking\MoqSetupWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Mocking\MoqThrowsResultWrapper.cs">
+      <Link>Mocking\MoqThrowsResultWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Mocking\MoqVerifiesExtensions.cs">
+      <Link>Mocking\MoqVerifiesExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Mocking\TesteroidsMock.cs">
+      <Link>Mocking\TesteroidsMock.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\MockNotVerifiedException.cs">
+      <Link>MockNotVerifiedException.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\PrerequisiteAttribute.cs">
+      <Link>PrerequisiteAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\PrerequisiteFailureException.cs">
+      <Link>PrerequisiteFailureException.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Properties\Resources.Designer.cs">
+      <Link>Properties\Resources.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\PropertyAlreadyInitializedException.cs">
+      <Link>PropertyAlreadyInitializedException.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\PropertyNotInitializedException.cs">
+      <Link>PropertyNotInitializedException.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Rules\FailNotCalledBaseEstablishContextRule.cs">
+      <Link>Rules\FailNotCalledBaseEstablishContextRule.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Rules\FailPrivateFieldCalledInNestedClassRule.cs">
+      <Link>Rules\FailPrivateFieldCalledInNestedClassRule.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Rules\FailTestFixtureWithoutTestRule.cs">
+      <Link>Rules\FailTestFixtureWithoutTestRule.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Rules\IInstanceLevelRule.cs">
+      <Link>Rules\IInstanceLevelRule.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Rules\InstanceLevelRule.cs">
+      <Link>Rules\InstanceLevelRule.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Rules\IPropertyAccessRule.cs">
+      <Link>Rules\IPropertyAccessRule.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Rules\IRule.cs">
+      <Link>Rules\IRule.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Rules\ProhibitGetOnNotInitializedPropertyRule.cs">
+      <Link>Rules\ProhibitGetOnNotInitializedPropertyRule.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Rules\ProhibitSetOnInitializedPropertyRule.cs">
+      <Link>Rules\ProhibitSetOnInitializedPropertyRule.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Rules\Rule.cs">
+      <Link>Rules\Rule.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Rx\Aspects\RxTestSchedulerAspect.cs">
+      <Link>Rx\Aspects\RxTestSchedulerAspect.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Rx\MockObserver.cs">
+      <Link>Rx\MockObserver.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Rx\OnNextNotification.cs">
+      <Link>Rx\OnNextNotification.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Rx\Recorded.cs">
+      <Link>Rx\Recorded.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Rx\RxContext.cs">
+      <Link>Rx\RxContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Rx\TestableObserverExtensions.cs">
+      <Link>Rx\TestableObserverExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Rx\TestScheduler.cs">
+      <Link>Rx\TestScheduler.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Rx\TestSchedulerExtensions.cs">
+      <Link>Rx\TestSchedulerExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\Rx\TimeSpanExtensions.cs">
+      <Link>Rx\TimeSpanExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\SequenceExtensions.cs">
+      <Link>SequenceExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\SubjectInstantiationContextSpecification.cs">
+      <Link>SubjectInstantiationContextSpecification.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\TaskExtensions.cs">
+      <Link>TaskExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\TestCategories.cs">
+      <Link>TestCategories.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\TestComparers.cs">
+      <Link>TestComparers.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\TestConcurrencyAbstractionLayer.cs">
+      <Link>TestConcurrencyAbstractionLayer.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\TestException.cs">
+      <Link>TestException.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\TestFixtureSetupAttributeBase.cs">
+      <Link>TestFixtureSetupAttributeBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\TestPlatformEnlightenmentProvider.cs">
+      <Link>TestPlatformEnlightenmentProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\TplContextAspect.cs">
+      <Link>TplContextAspect.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\TplTestHelper.cs">
+      <Link>TplTestHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\Testeroids\TplTestPlatformHelper.cs">
+      <Link>TplTestPlatformHelper.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Testeroids.snk">
+      <Link>Testeroids.snk</Link>
+    </None>
+    <None Include="app.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="..\Testeroids\Properties\Resources.resx">
+      <Link>Properties\Resources.resx</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="..\..\..\packages\PostSharp.3.1.48\tools\PostSharp.targets" Condition="Exists('..\..\..\packages\PostSharp.3.1.48\tools\PostSharp.targets')" />
+  <Target Name="EnsurePostSharpImported" BeforeTargets="BeforeBuild" Condition="'$(PostSharp30Imported)' == ''">
+    <Error Condition="!Exists('..\..\..\packages\PostSharp.3.1.48\tools\PostSharp.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://www.postsharp.net/links/nuget-restore." />
+    <Error Condition="Exists('..\..\..\packages\PostSharp.3.1.48\tools\PostSharp.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://www.postsharp.net/links/nuget-restore." />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
