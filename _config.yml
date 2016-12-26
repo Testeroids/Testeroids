@@ -40,3 +40,9 @@ analytics :
       tracking_id : 'UA-39087937-1'
   getclicky :
     site_id :
+
+title: Testeroids
+description: Testeroids is a framework and a set of guidelines working in concert for great productivity in unit testing of .NET projects.
+google_analytics: UA-39087937
+show_downloads: true
+theme: jekyll-theme-slate
